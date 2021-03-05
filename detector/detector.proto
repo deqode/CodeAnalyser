@@ -1,0 +1,29 @@
+syntax = "proto3";
+option go_package = "detector";
+
+message DetectedOutput{
+  bool frameworkUsed = 1;
+  bool envUsed = 2;
+  bool startUpCommands = 3;
+  bool dbUsed = 4;
+  bool ORMUsed = 5;
+  string runtimeVersion = 6;
+  repeated string envs = 7;
+  repeated string commands = 8;
+  repeated string libraries = 9;
+  repeated Port ports = 10;
+  repeated DBPort databases = 11;
+  repeated string ORMs = 12;
+  repeated string filesFound = 13;
+  float probability = 14;
+}
+
+message Port{
+  string name = 1;
+  string port = 2;
+}
+message DBPort{
+  string name = 1;
+  string port = 2;
+}
+//    protoc --go_out=. *.proto

@@ -5,16 +5,17 @@ package detector
 import (
 	"errors"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 )
+
 //
 //func main() {
-//	//CheckKeyIn("/home/deqode/Documents/basic_repo", "gin")
+//	CheckKeyIn("/home/deqode/Documents/basic_repo", "gin")
 //	log.Println(CheckExist("/home/deqode/Documents/alfred/*/*.go"))
 //}
 
@@ -39,33 +40,73 @@ func ListAll(root string) []string {
 	return files
 }
 
-func CheckKeyIn(filepath, key string) (map[string]int, error) {
-	existed, _, _ := CheckExist(filepath)
-	var outPut map[string]int
+func CheckKeyInDir(dirPath, key string) (bool, map[string]int, error) {
+	existed, _, _ := CheckExist(dirPath)
+	var outPut = map[string]int{}
 
 	if existed {
-
-		cmd, err := exec.Command("grep", "-rnw", filepath, "-e", key).Output()
+		cmd, err := exec.Command("grep", "-rnw", dirPath, "-e", key).Output()
 		if err != nil {
-			return outPut, err
+			return false, outPut, err
 		}
 		if len(cmd) < 0 {
-			return outPut, nil
+			return false, outPut, nil
 		}
 		lines := strings.Split(string(cmd), "\n")
 		for i := 0; i < len(lines); i++ {
-			if len(strings.Split(lines[i], ":")) > 2 {
+			if len(strings.Split(lines[i], ":")) > 1 {
 				lno := strings.Split(lines[i], ":")[1]
 				keyPath := strings.Split(lines[i], ":")[0]
-				log.Println(lno, keyPath)
+				outPut[keyPath], _ = strconv.Atoi(lno)
 			}
 		}
 
-		return outPut, nil
+		return true, outPut, nil
 	} else {
-		return outPut, nil
+		return false, outPut, nil
 
 	}
+}
+
+func CheckKeyInFile(filepath, key string) (bool, map[string]int, error) {
+	existed, _, _ := CheckExist(filepath)
+	var outPut = map[string]int{}
+
+	if existed {
+		cmd, err := exec.Command("grep", "-rnw", filepath, "-e", key).Output()
+		if err != nil {
+			return false, outPut, err
+		}
+		if len(cmd) < 0 {
+			return false, outPut, nil
+		}
+		lines := strings.Split(string(cmd), "\n")
+		for i := 0; i < len(lines); i++ {
+			if len(strings.Split(lines[i], ":")) > 1 {
+				lno := strings.Split(lines[i], ":")[0]
+				keyPath := strings.Split(lines[i], ":")[1]
+				outPut[keyPath], _ = strconv.Atoi(lno)
+			}
+		}
+
+		return true, outPut, nil
+	} else {
+		return false, outPut, nil
+
+	}
+}
+
+func FindInFiles(files []string, key string) (bool, []map[string]int) {
+	outPut := []map[string]int{}
+	exists := false
+	for _, file := range files {
+		existed, res, err := CheckKeyInFile(file, key)
+		if existed || err == nil {
+			exists = true
+			outPut = append(outPut, res)
+		}
+	}
+	return exists, outPut
 }
 
 func FindInLine(regex, line string) bool {
@@ -86,5 +127,4 @@ func ReadFile(path string) (string, error) {
 	} else {
 		return "", errors.New("file not existed")
 	}
-
 }
