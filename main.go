@@ -31,7 +31,7 @@ func main() {
 	}
 	for _, language := range languages {
 		for _, framework := range frameworks.Languages[language.Name] {
-			log.Println(framework.Name, framework.Detector(root).FrameWorkUsed)
+			log.Println(framework.Name, framework.Detector(root).GetFrameworkUsed())
 		}
 	}
 }

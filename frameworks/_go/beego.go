@@ -1,6 +1,8 @@
 package _go
 
-import "code-analyser/detector"
+import (
+	"code-analyser/detector"
+)
 
 func DetectBeego(root string) *detector.DetectedOutput {
 	report := map[bool]int{true: 0, false: 0}
@@ -25,7 +27,8 @@ func DetectBeego(root string) *detector.DetectedOutput {
 
 	exist, _, _ = detector.CheckKeyInDir(root, "Run")
 	report[exist]++
+
 	return &detector.DetectedOutput{
-		FrameWorkUsed: report[true] > report[false],
+		FrameworkUsed: report[true] > report[false],
 	}
 }

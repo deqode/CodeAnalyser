@@ -7,7 +7,6 @@ func DetectGin(root string) *detector.DetectedOutput {
 
 	res, _, _ := detector.CheckKeyInFile(root+"/go.mod", "gin")
 	report[res]++
-
 	exist, files, _ := detector.CheckExist(root + "/*.go")
 	report[exist]++
 
@@ -26,6 +25,6 @@ func DetectGin(root string) *detector.DetectedOutput {
 	exist, _, _ = detector.CheckKeyInDir(root, "Run")
 	report[exist]++
 	return &detector.DetectedOutput{
-		FrameWorkUsed: report[true] > report[false],
+		FrameworkUsed: report[true] > report[false],
 	}
 }

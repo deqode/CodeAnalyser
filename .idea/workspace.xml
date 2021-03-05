@@ -2,25 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/analyser/analyser.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/detector/detector.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/enry" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frameworks/_go/go_beego_detector.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frameworks/_go/go_gin_detector.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frameworks/detectors.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/code-analyser.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/.idea/detector.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detector/parsers/gomod.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detector/detector.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/detector.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detector/detector.proto" beforeDir="false" afterPath="$PROJECT_DIR$/detector/detector.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frameworks/_go/go_beego_detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/frameworks/_go/beego.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frameworks/_go/go_gin_detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/frameworks/_go/go_gin_detector.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frameworks/detectors.go" beforeDir="false" afterPath="$PROJECT_DIR$/frameworks/detectors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
