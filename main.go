@@ -3,35 +3,41 @@ package main
 import (
 	"code-analyser/analyser"
 	"code-analyser/frameworks"
+	"code-analyser/frameworks/global"
 	"log"
 )
-
-type AnalysedOutput struct {
-	Languages []*Language
-	Databases []*Database
-}
-type Language struct {
-	Name       string
-	FrameWorks []string
-}
-type Database struct {
-	Names []string
-}
 
 const enryLoc = "/home/deqode/Documents/code-analyser/"
 
 func main() {
-	//root := "/home/deqode/Documents/basic_repo/ginRepo"
-	root := "/home/deqode/Documents/basic_repo/beegoRepo"
-	//root := "/home/deqode/Documents/basic_repo"
+	root := "/home/deqode/Documents/basic_repo/ginRepo"
+	//root := "/home/deqode/Documents/basic_repo/beegoRepo"
+	//root := "/home/deqode/Documents/go-basics/swapi"
+	//root := "/home/deqode/Documents/go-basics/gormBasics"
 
 	languages, errarr, err := analyser.Analyse(root, enryLoc)
 	if err != nil || len(errarr) > 0 {
 		log.Panic(err, errarr)
 	}
 	for _, language := range languages {
-		for _, framework := range frameworks.Languages[language.Name] {
-			log.Println(framework.Name, framework.Detector(root).GetFrameworkUsed())
+		log.Println("Found", language.Name, language.Percent)
+		if detectors, ok := frameworks.Languages[language.Name]; ok {
+			detectors.Prerequisites(root)
+			for _, framework := range detectors.Frameworks {
+				detected := framework.Detector(root)
+				log.Println(framework.Name, detected.FrameworkUsed)
+			}
+			for _, dbChecker := range detectors.DBCheckers {
+				_, db, port := dbChecker.Detector(root)
+				log.Println(dbChecker.Name, db, port)
+			}
+			for _, orm := range detectors.Orms {
+				eorm := orm.Detector(root)
+
+				log.Println(orm.Name, eorm)
+
+			}
 		}
 	}
+	log.Println(global.DetectDocker(root))
 }

@@ -5,6 +5,7 @@ package detector
 import (
 	"errors"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -12,12 +13,6 @@ import (
 	"strconv"
 	"strings"
 )
-
-//
-//func main() {
-//	CheckKeyIn("/home/deqode/Documents/basic_repo", "gin")
-//	log.Println(CheckExist("/home/deqode/Documents/alfred/*/*.go"))
-//}
 
 func CheckExist(path string) (bool, []string, error) {
 	str, err := filepath.Glob(path)
@@ -126,5 +121,18 @@ func ReadFile(path string) (string, error) {
 		return string(dat), err
 	} else {
 		return "", errors.New("file not existed")
+	}
+}
+
+func GetLine(filePath string, lineno int) string {
+	file, err := ReadFile(filePath)
+	if err != nil {
+		log.Println(err)
+	}
+	lines := strings.Split(file, "\n")
+	if lineno-1 > len(lines) {
+		return ""
+	} else {
+		return lines[lineno-1]
 	}
 }

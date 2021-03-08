@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/detector/parsers/gomod.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frameworks/_go/database.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frameworks/_go/orms.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frameworks/_go/prerequisites.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frameworks/global/dockerFile.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detector/detector.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/detector.pb.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detector/detector.proto" beforeDir="false" afterPath="$PROJECT_DIR$/detector/detector.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frameworks/_go/go_beego_detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/frameworks/_go/beego.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frameworks/_go/go_gin_detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/frameworks/_go/go_gin_detector.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detector/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frameworks/detectors.go" beforeDir="false" afterPath="$PROJECT_DIR$/frameworks/detectors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,16 +33,16 @@
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
-  </component>
   <component name="ProjectId" id="1pHoUh8L2iTtV1dzTL5BvI07QYs" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go Application" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
@@ -99,6 +101,9 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

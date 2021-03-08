@@ -30,20 +30,28 @@ type DetectedOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	FrameworkUsed   bool      `protobuf:"varint,1,opt,name=frameworkUsed,proto3" json:"frameworkUsed,omitempty"`
-	EnvUsed         bool      `protobuf:"varint,2,opt,name=envUsed,proto3" json:"envUsed,omitempty"`
-	StartUpCommands bool      `protobuf:"varint,3,opt,name=startUpCommands,proto3" json:"startUpCommands,omitempty"`
-	DbUsed          bool      `protobuf:"varint,4,opt,name=dbUsed,proto3" json:"dbUsed,omitempty"`
-	ORMUsed         bool      `protobuf:"varint,5,opt,name=ORMUsed,json=oRMUsed,proto3" json:"ORMUsed,omitempty"`
-	RuntimeVersion  string    `protobuf:"bytes,6,opt,name=runtimeVersion,proto3" json:"runtimeVersion,omitempty"`
-	Envs            []string  `protobuf:"bytes,7,rep,name=envs,proto3" json:"envs,omitempty"`
-	Commands        []string  `protobuf:"bytes,8,rep,name=commands,proto3" json:"commands,omitempty"`
-	Libraries       []string  `protobuf:"bytes,9,rep,name=libraries,proto3" json:"libraries,omitempty"`
-	Ports           []*Port   `protobuf:"bytes,10,rep,name=ports,proto3" json:"ports,omitempty"`
-	Databases       []*DBPort `protobuf:"bytes,11,rep,name=databases,proto3" json:"databases,omitempty"`
-	ORMs            []string  `protobuf:"bytes,12,rep,name=ORMs,json=oRMs,proto3" json:"ORMs,omitempty"`
-	FilesFound      []string  `protobuf:"bytes,13,rep,name=filesFound,proto3" json:"filesFound,omitempty"`
-	Probability     float32   `protobuf:"fixed32,14,opt,name=probability,proto3" json:"probability,omitempty"`
+	FrameworkUsed   bool `protobuf:"varint,1,opt,name=frameworkUsed,proto3" json:"frameworkUsed,omitempty"`
+	EnvUsed         bool `protobuf:"varint,2,opt,name=envUsed,proto3" json:"envUsed,omitempty"`
+	StartUpCommands bool `protobuf:"varint,3,opt,name=startUpCommands,proto3" json:"startUpCommands,omitempty"`
+	DbUsed          bool `protobuf:"varint,4,opt,name=dbUsed,proto3" json:"dbUsed,omitempty"`
+	ORMUsed         bool `protobuf:"varint,5,opt,name=ORMUsed,json=oRMUsed,proto3" json:"ORMUsed,omitempty"`
+	//runtime version used
+	RuntimeVersion string `protobuf:"bytes,6,opt,name=runtimeVersion,proto3" json:"runtimeVersion,omitempty"`
+	// list of envs
+	Envs []string `protobuf:"bytes,7,rep,name=envs,proto3" json:"envs,omitempty"`
+	// list of start-up commands
+	Commands []string `protobuf:"bytes,8,rep,name=commands,proto3" json:"commands,omitempty"`
+	// list of libraries used
+	Libraries []string `protobuf:"bytes,9,rep,name=libraries,proto3" json:"libraries,omitempty"`
+	// list of port used
+	Ports []*Port `protobuf:"bytes,10,rep,name=ports,proto3" json:"ports,omitempty"`
+	// list of port databases
+	Databases []*DBPort `protobuf:"bytes,11,rep,name=databases,proto3" json:"databases,omitempty"`
+	// list of DB ORMs
+	ORMs []string `protobuf:"bytes,12,rep,name=ORMs,json=oRMs,proto3" json:"ORMs,omitempty"`
+	// list of files found
+	FilesFound  []string `protobuf:"bytes,13,rep,name=filesFound,proto3" json:"filesFound,omitempty"`
+	DockerFiles []string `protobuf:"bytes,14,rep,name=dockerFiles,proto3" json:"dockerFiles,omitempty"`
 }
 
 func (x *DetectedOutput) Reset() {
@@ -169,13 +177,14 @@ func (x *DetectedOutput) GetFilesFound() []string {
 	return nil
 }
 
-func (x *DetectedOutput) GetProbability() float32 {
+func (x *DetectedOutput) GetDockerFiles() []string {
 	if x != nil {
-		return x.Probability
+		return x.DockerFiles
 	}
-	return 0
+	return nil
 }
 
+// exposed port
 type Port struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -231,6 +240,7 @@ func (x *Port) GetPort() string {
 	return ""
 }
 
+// exposed DB port
 type DBPort struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -316,8 +326,8 @@ var file_detector_proto_rawDesc = []byte{
 	0x73, 0x18, 0x0c, 0x20, 0x03, 0x28, 0x09, 0x52, 0x04, 0x6f, 0x52, 0x4d, 0x73, 0x12, 0x1e, 0x0a,
 	0x0a, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x46, 0x6f, 0x75, 0x6e, 0x64, 0x18, 0x0d, 0x20, 0x03, 0x28,
 	0x09, 0x52, 0x0a, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x46, 0x6f, 0x75, 0x6e, 0x64, 0x12, 0x20, 0x0a,
-	0x0b, 0x70, 0x72, 0x6f, 0x62, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x18, 0x0e, 0x20, 0x01,
-	0x28, 0x02, 0x52, 0x0b, 0x70, 0x72, 0x6f, 0x62, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x22,
+	0x0b, 0x64, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x18, 0x0e, 0x20, 0x03,
+	0x28, 0x09, 0x52, 0x0b, 0x64, 0x6f, 0x63, 0x6b, 0x65, 0x72, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x22,
 	0x2e, 0x0a, 0x04, 0x50, 0x6f, 0x72, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x70,
 	0x6f, 0x72, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x70, 0x6f, 0x72, 0x74, 0x22,
