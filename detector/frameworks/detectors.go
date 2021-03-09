@@ -15,15 +15,15 @@ type LanguagesDetector struct {
 }
 
 type Framework struct {
-	Name         string
-	Detector     FrameworkDetectOutput //Todo: pointer
-	VersionRange map[string]string
+	Name             string
+	Detector         FrameworkDetectOutput //Todo: pointer
+	SemverConstraint string
 }
 
 type DBChecker struct {
-	Name     string
-	Detector func(string) (string, bool, string)
-	Version  string
+	Name            string
+	Detector        func(string) (string, bool, string)
+	SemVerValidator string
 }
 
 type OrmChecker struct {

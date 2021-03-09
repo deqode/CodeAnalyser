@@ -1,9 +1,8 @@
 package detector
 
-// Todo: we can use go.mod parser https://github.com/uudashr/go-module/blob/master/parser.go
-
 import (
 	"errors"
+	"github.com/masterminds/semver"
 	"io/ioutil"
 	"log"
 	"os"
@@ -14,6 +13,7 @@ import (
 	"strings"
 )
 
+// Check file exists on that path can use *.go  or /*/*.go
 func CheckExist(path string) (bool, []string, error) {
 	str, err := filepath.Glob(path)
 	if len(str) > 0 {
@@ -23,6 +23,7 @@ func CheckExist(path string) (bool, []string, error) {
 	}
 }
 
+// Provide directory return list of all files
 func ListAll(root string) []string {
 	var files []string
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
@@ -30,11 +31,12 @@ func ListAll(root string) []string {
 		return nil
 	})
 	if err != nil {
-		panic(err)
+		return nil
 	}
 	return files
 }
 
+// Perform deep search of keyword in dir, returns exists,map of filePath and line no & error
 func CheckKeyInDir(dirPath, key string) (bool, map[string]int, error) {
 	existed, _, _ := CheckExist(dirPath)
 	var outPut = map[string]int{}
@@ -59,10 +61,10 @@ func CheckKeyInDir(dirPath, key string) (bool, map[string]int, error) {
 		return true, outPut, nil
 	} else {
 		return false, outPut, nil
-
 	}
 }
 
+// Check Key in that file returns exists, Map of line code and line no & error
 func CheckKeyInFile(filepath, key string) (bool, map[string]int, error) {
 	existed, _, _ := CheckExist(filepath)
 	var outPut = map[string]int{}
@@ -91,6 +93,7 @@ func CheckKeyInFile(filepath, key string) (bool, map[string]int, error) {
 	}
 }
 
+// This will search key in files path, returns existed,line no
 func FindInFiles(files []string, key string) (bool, []map[string]int) {
 	outPut := []map[string]int{}
 	exists := false
@@ -104,6 +107,7 @@ func FindInFiles(files []string, key string) (bool, []map[string]int) {
 	return exists, outPut
 }
 
+// This will match regex of the provided string
 func FindInLine(regex, line string) bool {
 	matched, err := regexp.MatchString(regex, line)
 	if err != nil {
@@ -114,6 +118,7 @@ func FindInLine(regex, line string) bool {
 	return false
 }
 
+// This will return file content from file path
 func ReadFile(path string) (string, error) {
 	existed, _, _ := CheckExist(path)
 	if existed {
@@ -129,6 +134,7 @@ func ReadFile(path string) (string, error) {
 	}
 }
 
+// This will return line content from line no of filePath
 func GetLine(filePath string, lineno int) string {
 	file, err := ReadFile(filePath)
 	if err != nil {
@@ -140,4 +146,23 @@ func GetLine(filePath string, lineno int) string {
 	} else {
 		return lines[lineno-1]
 	}
+}
+
+// This will compare constraint and version, returns bool,errors (if false),error in versioning
+//https://pkg.go.dev/github.com/masterminds/semver
+func ValidateVersion(constraint, version string) (bool, []error, error) {
+	c, err := semver.NewConstraint(constraint)
+	if err != nil {
+		return false, nil, errors.New("invalid checker")
+	}
+
+	v, err := semver.NewVersion(version)
+	if err != nil {
+		return false, nil, errors.New("invalid version")
+	}
+
+	// Validate a version against a constraint.
+	res, errs := c.Validate(v)
+	return res, errs, nil
+
 }

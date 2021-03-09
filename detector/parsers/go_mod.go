@@ -14,8 +14,8 @@ type GoMod struct {
 }
 
 type Packages struct {
-	URI    string
-	Vesion string
+	URI     string
+	Version string
 }
 
 func ParseGoMod(modFile string) (*GoMod, error) {
@@ -29,10 +29,9 @@ func ParseGoMod(modFile string) (*GoMod, error) {
 		if detector.FindInLine("module ", line) {
 			log.Println("Module Name:- ", strings.Split(line, "module ")[1])
 		} else if detector.FindInLine("go ", line) {
-			log.Println("go version:- ", strings.Split(line, "go ")[1])
+			log.Println("g o version:- ", strings.Split(line, "go ")[1])
 		} else {
 			log.Println(line)
-
 		}
 	}
 	return nil, err

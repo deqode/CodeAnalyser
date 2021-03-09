@@ -2,14 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/frameworks/register.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detector/frameworks/detectors.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/frameworks/detectors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detector/frameworks/register_go.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/frameworks/register_go.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detector/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detector/parsers/go_mod.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/parsers/go_mod.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detector/parsers/package_json.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/parsers/package_json.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detector/protos/detected.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/protos/detected.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/protos/detected.proto" beforeDir="false" afterPath="$PROJECT_DIR$/detector/protos/detected.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/protos/detector.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/protos/detector.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/protos/detector.proto" beforeDir="false" afterPath="$PROJECT_DIR$/detector/protos/detector.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frameworks/detectors.go" beforeDir="false" afterPath="$PROJECT_DIR$/frameworks/detectors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,11 +66,11 @@
       <recent name="$PROJECT_DIR$/analyser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/frameworks" />
-      <recent name="$PROJECT_DIR$/detector/parsers" />
-      <recent name="$PROJECT_DIR$/detector/protos" />
+      <recent name="$PROJECT_DIR$/detector/frameworks" />
+      <recent name="$PROJECT_DIR$/detector/frameworks/_go" />
       <recent name="$PROJECT_DIR$/detector" />
-      <recent name="$PROJECT_DIR$/frameworkdetector/_go" />
+      <recent name="$PROJECT_DIR$/frameworks" />
+      <recent name="$PROJECT_DIR$/frameworks/registers" />
     </key>
   </component>
   <component name="RunManager">

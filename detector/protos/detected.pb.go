@@ -30,9 +30,9 @@ type Detections struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	//  name of the languge
+	//  name of the language
 	Language string `protobuf:"bytes,1,opt,name=language,proto3" json:"language,omitempty"`
-	//  percenage of line
+	//  percentage of line
 	Percent int64 `protobuf:"varint,2,opt,name=percent,proto3" json:"percent,omitempty"`
 	//  name of the framework
 	Framework string `protobuf:"bytes,3,opt,name=framework,proto3" json:"framework,omitempty"`

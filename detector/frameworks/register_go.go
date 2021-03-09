@@ -1,13 +1,11 @@
 package frameworks
 
-import (
-	"code-analyser/detector/frameworks/_go"
-)
+import "code-analyser/detector/frameworks/_go"
 
 var RegisterGO = LanguagesDetector{
 	Frameworks: []*Framework{
-		{"Gin", _go.DetectGin, map[string]string{"lowest": "1.x"}},
-		{"Beego", _go.DetectBeego, map[string]string{"lowest": "1.x"}},
+		{"Gin", _go.DetectGin, ">=1.x,<=2.x"},
+		{"Beego", _go.DetectBeego, ">=1.x,<=2.x"},
 	},
 	DBCheckers: []*DBChecker{
 		{"postgres", _go.CheckPostgres, "*"},

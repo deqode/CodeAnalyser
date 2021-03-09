@@ -1,6 +1,7 @@
 package main
 
 import (
+	"code-analyser/detector"
 	"code-analyser/detector/analyser"
 	"code-analyser/detector/frameworks"
 	"code-analyser/detector/frameworks/global"
@@ -43,4 +44,5 @@ func main() {
 	log.Println(global.DetectProc(root))
 	//log.Println(parsers.ParsePackageJSON("/home/deqode/Documents/basic_repo/expressRepo/package.json"))
 	//parsers.ParseGoMod("/home/deqode/Documents/code-analyser/go.mod")
+	log.Println(detector.ValidateVersion(">=1.2.3-beta.1", "4.17.1"))
 }

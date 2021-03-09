@@ -14,12 +14,16 @@ type PackageJson struct {
 	Engines         map[string]string `json:"engines"`
 }
 
+// Parse package.json file
 func ParsePackageJSON(pjson string) (*PackageJson, error) {
 	file, err := detector.ReadFile(pjson)
 	if err != nil {
 		return nil, err
 	}
 	var res PackageJson
-	json.Unmarshal([]byte(file), &res)
+	err = json.Unmarshal([]byte(file), &res)
+	if err != nil {
+		return nil, err
+	}
 	return &res, err
 }
