@@ -1,6 +1,6 @@
 package detector
 
-// Todo: we use go.mod parser https://github.com/uudashr/go-module/blob/master/parser.go
+// Todo: we can use go.mod parser https://github.com/uudashr/go-module/blob/master/parser.go
 
 import (
 	"errors"
@@ -118,7 +118,12 @@ func ReadFile(path string) (string, error) {
 	existed, _, _ := CheckExist(path)
 	if existed {
 		dat, err := ioutil.ReadFile(path)
-		return string(dat), err
+		if err != nil {
+			return "", err
+
+		} else {
+			return string(dat), err
+		}
 	} else {
 		return "", errors.New("file not existed")
 	}

@@ -1,8 +1,11 @@
 package _go
 
-import "code-analyser/detector"
+import (
+	"code-analyser/detector"
+	"code-analyser/detector/protos"
+)
 
-func DetectGin(root string) *detector.DetectedOutput {
+func DetectGin(root string) *protos.DetectedOutput {
 	report := map[bool]int{true: 0, false: 0}
 
 	res, _, _ := detector.CheckKeyInFile(root+"/go.mod", "gin")
@@ -24,7 +27,7 @@ func DetectGin(root string) *detector.DetectedOutput {
 
 	exist, _, _ = detector.CheckKeyInDir(root, "Run")
 	report[exist]++
-	return &detector.DetectedOutput{
+	return &protos.DetectedOutput{
 		FrameworkUsed: report[true] > report[false],
 	}
 }

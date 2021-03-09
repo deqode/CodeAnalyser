@@ -1,11 +1,11 @@
 package frameworks
 
 import (
-	"code-analyser/detector"
+	"code-analyser/detector/protos"
 	"code-analyser/frameworks/_go"
 )
 
-type FrameworkDetectOutput func(string) *detector.DetectedOutput
+type FrameworkDetectOutput func(string) *protos.DetectedOutput
 
 type LanguagesDetector struct {
 	Frameworks    []*Framework

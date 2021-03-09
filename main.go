@@ -2,6 +2,7 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/detector/parsers"
 	"code-analyser/frameworks"
 	"code-analyser/frameworks/global"
 	"log"
@@ -10,10 +11,12 @@ import (
 const enryLoc = "/home/deqode/Documents/code-analyser/"
 
 func main() {
-	root := "/home/deqode/Documents/basic_repo/ginRepo"
+	//root := "."
+
+	//root := "/home/deqode/Documents/basic_repo/ginRepo"
 	//root := "/home/deqode/Documents/basic_repo/beegoRepo"
 	//root := "/home/deqode/Documents/go-basics/swapi"
-	//root := "/home/deqode/Documents/go-basics/gormBasics"
+	root := "/home/deqode/Documents/go-basics/gormBasics"
 
 	languages, errarr, err := analyser.Analyse(root, enryLoc)
 	if err != nil || len(errarr) > 0 {
@@ -33,11 +36,12 @@ func main() {
 			}
 			for _, orm := range detectors.Orms {
 				eorm := orm.Detector(root)
-
 				log.Println(orm.Name, eorm)
-
 			}
 		}
 	}
 	log.Println(global.DetectDocker(root))
+	log.Println(global.DetectProc(root))
+	log.Println(parsers.ParsePackageJSON("/home/deqode/Documents/basic_repo/expressRepo/package.json"))
+
 }

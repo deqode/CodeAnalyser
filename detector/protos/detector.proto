@@ -3,6 +3,7 @@ option go_package = ".;detector";
 
 message DetectedOutput{
 
+  // checkers....
   bool frameworkUsed = 1;
   bool envUsed = 2;
   bool startUpCommands = 3;
@@ -30,13 +31,9 @@ message DetectedOutput{
   // list of DB ORMs
   repeated string ORMs = 12;
 
-  // list of files found
-  repeated string filesFound = 13;
-
-  repeated string dockerFiles=14;
 
   // probability of framework used
-//  float probability = 14;
+  //  float probability = 14;
 
 }
 // exposed port
@@ -49,5 +46,6 @@ message Port{
 message DBPort{
   string name = 1;
   string port = 2;
+  string version = 3;
 }
 //    protoc --go_out=. *.proto

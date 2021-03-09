@@ -2,14 +2,15 @@ package _go
 
 import (
 	"code-analyser/detector"
+	"code-analyser/detector/protos"
 	"strings"
 )
 
-func CheckDB(root string) []*detector.DBPort {
-	var dbs []*detector.DBPort
+func CheckDB(root string) []*protos.DBPort {
+	var dbs []*protos.DBPort
 	str, db, port := CheckPostgres(root)
 	if db {
-		x := detector.DBPort{Name: str, Port: port}
+		x := protos.DBPort{Name: str, Port: port}
 		dbs = append(dbs, &x)
 	}
 	return dbs
