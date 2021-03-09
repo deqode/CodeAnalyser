@@ -1,10 +1,9 @@
 package main
 
 import (
-	"code-analyser/analyser"
-	"code-analyser/detector/parsers"
-	"code-analyser/frameworks"
-	"code-analyser/frameworks/global"
+	"code-analyser/detector/analyser"
+	"code-analyser/detector/frameworks"
+	"code-analyser/detector/frameworks/global"
 	"log"
 )
 
@@ -42,6 +41,6 @@ func main() {
 	}
 	log.Println(global.DetectDocker(root))
 	log.Println(global.DetectProc(root))
-	log.Println(parsers.ParsePackageJSON("/home/deqode/Documents/basic_repo/expressRepo/package.json"))
-
+	//log.Println(parsers.ParsePackageJSON("/home/deqode/Documents/basic_repo/expressRepo/package.json"))
+	//parsers.ParseGoMod("/home/deqode/Documents/code-analyser/go.mod")
 }
