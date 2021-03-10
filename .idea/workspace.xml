@@ -2,13 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analyser/analyse.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deployement_files/make/make.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deployement_files/proc/proc.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/detector_helpers/helper.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/databases/postgres/v_12.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/databases/postgres/versions.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/detect_runtime/detect.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/v_1_6.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/versions.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/orms/gorm/v_3_4.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/orms/gorm/versions.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/parsers/go_mod/go_mod.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/parsers/go_mod/versions.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/pre_detect/v_1_x.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/pre_detect/versions.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/stack/versions.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/versions.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/interfaces.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/protos/output.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/protos/output.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/frameworks/detectors.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/frameworks/detectors.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/frameworks/register_go.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/frameworks/register_go.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/parsers/go_mod.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/parsers/go_mod.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +35,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Go Application" />
+        <option value="Go File" />
       </list>
     </option>
   </component>
@@ -42,7 +59,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="postgresql" />
-    <property name="DefaultGoTemplateProperty" value="Go Application" />
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -65,11 +82,11 @@
       <recent name="$PROJECT_DIR$/analyser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/language_detectors/go/parsers/go_mod" />
+      <recent name="$PROJECT_DIR$/language_detectors/go" />
+      <recent name="$PROJECT_DIR$/detector_helper" />
       <recent name="$PROJECT_DIR$/detector/frameworks" />
       <recent name="$PROJECT_DIR$/detector/frameworks/_go" />
-      <recent name="$PROJECT_DIR$/detector" />
-      <recent name="$PROJECT_DIR$/frameworks" />
-      <recent name="$PROJECT_DIR$/frameworks/registers" />
     </key>
   </component>
   <component name="RunManager">
