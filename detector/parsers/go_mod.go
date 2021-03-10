@@ -7,15 +7,15 @@ import (
 )
 
 type GoMod struct {
-	ModuleName       string
-	GoVersion        string
-	required         []Packages
-	requiredIndirect []Packages
+	ModuleName string
+	GoVersion  string
+	required   []Package
 }
 
-type Packages struct {
-	URI     string
-	Version string
+type Package struct {
+	URI      string
+	Version  string
+	Indirect bool
 }
 
 func ParseGoMod(modFile string) (*GoMod, error) {
@@ -23,16 +23,40 @@ func ParseGoMod(modFile string) (*GoMod, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println(file)
 	lines := strings.Split(file, "\n")
-	for _, line := range lines {
-		if detector.FindInLine("module ", line) {
-			log.Println("Module Name:- ", strings.Split(line, "module ")[1])
-		} else if detector.FindInLine("go ", line) {
-			log.Println("g o version:- ", strings.Split(line, "go ")[1])
-		} else {
-			log.Println(line)
+	output := GoMod{}
+	for lno, line := range lines {
+		if detector.FindInLine("go [0-9]", line) {
+			output.GoVersion = strings.Split(line, "go ")[1]
+		} else if detector.FindInLine("module ", line) {
+			output.ModuleName = strings.Split(line, "module ")[1]
+		} else if detector.FindInLine("require ", line) {
+			requiresCount := lno
+			if strings.Split(lines[requiresCount], "require ")[1] == "(" {
+				for {
+					requiresCount++
+					if lines[requiresCount] == ")" {
+						break
+					}
+					output.required = append(output.required, *parseURI(lines[requiresCount]))
+				}
+			} else {
+				output.required = append(output.required, *parseURI(strings.Split(lines[requiresCount], "require ")[1]))
+			}
 		}
 	}
-	return nil, err
+
+	log.Println(output)
+	return nil, nil
+}
+
+func parseURI(str string) *Package {
+	out := Package{}
+	if detector.FindInLine(" // indirect", str) {
+		out.Indirect = true
+	}
+	s := strings.TrimSpace(strings.Split(str, " // indirect")[0])
+	out.URI = strings.TrimSpace(strings.Split(s, " v")[0])
+	out.Version = strings.TrimSpace(strings.Split(s, " v")[1])
+	return &out
 }

@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detector/frameworks/detectors.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/frameworks/detectors.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detector/frameworks/register_go.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/frameworks/register_go.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/detector/parsers/go_mod.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/parsers/go_mod.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/parsers/package_json.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/parsers/package_json.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/protos/detected.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/protos/detected.pb.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +25,7 @@
   <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
@@ -59,6 +57,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">

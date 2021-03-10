@@ -1,7 +1,3 @@
-module code-analyser
-
-go 1.16
-
 require (
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/go-cmd/cmd v1.3.0
@@ -9,3 +5,7 @@ require (
 	github.com/masterminds/semver v1.5.0
 	google.golang.org/protobuf v1.25.0
 )
+
+module code-analyser
+
+go 1.16

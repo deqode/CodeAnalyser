@@ -8,10 +8,11 @@ import (
 type FrameworkDetectOutput func(string) *protos.DetectedOutput
 
 type LanguagesDetector struct {
-	Frameworks    []*Framework
-	DBCheckers    []*DBChecker
-	Prerequisites func(string)
-	Orms          []*OrmChecker
+	Frameworks       []*Framework
+	DBCheckers       []*DBChecker
+	Prerequisites    func(string)
+	Orms             []*OrmChecker
+	SemverConstraint string
 }
 
 type Framework struct {
