@@ -14,4 +14,8 @@ type LanguageSpecificDetector interface {
 	DetectLibraries(string, string) []*protos.Output    //root,version
 	GetStaticAssets(string, string) []*protos.Output    //root,version
 	GetStack(string, string) []*protos.Output           //root,version
+	// build cmds
+	// startup cmd
+	// build directory
+
 }

@@ -8,6 +8,7 @@ message GOFramework{
 enum BeegoVersions{
   Beego_v_1 = 0;
   Beego_v_2 = 1;
+
 }
 enum GinVersions{
   Gin_v_2 = 0;
