@@ -1,0 +1,18 @@
+syntax = "proto3";
+option go_package = ".;protos";
+
+
+message DependenciesOutput{
+  // check dependencies
+  bool used = 1;
+  // list of all dependencies
+  repeated Dependency dependencies = 2;
+}
+message Dependency{
+  //  name of dependency
+  string name = 1;
+  //  version of dependency
+  string version = 2;
+
+}
+

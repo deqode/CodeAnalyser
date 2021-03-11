@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = ".;protos";
+
+
+message DBOutput{
+  // check Db
+  bool used = 1;
+  // list of all dbs
+  repeated DB databases = 2;
+}
+message DB{
+  //  name of db
+  string name = 1;
+  //  version of db
+  string version = 2;
+  // port
+  int64 port = 3;
+}
+

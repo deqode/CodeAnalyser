@@ -1,0 +1,13 @@
+syntax = "proto3";
+option go_package = ".;protos";
+
+message JSFramework{
+  ExpressVersions express = 1;
+}
+
+enum ExpressVersions{
+  Express_v_3 = 0;
+  Express_v_4 = 1;
+}
+
+

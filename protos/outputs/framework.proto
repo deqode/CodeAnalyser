@@ -1,0 +1,15 @@
+syntax = "proto3";
+option go_package = ".;protos";
+
+
+message FrameworkOutput{
+  // check framework
+  bool used = 1;
+  //  name of framework
+  string name = 2;
+  //  Version of framework
+  string version = 3;
+  //  Language used
+  string language = 4;
+}
+
