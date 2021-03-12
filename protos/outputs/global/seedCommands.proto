@@ -1,0 +1,18 @@
+syntax = "proto3";
+option go_package = ".;protos";
+
+
+message SeedCommandsOutput{
+  // check SeedCommand
+  bool used = 1;
+  // list of all SeedCommand
+  repeated SeedCommand SeedCommandCommand = 2;
+}
+message SeedCommand{
+  //  name of MigrationCommand
+  string name = 1;
+  //  version of MigrationCommand
+  repeated string args = 2;
+
+}
+

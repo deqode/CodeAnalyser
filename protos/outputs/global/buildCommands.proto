@@ -1,0 +1,18 @@
+syntax = "proto3";
+option go_package = ".;protos";
+
+
+message BuildCommandsOutput{
+  // check BuildCommands
+  bool used = 1;
+  // list of all BuildCommands
+  repeated BuildCommand buildCommands = 2;
+}
+message BuildCommand{
+  //  name of BuildCommand
+  string name = 1;
+  //  version of BuildCommand
+  repeated string args = 2;
+
+}
+

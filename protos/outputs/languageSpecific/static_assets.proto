@@ -1,0 +1,17 @@
+syntax = "proto3";
+option go_package = ".;protos";
+
+
+message StaticAssetsOutput{
+  // check assets
+  bool used = 1;
+  // list of all assets
+  repeated Asset assets = 2;
+}
+message Asset{
+  //  name of Asset
+  string name = 1;
+  //  type of Asset
+  string type = 2;
+}
+
