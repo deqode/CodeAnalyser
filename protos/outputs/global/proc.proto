@@ -1,4 +1,7 @@
 syntax = "proto3";
 option go_package = ".;protos";
 
-//todo: fields?
+
+message ProcFileOutput{
+}
+

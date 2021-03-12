@@ -2,46 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/protos/outputs/global/buildCommands.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/outputs/global/migrationCommandfs.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/outputs/global/seedCommands.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/outputs/global/startUpCommands.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/appserver.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/libraries.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/static_assets.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/appserver.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/buildCommands.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/buildDir.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/db.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/dependencies.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/env.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/framework.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/libraries.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/migrationCommandfs.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/orm.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/seedCommands.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/stack.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/startUpCommands.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/pb/static_assets.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/protos/versions/language.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/protos/pb/language.pb.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deployement_files/inverface.go" beforeDir="false" afterPath="$PROJECT_DIR$/deployement_files/interface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/language_detectors/interfaces.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/outputs/db.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/db.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/outputs/dependencies.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/dependencies.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/outputs/env.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/env.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/outputs/framework.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/framework.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/outputs/orm.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/orm.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/outputs/static_assets.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/go/go_db.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/buildDir.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/go/go_dependencies.proto" beforeDir="false" afterPath="$PROJECT_DIR$/deployement_files/inverface.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/go/go_framework.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/go/go_libraries.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/buildDirectory.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/go/go_orm.proto" beforeDir="false" afterPath="$PROJECT_DIR$/versions/go.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/go/go_stack.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/go/go_static_assets.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/js/js_db.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/stack.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/js/js_framework.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/versions.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/languageSpecific/appserver.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/appserver.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/languageSpecific/buildDir.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/languageSpecific/buildDir.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/global/proc.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/languageSpecific/env.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/env.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/appserver.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/protos/pb/appserver.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/env.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/protos/pb/env.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/versions/language.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/versions/language.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/versions/go.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/versions/go.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/versions/versionParser.go" beforeDir="false" afterPath="$PROJECT_DIR$/versions/versionParser.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

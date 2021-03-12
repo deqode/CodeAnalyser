@@ -6,7 +6,8 @@ import (
 )
 
 type LanguageSpecificDetector interface {
-	DetectRuntime(context.Context, string) (string, error)                                    //root
+	//rootv
+	DetectRuntime(context.Context, string) (string, error)
 	RunPreDetect(context.Context, string, string) (bool, error)                               //root,version
 	RunParsers(context.Context, string, string) (interface{}, error)                          //root version TODO: interface ?
 	ParseENVs(context.Context, string) ([]*protos.EnvOutput, error)                           //root
@@ -24,4 +25,5 @@ type LanguageSpecificDetector interface {
 	DetectStartUpCommands(context.Context, string, string) ([]*protos.StartUpCommandsOutput, error)
 	DetectSeedCommands(context.Context, string, string) ([]*protos.SeedCommandsOutput, error)
 	DetectMigrationCommands(context.Context, string, string) ([]*protos.MigrationCommandsOutput, error)
+	DetectAdHocScripts(context.Context, string, string) (interface{}, error)
 }

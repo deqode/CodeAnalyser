@@ -15,5 +15,10 @@ message LanguageVersion{
 
 message Versions {
   string name = 1;
-  repeated string versions = 2;
+  repeated Semver versions = 2;
+}
+
+message Semver{
+  string name = 1;
+  string semver = 2;
 }
