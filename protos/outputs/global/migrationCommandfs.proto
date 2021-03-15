@@ -1,18 +1,13 @@
 syntax = "proto3";
 option go_package = ".;protos";
 
+import "protos/outputs/global/command.proto";
 
 message MigrationCommandsOutput{
   // check MigrationCommand
   bool used = 1;
   // list of all MigrationCommand
-  repeated MigrationCommand migrationCommand = 2;
+  repeated Command migrationCommand = 2;
 }
-message MigrationCommand{
-  //  name of MigrationCommand
-  string name = 1;
-  //  version of MigrationCommand
-  repeated string args = 2;
 
-}
 

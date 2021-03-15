@@ -1,18 +1,12 @@
 syntax = "proto3";
 option go_package = ".;protos";
+import "protos/outputs/global/command.proto";
 
 
 message StartUpCommandsOutput{
   // check startUpCommands
   bool used = 1;
   // list of all startUpCommands
-  repeated StartUpCommand startUpCommands = 2;
-}
-message StartUpCommand{
-  //  name of StartUpCommand
-  string name = 1;
-  //  version of StartUpCommand
-  repeated string args = 2;
-
+  repeated Command startUpCommands = 2;
 }
 

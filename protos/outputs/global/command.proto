@@ -1,0 +1,11 @@
+syntax = "proto3";
+option go_package = ".;protos";
+
+message Command{
+  //  name of command
+  string name = 1;
+  //  args of commands
+  repeated string args = 2;
+
+}
+

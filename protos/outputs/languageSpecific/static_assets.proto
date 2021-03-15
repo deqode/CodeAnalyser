@@ -6,12 +6,14 @@ message StaticAssetsOutput{
   // check assets
   bool used = 1;
   // list of all assets
-  repeated Asset assets = 2;
+  repeated StaticAsset assets = 2;
 }
-message Asset{
+message StaticAsset{
   //  name of Asset
   string name = 1;
-  //  type of Asset
-  string type = 2;
+  //  path of Asset
+  string path = 2;
+  //
+  bool hashed=3;
 }
 

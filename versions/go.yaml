@@ -1,14 +1,16 @@
 name: go
 
 versions:
-  - ">=2.x"
-  - "1.6"
+  - name: "v2.x"
+    semver: ">=2.x"
 
 framework:
   - name: gin
     versions:
       - name: "v1.x"
-        semver: ">=1.x,<=2.x"
+        semver: ">=1.x,<2.x"
+      - name: "v2.x"
+        semver: ">=2.x,<=3.x"
 
   - name: beego
     versions:

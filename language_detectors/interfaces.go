@@ -1,29 +1,51 @@
 package language_detectors
 
 import (
-	"code-analyser/protos/pb"
+	protos "code-analyser/protos/pb"
 	"context"
+	"github.com/spf13/afero"
 )
 
 type LanguageSpecificDetector interface {
-	//rootv
-	DetectRuntime(context.Context, string) (string, error)
-	RunPreDetect(context.Context, string, string) (bool, error)                               //root,version
-	RunParsers(context.Context, string, string) (interface{}, error)                          //root version TODO: interface ?
-	ParseENVs(context.Context, string) ([]*protos.EnvOutput, error)                           //root
-	DetectFrameworks(context.Context, string, string) ([]*protos.FrameworkOutput, error)      //root,version
-	DetectDBs(context.Context, string, string) ([]*protos.DBOutput, error)                    //root,version
-	DetectORMs(context.Context, string, string) ([]*protos.OrmOutput, error)                  //root,version
-	DetectDependencies(context.Context, string, string) ([]*protos.DependenciesOutput, error) //root,version
-	DetectLibraries(context.Context, string, string) ([]*protos.LibrariesOutput, error)       //root,version
-	GetStaticAssets(context.Context, string, string) ([]*protos.StaticAssetsOutput, error)    //root,version
-	GetStack(context.Context, string, string) ([]*protos.StackOutput, error)                  //root,version
-	DetectAppserver(context.Context, string, string) ([]*protos.AppserverOutput, error)
-	DetectBuildDirectory(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error)
+	//DetectRuntime will give runtime version of the language
+	DetectRuntime(context.Context, afero.Afero) (string, error)
+	//RunPreDetect will run to modify libraries and format code
+	RunPreDetect(context.Context, string, string) (bool, error)
+	//// TODO: interface ?
+	//RunParsers(context.Context, string, Dir) (interface{}, error)
+	////ParseENVs will return ENVs
+	//ParseENVs(context.Context, Dir) ([]*protos.EnvOutput, error)
+	////DetectFrameworks  will return framework detected in Dir
+	DetectFrameworks(context.Context, string, string) ([]*protos.FrameworkOutput, error)
+	////DetectDBs will return Dbs detected in Dir
+	//DetectDBs(context.Context, string, Dir) ([]*protos.DBOutput, error)
+	////DetectORMs will return orm detected in Dir
+	//DetectORMs(context.Context, string, Dir) ([]*protos.OrmOutput, error)
+	////DetectDependencies will return dependencies detected in Dir
+	//DetectDependencies(context.Context, string, Dir) ([]*protos.DependenciesOutput, error)
+	////DetectLibraries will return libraries detected in Dir
+	//DetectLibraries(context.Context, string, Dir) ([]*protos.LibrariesOutput, error)
+	////GetStaticAssets will return type of staticAssets detected in Dir
+	//GetStaticAssets(context.Context, string, Dir) ([]*protos.StaticAssetsOutput, error)
+	//GetStack(context.Context, string, Dir) ([]*protos.StackOutput, error)
+	//DetectAppserver(context.Context, string, Dir) ([]*protos.AppserverOutput, error)
+	//DetectBuildDirectory(context.Context, string, Dir) ([]*protos.BuildDirectoryOutput, error)
+	//DetectTestCasesRunCommands(context.Context, string, Dir) ([]*protos.BuildDirectoryOutput, error)
+	//language_detectors.Commands
+}
 
-	DetectBuildCommands(context.Context, string, string) ([]*protos.BuildCommandsOutput, error)
-	DetectStartUpCommands(context.Context, string, string) ([]*protos.StartUpCommandsOutput, error)
-	DetectSeedCommands(context.Context, string, string) ([]*protos.SeedCommandsOutput, error)
-	DetectMigrationCommands(context.Context, string, string) ([]*protos.MigrationCommandsOutput, error)
-	DetectAdHocScripts(context.Context, string, string) (interface{}, error)
+type Dir interface {
+	Validate(string) bool
+	Abs(string) string
+	Join(string, ...string) (string, error)
+
+	SetDir(string) (string, error)
+	GetDir(string) (string, error)
+	IsDir(string) bool
+
+	SetFile(string) (string, error)
+	GetFile(string) (string, error)
+	IsFile(string) bool
+
+	Ext(string) (string, error)
 }

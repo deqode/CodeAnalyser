@@ -3,5 +3,7 @@ option go_package = ".;protos";
 
 
 message DockerFileOutput{
+  bool used=1;
+
 }
 
