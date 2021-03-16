@@ -7,17 +7,22 @@ import (
 	"path/filepath"
 )
 
-func ParserVersion(path string) (*protos.LanguageVersion, error) {
-	filename, _ := filepath.Abs(path)
-	yamlFile, err := ioutil.ReadFile(filename)
+const (
+	GO = "go.yaml"
+)
 
+func ParserVersion(file string) (*protos.LanguageVersion, error) {
+	filename, _ := filepath.Abs("/home/deqode/Documents/code-analyser/versions/"+file)
+	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
 	var lang protos.LanguageVersion
+
 	err = yaml.Unmarshal(yamlFile, &lang)
 	if err != nil {
 		return nil, err
 	}
 	return &lang, nil
+
 }

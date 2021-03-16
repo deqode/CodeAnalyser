@@ -4,7 +4,7 @@ option go_package = ".;protos";
 
 message LanguageVersion{
   string name = 1;
-  repeated string versions = 2;
+  repeated Versions versions = 2;
   repeated Versions framework = 3;
   repeated Versions databases = 4;
   repeated Versions orms = 5;

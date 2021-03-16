@@ -18,5 +18,5 @@ type Commands interface {
 	DetectStartUpCommands(context.Context, string) ([]*protos.StartUpCommandsOutput, error)
 	DetectSeedCommands(context.Context, string) ([]*protos.SeedCommandsOutput, error)
 	DetectMigrationCommands(context.Context, string) ([]*protos.MigrationCommandsOutput, error)
-	DetectAdHocScripts(context.Context, string, string) (interface{}, error)
+	DetectAdHocScripts(context.Context, string) (interface{}, error) //Todo: output proto
 }
