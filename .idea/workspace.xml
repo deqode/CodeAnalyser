@@ -2,28 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/analyser/enry" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/detector_helpers/file/file.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/language_detectors/go/databases/detector.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/v_2_6.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analyser/analyse.go" beforeDir="false" afterPath="$PROJECT_DIR$/analyser/analyse.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployement_files/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/deployement_files/interface.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector_helpers/helper.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector_helpers/helper.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/go/databases/postgres/v_12.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/databases/postgres/v_12.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/go/databases/postgres/versions.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/databases/postgres/versions.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/language_detectors/go/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/detector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/v_1_6.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/v_1_6.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/language_detectors/go/frameworks/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/detector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/go/parsers/go_mod/go_mod.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/parsers/go_mod/go_mod.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/language_detectors/interfaces.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/pb/language.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/protos/pb/language.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/versions/language.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/versions/language.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/global/buildCommands.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/global/buildCommands.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/versions/versionDetector.go" beforeDir="false" afterPath="$PROJECT_DIR$/versions/versionDetector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/versions/versionParser.go" beforeDir="false" afterPath="$PROJECT_DIR$/versions/versionParser.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

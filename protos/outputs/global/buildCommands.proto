@@ -9,3 +9,7 @@ message BuildCommandsOutput{
   // list of all BuildCommands
   repeated Command buildCommands = 2;
 }
+
+//service A{
+//  rpc Hello(BuildCommandsOutput)returns (BuildCommandsOutput) ;
+//}

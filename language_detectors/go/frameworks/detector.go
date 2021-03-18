@@ -12,7 +12,8 @@ var frameworks = map[string]map[string]*versions.FrameworkVersionDetector{
 	"beego": beego.BeegoVersions,
 }
 
-func getDetector(root, version string, languageVersion *protos.LanguageVersion) []*versions.FrameworkVersionDetector {
+
+func getDetector(runtimeVersion, root string, languageVersion *protos.LanguageVersion) []*versions.FrameworkVersionDetector {
 	var output []*versions.FrameworkVersionDetector
 	mod, _ := go_mod.ParseGoMod(root + "/go.mod")
 	libraryFound := mod.Required
@@ -22,10 +23,11 @@ func getDetector(root, version string, languageVersion *protos.LanguageVersion) 
 	//return Detector
 	return output
 }
-func DetectFrameWork(version, root string, languageVersion *protos.LanguageVersion) []*protos.FrameworkOutput {
+
+func DetectFrameWork(root, runtimeVersion string, languageVersion *protos.LanguageVersion) []*protos.FrameworkOutput {
 	output := []*protos.FrameworkOutput{}
-	detector := getDetector(root, version, languageVersion)
-	fwDetected, _ := detector[0].Detector(nil, version, root)
+	detector := getDetector(root, runtimeVersion, languageVersion)
+	fwDetected, _ := detector[0].Detector(nil, runtimeVersion, root)
 	output = append(output, fwDetected)
 	return output
 }

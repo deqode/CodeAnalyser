@@ -30,7 +30,7 @@ func main() {
 	}
 }
 
-func runDetection(detector language_detectors.LanguageSpecificDetector, version, path string) {
+func runDetection(detector language_detectors.LanguageSpecificDetector, runtimeVersion, path string) {
 	var wg sync.WaitGroup
 	defer wg.Wait()
 	//
@@ -42,7 +42,7 @@ func runDetection(detector language_detectors.LanguageSpecificDetector, version,
 	//}()
 	wg.Add(2)
 	go func() {
-		fw, err := detector.DetectFrameworks(nil, version, path)
+		fw, err := detector.DetectFrameworks(nil, runtimeVersion, path)
 		if err != nil {
 			log.Println(err)
 		}
@@ -50,7 +50,7 @@ func runDetection(detector language_detectors.LanguageSpecificDetector, version,
 		wg.Done()
 	}()
 	go func() {
-		db, _ := detector.DetectDBs(nil, version, path)
+		db, _ := detector.DetectDBs(nil, runtimeVersion, path)
 		log.Println(db)
 		wg.Done()
 	}()

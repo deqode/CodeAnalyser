@@ -3,6 +3,7 @@ package language_detectors
 import (
 	language_detectors "code-analyser/deployement_files"
 	protos "code-analyser/protos/pb"
+	"code-analyser/versions"
 	"context"
 )
 
@@ -34,5 +35,21 @@ type LanguageSpecificDetector interface {
 	language_detectors.Commands
 }
 
-
 //count 14
+
+type FrameworkDetector interface {
+	GetDeclaredFrameworkVersion(string)*protos.LanguageVersion
+	GetDetector(runtimeVersion, root string, declaredLanguageVersions *protos.LanguageVersion) []*versions.FrameworkVersionDetector
+	RunDetector(runtimeVersion, root string, declaredLanguageVersions *protos.LanguageVersion) *protos.FrameworkOutput
+	CheckFramework(runtimeVersion, root string, declaredLanguageVersions *protos.LanguageVersion) []*protos.FrameworkOutput
+}
+type DBDetector interface {
+	GetDetector(root, runtimeVersion string, declaredLanguageVersions *protos.LanguageVersion) []*versions.DBVersionDetector
+	RunDetector(runtimeVersion, root string, declaredLanguageVersions *protos.LanguageVersion) *protos.DB
+	CheckFramework(runtimeVersion, root string, declaredLanguageVersions *protos.LanguageVersion) *protos.DBOutput
+}
+type ORMDetector interface {
+	GetDetector(root, runtimeVersion string, declaredLanguageVersions *protos.LanguageVersion) []*versions.ORMDetector
+	RunDetector(runtimeVersion, root string, declaredLanguageVersions *protos.LanguageVersion) *protos.OrmOutput
+	CheckFramework(runtimeVersion, root string, declaredLanguageVersions *protos.LanguageVersion) []*protos.OrmOutput
+}

@@ -25,9 +25,9 @@ func (d GoDetector) ParseENVs(context.Context, string) ([]*protos.EnvOutput, err
 	return nil, nil
 
 }
-func (d GoDetector) DetectFrameworks(ctx context.Context, version, path string) ([]*protos.FrameworkOutput, error) {
+func (d GoDetector) DetectFrameworks(ctx context.Context, runtimeVersion, path string) ([]*protos.FrameworkOutput, error) {
 	languageVersion, _ := versions.ParserVersion(versions.GO)
-	return frameworks.DetectFrameWork(version, path, languageVersion), nil
+	return frameworks.DetectFrameWork(runtimeVersion, path, languageVersion), nil
 }
 func (d GoDetector) DetectDBs(ctx context.Context, version string, path string) (*protos.DBOutput, error) {
 	languageVersion, _ := versions.ParserVersion(versions.GO)
