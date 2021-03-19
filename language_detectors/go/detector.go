@@ -1,9 +1,9 @@
 package _go
 
 import (
-	databases "code-analyser/language_detectors/go/databases"
 	"code-analyser/language_detectors/go/frameworks"
 	protos "code-analyser/protos/pb"
+	"code-analyser/runners"
 	"code-analyser/versions"
 	"context"
 )
@@ -11,66 +11,66 @@ import (
 type GoDetector struct {
 }
 
-func (d GoDetector) DetectRuntime(c context.Context, dir string) (string, error) {
+func (d *GoDetector) DetectRuntime(c context.Context, dir string) (string, error) {
 	return "1.6", nil
 }
-func (d GoDetector) RunPreDetect(ctx context.Context, version string, dir string) (bool, error) {
+func (d *GoDetector) RunPreDetect(ctx context.Context, version string, dir string) (bool, error) {
 	return false, nil
 }
 
-func (d GoDetector) RunParsers(context.Context, string, string) (interface{}, error) {
+func (d *GoDetector) RunParsers(context.Context, string, string) (interface{}, error) {
 	return nil, nil
 }
-func (d GoDetector) ParseENVs(context.Context, string) ([]*protos.EnvOutput, error) {
-	return nil, nil
-
-}
-func (d GoDetector) DetectFrameworks(ctx context.Context, runtimeVersion, path string) ([]*protos.FrameworkOutput, error) {
-	languageVersion, _ := versions.ParserVersion(versions.GO)
-	return frameworks.DetectFrameWork(runtimeVersion, path, languageVersion), nil
-}
-func (d GoDetector) DetectDBs(ctx context.Context, version string, path string) (*protos.DBOutput, error) {
-	languageVersion, _ := versions.ParserVersion(versions.GO)
-	return databases.DetectDB(version, path, languageVersion), nil
-}
-func (d GoDetector) DetectORMs(context.Context, string, string) ([]*protos.OrmOutput, error) {
-	return nil, nil
-}
-func (d GoDetector) DetectDependencies(context.Context, string, string) ([]*protos.DependenciesOutput, error) {
+func (d *GoDetector) ParseENVs(context.Context, string) ([]*protos.EnvOutput, error) {
 	return nil, nil
 
 }
-func (d GoDetector) DetectLibraries(context.Context, string, string) ([]*protos.LibrariesOutput, error) {
+func (d *GoDetector) DetectFrameworks(ctx context.Context, runtimeVersion, path string) ([]*protos.FrameworkOutput, error) {
+	return runners.FrameworkRunner(&frameworks.GOFrameworkDetector{}, runtimeVersion, versions.GO, path), nil
+}
+func (d *GoDetector) DetectDBs(ctx context.Context, version string, path string) (*protos.DBOutput, error) {
+	//languageVersion, _ := versions.ParserVersion(versions.GO)
+	//return databases.DetectDB(version, path, languageVersion), nil
 	return nil, nil
 }
-func (d GoDetector) GetStaticAssets(context.Context, string, string) ([]*protos.StaticAssetsOutput, error) {
+func (d *GoDetector) DetectORMs(context.Context, string, string) ([]*protos.OrmOutput, error) {
 	return nil, nil
 }
-func (d GoDetector) GetStack(context.Context, string, string) ([]*protos.StackOutput, error) {
+func (d *GoDetector) DetectDependencies(context.Context, string, string) ([]*protos.DependenciesOutput, error) {
+	return nil, nil
+
+}
+func (d *GoDetector) DetectLibraries(context.Context, string, string) ([]*protos.LibrariesOutput, error) {
 	return nil, nil
 }
-func (d GoDetector) DetectAppserver(context.Context, string, string) ([]*protos.AppserverOutput, error) {
+func (d *GoDetector) GetStaticAssets(context.Context, string, string) ([]*protos.StaticAssetsOutput, error) {
 	return nil, nil
 }
-func (d GoDetector) DetectBuildDirectory(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error) {
+func (d *GoDetector) GetStack(context.Context, string, string) ([]*protos.StackOutput, error) {
 	return nil, nil
 }
-func (d GoDetector) DetectTestCasesRunCommands(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error) {
+func (d *GoDetector) DetectAppserver(context.Context, string, string) ([]*protos.AppserverOutput, error) {
+	return nil, nil
+}
+func (d *GoDetector) DetectBuildDirectory(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error) {
+	return nil, nil
+}
+func (d *GoDetector) DetectTestCasesRunCommands(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error) {
 	return nil, nil
 }
 
-func (d GoDetector) DetectBuildCommands(context.Context, string) ([]*protos.BuildCommandsOutput, error) {
+func (d *GoDetector) DetectBuildCommands(context.Context, string) ([]*protos.BuildCommandsOutput, error) {
 	return nil, nil
 }
-func (d GoDetector) DetectStartUpCommands(context.Context, string) ([]*protos.StartUpCommandsOutput, error) {
+func (d *GoDetector) DetectStartUpCommands(context.Context, string) ([]*protos.StartUpCommandsOutput, error) {
 	return nil, nil
 }
-func (d GoDetector) DetectSeedCommands(context.Context, string) ([]*protos.SeedCommandsOutput, error) {
+func (d *GoDetector) DetectSeedCommands(context.Context, string) ([]*protos.SeedCommandsOutput, error) {
 	return nil, nil
 }
-func (d GoDetector) DetectMigrationCommands(context.Context, string) ([]*protos.MigrationCommandsOutput, error) {
+func (d *GoDetector) DetectMigrationCommands(context.Context, string) ([]*protos.MigrationCommandsOutput, error) {
 	return nil, nil
 }
-func (d GoDetector) DetectAdHocScripts(context.Context, string) (interface{}, error) {
+func (d *GoDetector) DetectAdHocScripts(context.Context, string) (interface{}, error) {
 	return nil, nil
 }

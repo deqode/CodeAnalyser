@@ -2,12 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/code-analyser" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/V_1_X/detector.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/detector.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/runners/frameworkRunner.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/errors.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/logger.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/detector_helpers/helper.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector_helpers/helper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/go/databases/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/databases/detector.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/language_detectors/go/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/detector.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/v_1_6.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/v_2_6.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/V_2_x/detector.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/versions.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/language_detectors/go/frameworks/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/detector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces/interfaces.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/protos/outputs/global/buildCommands.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/global/buildCommands.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/versions/versionDetector.go" beforeDir="false" afterPath="$PROJECT_DIR$/versions/versionDetector.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,11 +85,11 @@
       <recent name="$PROJECT_DIR$/analyser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/language_detectors/interfaces" />
+      <recent name="$PROJECT_DIR$/language_detectors/go/frameworks/beego/V_2_x" />
+      <recent name="$PROJECT_DIR$/language_detectors/go/frameworks/beego/v_1_6" />
+      <recent name="$PROJECT_DIR$/runners" />
       <recent name="$PROJECT_DIR$/protos/outputs/languageSpecific" />
-      <recent name="$PROJECT_DIR$/protos/outputs" />
-      <recent name="$PROJECT_DIR$/language_detectors/go/parsers/go_mod" />
-      <recent name="$PROJECT_DIR$/language_detectors/go" />
-      <recent name="$PROJECT_DIR$/detector_helper" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build code-analyser">

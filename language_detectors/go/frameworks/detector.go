@@ -1,33 +1,23 @@
 package frameworks
 
 import (
-	"code-analyser/detector_helpers"
 	"code-analyser/language_detectors/go/frameworks/beego"
-	"code-analyser/language_detectors/go/parsers/go_mod"
-	protos "code-analyser/protos/pb"
-	"code-analyser/versions"
+	"code-analyser/language_detectors/interfaces"
 )
 
-var frameworks = map[string]map[string]*versions.FrameworkVersionDetector{
-	"beego": beego.BeegoVersions,
+var frameworks = map[string]interfaces.Framework{
+	"beego": &beego.BeegoFramework{},
 }
 
-
-func getDetector(runtimeVersion, root string, languageVersion *protos.LanguageVersion) []*versions.FrameworkVersionDetector {
-	var output []*versions.FrameworkVersionDetector
-	mod, _ := go_mod.ParseGoMod(root + "/go.mod")
-	libraryFound := mod.Required
-	library := libraryFound[0]
-	fwDetector := detector_helpers.FindFrameworkDetector(frameworks[library.Name], languageVersion.Framework)
-	output = append(output, fwDetector)
-	//return Detector
-	return output
+type GOFrameworkDetector struct {
 }
 
-func DetectFrameWork(root, runtimeVersion string, languageVersion *protos.LanguageVersion) []*protos.FrameworkOutput {
-	output := []*protos.FrameworkOutput{}
-	detector := getDetector(root, runtimeVersion, languageVersion)
-	fwDetected, _ := detector[0].Detector(nil, runtimeVersion, root)
-	output = append(output, fwDetected)
-	return output
+func (d *GOFrameworkDetector) GetLibrariesUsed(runtimeVersion, root string) *map[string]string {
+	return &map[string]string{
+		"beego": "1.3",
+	}
+}
+
+func (d *GOFrameworkDetector) GetDetector(libraryVersion, root, libraryUsed string) interfaces.Framework {
+	return frameworks[libraryUsed]
 }

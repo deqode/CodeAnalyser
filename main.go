@@ -2,14 +2,14 @@ package main
 
 import (
 	"code-analyser/analyser"
-	"code-analyser/language_detectors"
 	"code-analyser/language_detectors/go"
-	"log"
+	"code-analyser/language_detectors/interfaces"
+	"code-analyser/utils"
 	"sync"
 )
 
-var languageDetectors = map[string]language_detectors.LanguageSpecificDetector{
-	GO:         _go.GoDetector{},
+var languageDetectors = map[string]interfaces.LanguageSpecificDetector{
+	GO:         &_go.GoDetector{},
 	JAVASCRIPT: nil,
 	PYTHON:     nil,
 }
@@ -26,11 +26,11 @@ func main() {
 	for _, language := range languages {
 		detector := languageDetectors[language.Name]
 		runtimeVersion, _ := detector.DetectRuntime(nil, path)
-		runDetection(detector, runtimeVersion, path)
+		runDetector(detector, runtimeVersion, path)
 	}
 }
 
-func runDetection(detector language_detectors.LanguageSpecificDetector, runtimeVersion, path string) {
+func runDetector(detector interfaces.LanguageSpecificDetector, runtimeVersion, path string) {
 	var wg sync.WaitGroup
 	defer wg.Wait()
 	//
@@ -40,20 +40,20 @@ func runDetection(detector language_detectors.LanguageSpecificDetector, runtimeV
 	//	detector.ParseENVs(nil, path)
 	//	wg.Done()
 	//}()
-	wg.Add(2)
+	wg.Add(1)
 	go func() {
 		fw, err := detector.DetectFrameworks(nil, runtimeVersion, path)
 		if err != nil {
-			log.Println(err)
+			utils.Logger(err)
 		}
-		log.Println(fw)
+		utils.Logger(fw)
 		wg.Done()
 	}()
-	go func() {
-		db, _ := detector.DetectDBs(nil, runtimeVersion, path)
-		log.Println(db)
-		wg.Done()
-	}()
+	//go func() {
+	//	db, _ := detector.DetectDBs(nil, runtimeVersion, path)
+	//	log.Println(db)
+	//	wg.Done()
+	//}()
 	//go func() {
 	//	detector.DetectORMs(nil, version, path)
 	//	wg.Done()

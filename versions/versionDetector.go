@@ -5,12 +5,6 @@ import (
 	"context"
 )
 
-type FrameworkVersionDetector struct {
-	Default  bool
-	Name     string
-	Semver   string
-	Detector func(context.Context, string, string) (*protos.FrameworkOutput, error)
-}
 
 type DBVersionDetector struct {
 	Default  bool
