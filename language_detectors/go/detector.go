@@ -26,6 +26,7 @@ func (d *GoDetector) ParseENVs(context.Context, string) ([]*protos.EnvOutput, er
 
 }
 func (d *GoDetector) DetectFrameworks(ctx context.Context, runtimeVersion, path string) ([]*protos.FrameworkOutput, error) {
+	//TODO:handle errors
 	return runners.FrameworkRunner(&frameworks.GOFrameworkDetector{}, runtimeVersion, versions.GO, path), nil
 }
 func (d *GoDetector) DetectDBs(ctx context.Context, version string, path string) (*protos.DBOutput, error) {

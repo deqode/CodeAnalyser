@@ -5,7 +5,6 @@ import (
 	"context"
 )
 
-
 type DBVersionDetector struct {
 	Default  bool
 	Name     string

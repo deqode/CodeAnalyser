@@ -8,11 +8,11 @@ import (
 )
 
 const (
-	GO = "go.yaml"
+	GO = "./static/versionFile/go.yaml"
 )
 
 func ParserVersion(file string) (*protos.LanguageVersion, error) {
-	filename, _ := filepath.Abs("/home/deqode/Documents/code-analyser/versions/"+file)
+	filename, _ := filepath.Abs("/home/deqode/Documents/code-analyser/versions/" + file)
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err

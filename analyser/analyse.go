@@ -12,7 +12,7 @@ type File struct {
 	Percent float64
 }
 
-var enryLoc="./analyser/"
+var enryLoc = "./static/"
 
 //Analyse returns Files , slice of error, string, error
 func Analyse(path string) ([]File, []string, error) {

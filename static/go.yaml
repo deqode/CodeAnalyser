@@ -14,7 +14,7 @@ framework:
 
   - name: beego
     versions:
-      - name: "v1.8"
+      - name: "v1.x"
         semver: ">=1.x,<=2.x"
       - name: "v2"
         semver: ">=1.x,<=2.x"

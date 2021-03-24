@@ -12,7 +12,7 @@ type Framework interface {
 type FrameworkVersions interface {
 	GetVersionName() string
 	GetSemver() string
-	Detect(runtimeVersion, root string) bool
+	Detect(runtimeVersion, root string) bool //todo: can return FrameworkOutput ?
 	IsFrameworkFound(runtimeVersion, root string) bool
 	IsFrameworkUsed(runtimeVersion, root string) bool
 	PercentOfFrameworkUsed(runtimeVersion, root string) float64

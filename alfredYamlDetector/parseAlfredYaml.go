@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 )
 
-
 func ParserAlfredYmal(path string) (*protos.AlfredYamlOutput, error) {
 	filename, _ := filepath.Abs(path)
 	yamlFile, err := ioutil.ReadFile(filename)

@@ -1,2 +1,1 @@
 package detector_helpers
-

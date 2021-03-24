@@ -19,6 +19,6 @@ func (f *Beego_V_1_X) IsFrameworkUsed(runtimeVersion, root string) bool {
 func (f *Beego_V_1_X) PercentOfFrameworkUsed(runtimeVersion, root string) float64 {
 	return 82.5
 }
-func (f *Beego_V_1_X) GetFrameworkName() string{
+func (f *Beego_V_1_X) GetFrameworkName() string {
 	return "beego"
 }
