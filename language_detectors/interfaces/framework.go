@@ -1,12 +1,14 @@
 package interfaces
 
+import "github.com/hashicorp/go-plugin"
+
 type FrameworkDetector interface {
 	GetLibrariesUsed(runtimeVersion, root string) *map[string]string
 	GetDetector(libraryVersion, root, libraryUsed string) Framework
 }
 
 type Framework interface {
-	GetVersionedDetector(runtimeVersion, languageVersionFile, root string) FrameworkVersionDetector
+	GetVersionedDetector(runtimeVersion, languageVersionFile, root string) (FrameworkVersionDetector,*plugin.Client)
 }
 
 type FrameworkVersions interface {

@@ -5,6 +5,7 @@ import (
 	"code-analyser/language_detectors/interfaces"
 	"code-analyser/language_detectors/go/frameworks/gin/V_1_X"
 	"code-analyser/utils"
+	"github.com/hashicorp/go-plugin"
 )
 
 var ginVersions = []*interfaces.FrameworkVersionDetector{
@@ -26,7 +27,7 @@ type GinFramework struct {
 	Version []*interfaces.FrameworkVersionDetector
 }
 
-func (receiver *GinFramework) GetVersionedDetector(runtimeVersion, languageVersionFile, root string) interfaces.FrameworkVersionDetector {
+func (receiver *GinFramework) GetVersionedDetector(runtimeVersion, languageVersionFile, root string) (interfaces.FrameworkVersionDetector,*plugin.Client) {
 	utils.Logger("GetVersionedDetector function called")
-	return *ginVersions[1]
+	return *ginVersions[1],nil
 }

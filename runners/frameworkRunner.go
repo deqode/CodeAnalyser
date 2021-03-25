@@ -19,13 +19,16 @@ func FrameworkRunner(frameworkDetector interfaces.FrameworkDetector, runtimeVers
 
 // FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func FrameworkDetectorRunner(framework interfaces.Framework, languageVersionFile, runtimeVersion, root string) *protos.FrameworkOutput {
-	versionedFramework := framework.GetVersionedDetector(runtimeVersion, languageVersionFile, root)
+	versionedFramework, client := framework.GetVersionedDetector(runtimeVersion, languageVersionFile, root)
 	versionDetector := versionedFramework.Detector
 	vname, _ := versionDetector.GetVersionName()
 	fname, _ := versionDetector.GetFrameworkName()
 	if _, err := versionDetector.IsFrameworkFound(runtimeVersion, root); err == nil {
 		if _, err := versionDetector.IsFrameworkUsed(runtimeVersion, root); err == nil {
 			if _, err := versionDetector.Detect(runtimeVersion, root); err == nil {
+				if client != nil {
+					client.Kill()
+				}
 				return &protos.FrameworkOutput{
 					Version: vname,
 					Name:    fname,
@@ -34,11 +37,12 @@ func FrameworkDetectorRunner(framework interfaces.Framework, languageVersionFile
 			}
 		}
 	}
-
+	if client != nil {
+		client.Kill()
+	}
 	return &protos.FrameworkOutput{
 		Version: vname,
 		Name:    fname,
 		Used:    false,
 	}
 }
-

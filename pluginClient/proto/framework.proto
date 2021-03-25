@@ -1,6 +1,16 @@
 syntax = "proto3";
 package proto;
-option go_package = "./proto";
+option go_package = "../pb";
+
+message GreetResponse {
+  string message = 1;
+}
+
+message Empty {}
+message  Input {
+  string name = 1;
+}
+
 
 message FrameworkServiceInput {
   string runtimeVersion = 1;
