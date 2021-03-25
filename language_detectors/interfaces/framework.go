@@ -10,13 +10,13 @@ type Framework interface {
 }
 
 type FrameworkVersions interface {
-	GetVersionName() string
-	GetSemver() string
-	Detect(runtimeVersion, root string) bool //todo: can return FrameworkOutput ?
-	IsFrameworkFound(runtimeVersion, root string) bool
-	IsFrameworkUsed(runtimeVersion, root string) bool
-	PercentOfFrameworkUsed(runtimeVersion, root string) float64
-	GetFrameworkName() string
+	GetVersionName() (string, error)
+	GetSemver() (string, error)
+	Detect(runtimeVersion, root string) (bool, error) //todo: can return FrameworkOutput ?
+	IsFrameworkFound(runtimeVersion, root string) (bool, error)
+	IsFrameworkUsed(runtimeVersion, root string) (bool, error)
+	PercentOfFrameworkUsed(runtimeVersion, root string) (int64, error)
+	GetFrameworkName() (string, error)
 }
 
 type FrameworkVersionDetector struct {

@@ -1,7 +1,7 @@
 package versions
 
 import (
-	protos "code-analyser/protos/pb"
+	"code-analyser/protos/protos"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"path/filepath"

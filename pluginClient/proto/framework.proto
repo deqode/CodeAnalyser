@@ -1,0 +1,33 @@
+syntax = "proto3";
+package proto;
+option go_package = "./proto";
+
+message FrameworkServiceInput {
+  string runtimeVersion = 1;
+  string root = 2;
+
+}
+
+message FrameworkServiceEmpty {}
+
+message  FrameworkServiceOutputString {
+  string value = 1;
+}
+message  FrameworkServiceOutputBool {
+  bool value = 1;
+}
+message  FrameworkServiceOutputInt {
+  int64 value = 1;
+}
+
+service FrameworkService {
+  rpc   GetVersionName(FrameworkServiceEmpty) returns (FrameworkServiceOutputString);
+  rpc   GetSemver(FrameworkServiceEmpty) returns (FrameworkServiceOutputString);
+  rpc   Detect(FrameworkServiceInput) returns (FrameworkServiceOutputBool);
+  rpc   IsFrameworkFound(FrameworkServiceInput) returns (FrameworkServiceOutputBool);
+  rpc   IsFrameworkUsed(FrameworkServiceInput) returns (FrameworkServiceOutputBool);
+  rpc   PercentOfFrameworkUsed(FrameworkServiceInput) returns (FrameworkServiceOutputInt);
+  rpc   GetFrameworkName(FrameworkServiceEmpty) returns (FrameworkServiceOutputString);
+}
+
+//    protoc -I .  --proto_path=./proto    --go_out=./pb   --go-grpc_out=./pb ./proto/*.proto

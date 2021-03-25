@@ -1,7 +1,7 @@
 package language_detectors
 
 import (
-	"code-analyser/protos/pb"
+	"code-analyser/protos/protos"
 	"context"
 )
 

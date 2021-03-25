@@ -1,7 +1,7 @@
 package versions
 
 import (
-	protos "code-analyser/protos/pb"
+	"code-analyser/protos/protos"
 	"context"
 )
 

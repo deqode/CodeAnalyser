@@ -1,7 +1,7 @@
 package postgress
 
 import (
-	protos "code-analyser/protos/pb"
+	protos "code-analyser/protos/protos"
 	"context"
 )
 

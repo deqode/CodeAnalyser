@@ -4,9 +4,9 @@ go 1.16
 
 require (
 	github.com/go-cmd/cmd v1.3.0
-	github.com/golang/protobuf v1.4.3
-	github.com/kr/pretty v0.1.0 // indirect
-	google.golang.org/protobuf v1.25.0
-	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
+	github.com/hashicorp/go-hclog v0.14.1 // indirect
+	github.com/hashicorp/go-plugin v1.4.0
+	google.golang.org/grpc v1.36.0
+	google.golang.org/protobuf v1.26.0
 	gopkg.in/yaml.v2 v2.4.0
 )

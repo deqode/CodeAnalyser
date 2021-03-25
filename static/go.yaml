@@ -11,13 +11,18 @@ framework:
         semver: ">=1.x,<2.x"
       - name: "v2.x"
         semver: ">=2.x,<=3.x"
+        type: "grpc"
+        path: "command to grpc"
 
-  - name: beego
+  - name: main
     versions:
       - name: "v1.x"
         semver: ">=1.x,<=2.x"
       - name: "v2"
         semver: ">=1.x,<=2.x"
+        type: "local"
+        path: "."
+
 
 databases:
   - name: postgress
