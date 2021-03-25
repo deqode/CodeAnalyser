@@ -84,11 +84,11 @@
       <recent name="$PROJECT_DIR$/analyser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pluginClient" />
+      <recent name="$PROJECT_DIR$/protos/pb" />
       <recent name="$PROJECT_DIR$/pluginClient/python/framework" />
       <recent name="$PROJECT_DIR$/static" />
       <recent name="$PROJECT_DIR$/language_detectors/interfaces" />
-      <recent name="$PROJECT_DIR$/language_detectors/go/frameworks/beego/V_2_x" />
-      <recent name="$PROJECT_DIR$/language_detectors/go/frameworks/beego/v_1_6" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build main.go">

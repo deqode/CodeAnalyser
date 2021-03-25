@@ -3,7 +3,7 @@ package _go
 import (
 	"code-analyser/language_detectors/go/databases"
 	"code-analyser/language_detectors/go/frameworks"
-	protos "code-analyser/protos/pb"
+	 "code-analyser/protos/protos"
 	"code-analyser/runners"
 	"code-analyser/versions"
 	"context"

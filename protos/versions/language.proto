@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = ".;protos";
+option go_package = "./protos";
 
 
 message LanguageVersion{
@@ -21,4 +21,14 @@ message Versions {
 message Semver{
   string name = 1;
   string semver = 2;
+  enum Type{
+    local = 0;
+    grpc = 1;
+  }
+  Type type = 3;
+  string path = 4;
 }
+
+
+
+//    protoc --go_out=./protos/pb **/*.proto

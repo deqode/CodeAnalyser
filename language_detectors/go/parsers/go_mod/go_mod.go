@@ -15,7 +15,7 @@ type Package struct {
 func ParseGoMod(modFile string) (*GoMod, error) {
 	return &GoMod{
 		Required: []*Package{
-			{"beego", "1.6", false},
+			{"main", "1.6", false},
 		},
 	}, nil
 }
