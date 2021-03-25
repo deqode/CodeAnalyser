@@ -11,7 +11,7 @@ import (
 func RunDetectors(detector interfaces.LanguageSpecificDetector, runtimeVersion, path string) {
 	var wg sync.WaitGroup
 	defer wg.Wait()
-	wg.Add(2)
+	wg.Add(3)
 	go func() {
 		fw, err := detector.DetectFrameworks(nil, runtimeVersion, path)
 		if err != nil {
@@ -22,6 +22,14 @@ func RunDetectors(detector interfaces.LanguageSpecificDetector, runtimeVersion, 
 	}()
 	go func() {
 		fw, err := detector.DetectDBs(nil, runtimeVersion, path)
+		if err != nil {
+			utils.Logger(err)
+		}
+		utils.Logger(fw)
+		wg.Done()
+	}()
+	go func() {
+		fw, err := detector.DetectORMs(nil, runtimeVersion, path)
 		if err != nil {
 			utils.Logger(err)
 		}
