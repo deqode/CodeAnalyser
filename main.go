@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	path := "/home/deqode/Documents/basic_repo/beegoRepo"
+	path := "/home/deqode/Desktop/testingdir"
 	Scrape(path)
 }
 

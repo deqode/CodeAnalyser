@@ -1,6 +1,7 @@
 package _go
 
 import (
+	"code-analyser/language_detectors/go/databases"
 	"code-analyser/language_detectors/go/frameworks"
 	protos "code-analyser/protos/pb"
 	"code-analyser/runners"
@@ -29,10 +30,10 @@ func (d *GoDetector) DetectFrameworks(ctx context.Context, runtimeVersion, path 
 	//TODO:handle errors
 	return runners.FrameworkRunner(&frameworks.GOFrameworkDetector{}, runtimeVersion, versions.GO, path), nil
 }
-func (d *GoDetector) DetectDBs(ctx context.Context, version string, path string) (*protos.DBOutput, error) {
+func (d *GoDetector) DetectDBs(ctx context.Context, runtimeVersion string, path string) (*protos.DBOutput, error) {
 	//languageVersion, _ := versions.ParserVersion(versions.GO)
 	//return databases.DetectDB(version, path, languageVersion), nil
-	return nil, nil
+	return runners.DbRunner(&databases.GODbDetector{}, runtimeVersion, versions.GO, path), nil
 }
 func (d *GoDetector) DetectORMs(context.Context, string, string) ([]*protos.OrmOutput, error) {
 	return nil, nil
