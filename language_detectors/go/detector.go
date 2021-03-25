@@ -31,8 +31,8 @@ func (d *GoDetector) DetectFrameworks(ctx context.Context, runtimeVersion, path 
 	return runners.FrameworkRunner(&frameworks.GOFrameworkDetector{}, runtimeVersion, versions.GO, path), nil
 }
 func (d *GoDetector) DetectDBs(ctx context.Context, runtimeVersion string, path string) (*protos.DBOutput, error) {
-	//languageVersion, _ := versions.ParserVersion(versions.GO)
-	//return databases.DetectDB(version, path, languageVersion), nil
+	//TODO:handle errors
+
 	return runners.DbRunner(&databases.GODbDetector{}, runtimeVersion, versions.GO, path), nil
 }
 func (d *GoDetector) DetectORMs(context.Context, string, string) ([]*protos.OrmOutput, error) {

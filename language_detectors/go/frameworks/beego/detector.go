@@ -3,8 +3,6 @@ package beego
 import (
 	"code-analyser/language_detectors/go/frameworks/beego/V_1_X"
 	"code-analyser/language_detectors/interfaces"
-	"code-analyser/pluginClient"
-	"os/exec"
 )
 
 var beegoVersions = []*interfaces.FrameworkVersionDetector{
@@ -23,7 +21,7 @@ func (f *BeegoFramework) GetVersionedDetector(runtimeVersion, languageVersionFil
 	///home/deqode/Documents/code-analyser/plugin/go/main
 
 	////TODO: need to add semver check and return correct version
-	pluginClient.FrameworkPluginCall(exec.Command("sh", "-c", "./plugin/go/beego/main"))
+	//pluginClient.FrameworkPluginCall(exec.Command("sh", "-c", "./plugin/go/beego/main"))
 
 	return *beegoVersions[0]
 }

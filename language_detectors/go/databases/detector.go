@@ -3,6 +3,7 @@ package databases
 import (
 	"code-analyser/language_detectors/go/databases/postgres"
 	"code-analyser/language_detectors/interfaces"
+	"code-analyser/utils"
 )
 
 var databases = map[string]interfaces.Db{
@@ -13,6 +14,7 @@ type GODbDetector struct {
 }
 
 func (receiver *GODbDetector) GetDetector(libraryVersion, root, dbUsed string) interfaces.Db{
+	utils.Logger("dbUsed",dbUsed)
 	return databases[dbUsed]
 }
 

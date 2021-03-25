@@ -20,5 +20,5 @@ func (f *Beego_V_1_X) PercentOfFrameworkUsed(runtimeVersion, root string) (int64
 	return 82, nil
 }
 func (f *Beego_V_1_X) GetFrameworkName() (string, error) {
-	return "main", nil
+	return "beego", nil
 }

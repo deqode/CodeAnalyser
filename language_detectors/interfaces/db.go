@@ -9,13 +9,13 @@ type DbVersionDetector struct {
 }
 
 type DbVersion interface {
-	GetVersionName() string
-	GetSemver() string
-	Detect(runtimeVersion ,root string) (bool,int64)  // deep level detection
-	IsDbUsed(runtimeVersion ,root string) bool
-	IsDbFound(runtimeVersion ,root string) bool
-	GetDbName() string
-	PercentOfDbUsed(runtimeVersion ,root string) float64
+	GetVersionName() (string,error)
+	GetSemver() (string,error)
+	Detect(runtimeVersion ,root string) (bool,int64,error)  // deep level detection
+	IsDbUsed(runtimeVersion ,root string) (bool,error)
+	IsDbFound(runtimeVersion ,root string) (bool,error)
+	GetDbName() (string,error)
+	PercentOfDbUsed(runtimeVersion ,root string) (float64,error)
 }
 
 type Db interface {
