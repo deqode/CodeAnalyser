@@ -1,12 +1,27 @@
 package databases
 
 import (
-	postgress "code-analyser/language_detectors/go/databases/postgres"
-	"code-analyser/versions"
+	"code-analyser/language_detectors/go/databases/postgres"
+	"code-analyser/language_detectors/interfaces"
+	"code-analyser/utils"
 )
 
-var databases = map[string]map[string]*versions.DBVersionDetector{
-	"postgres": postgress.PostgresVersions,
+var databases = map[string]interfaces.Db{
+	"postgres":&postgres.PostgresDb{},
+}
+
+type GODbDetector struct {
+}
+
+func (receiver *GODbDetector) GetDetector(libraryVersion, root, dbUsed string) interfaces.Db{
+	utils.Logger("dbUsed",dbUsed)
+	return databases[dbUsed]
+}
+
+func (receiver *GODbDetector) GetLibraryUsed(runtimeVersion, root string) *map[string]string {
+	return &map[string]string{
+		"postgres": "1.5",
+	}
 }
 
 //func getDetector(root, version string, languageVersion *protos.LanguageVersion) []*versions.DBVersionDetector {

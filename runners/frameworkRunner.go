@@ -3,8 +3,6 @@ package runners
 import (
 	"code-analyser/language_detectors/interfaces"
 	"code-analyser/protos/protos"
-	"code-analyser/utils"
-	"sync"
 )
 
 //FrameworkRunner will run to find Frameworks & returns its detectors.
@@ -23,15 +21,14 @@ func FrameworkRunner(frameworkDetector interfaces.FrameworkDetector, runtimeVers
 func FrameworkDetectorRunner(framework interfaces.Framework, languageVersionFile, runtimeVersion, root string) *protos.FrameworkOutput {
 	versionedFramework := framework.GetVersionedDetector(runtimeVersion, languageVersionFile, root)
 	versionDetector := versionedFramework.Detector
-	v, _ := versionDetector.GetVersionName()
 	vname, _ := versionDetector.GetVersionName()
-	if _, err := versionDetector.IsFrameworkFound(runtimeVersion, root); err != nil {
-		if _, err := versionDetector.IsFrameworkUsed(runtimeVersion, root); err != nil {
-			if _, err := versionDetector.Detect(runtimeVersion, root); err != nil {
-
+	fname, _ := versionDetector.GetFrameworkName()
+	if _, err := versionDetector.IsFrameworkFound(runtimeVersion, root); err == nil {
+		if _, err := versionDetector.IsFrameworkUsed(runtimeVersion, root); err == nil {
+			if _, err := versionDetector.Detect(runtimeVersion, root); err == nil {
 				return &protos.FrameworkOutput{
-					Version: v,
-					Name:    vname,
+					Version: vname,
+					Name:    fname,
 					Used:    true,
 				}
 			}
@@ -39,25 +36,9 @@ func FrameworkDetectorRunner(framework interfaces.Framework, languageVersionFile
 	}
 
 	return &protos.FrameworkOutput{
-		Version: v,
-		Name:    vname,
+		Version: vname,
+		Name:    fname,
 		Used:    false,
 	}
 }
 
-// RunDetectors will run all the language specific detectors & returns language wise output to decision maker
-// Must be called independently on detection of language
-func RunDetectors(detector interfaces.LanguageSpecificDetector, runtimeVersion, path string) {
-	var wg sync.WaitGroup
-	defer wg.Wait()
-	wg.Add(1)
-	go func() {
-		fw, err := detector.DetectFrameworks(nil, runtimeVersion, path)
-		if err != nil {
-			utils.Logger(err)
-		}
-		utils.Logger(fw)
-		wg.Done()
-	}()
-
-}

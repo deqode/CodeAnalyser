@@ -2,11 +2,14 @@ package frameworks
 
 import (
 	"code-analyser/language_detectors/go/frameworks/beego"
+	"code-analyser/language_detectors/go/frameworks/gin"
 	"code-analyser/language_detectors/interfaces"
 )
 
 var frameworks = map[string]interfaces.Framework{
-	"main": &beego.BeegoFramework{},
+	"beego": &beego.BeegoFramework{},
+	"gin": &gin.GinFramework{},
+
 }
 
 type GOFrameworkDetector struct {
@@ -14,7 +17,8 @@ type GOFrameworkDetector struct {
 
 func (d *GOFrameworkDetector) GetLibrariesUsed(runtimeVersion, root string) *map[string]string {
 	return &map[string]string{
-		"main": "1.3",
+		"beego": "1.3",
+		"gin":"2.5",
 	}
 }
 
