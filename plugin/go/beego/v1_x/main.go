@@ -3,32 +3,59 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/framework"
+	"code-analyser/pluginClient/pb"
 	"github.com/hashicorp/go-plugin"
 )
 
 type Beego_V_1_x struct{}
 
-func (*Beego_V_1_x) GetVersionName() (string, error) {
-	return "1.4", nil
+func (b Beego_V_1_x) GetVersionName() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: "1.x",
+	}, nil
 }
 
-func (*Beego_V_1_x) GetSemver() (string, error)                       { return ">=2.x", nil }
-func (*Beego_V_1_x) Detect(runtimeVersion, root string) (bool, error) { return true, nil }
-
-func (g *Beego_V_1_x) IsFrameworkFound(runtimeVersion, root string) (bool, error) {
-	return true, nil
+func (b Beego_V_1_x) GetSemver() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: ">=2.x",
+	}, nil
 }
 
-func (g *Beego_V_1_x) IsFrameworkUsed(runtimeVersion, root string) (bool, error) {
-	return true, nil
+func (b Beego_V_1_x) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
 }
 
-func (g *Beego_V_1_x) PercentOfFrameworkUsed(runtimeVersion, root string) (int64, error) {
-	return 92, nil
+func (b Beego_V_1_x) IsFrameworkFound(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
 }
 
-func (g *Beego_V_1_x) GetFrameworkName() (string, error) {
-	return "beego", nil
+func (b Beego_V_1_x) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
+}
+
+func (b Beego_V_1_x) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputInt, error) {
+	return &pb.ServiceOutputInt{
+		Error: nil,
+		Value: 88,
+	}, nil
+}
+
+func (b Beego_V_1_x) GetFrameworkName() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: "beego",
+	}, nil
 }
 
 func main() {

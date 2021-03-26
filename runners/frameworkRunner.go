@@ -2,6 +2,7 @@ package runners
 
 import (
 	"code-analyser/language_detectors/interfaces"
+	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 )
 
@@ -26,13 +27,14 @@ func FrameworkDetectorRunner(framework interfaces.Framework, languageVersionFile
 	versionDetector := versionedFramework.Detector
 	vname, _ := versionDetector.GetVersionName()
 	fname, _ := versionDetector.GetFrameworkName()
-	if _, err := versionDetector.IsFrameworkFound(runtimeVersion, root); err == nil {
-		if _, err := versionDetector.IsFrameworkUsed(runtimeVersion, root); err == nil {
-			if _, err := versionDetector.Detect(runtimeVersion, root); err == nil {
+	input := &pb.ServiceInput{Root: root, RuntimeVersion: runtimeVersion}
+	if _, err := versionDetector.IsFrameworkFound(input); err == nil {
+		if _, err := versionDetector.IsFrameworkUsed(input); err == nil {
+			if _, err := versionDetector.Detect(input); err == nil {
 
 				return &protos.FrameworkOutput{
-					Version: vname,
-					Name:    fname,
+					Version: vname.Value,
+					Name:    fname.Value,
 					Used:    true,
 				}
 			}
@@ -40,8 +42,8 @@ func FrameworkDetectorRunner(framework interfaces.Framework, languageVersionFile
 	}
 
 	return &protos.FrameworkOutput{
-		Version: vname,
-		Name:    fname,
+		Version: vname.Value,
+		Name:    fname.Value,
 		Used:    false,
 	}
 }

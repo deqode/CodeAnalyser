@@ -1,6 +1,9 @@
 package interfaces
 
-import "github.com/hashicorp/go-plugin"
+import (
+	"code-analyser/pluginClient/pb"
+	"github.com/hashicorp/go-plugin"
+)
 
 type FrameworkDetector interface {
 	GetLibrariesUsed(runtimeVersion, root string) *map[string]string
@@ -8,17 +11,17 @@ type FrameworkDetector interface {
 }
 
 type Framework interface {
-	GetVersionedDetector(runtimeVersion, languageVersionFile, root string) (FrameworkVersionDetector,*plugin.Client)
+	GetVersionedDetector(runtimeVersion, languageVersionFile, root string) (FrameworkVersionDetector, *plugin.Client)
 }
 
 type FrameworkVersions interface {
-	GetVersionName() (string, error)
-	GetSemver() (string, error)
-	Detect(runtimeVersion, root string) (bool, error) //todo: can return FrameworkOutput ?
-	IsFrameworkFound(runtimeVersion, root string) (bool, error)
-	IsFrameworkUsed(runtimeVersion, root string) (bool, error)
-	PercentOfFrameworkUsed(runtimeVersion, root string) (int64, error)
-	GetFrameworkName() (string, error)
+	GetVersionName() (*pb.ServiceOutputString, error)
+	GetSemver() (*pb.ServiceOutputString, error)
+	Detect(*pb.ServiceInput) (*pb.ServiceOutputBool, error) //todo: can return FrameworkOutput ?
+	IsFrameworkFound(*pb.ServiceInput) (*pb.ServiceOutputBool, error)
+	IsFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputBool, error)
+	PercentOfFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputInt, error)
+	GetFrameworkName() (*pb.ServiceOutputString, error)
 }
 
 type FrameworkVersionDetector struct {

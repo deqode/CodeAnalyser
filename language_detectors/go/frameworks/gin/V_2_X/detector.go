@@ -1,34 +1,55 @@
 package V_2_X
 
+import "code-analyser/pluginClient/pb"
+
 type Gin_V_2_X struct {
-
 }
 
-func (receiver *Gin_V_2_X) GetVersionName() (string,error)  {
-	return "v2.x",nil
+func (b *Gin_V_2_X) GetVersionName() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: "2.x",
+	}, nil
 }
 
-func (receiver *Gin_V_2_X) GetSemver() (string,error)  {
-	return ">=2.x,<3.x",nil
+func (b *Gin_V_2_X) GetSemver() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: ">=2.x",
+	}, nil
 }
 
-func (receiver *Gin_V_2_X) Detect(runtimeVersion,root string) (bool,error) {
-	//TODO implement
-	return true,nil
+func (b *Gin_V_2_X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
 }
 
-func (receiver *Gin_V_2_X) GetFrameworkName() (string,error) {
-	return "gin",nil
+func (b *Gin_V_2_X) IsFrameworkFound(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
 }
 
-func (receiver *Gin_V_2_X) IsFrameworkFound(runtimeVersion, root string) (bool,error) {
-	return true,nil
+func (b *Gin_V_2_X) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
 }
 
-func (receiver *Gin_V_2_X) IsFrameworkUsed(runtimeVersion, root string) (bool,error) {
-	return true,nil
+func (b *Gin_V_2_X) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputInt, error) {
+	return &pb.ServiceOutputInt{
+		Error: nil,
+		Value: 88,
+	}, nil
 }
 
-func (receiver *Gin_V_2_X) PercentOfFrameworkUsed(runtimeVersion, root string) (int64,error) {
-	return 78,nil
+func (b *Gin_V_2_X) GetFrameworkName() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: "gin",
+	}, nil
 }

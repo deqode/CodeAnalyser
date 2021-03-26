@@ -1,24 +1,55 @@
 package V_1_X
 
+import "code-analyser/pluginClient/pb"
+
 type Beego_V_1_X struct {
 }
 
-func (d *Beego_V_1_X) GetVersionName() (string, error) { return "v1.x", nil }
-func (d *Beego_V_1_X) GetSemver() (string, error)      { return ">=1.x,<2.x", nil }
-func (d *Beego_V_1_X) Detect(runtimeVersion, root string) (bool, error) {
-	//TODO: write detection here
-	return true, nil
+func (b *Beego_V_1_X) GetVersionName() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: "1.x",
+	}, nil
 }
 
-func (f *Beego_V_1_X) IsFrameworkFound(runtimeVersion, root string) (bool, error) {
-	return true, nil
+func (b Beego_V_1_X) GetSemver() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: ">=2.x",
+	}, nil
 }
-func (f *Beego_V_1_X) IsFrameworkUsed(runtimeVersion, root string) (bool, error) {
-	return true, nil
+
+func (b *Beego_V_1_X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
 }
-func (f *Beego_V_1_X) PercentOfFrameworkUsed(runtimeVersion, root string) (int64, error) {
-	return 82, nil
+
+func (b *Beego_V_1_X) IsFrameworkFound(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
 }
-func (f *Beego_V_1_X) GetFrameworkName() (string, error) {
-	return "beego", nil
+
+func (b *Beego_V_1_X) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+	return &pb.ServiceOutputBool{
+		Error: nil,
+		Value: true,
+	}, nil
+}
+
+func (b *Beego_V_1_X) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputInt, error) {
+	return &pb.ServiceOutputInt{
+		Error: nil,
+		Value: 88,
+	}, nil
+}
+
+func (b *Beego_V_1_X) GetFrameworkName() (*pb.ServiceOutputString, error) {
+	return &pb.ServiceOutputString{
+		Error: nil,
+		Value: "beego",
+	}, nil
 }
