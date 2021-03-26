@@ -18,13 +18,13 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FrameworkServiceClient interface {
-	GetVersionName(ctx context.Context, in *FrameworkServiceEmpty, opts ...grpc.CallOption) (*FrameworkServiceOutputString, error)
-	GetSemver(ctx context.Context, in *FrameworkServiceEmpty, opts ...grpc.CallOption) (*FrameworkServiceOutputString, error)
-	Detect(ctx context.Context, in *FrameworkServiceInput, opts ...grpc.CallOption) (*FrameworkServiceOutputBool, error)
-	IsFrameworkFound(ctx context.Context, in *FrameworkServiceInput, opts ...grpc.CallOption) (*FrameworkServiceOutputBool, error)
-	IsFrameworkUsed(ctx context.Context, in *FrameworkServiceInput, opts ...grpc.CallOption) (*FrameworkServiceOutputBool, error)
-	PercentOfFrameworkUsed(ctx context.Context, in *FrameworkServiceInput, opts ...grpc.CallOption) (*FrameworkServiceOutputInt, error)
-	GetFrameworkName(ctx context.Context, in *FrameworkServiceEmpty, opts ...grpc.CallOption) (*FrameworkServiceOutputString, error)
+	GetVersionName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
+	GetSemver(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
+	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
+	IsFrameworkFound(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
+	IsFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
+	PercentOfFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputInt, error)
+	GetFrameworkName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
 }
 
 type frameworkServiceClient struct {
@@ -35,8 +35,8 @@ func NewFrameworkServiceClient(cc grpc.ClientConnInterface) FrameworkServiceClie
 	return &frameworkServiceClient{cc}
 }
 
-func (c *frameworkServiceClient) GetVersionName(ctx context.Context, in *FrameworkServiceEmpty, opts ...grpc.CallOption) (*FrameworkServiceOutputString, error) {
-	out := new(FrameworkServiceOutputString)
+func (c *frameworkServiceClient) GetVersionName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
+	out := new(ServiceOutputString)
 	err := c.cc.Invoke(ctx, "/proto.FrameworkService/GetVersionName", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -44,8 +44,8 @@ func (c *frameworkServiceClient) GetVersionName(ctx context.Context, in *Framewo
 	return out, nil
 }
 
-func (c *frameworkServiceClient) GetSemver(ctx context.Context, in *FrameworkServiceEmpty, opts ...grpc.CallOption) (*FrameworkServiceOutputString, error) {
-	out := new(FrameworkServiceOutputString)
+func (c *frameworkServiceClient) GetSemver(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
+	out := new(ServiceOutputString)
 	err := c.cc.Invoke(ctx, "/proto.FrameworkService/GetSemver", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -53,8 +53,8 @@ func (c *frameworkServiceClient) GetSemver(ctx context.Context, in *FrameworkSer
 	return out, nil
 }
 
-func (c *frameworkServiceClient) Detect(ctx context.Context, in *FrameworkServiceInput, opts ...grpc.CallOption) (*FrameworkServiceOutputBool, error) {
-	out := new(FrameworkServiceOutputBool)
+func (c *frameworkServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
+	out := new(ServiceOutputBool)
 	err := c.cc.Invoke(ctx, "/proto.FrameworkService/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,8 +62,8 @@ func (c *frameworkServiceClient) Detect(ctx context.Context, in *FrameworkServic
 	return out, nil
 }
 
-func (c *frameworkServiceClient) IsFrameworkFound(ctx context.Context, in *FrameworkServiceInput, opts ...grpc.CallOption) (*FrameworkServiceOutputBool, error) {
-	out := new(FrameworkServiceOutputBool)
+func (c *frameworkServiceClient) IsFrameworkFound(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
+	out := new(ServiceOutputBool)
 	err := c.cc.Invoke(ctx, "/proto.FrameworkService/IsFrameworkFound", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -71,8 +71,8 @@ func (c *frameworkServiceClient) IsFrameworkFound(ctx context.Context, in *Frame
 	return out, nil
 }
 
-func (c *frameworkServiceClient) IsFrameworkUsed(ctx context.Context, in *FrameworkServiceInput, opts ...grpc.CallOption) (*FrameworkServiceOutputBool, error) {
-	out := new(FrameworkServiceOutputBool)
+func (c *frameworkServiceClient) IsFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
+	out := new(ServiceOutputBool)
 	err := c.cc.Invoke(ctx, "/proto.FrameworkService/IsFrameworkUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (c *frameworkServiceClient) IsFrameworkUsed(ctx context.Context, in *Framew
 	return out, nil
 }
 
-func (c *frameworkServiceClient) PercentOfFrameworkUsed(ctx context.Context, in *FrameworkServiceInput, opts ...grpc.CallOption) (*FrameworkServiceOutputInt, error) {
-	out := new(FrameworkServiceOutputInt)
+func (c *frameworkServiceClient) PercentOfFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputInt, error) {
+	out := new(ServiceOutputInt)
 	err := c.cc.Invoke(ctx, "/proto.FrameworkService/PercentOfFrameworkUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -89,8 +89,8 @@ func (c *frameworkServiceClient) PercentOfFrameworkUsed(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *frameworkServiceClient) GetFrameworkName(ctx context.Context, in *FrameworkServiceEmpty, opts ...grpc.CallOption) (*FrameworkServiceOutputString, error) {
-	out := new(FrameworkServiceOutputString)
+func (c *frameworkServiceClient) GetFrameworkName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
+	out := new(ServiceOutputString)
 	err := c.cc.Invoke(ctx, "/proto.FrameworkService/GetFrameworkName", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -102,13 +102,13 @@ func (c *frameworkServiceClient) GetFrameworkName(ctx context.Context, in *Frame
 // All implementations must embed UnimplementedFrameworkServiceServer
 // for forward compatibility
 type FrameworkServiceServer interface {
-	GetVersionName(context.Context, *FrameworkServiceEmpty) (*FrameworkServiceOutputString, error)
-	GetSemver(context.Context, *FrameworkServiceEmpty) (*FrameworkServiceOutputString, error)
-	Detect(context.Context, *FrameworkServiceInput) (*FrameworkServiceOutputBool, error)
-	IsFrameworkFound(context.Context, *FrameworkServiceInput) (*FrameworkServiceOutputBool, error)
-	IsFrameworkUsed(context.Context, *FrameworkServiceInput) (*FrameworkServiceOutputBool, error)
-	PercentOfFrameworkUsed(context.Context, *FrameworkServiceInput) (*FrameworkServiceOutputInt, error)
-	GetFrameworkName(context.Context, *FrameworkServiceEmpty) (*FrameworkServiceOutputString, error)
+	GetVersionName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
+	GetSemver(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
+	Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error)
+	IsFrameworkFound(context.Context, *ServiceInput) (*ServiceOutputBool, error)
+	IsFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
+	PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputInt, error)
+	GetFrameworkName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
 	//mustEmbedUnimplementedFrameworkServiceServer()
 }
 
@@ -116,25 +116,25 @@ type FrameworkServiceServer interface {
 type UnimplementedFrameworkServiceServer struct {
 }
 
-func (UnimplementedFrameworkServiceServer) GetVersionName(context.Context, *FrameworkServiceEmpty) (*FrameworkServiceOutputString, error) {
+func (UnimplementedFrameworkServiceServer) GetVersionName(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVersionName not implemented")
 }
-func (UnimplementedFrameworkServiceServer) GetSemver(context.Context, *FrameworkServiceEmpty) (*FrameworkServiceOutputString, error) {
+func (UnimplementedFrameworkServiceServer) GetSemver(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSemver not implemented")
 }
-func (UnimplementedFrameworkServiceServer) Detect(context.Context, *FrameworkServiceInput) (*FrameworkServiceOutputBool, error) {
+func (UnimplementedFrameworkServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedFrameworkServiceServer) IsFrameworkFound(context.Context, *FrameworkServiceInput) (*FrameworkServiceOutputBool, error) {
+func (UnimplementedFrameworkServiceServer) IsFrameworkFound(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsFrameworkFound not implemented")
 }
-func (UnimplementedFrameworkServiceServer) IsFrameworkUsed(context.Context, *FrameworkServiceInput) (*FrameworkServiceOutputBool, error) {
+func (UnimplementedFrameworkServiceServer) IsFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsFrameworkUsed not implemented")
 }
-func (UnimplementedFrameworkServiceServer) PercentOfFrameworkUsed(context.Context, *FrameworkServiceInput) (*FrameworkServiceOutputInt, error) {
+func (UnimplementedFrameworkServiceServer) PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputInt, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfFrameworkUsed not implemented")
 }
-func (UnimplementedFrameworkServiceServer) GetFrameworkName(context.Context, *FrameworkServiceEmpty) (*FrameworkServiceOutputString, error) {
+func (UnimplementedFrameworkServiceServer) GetFrameworkName(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFrameworkName not implemented")
 }
 func (UnimplementedFrameworkServiceServer) mustEmbedUnimplementedFrameworkServiceServer() {}
@@ -151,7 +151,7 @@ func RegisterFrameworkServiceServer(s grpc.ServiceRegistrar, srv FrameworkServic
 }
 
 func _FrameworkService_GetVersionName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FrameworkServiceEmpty)
+	in := new(ServiceEmpty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -163,13 +163,13 @@ func _FrameworkService_GetVersionName_Handler(srv interface{}, ctx context.Conte
 		FullMethod: "/proto.FrameworkService/GetVersionName",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).GetVersionName(ctx, req.(*FrameworkServiceEmpty))
+		return srv.(FrameworkServiceServer).GetVersionName(ctx, req.(*ServiceEmpty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _FrameworkService_GetSemver_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FrameworkServiceEmpty)
+	in := new(ServiceEmpty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -181,13 +181,13 @@ func _FrameworkService_GetSemver_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: "/proto.FrameworkService/GetSemver",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).GetSemver(ctx, req.(*FrameworkServiceEmpty))
+		return srv.(FrameworkServiceServer).GetSemver(ctx, req.(*ServiceEmpty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _FrameworkService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FrameworkServiceInput)
+	in := new(ServiceInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -199,13 +199,13 @@ func _FrameworkService_Detect_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/proto.FrameworkService/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).Detect(ctx, req.(*FrameworkServiceInput))
+		return srv.(FrameworkServiceServer).Detect(ctx, req.(*ServiceInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _FrameworkService_IsFrameworkFound_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FrameworkServiceInput)
+	in := new(ServiceInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -217,13 +217,13 @@ func _FrameworkService_IsFrameworkFound_Handler(srv interface{}, ctx context.Con
 		FullMethod: "/proto.FrameworkService/IsFrameworkFound",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).IsFrameworkFound(ctx, req.(*FrameworkServiceInput))
+		return srv.(FrameworkServiceServer).IsFrameworkFound(ctx, req.(*ServiceInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _FrameworkService_IsFrameworkUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FrameworkServiceInput)
+	in := new(ServiceInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -235,13 +235,13 @@ func _FrameworkService_IsFrameworkUsed_Handler(srv interface{}, ctx context.Cont
 		FullMethod: "/proto.FrameworkService/IsFrameworkUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).IsFrameworkUsed(ctx, req.(*FrameworkServiceInput))
+		return srv.(FrameworkServiceServer).IsFrameworkUsed(ctx, req.(*ServiceInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _FrameworkService_PercentOfFrameworkUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FrameworkServiceInput)
+	in := new(ServiceInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -253,13 +253,13 @@ func _FrameworkService_PercentOfFrameworkUsed_Handler(srv interface{}, ctx conte
 		FullMethod: "/proto.FrameworkService/PercentOfFrameworkUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).PercentOfFrameworkUsed(ctx, req.(*FrameworkServiceInput))
+		return srv.(FrameworkServiceServer).PercentOfFrameworkUsed(ctx, req.(*ServiceInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _FrameworkService_GetFrameworkName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FrameworkServiceEmpty)
+	in := new(ServiceEmpty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -271,7 +271,7 @@ func _FrameworkService_GetFrameworkName_Handler(srv interface{}, ctx context.Con
 		FullMethod: "/proto.FrameworkService/GetFrameworkName",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).GetFrameworkName(ctx, req.(*FrameworkServiceEmpty))
+		return srv.(FrameworkServiceServer).GetFrameworkName(ctx, req.(*ServiceEmpty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

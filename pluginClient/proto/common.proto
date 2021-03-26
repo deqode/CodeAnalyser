@@ -1,0 +1,20 @@
+syntax = "proto3";
+package proto;
+option go_package = "../pb";
+
+message ServiceEmpty {}
+message  ServiceOutputString {
+  string value = 1;
+}
+
+message  ServiceOutputInt {
+  int64 value = 1;
+}
+message  ServiceOutputBool {
+  bool value = 1;
+}
+
+message ServiceInput {
+  string runtimeVersion = 1;
+  string root = 2;
+}

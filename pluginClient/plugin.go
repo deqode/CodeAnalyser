@@ -12,9 +12,11 @@ import (
 )
 
 var PluginDispenserFramework = "framework"
+var PluginDispenserDB = "db"
+
 
 var PluginMap = map[string]plugin.Plugin{
-	PluginDispenserFramework: &framework.GreeterGRPCPlugin{},
+	PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
 }
 
 var HandshakeConfig = plugin.HandshakeConfig{
@@ -25,7 +27,7 @@ var HandshakeConfig = plugin.HandshakeConfig{
 var logger = hclog.New(&hclog.LoggerOptions{
 	Name:   "plugin",
 	Output: os.Stdout,
-	Level:  hclog.Error,
+	Level:  hclog.Debug,
 })
 
 func makeClient(cmd *exec.Cmd, pluginDispenser string, ) (interface{}, *plugin.Client) {
@@ -52,6 +54,3 @@ func FrameworkPluginCall(cmd *exec.Cmd, ) (interfaces.FrameworkVersions, *plugin
 	return raw.(interfaces.FrameworkVersions), client
 }
 
-func ShutDown(client *plugin.Client) {
-	client.Kill()
-}

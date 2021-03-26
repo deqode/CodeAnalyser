@@ -12,7 +12,7 @@ framework:
       - name: "v2.x"
         semver: ">=2.x,<=3.x"
         type: "grpc"
-        path: "command to grpc"
+        path: "command to grpc plugin"
 
   - name: main
     versions:

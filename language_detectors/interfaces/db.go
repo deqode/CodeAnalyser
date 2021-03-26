@@ -19,7 +19,7 @@ type DbVersion interface {
 }
 
 type Db interface {
-	GetVersionDetector(runtimeVersion,dbVersionFile, root string) DbVersionDetector
+	GetVersionDetector(runtimeVersion,dbVersionFile, root string) (DbVersionDetector,)
 }
 
 type DbDetector interface {

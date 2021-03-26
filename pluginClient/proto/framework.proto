@@ -2,42 +2,17 @@ syntax = "proto3";
 package proto;
 option go_package = "../pb";
 
-message GreetResponse {
-  string message = 1;
-}
+import "proto/common.proto";
 
-message Empty {}
-message  Input {
-  string name = 1;
-}
-
-
-message FrameworkServiceInput {
-  string runtimeVersion = 1;
-  string root = 2;
-
-}
-
-message FrameworkServiceEmpty {}
-
-message  FrameworkServiceOutputString {
-  string value = 1;
-}
-message  FrameworkServiceOutputBool {
-  bool value = 1;
-}
-message  FrameworkServiceOutputInt {
-  int64 value = 1;
-}
 
 service FrameworkService {
-  rpc   GetVersionName(FrameworkServiceEmpty) returns (FrameworkServiceOutputString);
-  rpc   GetSemver(FrameworkServiceEmpty) returns (FrameworkServiceOutputString);
-  rpc   Detect(FrameworkServiceInput) returns (FrameworkServiceOutputBool);
-  rpc   IsFrameworkFound(FrameworkServiceInput) returns (FrameworkServiceOutputBool);
-  rpc   IsFrameworkUsed(FrameworkServiceInput) returns (FrameworkServiceOutputBool);
-  rpc   PercentOfFrameworkUsed(FrameworkServiceInput) returns (FrameworkServiceOutputInt);
-  rpc   GetFrameworkName(FrameworkServiceEmpty) returns (FrameworkServiceOutputString);
+  rpc   GetVersionName(ServiceEmpty) returns (ServiceOutputString);
+  rpc   GetSemver(ServiceEmpty) returns (ServiceOutputString);
+  rpc   Detect(ServiceInput) returns (ServiceOutputBool);
+  rpc   IsFrameworkFound(ServiceInput) returns (ServiceOutputBool);
+  rpc   IsFrameworkUsed(ServiceInput) returns (ServiceOutputBool);
+  rpc   PercentOfFrameworkUsed(ServiceInput) returns (ServiceOutputInt);
+  rpc   GetFrameworkName(ServiceEmpty) returns (ServiceOutputString);
 }
 
 //    protoc -I .  --proto_path=./proto    --go_out=./pb   --go-grpc_out=./pb ./proto/*.proto
