@@ -2,13 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/db/grpc.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/db/plugin.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/pb/db.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/proto/common.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/proto/db.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/frameworks/detectors.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/frameworks/detectors.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/frameworks/register_go.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/frameworks/register_go.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detector/parsers/go_mod.go" beforeDir="false" afterPath="$PROJECT_DIR$/detector/parsers/go_mod.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin/go/beego/v1_x/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/go/beego/v1_x/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/framework/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/framework/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/framework/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/framework/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/framework.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/framework.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/framework_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/framework_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/framework.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/proto/framework.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/frameworkRunner.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/frameworkRunner.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/go.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/static/go.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,11 +29,17 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Go Application" />
+        <option value="Go File" />
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="GOROOT" url="file:///usr/lib/go" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="8d9044e957e118199cad6181895dadebdb38cd2a" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
@@ -42,15 +58,18 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="postgresql" />
-    <property name="DefaultGoTemplateProperty" value="Go Application" />
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ToolWindowGit.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="configurable..is.expanded" value="false" />
+    <property name="configurable.GoLibrariesConfigurable.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -62,17 +81,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/language_detectors" />
       <recent name="$PROJECT_DIR$/analyser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/detector/frameworks" />
-      <recent name="$PROJECT_DIR$/detector/frameworks/_go" />
-      <recent name="$PROJECT_DIR$/detector" />
-      <recent name="$PROJECT_DIR$/frameworks" />
-      <recent name="$PROJECT_DIR$/frameworks/registers" />
+      <recent name="$PROJECT_DIR$/pluginClient" />
+      <recent name="$PROJECT_DIR$/protos/pb" />
+      <recent name="$PROJECT_DIR$/pluginClient/python/framework" />
+      <recent name="$PROJECT_DIR$/static" />
+      <recent name="$PROJECT_DIR$/language_detectors/interfaces" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Build.go build main.go">
     <configuration name="go build code-analyser" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="code-analyser" />
       <working_directory value="$PROJECT_DIR$" />
@@ -84,6 +104,33 @@
       <output_directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="go build interfaces.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="code-analyser" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/language_detectors/interfaces.go" />
+      <package value="code-analyser" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="code-analyser" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <package value="code-analyser" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Build.go build interfaces.go" />
+        <item itemvalue="Go Build.go build interfaces.go" />
+        <item itemvalue="Go Build.go build interfaces.go" />
+        <item itemvalue="Go Build.go build interfaces.go" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">

@@ -1,0 +1,9 @@
+syntax = "proto3";
+option go_package = "./protos";
+
+
+message MakefileOutput{
+  bool used=1;
+
+}
+

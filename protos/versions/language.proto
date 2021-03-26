@@ -1,0 +1,34 @@
+syntax = "proto3";
+option go_package = "./protos";
+
+
+message LanguageVersion{
+  string name = 1;
+  repeated Versions versions = 2;
+  repeated Versions framework = 3;
+  repeated Versions databases = 4;
+  repeated Versions orms = 5;
+  repeated Versions libraries = 6;
+  repeated Versions dependencies = 7;
+
+}
+
+message Versions {
+  string name = 1;
+  repeated Semver versions = 2;
+}
+
+message Semver{
+  string name = 1;
+  string semver = 2;
+  enum Type{
+    local = 0;
+    grpc = 1;
+  }
+  Type type = 3;
+  string path = 4;
+}
+
+
+
+//    protoc --go_out=./protos/pb **/*.proto
