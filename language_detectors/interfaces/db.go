@@ -1,5 +1,6 @@
 package interfaces
 
+import "code-analyser/pluginClient/pb";
 
 type DbVersionDetector struct {
 	Default bool
@@ -9,13 +10,13 @@ type DbVersionDetector struct {
 }
 
 type DbVersion interface {
-	GetVersionName() (string,error)
-	GetSemver() (string,error)
-	Detect(runtimeVersion ,root string) (bool,int64,error)  // deep level detection
-	IsDbUsed(runtimeVersion ,root string) (bool,error)
-	IsDbFound(runtimeVersion ,root string) (bool,error)
-	GetDbName() (string,error)
-	PercentOfDbUsed(runtimeVersion ,root string) (float64,error)
+	GetVersionName() (*pb.ServiceOutputString,error)
+	GetSemver() (*pb.ServiceOutputString,error)
+	Detect(*pb.ServiceInput) (*pb.ServiceOutputBoolInt,error)  // deep level detection
+	IsDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool,error)
+	IsDbFound(input *pb.ServiceInput) (*pb.ServiceOutputBool,error)
+	GetDbName() (*pb.ServiceOutputString,error)
+	PercentOfDbUsed(*pb.ServiceInput) (*pb.ServiceOutputFloat,error)
 }
 
 type Db interface {

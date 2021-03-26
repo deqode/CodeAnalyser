@@ -1,5 +1,7 @@
 package interfaces
 
+import "code-analyser/pluginClient/pb"
+
 type ORMVersionDetector struct {
 	Default bool
 	Name string
@@ -8,13 +10,13 @@ type ORMVersionDetector struct {
 }
 
 type ORMVersion interface {
-	GetVersionName() (string,error)
-	GetSemver() (string,error)
-	Detect(runtimeVersion ,root string) (bool,error)  // deep level detection
-	IsORMUsed(runtimeVersion ,root string) (bool,error)
-	IsORMFound(runtimeVersion ,root string) (bool,error)
-	GetORMName() (string,error)
-	PercentOfORMUsed(runtimeVersion ,root string) (float64,error)
+	GetVersionName() (*pb.ServiceOutputString,error)
+	GetSemver() (*pb.ServiceOutputString,error)
+	Detect(*pb.ServiceInput) (*pb.ServiceOutputBool,error)  // deep level detection
+	IsORMUsed(*pb.ServiceInput) (*pb.ServiceOutputBool,error)
+	IsORMFound(*pb.ServiceInput) (*pb.ServiceOutputBool,error)
+	GetORMName() (*pb.ServiceOutputString,error)
+	PercentOfORMUsed(*pb.ServiceInput) (*pb.ServiceOutputFloat,error)
 }
 
 type ORM interface {

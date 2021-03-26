@@ -46,7 +46,7 @@ func (m *GRPCClient) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputB
 	return ret, err
 }
 
-func (m *GRPCClient) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputInt, error) {
+func (m *GRPCClient) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	ret, err := m.Client.PercentOfFrameworkUsed(context.Background(), &pb.ServiceInput{})
 	return ret, err
 }
@@ -88,7 +88,7 @@ func (m *GRPCServer) IsFrameworkFound(ctx context.Context, req *pb.ServiceInput)
 	v, err := m.Impl.IsFrameworkFound(req)
 	return &pb.ServiceOutputBool{Value: v.Value, Error: v.Error}, err
 }
-func (m *GRPCServer) PercentOfFrameworkUsed(ctx context.Context, req *pb.ServiceInput) (*pb.ServiceOutputInt, error) {
+func (m *GRPCServer) PercentOfFrameworkUsed(ctx context.Context, req *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	v, err := m.Impl.PercentOfFrameworkUsed(req)
-	return &pb.ServiceOutputInt{Value: v.Value, Error: v.Error}, err
+	return &pb.ServiceOutputFloat{Value: v.Value, Error: v.Error}, err
 }

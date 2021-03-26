@@ -2,6 +2,7 @@ package runners
 
 import (
 	"code-analyser/language_detectors/interfaces"
+	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 )
 
@@ -22,14 +23,18 @@ func OrmDetectorRunner(orm interfaces.ORM, languageVersionFile, runTimeVersion, 
 	versionedOrm := orm.GetVersionDetector(runTimeVersion, languageVersionFile, root)
 	versionDetector := versionedOrm.Detector
 
-	if _, err := versionDetector.IsORMFound(runTimeVersion, root); err == nil {
-		if _, err := versionDetector.IsORMUsed(runTimeVersion, root); err == nil {
-			if detected, err := versionDetector.Detect(runTimeVersion, root); err == nil && detected {
+	serviceInput:=&pb.ServiceInput{
+		RuntimeVersion: runTimeVersion,
+		Root:           root,
+	}
+	if _, err := versionDetector.IsORMFound(serviceInput); err == nil {
+		if _, err := versionDetector.IsORMUsed(serviceInput); err == nil {
+			if detected, err := versionDetector.Detect(serviceInput); err == nil && detected.Value {
 				version, _ := versionDetector.GetVersionName()
 				name, _ := versionDetector.GetORMName()
 				return &protos.ORM{
-					Name:    name,
-					Version: version,
+					Name:    name.Value,
+					Version: version.Value,
 				}
 			}
 		}
