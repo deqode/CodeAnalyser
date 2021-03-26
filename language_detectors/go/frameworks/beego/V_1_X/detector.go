@@ -40,8 +40,8 @@ func (b *Beego_V_1_X) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutput
 	}, nil
 }
 
-func (b *Beego_V_1_X) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputInt, error) {
-	return &pb.ServiceOutputInt{
+func (b *Beego_V_1_X) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
+	return &pb.ServiceOutputFloat{
 		Error: nil,
 		Value: 88,
 	}, nil

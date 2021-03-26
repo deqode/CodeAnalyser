@@ -11,7 +11,7 @@ service FrameworkService {
   rpc   Detect(ServiceInput) returns (ServiceOutputBool);
   rpc   IsFrameworkFound(ServiceInput) returns (ServiceOutputBool);
   rpc   IsFrameworkUsed(ServiceInput) returns (ServiceOutputBool);
-  rpc   PercentOfFrameworkUsed(ServiceInput) returns (ServiceOutputInt);
+  rpc   PercentOfFrameworkUsed(ServiceInput) returns (ServiceOutputFloat);
   rpc   GetFrameworkName(ServiceEmpty) returns (ServiceOutputString);
 }
 
