@@ -1,0 +1,56 @@
+syntax = "proto3";
+option go_package = "./protos";
+
+import "protos/outputs/global/buildCommands.proto";
+import "protos/outputs/global/dockercompose.proto";
+import "protos/outputs/global/dockerfile.proto";
+import "protos/outputs/global/makefile.proto";
+import "protos/outputs/global/migrationCommands.proto";
+import "protos/outputs/global/proc.proto";
+import "protos/outputs/global/seedCommands.proto";
+import "protos/outputs/global/startUpCommands.proto";
+
+import "protos/outputs/languageSpecific/appserver.proto";
+import "protos/outputs/languageSpecific/buildDirectory.proto";
+import "protos/outputs/languageSpecific/db.proto";
+import "protos/outputs/languageSpecific/dependencies.proto";
+import "protos/outputs/languageSpecific/env.proto";
+import "protos/outputs/languageSpecific/framework.proto";
+import "protos/outputs/languageSpecific/libraries.proto";
+import "protos/outputs/languageSpecific/orm.proto";
+import "protos/outputs/languageSpecific/stack.proto";
+import "protos/outputs/languageSpecific/staticAssets.proto";
+
+
+message LanguageSpecificDetections{
+  string name = 1;
+  string runtimeVersion = 2;
+  repeated EnvOutput env = 3;
+  repeated FrameworkOutput framework = 4;
+  DBOutput db = 5;
+  OrmOutput orm = 6;
+  repeated DependenciesOutput dependencies = 7;
+  repeated LibrariesOutput libraries = 8;
+  repeated StaticAssetsOutput staticAssets = 9;
+  repeated StackOutput stackOutput = 10;
+  repeated AppserverOutput appserver = 11;
+  repeated BuildDirectoryOutput buildDirectory = 12;
+  Commands commands = 13;
+  // todo: DetectTestCasesRunCommands
+}
+
+message GlobalDetections{
+    repeated ProcFileOutput procFile=1;
+    repeated MakefileOutput makefile=2;
+    repeated DockerFileOutput dockerFile=3;
+    repeated DockerComposeFileOutput dockerComposeFile=4;
+}
+
+
+message Commands{
+  repeated BuildCommandsOutput buildCommands = 1;
+  repeated StartUpCommandsOutput startUpCommands = 2;
+  repeated SeedCommandsOutput seedCommands = 3;
+  repeated MigrationCommandsOutput MigrationCommands = 4;
+  //   todo:   DetectAdHocScripts
+}

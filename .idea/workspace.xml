@@ -3,15 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces/framework.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces/framework.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin/go/beego/v1_x/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/go/beego/v1_x/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/framework/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/framework/grpc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/db.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/db.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/framework.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/framework.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/framework_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/framework_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/plugin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/proto/common.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/proto/common.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proto_compile.sh" beforeDir="false" afterPath="$PROJECT_DIR$/proto_compile.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/decisionMaker.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/decisionMaker.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/global/migrationCommandfs.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/languageSpecific/static_assets.proto" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
