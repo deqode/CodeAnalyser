@@ -16,6 +16,7 @@ func (m *GRPCClient) GetVersionName() (*pb.ServiceOutputString, error) {
 func (m *GRPCClient) GetSemver() (*pb.ServiceOutputString, error) {
 	ret, err := m.Client.GetSemver(context.Background(), &pb.ServiceEmpty{
 	})
+
 	return ret, err
 }
 func (m *GRPCClient) GetFrameworkName() (*pb.ServiceOutputString, error) {
@@ -55,10 +56,6 @@ func (m *GRPCClient) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.Service
 type GRPCServer struct {
 	// This is the real implementation
 	Impl interfaces.FrameworkVersions
-}
-
-func (m *GRPCServer) mustEmbedUnimplementedFrameworkServiceServer() {
-	panic("implement me")
 }
 
 func (m *GRPCServer) GetVersionName(context.Context, *pb.ServiceEmpty) (*pb.ServiceOutputString, error) {

@@ -24,7 +24,7 @@ func (f *BeegoFramework) GetVersionedDetector(runtimeVersion, languageVersionFil
 	///home/deqode/Documents/code-analyser/plugin/go/main
 
 	////TODO: need to add semver check and return correct version
-	beegoDetector, client := pluginClient.FrameworkPluginCall(exec.Command("sh", "-c", "go run plugin/go/beego/v1_x/main.go"))
+	beegoDetector, client := pluginClient.FrameworkPluginCall(exec.Command("sh", "-c", "go run plugin/go/framework/beego/v1_x/main.go"))
 	x := interfaces.FrameworkVersionDetector{
 		Detector: beegoDetector,
 	}
