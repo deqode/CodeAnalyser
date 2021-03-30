@@ -12,10 +12,10 @@ message ServiceOutputBoolInt{
 
 service DbService {
   rpc GetVersionName(ServiceEmpty) returns (ServiceOutputString);
-  rpc  GetSemver(ServiceEmpty) returns (ServiceOutputString);
+  rpc GetSemver(ServiceEmpty) returns (ServiceOutputString);
   rpc Detect(ServiceInput)  returns (ServiceOutputBoolInt);  // deep level detection
   rpc IsDbUsed(ServiceInput) returns (ServiceOutputBool);
   rpc IsDbFound(ServiceInput) returns (ServiceOutputBool);
-  rpc   GetDbName(ServiceEmpty) returns (ServiceOutputString);
-  rpc    PercentOfDbUsed(ServiceInput) returns (ServiceOutputFloat);
+  rpc GetDbName(ServiceEmpty) returns (ServiceOutputString);
+  rpc PercentOfDbUsed(ServiceInput) returns (ServiceOutputFloat);
 }

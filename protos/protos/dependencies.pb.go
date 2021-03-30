@@ -20,6 +20,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Rename
 type DependenciesOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

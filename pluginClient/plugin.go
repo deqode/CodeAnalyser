@@ -25,6 +25,7 @@ var HandshakeConfig = plugin.HandshakeConfig{
 	MagicCookieKey:   "BASIC_PLUGIN",
 	MagicCookieValue: "hello",
 }
+
 var logger = hclog.New(&hclog.LoggerOptions{
 	Name:   "plugin",
 	Output: os.Stdout,

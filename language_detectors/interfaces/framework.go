@@ -15,13 +15,13 @@ type Framework interface {
 }
 
 type FrameworkVersions interface {
-	GetVersionName() (*pb.ServiceOutputString, error)
-	GetSemver() (*pb.ServiceOutputString, error)
+	//GetVersionName() (*pb.ServiceOutputString, error)
+	//GetSemver() (*pb.ServiceOutputString, error)
 	Detect(*pb.ServiceInput) (*pb.ServiceOutputBool, error) //todo: can return FrameworkOutput ?
-	IsFrameworkFound(*pb.ServiceInput) (*pb.ServiceOutputBool, error)
+	//IsFrameworkFound(*pb.ServiceInput) (*pb.ServiceOutputBool, error)
 	IsFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputBool, error)
 	PercentOfFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputFloat, error)
-	GetFrameworkName() (*pb.ServiceOutputString, error)
+	//GetFrameworkName() (*pb.ServiceOutputString, error)
 }
 
 type FrameworkVersionDetector struct {

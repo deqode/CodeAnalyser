@@ -28,7 +28,7 @@ type OrmOutput struct {
 	// check orm
 	Used bool `protobuf:"varint,1,opt,name=used,proto3" json:"used,omitempty"`
 	// list of all orms
-	Orms []*ORM `protobuf:"bytes,2,rep,name=orms,proto3" json:"orms,omitempty"`
+	Orms []*ORM `protobuf:"bytes,2,rep,name=orms,proto3" json:"orms,omitempty"` // Should output database configuration details
 }
 
 func (x *OrmOutput) Reset() {
