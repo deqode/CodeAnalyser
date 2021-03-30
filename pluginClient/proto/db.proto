@@ -2,7 +2,19 @@ syntax = "proto3";
 package proto;
 option go_package = "../pb";
 
+import "proto/common.proto";
 
+message ServiceOutputBoolInt{
+  bool value = 1;
+  int64 intValue = 2;
+}
 
-
-
+service DbService {
+  rpc GetVersionName(ServiceEmpty) returns (ServiceOutputString);
+  rpc  GetSemver(ServiceEmpty) returns (ServiceOutputString);
+  rpc Detect(ServiceInput)  returns (ServiceOutputBoolInt);  // deep level detection
+  rpc IsDbUsed(ServiceInput) returns (ServiceOutputBool);
+  rpc IsDbFound(ServiceInput) returns (ServiceOutputBool);
+  rpc   GetDbName(ServiceEmpty) returns (ServiceOutputString);
+  rpc    PercentOfDbUsed(ServiceInput) returns (ServiceOutputFloat);
+}

@@ -2,6 +2,7 @@ package runners
 
 import (
 	"code-analyser/language_detectors/interfaces"
+	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 )
 
@@ -23,15 +24,19 @@ func DbRunner(dbDetector interfaces.DbDetector, runTimeVersion, languageVersionF
 func DbDetectorRunner(db interfaces.Db, languageVersionFile, runTimeVersion, root string) *protos.DB {
 	versionedDb := db.GetVersionDetector(runTimeVersion, languageVersionFile, root)
 	versionDetector := versionedDb.Detector
-	if _, err := versionDetector.IsDbFound(runTimeVersion, root); err == nil {
-		if _, err := versionDetector.IsDbUsed(runTimeVersion, root); err == nil {
-			if detected, port, err := versionDetector.Detect(runTimeVersion, root); detected && err == nil {
+	serviceInput:=&pb.ServiceInput{
+		RuntimeVersion: runTimeVersion,
+		Root:           root,
+	}
+	if _, err := versionDetector.IsDbFound(serviceInput); err == nil {
+		if _, err := versionDetector.IsDbUsed(serviceInput); err == nil {
+			if detected, err := versionDetector.Detect(serviceInput); detected.Value && err == nil {
 				version, _ := versionDetector.GetVersionName()
 				name, _ := versionDetector.GetDbName()
 				return &protos.DB{
-					Version: version,
-					Name:    name,
-					Port:    port,
+					Version: version.Value,
+					Name:    name.Value,
+					Port:    detected.IntValue,
 				}
 			}
 		}

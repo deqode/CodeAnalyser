@@ -23,7 +23,7 @@ type FrameworkServiceClient interface {
 	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
 	IsFrameworkFound(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
 	IsFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	PercentOfFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputInt, error)
+	PercentOfFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error)
 	GetFrameworkName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
 }
 
@@ -80,8 +80,8 @@ func (c *frameworkServiceClient) IsFrameworkUsed(ctx context.Context, in *Servic
 	return out, nil
 }
 
-func (c *frameworkServiceClient) PercentOfFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputInt, error) {
-	out := new(ServiceOutputInt)
+func (c *frameworkServiceClient) PercentOfFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error) {
+	out := new(ServiceOutputFloat)
 	err := c.cc.Invoke(ctx, "/proto.FrameworkService/PercentOfFrameworkUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ type FrameworkServiceServer interface {
 	Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error)
 	IsFrameworkFound(context.Context, *ServiceInput) (*ServiceOutputBool, error)
 	IsFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputInt, error)
+	PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
 	GetFrameworkName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
 	mustEmbedUnimplementedFrameworkServiceServer()
 }
@@ -131,7 +131,7 @@ func (UnimplementedFrameworkServiceServer) IsFrameworkFound(context.Context, *Se
 func (UnimplementedFrameworkServiceServer) IsFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsFrameworkUsed not implemented")
 }
-func (UnimplementedFrameworkServiceServer) PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputInt, error) {
+func (UnimplementedFrameworkServiceServer) PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfFrameworkUsed not implemented")
 }
 func (UnimplementedFrameworkServiceServer) GetFrameworkName(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
