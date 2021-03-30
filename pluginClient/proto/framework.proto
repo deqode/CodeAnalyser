@@ -14,5 +14,3 @@ service FrameworkService {
   rpc   PercentOfFrameworkUsed(ServiceInput) returns (ServiceOutputInt);
   rpc   GetFrameworkName(ServiceEmpty) returns (ServiceOutputString);
 }
-
-//    protoc -I .  --proto_path=./proto    --go_out=./pb   --go-grpc_out=./pb ./proto/*.proto

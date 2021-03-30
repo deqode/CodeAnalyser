@@ -109,7 +109,7 @@ type FrameworkServiceServer interface {
 	IsFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
 	PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputInt, error)
 	GetFrameworkName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
-	//mustEmbedUnimplementedFrameworkServiceServer()
+	mustEmbedUnimplementedFrameworkServiceServer()
 }
 
 // UnimplementedFrameworkServiceServer must be embedded to have forward compatible implementations.
