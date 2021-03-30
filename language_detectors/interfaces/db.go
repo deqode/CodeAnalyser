@@ -1,6 +1,9 @@
 package interfaces
 
-import "code-analyser/pluginClient/pb";
+import (
+	"code-analyser/pluginClient/pb"
+	"github.com/hashicorp/go-plugin"
+);
 
 type DbVersionDetector struct {
 	Default bool
@@ -20,7 +23,7 @@ type DbVersion interface {
 }
 
 type Db interface {
-	GetVersionDetector(runtimeVersion,dbVersionFile, root string) (DbVersionDetector,)
+	GetVersionDetector(runtimeVersion,dbVersionFile, root string) (DbVersionDetector,*plugin.Client)
 }
 
 type DbDetector interface {

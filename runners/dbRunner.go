@@ -22,11 +22,14 @@ func DbRunner(dbDetector interfaces.DbDetector, runTimeVersion, languageVersionF
 
 //TODO handle errors on every method calls
 func DbDetectorRunner(db interfaces.Db, languageVersionFile, runTimeVersion, root string) *protos.DB {
-	versionedDb := db.GetVersionDetector(runTimeVersion, languageVersionFile, root)
+	versionedDb,dbClient := db.GetVersionDetector(runTimeVersion, languageVersionFile, root)
 	versionDetector := versionedDb.Detector
 	serviceInput:=&pb.ServiceInput{
 		RuntimeVersion: runTimeVersion,
 		Root:           root,
+	}
+	if dbClient != nil {
+		defer dbClient.Kill()
 	}
 	if _, err := versionDetector.IsDbFound(serviceInput); err == nil {
 		if _, err := versionDetector.IsDbUsed(serviceInput); err == nil {

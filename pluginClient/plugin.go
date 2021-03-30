@@ -2,6 +2,7 @@ package pluginClient
 
 import (
 	"code-analyser/language_detectors/interfaces"
+	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/framework"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
@@ -16,6 +17,7 @@ var PluginDispenserDB = "db"
 
 var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
+	PluginDispenserDB: &db.DbGRPCPlugin{},
 }
 
 var HandshakeConfig = plugin.HandshakeConfig{
@@ -51,4 +53,9 @@ func makeClient(cmd *exec.Cmd, pluginDispenser string, ) (interface{}, *plugin.C
 func FrameworkPluginCall(cmd *exec.Cmd, ) (interfaces.FrameworkVersions, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserFramework)
 	return raw.(interfaces.FrameworkVersions), client
+}
+
+func DbPluginCall(cmd *exec.Cmd, ) (interfaces.DbVersion, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserDB)
+	return raw.(interfaces.DbVersion), client
 }

@@ -2,7 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/go/databases/postgres/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/databases/postgres/detector.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/frameworks/beego/detector.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin/go/beego/v1_x/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/go/framework/beego/v1_x/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/db/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/db/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/db/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/db/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/framework/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/framework/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/db.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/db.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/common.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/proto/common.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/db.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/proto/db.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/dbRunner.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/dbRunner.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +68,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/plugin/go/db" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -65,15 +80,16 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/plugin/go/db" />
       <recent name="$PROJECT_DIR$/language_detectors" />
       <recent name="$PROJECT_DIR$/analyser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/plugin/go/frameworks" />
       <recent name="$PROJECT_DIR$/pluginClient" />
       <recent name="$PROJECT_DIR$/protos/pb" />
       <recent name="$PROJECT_DIR$/pluginClient/python/framework" />
       <recent name="$PROJECT_DIR$/static" />
-      <recent name="$PROJECT_DIR$/language_detectors/interfaces" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build main.go">

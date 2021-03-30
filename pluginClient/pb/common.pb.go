@@ -23,7 +23,7 @@ const (
 type ServiceError_ErrorCode int32
 
 const (
-	ServiceError_Error ServiceError_ErrorCode = 0
+	ServiceError_Error ServiceError_ErrorCode = 0 //TODO discuss error codes and types
 )
 
 // Enum value maps for ServiceError_ErrorCode.
