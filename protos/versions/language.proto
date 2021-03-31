@@ -4,31 +4,23 @@ option go_package = "./protos";
 
 
 message LanguageVersion{
-  repeated Versions versions = 2;
-  repeated Versions framework = 3;
-  repeated Versions databases = 4;
-  repeated Versions orms = 5;
-  repeated Versions libraries = 6;
-  repeated Versions dependencies = 7;
-
+  RuntimeVersions runtimeversions = 1;
+  repeated PluginVersions framework = 2;
+  repeated PluginVersions databases = 3;
+  repeated PluginVersions orms = 4;
+  repeated PluginVersions libraries = 5;
+  repeated PluginVersions dependencies = 6;
+}
+message RuntimeVersions{
+  string detector = 1;
+  repeated PluginSemver versions  = 2;
+}
+message PluginVersions {
+  repeated PluginSemver versions = 2;
 }
 
-message Versions {
-  string name = 1;
-  repeated Semver versions = 2;
-}
-
-message Semver{
+message PluginSemver{
   string name = 1;
   string semver = 2;
-  enum Type{
-    local = 0;
-    grpc = 1;
-  }
-  Type type = 3;
-  string path = 4;
+  string plugincommand = 4;
 }
-
-
-
-//    protoc --go_out=./protos/pb **/*.proto

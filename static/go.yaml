@@ -1,21 +1,21 @@
-versions:
-  path: "path to runtime version detector"
-  - name: "v2.x"
-    semver: ">=2.x"
-    dependenciesplugin: "path to runtime dependenciesplugin "
-  - name: "v3.x"
-    semver: ">=1.x"
+runtimeversions:
+  detector: "path to runtime version detector"
+  versions:
+   - name: "v1.x"
+     semver: ">=1.x,<2.x"
+     plugincommand: "command to grpc plugin"
 
+  
 framework:
   - name: gin
     versions:
       - name: "v1.x"
         semver: ">=1.x,<2.x"
-        path: "command to grpc plugin"
+        plugincommand: "command to grpc plugin"
 
       - name: "v2.x"
         semver: ">=2.x,<=3.x"
-        path: "command to grpc plugin"
+        plugincommand: "command to grpc plugin"
   - name: beego
     versions:
       - name: "v1.x"
