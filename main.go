@@ -2,17 +2,23 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/pluginClient"
+	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 	"code-analyser/runners"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
+	"os/exec"
 	"path/filepath"
 )
 
 func main() {
-	path := "./"
-	Scrape(path)
+//	path := "./"
+//	Scrape(path)
+	beegoDetector, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", " go run plugin/go/detectRuntime/main.go"))
+	log.Println(beegoDetector.DetectRuntime(&pb.ServiceInputString{}))
+	client.Kill()
 }
 
 func Scrape(path string) {
@@ -37,7 +43,7 @@ func Scrape(path string) {
 }
 
 func supportedLanguagedParser() (*protos.SupportedLanguages, error) {
-	filename, _ := filepath.Abs("/home/deqode/Documents/code-analyser/static/supportedLanguages.yaml")
+	filename, _ := filepath.Abs("./static/supportedLanguages.yaml")
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
