@@ -9,6 +9,11 @@ message  ServiceOutputString {
 
 }
 
+message  ServiceInputString {
+  string value = 1;
+  ServiceError error = 2;
+}
+
 message  ServiceOutputInt {
   int64 value = 1;
   ServiceError error = 2;

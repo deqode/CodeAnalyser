@@ -3,6 +3,7 @@ package pluginClient
 import (
 	"code-analyser/language_detectors/interfaces"
 	"code-analyser/pluginClient/db"
+	"code-analyser/pluginClient/detectRuntime"
 	"code-analyser/pluginClient/framework"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
@@ -15,11 +16,13 @@ import (
 var PluginDispenserFramework = "framework"
 var PluginDispenserDB = "db"
 var PluginDispenserOrm = "orm"
+var PluginDispenserDetectRuntime = "detectRuntime"
 
 var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
 	PluginDispenserDB: &db.DbGRPCPlugin{},
-	PluginDispenserOrm: &orm.OrmGRPCPlugin{},
+	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
+	//PluginDispenserOrm: &orm.OrmGRPCPlugin{},
 }
 
 var HandshakeConfig = plugin.HandshakeConfig{
@@ -66,4 +69,9 @@ func DbPluginCall(cmd *exec.Cmd, ) (interfaces.DbVersion, *plugin.Client) {
 func OrmPluginCall(cmd *exec.Cmd, ) (interfaces.ORMVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserOrm)
 	return raw.(interfaces.ORMVersion), client
+}
+
+func DetectRuntimePluginCall(cmd *exec.Cmd) (interfaces.DetectRunTime, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
+	return raw.(interfaces.DetectRunTime), client
 }

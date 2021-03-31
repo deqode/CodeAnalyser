@@ -1,5 +1,5 @@
 package orm
 
 type GRPCClient struct {
-	Client pb.Orm
+//	Client pb.Orm
 }
