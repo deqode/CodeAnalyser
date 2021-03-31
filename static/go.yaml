@@ -20,7 +20,7 @@ framework:
     versions:
       - name: "v1.x"
         semver: ">=1.x,<=3.x"
-        plugincommand: "command to grpc plugin"
+        plugincommand: "go run plugin/go/framework/beego/v1_x/main.go"
 
   - name: main
     versions:
