@@ -8,6 +8,7 @@ message AppserverOutput{
   // list of appserver
   repeated Appserver appServers = 2;
 }
+
 message Appserver{
   //  name of appserver
   string name = 1;

@@ -1,17 +1,25 @@
-name: go
-
 versions:
+  path: "path to runtime version detector"
   - name: "v2.x"
     semver: ">=2.x"
+    dependenciesplugin: "path to runtime dependenciesplugin "
+  - name: "v3.x"
+    semver: ">=1.x"
 
 framework:
   - name: gin
     versions:
       - name: "v1.x"
         semver: ">=1.x,<2.x"
+        path: "command to grpc plugin"
+
       - name: "v2.x"
         semver: ">=2.x,<=3.x"
-        type: "grpc"
+        path: "command to grpc plugin"
+  - name: beego
+    versions:
+      - name: "v1.x"
+        semver: ">=2.x,<=3.x"
         path: "command to grpc plugin"
 
   - name: main
@@ -20,25 +28,5 @@ framework:
         semver: ">=1.x,<=2.x"
       - name: "v2"
         semver: ">=1.x,<=2.x"
-        type: "local"
         path: "."
 
-
-databases:
-  - name: postgress
-    versions:
-      - name: "v12"
-        semver: ">=11.x,<=12.x"
-      - name: "v1.9.18"
-        semver: ">=1.x,<=2.x"
-
-orms:
-  - name: gorm
-    versions:
-      - name: "v1.9.18"
-        semver: ">=1.x,<=2.x"
-      - name: "v1.9.18"
-        semver: ">=1.x,<=2.x"
-
-dependencies:
-libraries:

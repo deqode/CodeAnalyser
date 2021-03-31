@@ -1,7 +1,7 @@
 syntax = "proto3";
 option go_package = "./protos";
 
-
+// Rename
 message DependenciesOutput{
   // check dependencies
   bool used = 1;

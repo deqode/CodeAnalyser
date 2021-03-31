@@ -1,9 +1,9 @@
 syntax = "proto3";
 option go_package = "./protos";
+// todo: update
 
 
 message LanguageVersion{
-  string name = 1;
   repeated Versions versions = 2;
   repeated Versions framework = 3;
   repeated Versions databases = 4;
