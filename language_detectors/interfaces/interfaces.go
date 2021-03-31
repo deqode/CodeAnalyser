@@ -2,6 +2,7 @@ package interfaces
 
 import (
 	language_detectors "code-analyser/deployement_files"
+	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 	"context"
 )
@@ -32,6 +33,10 @@ type LanguageSpecificDetector interface {
 	DetectBuildDirectory(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error)
 	DetectTestCasesRunCommands(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error) // Todo: proto
 	language_detectors.Commands
+}
+
+type DetectRunTime interface {
+	DetectRuntime(inputString *pb.ServiceInputString) (*pb.ServiceOutputString,error)
 }
 
 //count 14
