@@ -16,6 +16,7 @@ message RuntimeVersions{
   repeated PluginSemver versions  = 2;
 }
 message PluginVersions {
+  string name=1;
   repeated PluginSemver versions = 2;
 }
 

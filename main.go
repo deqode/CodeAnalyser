@@ -2,10 +2,10 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/helpers"
 	"code-analyser/protos/protos"
 	"code-analyser/runners"
 	"io/ioutil"
-	"log"
 	"path/filepath"
 
 	"gopkg.in/yaml.v2"
@@ -14,6 +14,7 @@ import (
 func main() {
 	path := "./"
 	Scrape(path)
+	helpers.SeverValidate(">=1,<=3", "1.2")
 }
 
 func Scrape(path string) {
@@ -29,7 +30,11 @@ func Scrape(path string) {
 		}
 		if languagePath != "" {
 			yamlLangObject := runners.ParseLangaugeYML(languagePath)
-			log.Println(runners.DetectRuntime(nil, path, yamlLangObject))
+			runtimeVersion := (runners.DetectRuntime(nil, path, yamlLangObject))
+			if runtimeVersion == "" {
+				break
+			}
+			//runners.GetParsedDependencis(nil, path, runtimeVersion, yamlLangObject)
 		}
 
 	}

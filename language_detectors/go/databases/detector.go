@@ -29,7 +29,7 @@ func (receiver *GODbDetector) GetLibraryUsed(runtimeVersion, root string) *map[s
 //	mod, _ := go_mod.ParseGoMod(root + "/go.mod")
 //	libraryFound := mod.Required
 //	library := libraryFound[0]
-//	fwDetector := detector_helpers.FindDBDetector(databases[library.Name], languageVersion.Databases)
+//	fwDetector := helpers.FindDBDetector(databases[library.Name], languageVersion.Databases)
 //	output = append(output, fwDetector)
 //	//return Detector
 //	return output
