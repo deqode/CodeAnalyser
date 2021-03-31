@@ -1,5 +1,5 @@
 runtimeversions:
-  detector: "path to runtime version detector"
+  detector: "go run plugin/go/detectRuntime/main.go"
   versions:
    - name: "v1.x"
      semver: ">=1.x,<2.x"

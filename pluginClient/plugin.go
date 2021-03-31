@@ -11,15 +11,17 @@ import (
 	"os/exec"
 )
 
-var PluginDispenserFramework = "framework"
-var PluginDispenserDB = "db"
-var PluginDispenserOrm = "orm"
-var PluginDispenserDetectRuntime = "detectRuntime"
+const (
+	PluginDispenserFramework = "framework"
+	PluginDispenserDB = "db"
+	PluginDispenserOrm = "orm"
+	PluginDispenserDetectRuntime = "detectRuntime"
+)
 
 var PluginMap = map[string]plugin.Plugin{
-/*	PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
-	PluginDispenserDB: &db.DbGRPCPlugin{},
-*/	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
+	/*	PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
+		PluginDispenserDB: &db.DbGRPCPlugin{},
+	*/PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
 	//PluginDispenserOrm: &orm.OrmGRPCPlugin{},
 }
 
@@ -64,18 +66,12 @@ func DbPluginCall(cmd *exec.Cmd, ) (interfaces.DbVersion, *plugin.Client) {
 	return raw.(interfaces.DbVersion), client
 }
 
-<<<<<<< HEAD
 func OrmPluginCall(cmd *exec.Cmd, ) (interfaces.ORMVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserOrm)
 	return raw.(interfaces.ORMVersion), client
 }
 
 func DetectRuntimePluginCall(cmd *exec.Cmd) (interfaces.DetectRunTime, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
-	return raw.(interfaces.DetectRunTime), client
-=======
-func DetectRuntimePluginCall(cmd *exec.Cmd, ) (interfaces.DbVersion, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
-	return raw.(interfaces.DetecRuntime), client
->>>>>>> master
+raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
+return raw.(interfaces.DetectRunTime), client
 }

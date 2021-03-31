@@ -2,24 +2,18 @@ package main
 
 import (
 	"code-analyser/analyser"
-	"code-analyser/pluginClient"
-	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 	"code-analyser/runners"
 	"io/ioutil"
 	"log"
-	"os/exec"
 	"path/filepath"
 
 	"gopkg.in/yaml.v2"
 )
 
 func main() {
-	//	path := "./"
-	//	Scrape(path)
-	beegoDetector, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", " go run plugin/go/detectRuntime/main.go"))
-	log.Println(beegoDetector.DetectRuntime(&pb.ServiceInputString{}))
-	client.Kill()
+	path := "./"
+	Scrape(path)
 }
 
 func Scrape(path string) {
@@ -33,12 +27,10 @@ func Scrape(path string) {
 				break
 			}
 		}
-		log.Println(languagePath)
-		langYamlObject := runners.ParseLangaugeYML(languagePath)
-		runtimeVersion := runners.DetectRuntime(nil, path, langYamlObject)
-
-		runners.GetParsedDependencis(nil, runtimeVersion, path, langYamlObject)
-		runners.RunDetectors(langYamlObject, runtimeVersion, path)
+		if languagePath != "" {
+			yamlLangObject := runners.ParseLangaugeYML(languagePath)
+			log.Println(runners.DetectRuntime(nil, path, yamlLangObject))
+		}
 
 	}
 }

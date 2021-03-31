@@ -4,12 +4,13 @@ package runners
 
 import (
 	"code-analyser/pluginClient"
+	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 	"code-analyser/utils"
 	"context"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
-	"path/filepath"
+	"os/exec"
 )
 
 type Dependency struct {
@@ -17,18 +18,26 @@ type Dependency struct {
 	Version string
 }
 
-func DetectRuntime(ctx context.Context, path string, langYamlObject *protos.LanguageVersion) string {
-	runtime,client:=pluginClient.DetectRuntimeCall()
-
+func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.LanguageVersion) string {
+	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Runtimeversions.Detector))
 	defer client.Kill()
-	return ""
+	runtimeVersion, err := runtimeResponse.DetectRuntime(&pb.ServiceInputString{Value: path})
+	if err != nil {
+		utils.Logger(err)
+		return ""
+	}
+	if runtimeVersion.Error != nil {
+		utils.Logger(runtimeVersion.Error)
+		return ""
+	}
+	return runtimeVersion.Value
 }
 
 func ParseLangaugeYML(filePath string) *protos.LanguageVersion {
-	filename, _ := filepath.Abs(filePath)
-	yamlFile, err := ioutil.ReadFile(filename)
+	path := "/home/deqode/Documents/code-analyser" + filePath
+	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {
-		utils.Logger(err)
+		utils.Logger(err,"ERROR")
 		return nil
 	}
 	var lang protos.LanguageVersion
