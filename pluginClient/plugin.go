@@ -12,8 +12,12 @@ import (
 	"os/exec"
 )
 
-var PluginDispenserFramework = "framework"
-var PluginDispenserDB = "db"
+const (
+	PluginDispenserFramework = "framework"
+	PluginDispenserDB = "db"
+	PluginDispenserDetectRuntime="detectruntime"
+)
+
 
 var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
@@ -59,4 +63,9 @@ func FrameworkPluginCall(cmd *exec.Cmd, ) (interfaces.FrameworkVersions, *plugin
 func DbPluginCall(cmd *exec.Cmd, ) (interfaces.DbVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDB)
 	return raw.(interfaces.DbVersion), client
+}
+
+func DetectRuntimePluginCall(cmd *exec.Cmd, ) (interfaces.DbVersion, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
+	return raw.(interfaces.DetecRuntime), client
 }

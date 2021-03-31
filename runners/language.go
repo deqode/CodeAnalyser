@@ -3,28 +3,46 @@ package runners
 //todo: think good name
 
 import (
+	"code-analyser/pluginClient"
 	"code-analyser/protos/protos"
+	"code-analyser/utils"
 	"context"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
+	"path/filepath"
 )
 
 type Dependency struct {
-	Name string
+	Name    string
 	Version string
 }
 
+func DetectRuntime(ctx context.Context, path string, langYamlObject *protos.LanguageVersion) string {
+	runtime,client:=pluginClient.DetectRuntimeCall()
 
-func DetectRuntime(ctx context.Context, path, languagePath string) (string,) {
-// this function will call plugin to get runtime version of language
-	//by giving dir path and plugin detector file
-	//this will also return yaml file object
+	defer client.Kill()
 	return ""
 }
 
-func ParseLangaugeYML(filePath string)*protos.LanguageVersion{return nil}
+func ParseLangaugeYML(filePath string) *protos.LanguageVersion {
+	filename, _ := filepath.Abs(filePath)
+	yamlFile, err := ioutil.ReadFile(filename)
+	if err != nil {
+		utils.Logger(err)
+		return nil
+	}
+	var lang protos.LanguageVersion
+	err = yaml.Unmarshal(yamlFile, &lang)
+	if err != nil {
+		utils.Logger(err)
+		return nil
+	}
+	return &lang
+}
 
-func GetParsedDependencis(ctx context.Context,path,runtimeVersion string){
-//this will firstly fetch version of repo used
-//	and ParseLangaugeYML
-//	check and segregate dependencies accordingly
+func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, langYamlObject *protos.LanguageVersion) {
+	//this will firstly fetch version of repo used
+	//	and ParseLangaugeYML
+	//	check and segregate dependencies accordingly
 
 }

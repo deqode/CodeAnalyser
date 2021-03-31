@@ -4,15 +4,17 @@ import (
 	"code-analyser/analyser"
 	"code-analyser/protos/protos"
 	"code-analyser/runners"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"path/filepath"
+
+	"gopkg.in/yaml.v2"
 )
 
 func main() {
-	path := "./"
-	Scrape(path)
+	log.Println(runners.ParseLangaugeYML("./static/go.yaml"))
+	//path := "./"
+	//Scrape(path)
 }
 
 func Scrape(path string) {
@@ -27,17 +29,17 @@ func Scrape(path string) {
 			}
 		}
 		log.Println(languagePath)
-		yamlObject=runners.ParseLangaugeYML(languagePath)
-		runtimeVersion := runners.DetectRuntime(nil, path, yamlObject)
+		langYamlObject := runners.ParseLangaugeYML(languagePath)
+		runtimeVersion := runners.DetectRuntime(nil, path, langYamlObject)
 
-		runners.GetParsedDependencis(runtimeVersion, yamlObject, path )
-		runners.RunDetectors(languageDetector, runtimeVersion, path)
+		runners.GetParsedDependencis(nil, runtimeVersion, path, langYamlObject)
+		runners.RunDetectors(langYamlObject, runtimeVersion, path)
 
 	}
 }
 
 func supportedLanguagedParser() (*protos.SupportedLanguages, error) {
-	filename, _ := filepath.Abs("/home/deqode/Documents/code-analyser/static/supportedLanguages.yaml")
+	filename, _ := filepath.Abs("./static/supportedLanguages.yaml")
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
