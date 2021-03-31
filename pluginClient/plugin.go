@@ -2,6 +2,7 @@ package pluginClient
 
 import (
 	"code-analyser/language_detectors/interfaces"
+	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
@@ -23,6 +24,7 @@ var PluginMap = map[string]plugin.Plugin{
 	/*	PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
 		PluginDispenserDB: &db.DbGRPCPlugin{},
 	*/PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
+	PluginDispenserDependencies:&dependencies.DependenciesGRPCPlugin{} ,
 	//PluginDispenserOrm: &orm.OrmGRPCPlugin{},
 }
 

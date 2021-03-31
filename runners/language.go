@@ -11,7 +11,11 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os/exec"
+	"path/filepath"
 )
+
+
+
 
 type Dependency struct {
 	Name    string
@@ -34,7 +38,8 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.Lang
 }
 
 func ParseLangaugeYML(filePath string) *protos.LanguageVersion {
-	path := "/home/deqode/Documents/code-analyser" + filePath
+	path,_ := filepath.Abs(filePath)
+
 	yamlFile, err := ioutil.ReadFile(path)
 	if err != nil {
 		utils.Logger(err,"ERROR")
@@ -48,10 +53,31 @@ func ParseLangaugeYML(filePath string) *protos.LanguageVersion {
 	}
 	return &lang
 }
-
-func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, langYamlObject *protos.LanguageVersion) {
-	//this will firstly fetch version of repo used
-	//	and ParseLangaugeYML
-	//	check and segregate dependencies accordingly
-
-}
+//
+//func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, langYamlObject *protos.LanguageVersion) *protos.LanguageVersion {
+//	//dependenciesResponse, client := pluginClient.GetDependenciesPluginCall(exec.Command("sh", "-c", yamlLangObject.Runtimeversions.Detector))
+//	//defer client.Kill()
+//	dependenciesFound:= map[string]string{
+//		"beego":"2.4",
+//		"gin":"1.3",
+//	}
+//
+//
+//	//framework
+//	GetDetectors:=protos.LanguageVersion{}
+//	//framework := []*protos.PluginSemver{}
+//	 for _,supportedFramework:=range  langYamlObject.Framework{
+//		 if versionUsed,ok:=dependenciesFound[supportedFramework.Name];ok{
+//		 	for _,v:=range supportedFramework.Versions{
+//				if helpers.SeverValidate(v.Semver,versionUsed){
+//					GetDetectors.Framework=append(GetDetectors.Framework,v)
+//				}
+//		    }
+//		 }
+//	 }
+//
+//	 log.Println(framework)
+//
+//
+//
+//}

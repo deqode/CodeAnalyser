@@ -2,6 +2,7 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/helpers"
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
@@ -19,10 +20,11 @@ func main() {
 	Scrape(path)
 	runtimeResponse, client := pluginClient.DependenciesPluginCall(exec.Command("sh", "-c", "go run plugin/go/dependencies/main.go"))
 	defer client.Kill()
-	runtimeResponse.GetDependencies(&pb.ServiceInput{
+	log.Println(runtimeResponse.GetDependencies(&pb.ServiceInput{
 		RuntimeVersion: "243",
 		Root:           "./",
-	})
+	}))
+	helpers.SeverValidate(">=1,<=3", "1.2")
 }
 
 func Scrape(path string) {
@@ -38,7 +40,11 @@ func Scrape(path string) {
 		}
 		if languagePath != "" {
 			yamlLangObject := runners.ParseLangaugeYML(languagePath)
-			log.Println(runners.DetectRuntime(nil, path, yamlLangObject))
+			runtimeVersion := (runners.DetectRuntime(nil, path, yamlLangObject))
+			if runtimeVersion == "" {
+				break
+			}
+			//runners.GetParsedDependencis(nil, path, runtimeVersion, yamlLangObject)
 		}
 
 	}
