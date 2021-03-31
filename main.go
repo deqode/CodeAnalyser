@@ -2,9 +2,13 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/pluginClient"
+	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 	"code-analyser/runners"
+	"code-analyser/utils"
 	"io/ioutil"
+	"os/exec"
 	"path/filepath"
 
 	"gopkg.in/yaml.v2"
@@ -13,7 +17,16 @@ import (
 func main() {
 	path := "./"
 	Scrape(path)
-
+	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", "go run plugin/go/db/postgres/V_1_X/main.go"))
+	defer client.Kill()
+	utils.Logger(dbResponse.PercentOfDbUsed(&pb.ServiceInput{
+		RuntimeVersion: "fdsfds",
+		Root:           "dfsdf",
+	}))
+	utils.Logger(dbResponse.Detect(&pb.ServiceInput{
+		RuntimeVersion: "fdsfds",
+		Root:           "dfsdf",
+	}))
 }
 
 func Scrape(path string) {

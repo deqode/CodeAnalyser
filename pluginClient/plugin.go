@@ -2,6 +2,7 @@ package pluginClient
 
 import (
 	"code-analyser/language_detectors/interfaces"
+	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
 	"code-analyser/pluginClient/framework"
@@ -14,18 +15,18 @@ import (
 )
 
 const (
-	PluginDispenserFramework = "framework"
-	PluginDispenserDB = "db"
-	PluginDispenserOrm = "orm"
+	PluginDispenserFramework     = "framework"
+	PluginDispenserDB            = "db"
+	PluginDispenserOrm           = "orm"
 	PluginDispenserDetectRuntime = "detectRuntime"
-	PluginDispenserDependencies = "dependencies"
+	PluginDispenserDependencies  = "dependencies"
 )
 
 var PluginMap = map[string]plugin.Plugin{
-		PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
-		//PluginDispenserDB: &db.DbGRPCPlugin{},
+	PluginDispenserFramework:     &framework.FrameworkGRPCPlugin{},
+	PluginDispenserDB:            &db.DbGRPCPlugin{},
 	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
-	PluginDispenserDependencies:&dependencies.DependenciesGRPCPlugin{} ,
+	PluginDispenserDependencies:  &dependencies.DependenciesGRPCPlugin{},
 	//PluginDispenserOrm: &orm.OrmGRPCPlugin{},
 }
 
@@ -65,22 +66,22 @@ func FrameworkPluginCall(cmd *exec.Cmd, ) (interfaces.FrameworkVersions, *plugin
 	return raw.(interfaces.FrameworkVersions), client
 }
 
-func DbPluginCall(cmd *exec.Cmd, ) (interfaces.DbVersion, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserDB)
-	return raw.(interfaces.DbVersion), client
-}
-
 func OrmPluginCall(cmd *exec.Cmd, ) (interfaces.ORMVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserOrm)
 	return raw.(interfaces.ORMVersion), client
 }
 
 func DetectRuntimePluginCall(cmd *exec.Cmd) (interfaces.DetectRunTime, *plugin.Client) {
-raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
-return raw.(interfaces.DetectRunTime), client
+	raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
+	return raw.(interfaces.DetectRunTime), client
 }
 
 func DependenciesPluginCall(cmd *exec.Cmd) (interfaces.Dependencies, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDependencies)
 	return raw.(interfaces.Dependencies), client
+}
+
+func DbPluginCall(cmd *exec.Cmd) (interfaces.DbVersion, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserDB)
+	return raw.(interfaces.DbVersion), client
 }

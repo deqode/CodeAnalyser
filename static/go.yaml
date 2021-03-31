@@ -29,4 +29,9 @@ framework:
       - name: "v2"
         semver: ">=1.x,<=2.x"
         path: "."
-
+databases:
+  - name: postgres
+    versions:
+      - name: "v1.x"
+        semver: ">=1.x,<2.x"
+        plugincommand: "go run plugin/go/db/postgres/V_1_X/main.go"

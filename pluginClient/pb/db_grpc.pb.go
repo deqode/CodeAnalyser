@@ -18,12 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DbServiceClient interface {
-	GetVersionName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
-	GetSemver(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
 	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBoolInt, error)
 	IsDbUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	IsDbFound(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	GetDbName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
 	PercentOfDbUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error)
 }
 
@@ -33,24 +29,6 @@ type dbServiceClient struct {
 
 func NewDbServiceClient(cc grpc.ClientConnInterface) DbServiceClient {
 	return &dbServiceClient{cc}
-}
-
-func (c *dbServiceClient) GetVersionName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
-	out := new(ServiceOutputString)
-	err := c.cc.Invoke(ctx, "/proto.DbService/GetVersionName", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *dbServiceClient) GetSemver(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
-	out := new(ServiceOutputString)
-	err := c.cc.Invoke(ctx, "/proto.DbService/GetSemver", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *dbServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBoolInt, error) {
@@ -71,24 +49,6 @@ func (c *dbServiceClient) IsDbUsed(ctx context.Context, in *ServiceInput, opts .
 	return out, nil
 }
 
-func (c *dbServiceClient) IsDbFound(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
-	err := c.cc.Invoke(ctx, "/proto.DbService/IsDbFound", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *dbServiceClient) GetDbName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
-	out := new(ServiceOutputString)
-	err := c.cc.Invoke(ctx, "/proto.DbService/GetDbName", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *dbServiceClient) PercentOfDbUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error) {
 	out := new(ServiceOutputFloat)
 	err := c.cc.Invoke(ctx, "/proto.DbService/PercentOfDbUsed", in, out, opts...)
@@ -102,37 +62,21 @@ func (c *dbServiceClient) PercentOfDbUsed(ctx context.Context, in *ServiceInput,
 // All implementations must embed UnimplementedDbServiceServer
 // for forward compatibility
 type DbServiceServer interface {
-	GetVersionName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
-	GetSemver(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
 	Detect(context.Context, *ServiceInput) (*ServiceOutputBoolInt, error)
 	IsDbUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	IsDbFound(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	GetDbName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
 	PercentOfDbUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
-	mustEmbedUnimplementedDbServiceServer()
+	//mustEmbedUnimplementedDbServiceServer()
 }
 
 // UnimplementedDbServiceServer must be embedded to have forward compatible implementations.
 type UnimplementedDbServiceServer struct {
 }
 
-func (UnimplementedDbServiceServer) GetVersionName(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetVersionName not implemented")
-}
-func (UnimplementedDbServiceServer) GetSemver(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSemver not implemented")
-}
 func (UnimplementedDbServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputBoolInt, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 func (UnimplementedDbServiceServer) IsDbUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsDbUsed not implemented")
-}
-func (UnimplementedDbServiceServer) IsDbFound(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IsDbFound not implemented")
-}
-func (UnimplementedDbServiceServer) GetDbName(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDbName not implemented")
 }
 func (UnimplementedDbServiceServer) PercentOfDbUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfDbUsed not implemented")
@@ -148,42 +92,6 @@ type UnsafeDbServiceServer interface {
 
 func RegisterDbServiceServer(s grpc.ServiceRegistrar, srv DbServiceServer) {
 	s.RegisterService(&DbService_ServiceDesc, srv)
-}
-
-func _DbService_GetVersionName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceEmpty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DbServiceServer).GetVersionName(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.DbService/GetVersionName",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).GetVersionName(ctx, req.(*ServiceEmpty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DbService_GetSemver_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceEmpty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DbServiceServer).GetSemver(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.DbService/GetSemver",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).GetSemver(ctx, req.(*ServiceEmpty))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _DbService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -222,42 +130,6 @@ func _DbService_IsDbUsed_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DbService_IsDbFound_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DbServiceServer).IsDbFound(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.DbService/IsDbFound",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).IsDbFound(ctx, req.(*ServiceInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _DbService_GetDbName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceEmpty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(DbServiceServer).GetDbName(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.DbService/GetDbName",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).GetDbName(ctx, req.(*ServiceEmpty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _DbService_PercentOfDbUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ServiceInput)
 	if err := dec(in); err != nil {
@@ -284,28 +156,12 @@ var DbService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DbServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetVersionName",
-			Handler:    _DbService_GetVersionName_Handler,
-		},
-		{
-			MethodName: "GetSemver",
-			Handler:    _DbService_GetSemver_Handler,
-		},
-		{
 			MethodName: "Detect",
 			Handler:    _DbService_Detect_Handler,
 		},
 		{
 			MethodName: "IsDbUsed",
 			Handler:    _DbService_IsDbUsed_Handler,
-		},
-		{
-			MethodName: "IsDbFound",
-			Handler:    _DbService_IsDbFound_Handler,
-		},
-		{
-			MethodName: "GetDbName",
-			Handler:    _DbService_GetDbName_Handler,
 		},
 		{
 			MethodName: "PercentOfDbUsed",

@@ -10,38 +10,10 @@ import (
 type Postgres_V_1_X struct {
 }
 
-func (receiver *Postgres_V_1_X) GetVersionName() (*pb.ServiceOutputString, error) {
-	return &pb.ServiceOutputString{
-		Error: nil,
-		Value: "v1.x",
-	}, nil
-}
-
-func (receiver *Postgres_V_1_X) GetSemver() (*pb.ServiceOutputString, error) {
-	return &pb.ServiceOutputString{
-		Error: nil,
-		Value: ">=2.x",
-	}, nil
-}
-
 func (receiver *Postgres_V_1_X) IsDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	return &pb.ServiceOutputBool{
 		Value: true,
 		Error: nil,
-	}, nil
-}
-
-func (receiver *Postgres_V_1_X) IsDbFound(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
-		Value: true,
-		Error: nil,
-	}, nil
-}
-
-func (receiver *Postgres_V_1_X) GetDbName() (*pb.ServiceOutputString, error) {
-	return &pb.ServiceOutputString{
-		Error: nil,
-		Value: "postgres",
 	}, nil
 }
 
