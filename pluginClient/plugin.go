@@ -16,6 +16,7 @@ const (
 	PluginDispenserDB = "db"
 	PluginDispenserOrm = "orm"
 	PluginDispenserDetectRuntime = "detectRuntime"
+	PluginDispenserDependencies = "dependencies"
 )
 
 var PluginMap = map[string]plugin.Plugin{
@@ -74,4 +75,9 @@ func OrmPluginCall(cmd *exec.Cmd, ) (interfaces.ORMVersion, *plugin.Client) {
 func DetectRuntimePluginCall(cmd *exec.Cmd) (interfaces.DetectRunTime, *plugin.Client) {
 raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
 return raw.(interfaces.DetectRunTime), client
+}
+
+func DependenciesPluginCall(cmd *exec.Cmd) (interfaces.Dependencies, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserDependencies)
+	return raw.(interfaces.Dependencies), client
 }

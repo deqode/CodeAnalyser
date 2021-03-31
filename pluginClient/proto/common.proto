@@ -36,6 +36,11 @@ message ServiceInput {
   string root = 2;
 }
 
+message ServiceOutputStringMap{
+  map<string, string> value = 1;
+  ServiceError error = 2;
+}
+
 message ServiceError{
   string message = 1;
   enum ErrorCode{

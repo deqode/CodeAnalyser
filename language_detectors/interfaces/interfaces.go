@@ -35,8 +35,13 @@ type LanguageSpecificDetector interface {
 	language_detectors.Commands
 }
 
+//TODO need to segregate and decouple our code
+
 type DetectRunTime interface {
 	DetectRuntime(inputString *pb.ServiceInputString) (*pb.ServiceOutputString,error)
 }
 
+type Dependencies interface {
+	GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap,error)
+}
 //count 14

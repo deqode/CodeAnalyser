@@ -60,7 +60,7 @@ func (x ServiceError_ErrorCode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ServiceError_ErrorCode.Descriptor instead.
 func (ServiceError_ErrorCode) EnumDescriptor() ([]byte, []int) {
-	return file_proto_common_proto_rawDescGZIP(), []int{7, 0}
+	return file_proto_common_proto_rawDescGZIP(), []int{8, 0}
 }
 
 type ServiceEmpty struct {
@@ -431,6 +431,61 @@ func (x *ServiceInput) GetRoot() string {
 	return ""
 }
 
+type ServiceOutputStringMap struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Value map[string]string `protobuf:"bytes,1,rep,name=value,proto3" json:"value,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Error *ServiceError     `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+}
+
+func (x *ServiceOutputStringMap) Reset() {
+	*x = ServiceOutputStringMap{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_common_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ServiceOutputStringMap) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ServiceOutputStringMap) ProtoMessage() {}
+
+func (x *ServiceOutputStringMap) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_common_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ServiceOutputStringMap.ProtoReflect.Descriptor instead.
+func (*ServiceOutputStringMap) Descriptor() ([]byte, []int) {
+	return file_proto_common_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ServiceOutputStringMap) GetValue() map[string]string {
+	if x != nil {
+		return x.Value
+	}
+	return nil
+}
+
+func (x *ServiceOutputStringMap) GetError() *ServiceError {
+	if x != nil {
+		return x.Error
+	}
+	return nil
+}
+
 type ServiceError struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -444,7 +499,7 @@ type ServiceError struct {
 func (x *ServiceError) Reset() {
 	*x = ServiceError{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_common_proto_msgTypes[7]
+		mi := &file_proto_common_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -457,7 +512,7 @@ func (x *ServiceError) String() string {
 func (*ServiceError) ProtoMessage() {}
 
 func (x *ServiceError) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_common_proto_msgTypes[7]
+	mi := &file_proto_common_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -470,7 +525,7 @@ func (x *ServiceError) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceError.ProtoReflect.Descriptor instead.
 func (*ServiceError) Descriptor() ([]byte, []int) {
-	return file_proto_common_proto_rawDescGZIP(), []int{7}
+	return file_proto_common_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ServiceError) GetMessage() string {
@@ -531,7 +586,19 @@ var file_proto_common_proto_rawDesc = []byte{
 	0x72, 0x75, 0x6e, 0x74, 0x69, 0x6d, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x72, 0x75, 0x6e, 0x74, 0x69, 0x6d, 0x65, 0x56, 0x65, 0x72,
 	0x73, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x72, 0x6f, 0x6f, 0x74, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x04, 0x72, 0x6f, 0x6f, 0x74, 0x22, 0x93, 0x01, 0x0a, 0x0c, 0x53, 0x65, 0x72,
+	0x28, 0x09, 0x52, 0x04, 0x72, 0x6f, 0x6f, 0x74, 0x22, 0xbd, 0x01, 0x0a, 0x16, 0x53, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
+	0x4d, 0x61, 0x70, 0x12, 0x3e, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x03,
+	0x28, 0x0b, 0x32, 0x28, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x4d, 0x61,
+	0x70, 0x2e, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x05, 0x76, 0x61,
+	0x6c, 0x75, 0x65, 0x12, 0x29, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x1a, 0x38,
+	0x0a, 0x0a, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03,
+	0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14,
+	0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x93, 0x01, 0x0a, 0x0c, 0x53, 0x65, 0x72,
 	0x76, 0x69, 0x63, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73,
 	0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73,
 	0x61, 0x67, 0x65, 0x12, 0x3b, 0x0a, 0x09, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x54, 0x79, 0x70, 0x65,
@@ -557,30 +624,34 @@ func file_proto_common_proto_rawDescGZIP() []byte {
 }
 
 var file_proto_common_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_proto_common_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_proto_common_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_proto_common_proto_goTypes = []interface{}{
-	(ServiceError_ErrorCode)(0), // 0: proto.ServiceError.ErrorCode
-	(*ServiceEmpty)(nil),        // 1: proto.ServiceEmpty
-	(*ServiceOutputString)(nil), // 2: proto.ServiceOutputString
-	(*ServiceInputString)(nil),  // 3: proto.ServiceInputString
-	(*ServiceOutputInt)(nil),    // 4: proto.ServiceOutputInt
-	(*ServiceOutputFloat)(nil),  // 5: proto.ServiceOutputFloat
-	(*ServiceOutputBool)(nil),   // 6: proto.ServiceOutputBool
-	(*ServiceInput)(nil),        // 7: proto.ServiceInput
-	(*ServiceError)(nil),        // 8: proto.ServiceError
+	(ServiceError_ErrorCode)(0),    // 0: proto.ServiceError.ErrorCode
+	(*ServiceEmpty)(nil),           // 1: proto.ServiceEmpty
+	(*ServiceOutputString)(nil),    // 2: proto.ServiceOutputString
+	(*ServiceInputString)(nil),     // 3: proto.ServiceInputString
+	(*ServiceOutputInt)(nil),       // 4: proto.ServiceOutputInt
+	(*ServiceOutputFloat)(nil),     // 5: proto.ServiceOutputFloat
+	(*ServiceOutputBool)(nil),      // 6: proto.ServiceOutputBool
+	(*ServiceInput)(nil),           // 7: proto.ServiceInput
+	(*ServiceOutputStringMap)(nil), // 8: proto.ServiceOutputStringMap
+	(*ServiceError)(nil),           // 9: proto.ServiceError
+	nil,                            // 10: proto.ServiceOutputStringMap.ValueEntry
 }
 var file_proto_common_proto_depIdxs = []int32{
-	8, // 0: proto.ServiceOutputString.error:type_name -> proto.ServiceError
-	8, // 1: proto.ServiceInputString.error:type_name -> proto.ServiceError
-	8, // 2: proto.ServiceOutputInt.error:type_name -> proto.ServiceError
-	8, // 3: proto.ServiceOutputFloat.error:type_name -> proto.ServiceError
-	8, // 4: proto.ServiceOutputBool.error:type_name -> proto.ServiceError
-	0, // 5: proto.ServiceError.errorType:type_name -> proto.ServiceError.ErrorCode
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	9,  // 0: proto.ServiceOutputString.error:type_name -> proto.ServiceError
+	9,  // 1: proto.ServiceInputString.error:type_name -> proto.ServiceError
+	9,  // 2: proto.ServiceOutputInt.error:type_name -> proto.ServiceError
+	9,  // 3: proto.ServiceOutputFloat.error:type_name -> proto.ServiceError
+	9,  // 4: proto.ServiceOutputBool.error:type_name -> proto.ServiceError
+	10, // 5: proto.ServiceOutputStringMap.value:type_name -> proto.ServiceOutputStringMap.ValueEntry
+	9,  // 6: proto.ServiceOutputStringMap.error:type_name -> proto.ServiceError
+	0,  // 7: proto.ServiceError.errorType:type_name -> proto.ServiceError.ErrorCode
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_proto_common_proto_init() }
@@ -674,6 +745,18 @@ func file_proto_common_proto_init() {
 			}
 		}
 		file_proto_common_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ServiceOutputStringMap); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_common_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ServiceError); i {
 			case 0:
 				return &v.state
@@ -692,7 +775,7 @@ func file_proto_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_common_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

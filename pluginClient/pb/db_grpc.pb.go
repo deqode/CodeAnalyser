@@ -109,7 +109,7 @@ type DbServiceServer interface {
 	IsDbFound(context.Context, *ServiceInput) (*ServiceOutputBool, error)
 	GetDbName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
 	PercentOfDbUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
-	mustEmbedUnimplementedDbServiceServer()
+	//mustEmbedUnimplementedDbServiceServer()
 }
 
 // UnimplementedDbServiceServer must be embedded to have forward compatible implementations.
