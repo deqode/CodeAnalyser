@@ -2,8 +2,8 @@ runtimeversions:
   detector: "go run ./plugin/go/detectRuntime/main.go"
   versions:
    - name: "v1.x"
-     semver: ">=1.x,<2.x"
-     plugincommand: "command to grpc plugin"
+     semver: ">=1.x,<=2.x"
+     plugincommand: "go run plugin/go/dependencies/main.go"
 
   
 framework:
@@ -11,7 +11,7 @@ framework:
     versions:
       - name: "v1.x"
         semver: ">=1.x,<2.x"
-        plugincommand: "command to grpc plugin"
+        plugincommand: "go run plugin/go/dependencies/main.go"
 
       - name: "v2.x"
         semver: ">=2.x,<=3.x"
@@ -19,8 +19,8 @@ framework:
   - name: beego
     versions:
       - name: "v1.x"
-        semver: ">=2.x,<=3.x"
-        path: "command to grpc plugin"
+        semver: ">=1.x,<=3.x"
+        plugincommand: "command to grpc plugin"
 
   - name: main
     versions:

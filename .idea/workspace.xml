@@ -2,19 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/plugin/go/dependencies/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pluginClient/dependencies/grpc.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pluginClient/dependencies/plugin.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pluginClient/pb/dependencies.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pluginClient/pb/dependencies_grpc.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pluginClient/proto/dependencies.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces/interfaces.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces/interfaces.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/helper.go" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/helper.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/db_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/db_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/plugin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/proto/common.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/proto/common.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/language.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/language.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/go.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/static/go.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

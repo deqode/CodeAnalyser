@@ -8,13 +8,13 @@ import (
 func SeverValidate(semverstring, value string) bool {
 	c, err := semver.NewConstraint(semverstring)
 	if err != nil {
-		utils.Logger(err)
+		utils.Logger(err, semverstring)
 		return false
 	}
 
 	v, err := semver.NewVersion(value)
 	if err != nil {
-		utils.Logger(err)
+		utils.Logger(err, value)
 		return false
 	}
 

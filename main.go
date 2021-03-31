@@ -2,14 +2,9 @@ package main
 
 import (
 	"code-analyser/analyser"
-	"code-analyser/helpers"
-	"code-analyser/pluginClient"
-	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 	"code-analyser/runners"
 	"io/ioutil"
-	"log"
-	"os/exec"
 	"path/filepath"
 
 	"gopkg.in/yaml.v2"
@@ -18,13 +13,7 @@ import (
 func main() {
 	path := "./"
 	Scrape(path)
-	runtimeResponse, client := pluginClient.DependenciesPluginCall(exec.Command("sh", "-c", "go run plugin/go/dependencies/main.go"))
-	defer client.Kill()
-	log.Println(runtimeResponse.GetDependencies(&pb.ServiceInput{
-		RuntimeVersion: "243",
-		Root:           "./",
-	}))
-	helpers.SeverValidate(">=1,<=3", "1.2")
+
 }
 
 func Scrape(path string) {
@@ -44,7 +33,7 @@ func Scrape(path string) {
 			if runtimeVersion == "" {
 				break
 			}
-			//runners.GetParsedDependencis(nil, path, runtimeVersion, yamlLangObject)
+			runners.GetParsedDependencis(nil, runtimeVersion, path, yamlLangObject)
 		}
 
 	}

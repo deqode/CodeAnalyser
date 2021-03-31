@@ -1,4 +1,26 @@
 package runners
+
+import (
+	"code-analyser/helpers"
+	"code-analyser/protos/protos"
+)
+
+func ParseFrameworkFromDependencies( dependenciesList map[string]string ,langYamlObject *protos.LanguageVersion)map[string]*protos.PluginSemver{
+	//framework
+	framework := map[string]*protos.PluginSemver{}
+	for _, supportedFramework := range langYamlObject.Framework {
+		if versionUsed, ok := dependenciesList[supportedFramework.Name]; ok {
+			for _, v := range supportedFramework.Versions {
+				if helpers.SeverValidate(v.Semver, versionUsed) {
+					framework[supportedFramework.Name]=v
+				}
+			}
+		}
+	}
+	return framework
+}
+
+
 //
 //import (
 //	"code-analyser/language_detectors/interfaces"
