@@ -1,0 +1,15 @@
+syntax = "proto3";
+package proto;
+option go_package = "../pb";
+
+import "proto/common.proto";
+
+service OrmService {
+  rpc GetVersionName(ServiceEmpty) returns (ServiceOutputString);
+  rpc GetSemver(ServiceEmpty)  returns (ServiceOutputString);
+  rpc Detect(ServiceInput) returns (ServiceOutputBool);  // deep level detection
+  rpc IsORMUsed(ServiceInput) returns (ServiceOutputBool);
+  rpc IsORMFound(ServiceInput) returns (ServiceOutputBool);
+  rpc GetORMName(ServiceEmpty) returns (ServiceOutputString);
+  rpc PercentOfORMUsed(ServiceInput) returns (ServiceOutputFloat);
+}

@@ -14,10 +14,12 @@ import (
 
 var PluginDispenserFramework = "framework"
 var PluginDispenserDB = "db"
+var PluginDispenserOrm = "orm"
 
 var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserFramework: &framework.FrameworkGRPCPlugin{},
 	PluginDispenserDB: &db.DbGRPCPlugin{},
+	PluginDispenserOrm: &orm.OrmGRPCPlugin{},
 }
 
 var HandshakeConfig = plugin.HandshakeConfig{
@@ -58,4 +60,9 @@ func FrameworkPluginCall(cmd *exec.Cmd, ) (interfaces.FrameworkVersions, *plugin
 func DbPluginCall(cmd *exec.Cmd, ) (interfaces.DbVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDB)
 	return raw.(interfaces.DbVersion), client
+}
+
+func OrmPluginCall(cmd *exec.Cmd, ) (interfaces.ORMVersion, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserOrm)
+	return raw.(interfaces.ORMVersion), client
 }
