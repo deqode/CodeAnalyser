@@ -87,6 +87,7 @@ func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, lang
 
 		AllDependencies[Framework]=ParseFrameworkFromDependencies(dependenciesList,langYamlObject)
 		log.Println(AllDependencies[Framework]["beego"])
+		log.Println(FrameworkRunner(AllDependencies[Framework],runtimeVersion,path)		)
 
 	}
 

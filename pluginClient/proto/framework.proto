@@ -6,13 +6,10 @@ import "proto/common.proto";
 
 
 service FrameworkService {
-  rpc   GetVersionName(ServiceEmpty) returns (ServiceOutputString);
-  rpc   GetSemver(ServiceEmpty) returns (ServiceOutputString);
+
   rpc   Detect(ServiceInput) returns (ServiceOutputBool);
-  rpc   IsFrameworkFound(ServiceInput) returns (ServiceOutputBool);
   rpc   IsFrameworkUsed(ServiceInput) returns (ServiceOutputBool);
   rpc   PercentOfFrameworkUsed(ServiceInput) returns (ServiceOutputFloat);
-  rpc   GetFrameworkName(ServiceEmpty) returns (ServiceOutputString);
 }
 
 //    protoc -I .  --proto_path=./proto    --go_out=./pb   --go-grpc_out=./pb ./proto/*.proto
