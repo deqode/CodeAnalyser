@@ -2,7 +2,6 @@ package runners
 
 import (
 	"code-analyser/helpers"
-	"code-analyser/language_detectors/interfaces"
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
@@ -25,22 +24,17 @@ func ParseFrameworkFromDependencies(dependenciesList map[string]string, langYaml
 	return framework
 }
 
-//
-//import (
-//	"code-analyser/language_detectors/interfaces"
-//	"code-analyser/pluginClient/pb"
-//	"code-analyser/protos/protos"
-//)
-//
 //FrameworkRunner will run to find Frameworks & returns its detectors.
 // Must be called in LanguageSpecificDetector.DetectFrameworks
-func FrameworkRunner(libraryUsed, runtimeVersion, languageVersionFile, root string) []*protos.FrameworkOutput {
-	var frameworkOutputs []*protos.FrameworkOutput
-	for libraryUsed, libraryVersion := range *librariesUsed {
-		usedFramework := frameworkDetector.GetDetector(libraryVersion, root, libraryUsed)
-		frameworkOutputs = append(frameworkOutputs, FrameworkDetectorRunner(usedFramework, languageVersionFile, runtimeVersion, root))
+func FrameworkRunner(frameworkList map[string]*protos.PluginSemver , runtimeVersion, root string) []*protos.FrameworkOutput {
+var frameworkOutputs []*protos.FrameworkOutput
+for frameworkUsed, frameworkDetails := range frameworkList {
+	isUsed:=FrameworkDetectorRunner(frameworkUsed, frameworkDetails, runtimeVersion, root)
+	if isUsed!=nil{
+		frameworkOutputs = append(frameworkOutputs,isUsed )
 	}
-	return frameworkOutputs
+}
+return frameworkOutputs
 }
 //
 // FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
@@ -81,5 +75,5 @@ func FrameworkDetectorRunner(name string, framworkDetails *protos.PluginSemver, 
 			}
 		}
 	}
-
+return nil
 }
