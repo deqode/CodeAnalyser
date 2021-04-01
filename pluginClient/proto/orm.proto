@@ -1,0 +1,11 @@
+syntax = "proto3";
+package proto;
+option go_package = "../pb";
+
+import "proto/common.proto";
+
+service OrmService {
+  rpc Detect(ServiceInput) returns (ServiceOutputBool);  // deep level detection
+  rpc IsORMUsed(ServiceInput) returns (ServiceOutputBool);
+  rpc PercentOfORMUsed(ServiceInput) returns (ServiceOutputFloat);
+}

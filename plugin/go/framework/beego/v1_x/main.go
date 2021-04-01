@@ -9,28 +9,7 @@ import (
 
 type Beego_V_1_x struct{}
 
-func (b Beego_V_1_x) GetVersionName() (*pb.ServiceOutputString, error) {
-	return &pb.ServiceOutputString{
-		Error: nil,
-		Value: "1.x",
-	}, nil
-}
-
-func (b Beego_V_1_x) GetSemver() (*pb.ServiceOutputString, error) {
-	return &pb.ServiceOutputString{
-		Error: nil,
-		Value: ">=2.x",
-	}, nil
-}
-
 func (b Beego_V_1_x) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
-		Error: nil,
-		Value: true,
-	}, nil
-}
-
-func (b Beego_V_1_x) IsFrameworkFound(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	return &pb.ServiceOutputBool{
 		Error: nil,
 		Value: true,
@@ -48,13 +27,6 @@ func (b Beego_V_1_x) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.Service
 	return &pb.ServiceOutputFloat{
 		Error: nil,
 		Value: 88.8,
-	}, nil
-}
-
-func (b Beego_V_1_x) GetFrameworkName() (*pb.ServiceOutputString, error) {
-	return &pb.ServiceOutputString{
-		Error: nil,
-		Value: "beego",
 	}, nil
 }
 

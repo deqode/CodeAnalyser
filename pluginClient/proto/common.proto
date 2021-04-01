@@ -9,6 +9,11 @@ message  ServiceOutputString {
 
 }
 
+message  ServiceInputString {
+  string value = 1;
+  ServiceError error = 2;
+}
+
 message  ServiceOutputInt {
   int64 value = 1;
   ServiceError error = 2;
@@ -29,6 +34,11 @@ message  ServiceOutputBool {
 message ServiceInput {
   string runtimeVersion = 1;
   string root = 2;
+}
+
+message ServiceOutputStringMap{
+  map<string, string> value = 1;
+  ServiceError error = 2;
 }
 
 message ServiceError{

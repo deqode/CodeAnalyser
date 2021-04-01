@@ -9,5 +9,6 @@ message FrameworkOutput{
   string name = 2;
   //  Version of framework
   string version = 3;
+  float percentageUsed = 4;
 }
 

@@ -26,13 +26,6 @@ func (b *Beego_V_1_X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, err
 	}, nil
 }
 
-func (b *Beego_V_1_X) IsFrameworkFound(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
-		Error: nil,
-		Value: true,
-	}, nil
-}
-
 func (b *Beego_V_1_X) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	return &pb.ServiceOutputBool{
 		Error: nil,
@@ -47,9 +40,3 @@ func (b *Beego_V_1_X) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.Servic
 	}, nil
 }
 
-func (b *Beego_V_1_X) GetFrameworkName() (*pb.ServiceOutputString, error) {
-	return &pb.ServiceOutputString{
-		Error: nil,
-		Value: "beego",
-	}, nil
-}

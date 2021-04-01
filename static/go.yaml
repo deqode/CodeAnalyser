@@ -1,26 +1,26 @@
-versions:
-  path: "path to runtime version detector"
-  - name: "v2.x"
-    semver: ">=2.x"
-    dependenciesplugin: "path to runtime dependenciesplugin "
-  - name: "v3.x"
-    semver: ">=1.x"
+runtimeversions:
+  detector: "go run ./plugin/go/detectRuntime/main.go"
+  versions:
+   - name: "v1.x"
+     semver: ">=1.x,<=2.x"
+     plugincommand: "go run plugin/go/dependencies/main.go"
 
+  
 framework:
   - name: gin
     versions:
       - name: "v1.x"
         semver: ">=1.x,<2.x"
-        path: "command to grpc plugin"
+        plugincommand: "go run plugin/go/dependencies/main.go"
 
       - name: "v2.x"
         semver: ">=2.x,<=3.x"
-        path: "command to grpc plugin"
+        plugincommand: "command to grpc plugin"
   - name: beego
     versions:
       - name: "v1.x"
-        semver: ">=2.x,<=3.x"
-        path: "command to grpc plugin"
+        semver: ">=1.x,<=3.x"
+        plugincommand: "go run plugin/go/framework/beego/v1_x/main.go"
 
   - name: main
     versions:
@@ -29,4 +29,15 @@ framework:
       - name: "v2"
         semver: ">=1.x,<=2.x"
         path: "."
-
+databases:
+  - name: postgres
+    versions:
+      - name: "v1.x"
+        semver: ">=1.x,<2.x"
+        plugincommand: "go run plugin/go/db/postgres/V_1_X/main.go"
+orms:
+  - name: gorm
+    versions:
+      - name: "v1.x"
+        semver: ">=1.x,<2.x"
+        plugincommand: "go run plugin/go/orm/gorm/V_1_X/main.go"

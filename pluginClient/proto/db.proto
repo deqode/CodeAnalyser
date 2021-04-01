@@ -11,11 +11,7 @@ message ServiceOutputBoolInt{
 }
 
 service DbService {
-  rpc GetVersionName(ServiceEmpty) returns (ServiceOutputString);
-  rpc GetSemver(ServiceEmpty) returns (ServiceOutputString);
-  rpc Detect(ServiceInput)  returns (ServiceOutputBoolInt);  // deep level detection
+  rpc Detect(ServiceInput)  returns (ServiceOutputBoolInt);  // boolint stand for bool-detect , int-port number of db
   rpc IsDbUsed(ServiceInput) returns (ServiceOutputBool);
-  rpc IsDbFound(ServiceInput) returns (ServiceOutputBool);
-  rpc GetDbName(ServiceEmpty) returns (ServiceOutputString);
   rpc PercentOfDbUsed(ServiceInput) returns (ServiceOutputFloat);
 }
