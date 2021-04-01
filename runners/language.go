@@ -21,9 +21,10 @@ type Dependency struct {
 	Version string
 }
 
-const (Framework ="FRAMEWORK" )
-
-
+const (
+	Framework = "FRAMEWORK"
+	DB        = "DB"
+)
 
 func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.LanguageVersion) string {
 	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Runtimeversions.Detector))
@@ -58,7 +59,7 @@ func ParseLangaugeYML(filePath string) *protos.LanguageVersion {
 }
 
 func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, langYamlObject *protos.LanguageVersion) *protos.LanguageVersion {
-	AllDependencies:= map[string]map[string]*protos.PluginSemver{}
+	AllDependencies := map[string]map[string]*protos.PluginSemver{}
 
 	var dependenciesCommand *protos.PluginSemver
 	for _, supportedRuntimeVersions := range langYamlObject.Runtimeversions.Versions {
@@ -83,16 +84,15 @@ func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, lang
 			return nil
 		}
 		dependenciesList := getdependenciesFound.Value
-		log.Println(dependenciesList)
 
-		AllDependencies[Framework]=ParseFrameworkFromDependencies(dependenciesList,langYamlObject)
-		log.Println(AllDependencies[Framework]["beego"])
-		log.Println(FrameworkRunner(AllDependencies[Framework],runtimeVersion,path)		)
+		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, langYamlObject)
+		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, langYamlObject)
+		//log.Println(AllDependencies)
+		 log.Println(DbRunner(AllDependencies[DB], runtimeVersion, path).Databases)
+		 log.Println(FrameworkRunner(AllDependencies[Framework], runtimeVersion, path))
 
 	}
 
 	return nil
 
 }
-
-

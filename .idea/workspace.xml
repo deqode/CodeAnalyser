@@ -3,18 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/framework/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/framework/grpc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/db.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/db.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/db_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/db_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/dependencies.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/dependencies.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/detectRuntime.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/detectRuntime.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/framework.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/framework.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/framework_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/framework_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/orm.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/orm.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/plugin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/proto/framework.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/proto/framework.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runners/frameworkRunner.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/frameworkRunner.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin/go/dependencies/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/go/dependencies/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/dbRunner.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/dbRunner.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/runners/language.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/language.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
