@@ -18,12 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrmServiceClient interface {
-	GetVersionName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
-	GetSemver(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
 	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
 	IsORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	IsORMFound(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	GetORMName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error)
 	PercentOfORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error)
 }
 
@@ -33,24 +29,6 @@ type ormServiceClient struct {
 
 func NewOrmServiceClient(cc grpc.ClientConnInterface) OrmServiceClient {
 	return &ormServiceClient{cc}
-}
-
-func (c *ormServiceClient) GetVersionName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
-	out := new(ServiceOutputString)
-	err := c.cc.Invoke(ctx, "/proto.OrmService/GetVersionName", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *ormServiceClient) GetSemver(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
-	out := new(ServiceOutputString)
-	err := c.cc.Invoke(ctx, "/proto.OrmService/GetSemver", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *ormServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
@@ -71,24 +49,6 @@ func (c *ormServiceClient) IsORMUsed(ctx context.Context, in *ServiceInput, opts
 	return out, nil
 }
 
-func (c *ormServiceClient) IsORMFound(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
-	err := c.cc.Invoke(ctx, "/proto.OrmService/IsORMFound", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *ormServiceClient) GetORMName(ctx context.Context, in *ServiceEmpty, opts ...grpc.CallOption) (*ServiceOutputString, error) {
-	out := new(ServiceOutputString)
-	err := c.cc.Invoke(ctx, "/proto.OrmService/GetORMName", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *ormServiceClient) PercentOfORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error) {
 	out := new(ServiceOutputFloat)
 	err := c.cc.Invoke(ctx, "/proto.OrmService/PercentOfORMUsed", in, out, opts...)
@@ -102,37 +62,21 @@ func (c *ormServiceClient) PercentOfORMUsed(ctx context.Context, in *ServiceInpu
 // All implementations must embed UnimplementedOrmServiceServer
 // for forward compatibility
 type OrmServiceServer interface {
-	GetVersionName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
-	GetSemver(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
 	Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error)
 	IsORMUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	IsORMFound(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	GetORMName(context.Context, *ServiceEmpty) (*ServiceOutputString, error)
 	PercentOfORMUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
-	mustEmbedUnimplementedOrmServiceServer()
+	//mustEmbedUnimplementedOrmServiceServer()
 }
 
 // UnimplementedOrmServiceServer must be embedded to have forward compatible implementations.
 type UnimplementedOrmServiceServer struct {
 }
 
-func (UnimplementedOrmServiceServer) GetVersionName(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetVersionName not implemented")
-}
-func (UnimplementedOrmServiceServer) GetSemver(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSemver not implemented")
-}
 func (UnimplementedOrmServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 func (UnimplementedOrmServiceServer) IsORMUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsORMUsed not implemented")
-}
-func (UnimplementedOrmServiceServer) IsORMFound(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IsORMFound not implemented")
-}
-func (UnimplementedOrmServiceServer) GetORMName(context.Context, *ServiceEmpty) (*ServiceOutputString, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetORMName not implemented")
 }
 func (UnimplementedOrmServiceServer) PercentOfORMUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfORMUsed not implemented")
@@ -148,42 +92,6 @@ type UnsafeOrmServiceServer interface {
 
 func RegisterOrmServiceServer(s grpc.ServiceRegistrar, srv OrmServiceServer) {
 	s.RegisterService(&OrmService_ServiceDesc, srv)
-}
-
-func _OrmService_GetVersionName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceEmpty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrmServiceServer).GetVersionName(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.OrmService/GetVersionName",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServiceServer).GetVersionName(ctx, req.(*ServiceEmpty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrmService_GetSemver_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceEmpty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrmServiceServer).GetSemver(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.OrmService/GetSemver",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServiceServer).GetSemver(ctx, req.(*ServiceEmpty))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _OrmService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -222,42 +130,6 @@ func _OrmService_IsORMUsed_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrmService_IsORMFound_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrmServiceServer).IsORMFound(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.OrmService/IsORMFound",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServiceServer).IsORMFound(ctx, req.(*ServiceInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OrmService_GetORMName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceEmpty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OrmServiceServer).GetORMName(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.OrmService/GetORMName",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServiceServer).GetORMName(ctx, req.(*ServiceEmpty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _OrmService_PercentOfORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ServiceInput)
 	if err := dec(in); err != nil {
@@ -284,28 +156,12 @@ var OrmService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OrmServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetVersionName",
-			Handler:    _OrmService_GetVersionName_Handler,
-		},
-		{
-			MethodName: "GetSemver",
-			Handler:    _OrmService_GetSemver_Handler,
-		},
-		{
 			MethodName: "Detect",
 			Handler:    _OrmService_Detect_Handler,
 		},
 		{
 			MethodName: "IsORMUsed",
 			Handler:    _OrmService_IsORMUsed_Handler,
-		},
-		{
-			MethodName: "IsORMFound",
-			Handler:    _OrmService_IsORMFound_Handler,
-		},
-		{
-			MethodName: "GetORMName",
-			Handler:    _OrmService_GetORMName_Handler,
 		},
 		{
 			MethodName: "PercentOfORMUsed",

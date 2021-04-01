@@ -24,6 +24,7 @@ type Dependency struct {
 const (
 	Framework = "FRAMEWORK"
 	DB        = "DB"
+	ORM       = "ORM"
 )
 
 func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.LanguageVersion) string {
@@ -87,9 +88,11 @@ func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, lang
 
 		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, langYamlObject)
+		AllDependencies[ORM] = ParseOrmFromDependencies(dependenciesList, langYamlObject)
 		//log.Println(AllDependencies)
-		 log.Println(DbRunner(AllDependencies[DB], runtimeVersion, path).Databases)
-		 log.Println(FrameworkRunner(AllDependencies[Framework], runtimeVersion, path))
+		log.Println(OrmRunner(AllDependencies[ORM], runtimeVersion, path).Orms)
+		log.Println(DbRunner(AllDependencies[DB], runtimeVersion, path).Databases)
+		log.Println(FrameworkRunner(AllDependencies[Framework], runtimeVersion, path))
 
 	}
 

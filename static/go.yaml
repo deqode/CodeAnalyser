@@ -35,3 +35,9 @@ databases:
       - name: "v1.x"
         semver: ">=1.x,<2.x"
         plugincommand: "go run plugin/go/db/postgres/V_1_X/main.go"
+orms:
+  - name: gorm
+    versions:
+      - name: "v1.x"
+        semver: ">=1.x,<2.x"
+        plugincommand: "go run plugin/go/orm/gorm/V_1_X/main.go"

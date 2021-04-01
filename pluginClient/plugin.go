@@ -6,6 +6,7 @@ import (
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
 	"code-analyser/pluginClient/framework"
+	"code-analyser/pluginClient/orm"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/go-plugin"
@@ -27,7 +28,7 @@ var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserDB:            &db.DbGRPCPlugin{},
 	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
 	PluginDispenserDependencies:  &dependencies.DependenciesGRPCPlugin{},
-	//PluginDispenserOrm: &orm.OrmGRPCPlugin{},
+	PluginDispenserOrm:           &orm.OrmGRPCPlugin{},
 }
 
 var HandshakeConfig = plugin.HandshakeConfig{

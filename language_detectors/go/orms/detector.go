@@ -5,7 +5,7 @@ import (
 	"code-analyser/language_detectors/interfaces"
 )
 
-var orms = map[string]interfaces.ORM{
+var orms = map[string]interfaces.ORMVersion{
 	"gorm": &gorm.GormORM{},
 }
 

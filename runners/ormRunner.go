@@ -1,41 +1,66 @@
 package runners
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/helpers"
+	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
+	"code-analyser/utils"
+	"os/exec"
 )
 
-func OrmRunner(ormDetector interfaces.ORMDetector, runTimeVersion, languageVersionFile, root string) *protos.OrmOutput {
-	ormsUsed := ormDetector.GetLibraryUsed(runTimeVersion, root)
-	ormOutputs := protos.OrmOutput{}
-	for ormUsed, OrmVersion := range *ormsUsed {
-		usedOrm := ormDetector.GetDetector(OrmVersion, root, ormUsed)
-		if ormFound := OrmDetectorRunner(usedOrm, languageVersionFile, runTimeVersion, root); ormFound != nil {
-			ormOutputs.Orms = append(ormOutputs.Orms, ormFound)
-			ormOutputs.Used = true
+func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]*protos.PluginSemver {
+	orm := map[string]*protos.PluginSemver{}
+	for _, supportedOrm := range langYamlObject.Orms {
+		if versionUsed, ok := dependenciesList[supportedOrm.Name]; ok {
+			for _, v := range supportedOrm.Versions {
+				if helpers.SeverValidate(v.Semver, versionUsed) {
+					orm[supportedOrm.Name] = v
+				}
+			}
 		}
 	}
-	return &ormOutputs
+	return orm
 }
 
-func OrmDetectorRunner(orm interfaces.ORM, languageVersionFile, runTimeVersion, root string) *protos.ORM {
-	versionedOrm := orm.GetVersionDetector(runTimeVersion, languageVersionFile, root)
-	versionDetector := versionedOrm.Detector
+func OrmRunner(ormList map[string]*protos.PluginSemver, runtimeVersion, root string) protos.OrmOutput {
+	ormOutputs := protos.OrmOutput{
+		Used: false,
+		Orms: []*protos.ORM{},
+	}
+	for ormUsed, ormDetails := range ormList {
+		ormOutputs.Used = true
+		usedOrm := OrmDetectorRunner(ormUsed, ormDetails, runtimeVersion, root)
+		ormOutputs.Orms = append(ormOutputs.Orms, usedOrm)
+	}
+	return ormOutputs
+}
 
-	serviceInput:=&pb.ServiceInput{
+func OrmDetectorRunner(name string, ormDetails *protos.PluginSemver, runTimeVersion, root string) *protos.ORM {
+	ormResponse, client := pluginClient.OrmPluginCall(exec.Command("sh", "-c", "go run plugin/go/orm/gorm/V_1_X/main.go"))
+	defer client.Kill()
+	isUsed, err := ormResponse.IsORMUsed(&pb.ServiceInput{
 		RuntimeVersion: runTimeVersion,
 		Root:           root,
+	})
+	if err != nil {
+		utils.Logger(err)
+		return nil
 	}
-	if _, err := versionDetector.IsORMFound(serviceInput); err == nil {
-		if _, err := versionDetector.IsORMUsed(serviceInput); err == nil {
-			if detected, err := versionDetector.Detect(serviceInput); err == nil && detected.Value {
-				version, _ := versionDetector.GetVersionName()
-				name, _ := versionDetector.GetORMName()
-				return &protos.ORM{
-					Name:    name.Value,
-					Version: version.Value,
-				}
+
+	if isUsed.Value == true {
+		detection, err := ormResponse.Detect(&pb.ServiceInput{
+			RuntimeVersion: runTimeVersion,
+			Root:           root,
+		})
+		if err != nil {
+			utils.Logger(err)
+			return nil
+		}
+		if detection.Value == true {
+			return &protos.ORM{
+				Name:    name,
+				Version: ormDetails.Name,
 			}
 		}
 	}
