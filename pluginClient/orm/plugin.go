@@ -15,10 +15,10 @@ type OrmGRPCPlugin struct {
 }
 
 func (p *OrmGRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterOrmServiceServer(server,&GRPCServer{Impl: p.Impl})
-   return nil
+	pb.RegisterOrmServiceServer(server, &GRPCServer{Impl: p.Impl})
+	return nil
 }
 
 func (p *OrmGRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-   return &GRPCClient{Client: pb.NewOrmServiceClient(conn)},nil
+	return &GRPCClient{Client: pb.NewOrmServiceClient(conn)}, nil
 }

@@ -57,7 +57,6 @@ func (m *GRPCServer) IsDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.
 	}, err
 }
 
-
 func (m *GRPCServer) PercentOfDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	res, err := m.Impl.PercentOfDbUsed(input)
 	return &pb.ServiceOutputFloat{

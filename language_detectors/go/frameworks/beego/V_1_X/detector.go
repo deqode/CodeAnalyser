@@ -39,4 +39,3 @@ func (b *Beego_V_1_X) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.Servic
 		Value: 88,
 	}, nil
 }
-

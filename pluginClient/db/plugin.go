@@ -19,9 +19,6 @@ func (p *DbGRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server
 	return nil
 }
 
-
 func (p *DbGRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewDbServiceClient(conn)},nil
+	return &GRPCClient{Client: pb.NewDbServiceClient(conn)}, nil
 }
-
-

@@ -31,13 +31,13 @@ func (d *GoDetector) DetectFrameworks(ctx context.Context, runtimeVersion, path 
 	//TODO:handle errors
 	return runners.FrameworkRunner(&frameworks.GOFrameworkDetector{}, runtimeVersion, versions.GO, path), nil
 }
-func (d *GoDetector) DetectDBs(ctx context.Context, runtimeVersion , path string) (*protos.DBOutput, error) {
+func (d *GoDetector) DetectDBs(ctx context.Context, runtimeVersion, path string) (*protos.DBOutput, error) {
 	//TODO:handle errors
 
 	return runners.DbRunner(&databases.GODbDetector{}, runtimeVersion, versions.GO, path), nil
 }
-func (d *GoDetector) DetectORMs(ctx context.Context, runtimeVersion,path string) (*protos.OrmOutput, error) {
-	return runners.OrmRunner(&orms.GoORMDetector{},runtimeVersion,versions.GO,path),nil
+func (d *GoDetector) DetectORMs(ctx context.Context, runtimeVersion, path string) (*protos.OrmOutput, error) {
+	return runners.OrmRunner(&orms.GoORMDetector{}, runtimeVersion, versions.GO, path), nil
 }
 func (d *GoDetector) DetectDependencies(context.Context, string, string) ([]*protos.DependenciesOutput, error) {
 	return nil, nil

@@ -43,7 +43,7 @@ var logger = hclog.New(&hclog.LoggerOptions{
 	Level:  hclog.Error,
 })
 
-func makeClient(cmd *exec.Cmd, pluginDispenser string, ) (interface{}, *plugin.Client) {
+func makeClient(cmd *exec.Cmd, pluginDispenser string) (interface{}, *plugin.Client) {
 	client := plugin.NewClient(&plugin.ClientConfig{
 		HandshakeConfig:  HandshakeConfig,
 		Plugins:          PluginMap,
@@ -62,12 +62,12 @@ func makeClient(cmd *exec.Cmd, pluginDispenser string, ) (interface{}, *plugin.C
 	return raw, client
 }
 
-func FrameworkPluginCall(cmd *exec.Cmd, ) (interfaces.FrameworkVersions, *plugin.Client) {
+func FrameworkPluginCall(cmd *exec.Cmd) (interfaces.FrameworkVersions, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserFramework)
 	return raw.(interfaces.FrameworkVersions), client
 }
 
-func OrmPluginCall(cmd *exec.Cmd, ) (interfaces.ORMVersion, *plugin.Client) {
+func OrmPluginCall(cmd *exec.Cmd) (interfaces.ORMVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserOrm)
 	return raw.(interfaces.ORMVersion), client
 }

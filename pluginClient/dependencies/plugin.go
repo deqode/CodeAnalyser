@@ -14,13 +14,12 @@ type DependenciesGRPCPlugin struct {
 }
 
 func (p *DependenciesGRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterDependenciesServiceServer(server,&GRPCServer{
+	pb.RegisterDependenciesServiceServer(server, &GRPCServer{
 		Impl: p.Impl,
 	})
 	return nil
 }
 
 func (p *DependenciesGRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewDependenciesServiceClient(conn)},nil
+	return &GRPCClient{Client: pb.NewDependenciesServiceClient(conn)}, nil
 }
-

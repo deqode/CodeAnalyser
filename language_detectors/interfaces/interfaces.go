@@ -19,9 +19,9 @@ type LanguageSpecificDetector interface {
 	////DetectFrameworks  will return framework detected in Dir
 	DetectFrameworks(ctx context.Context, runtimeVersion string, root string) ([]*protos.FrameworkOutput, error)
 	//DetectDBs will return Dbs detected in string
-	DetectDBs(ctx context.Context, runtimeVersion,root string) (*protos.DBOutput, error)
+	DetectDBs(ctx context.Context, runtimeVersion, root string) (*protos.DBOutput, error)
 	//DetectORMs will return orm detected in string
-	DetectORMs(ctx context.Context, runtimeVersion,root string) (*protos.OrmOutput, error)
+	DetectORMs(ctx context.Context, runtimeVersion, root string) (*protos.OrmOutput, error)
 	//DetectDependencies will return dependencies detected in string
 	DetectDependencies(context.Context, string, string) ([]*protos.DependenciesOutput, error)
 	//DetectLibraries will return libraries detected in string
@@ -38,10 +38,11 @@ type LanguageSpecificDetector interface {
 //TODO need to segregate and decouple our code
 
 type DetectRunTime interface {
-	DetectRuntime(inputString *pb.ServiceInputString) (*pb.ServiceOutputString,error)
+	DetectRuntime(inputString *pb.ServiceInputString) (*pb.ServiceOutputString, error)
 }
 
 type Dependencies interface {
-	GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap,error)
+	GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error)
 }
+
 //count 14

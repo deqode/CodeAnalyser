@@ -26,16 +26,17 @@ func ParseFrameworkFromDependencies(dependenciesList map[string]string, langYaml
 
 //FrameworkRunner will run to find Frameworks & returns its detectors.
 // Must be called in LanguageSpecificDetector.DetectFrameworks
-func FrameworkRunner(frameworkList map[string]*protos.PluginSemver , runtimeVersion, root string) []*protos.FrameworkOutput {
-var frameworkOutputs []*protos.FrameworkOutput
-for frameworkUsed, frameworkDetails := range frameworkList {
-	isUsed:=FrameworkDetectorRunner(frameworkUsed, frameworkDetails, runtimeVersion, root)
-	if isUsed!=nil{
-		frameworkOutputs = append(frameworkOutputs,isUsed )
+func FrameworkRunner(frameworkList map[string]*protos.PluginSemver, runtimeVersion, root string) []*protos.FrameworkOutput {
+	var frameworkOutputs []*protos.FrameworkOutput
+	for frameworkUsed, frameworkDetails := range frameworkList {
+		isUsed := FrameworkDetectorRunner(frameworkUsed, frameworkDetails, runtimeVersion, root)
+		if isUsed != nil {
+			frameworkOutputs = append(frameworkOutputs, isUsed)
+		}
 	}
+	return frameworkOutputs
 }
-return frameworkOutputs
-}
+
 //
 // FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func FrameworkDetectorRunner(name string, framworkDetails *protos.PluginSemver, runtimeVersion, root string) *protos.FrameworkOutput {
@@ -75,5 +76,5 @@ func FrameworkDetectorRunner(name string, framworkDetails *protos.PluginSemver, 
 			}
 		}
 	}
-return nil
+	return nil
 }

@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/plugin/go/orm/gorm/V_1_X/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pluginClient/orm/plugin.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/go/databases/postgres/V_1_X/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/databases/postgres/V_1_X/detector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/go/orms/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/orms/detector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/go/orms/gorm/V_1_X/detector.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/go/orms/gorm/V_1_X/detector.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces/orm.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces/orm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/orm/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/orm/grpc.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/orm.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/orm.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/pb/orm_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/pb/orm_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/plugin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginClient/proto/orm.proto" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/proto/orm.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runners/language.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/language.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/runners/ormRunner.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/ormRunner.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/go.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/static/go.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
