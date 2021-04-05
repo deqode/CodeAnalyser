@@ -24,9 +24,9 @@ func validate(path string) bool {
 		str, _ := filepath.Glob(path)
 		if len(str) > 0 {
 			return true
-		} else {
+		} 
 			return false
-		}
+		
 	}
 	return false
 }

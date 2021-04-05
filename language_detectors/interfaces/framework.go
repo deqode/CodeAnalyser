@@ -23,10 +23,10 @@ type FrameworkVersions interface {
 	PercentOfFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputFloat, error)
 	//GetFrameworkName() (*pb.ServiceOutputString, error)
 }
-
-type FrameworkVersionDetector struct {
-	Default  bool
-	Name     string
-	Semver   string
-	Detector FrameworkVersions
-}
+////FrameworkVersionDetector 
+//type FrameworkVersionDetector struct {
+//	Default  bool
+//	Name     string
+//	Semver   string
+//	Detector FrameworkVersions
+//}

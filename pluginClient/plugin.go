@@ -16,13 +16,18 @@ import (
 )
 
 const (
+	//PluginDispenserFramework is a string framework
 	PluginDispenserFramework     = "framework"
+	//PluginDispenserDB is a string db
 	PluginDispenserDB            = "db"
+	//PluginDispenserOrm is a string orm
 	PluginDispenserOrm           = "orm"
+	//PluginDispenserDetectRuntime  is a detectRuntime
 	PluginDispenserDetectRuntime = "detectRuntime"
+	//PluginDispenserDependencies  is a getDependencies
 	PluginDispenserDependencies  = "getDependencies"
 )
-
+//PluginMap is a map of dispenser string and plugin 
 var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserFramework:     &framework.FrameworkGRPCPlugin{},
 	PluginDispenserDB:            &db.DbGRPCPlugin{},
@@ -31,9 +36,12 @@ var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserOrm:           &orm.OrmGRPCPlugin{},
 }
 
+
+//HandshakeConfig stores the config for plugin
 var HandshakeConfig = plugin.HandshakeConfig{
 	ProtocolVersion:  1,
 	MagicCookieKey:   "BASIC_PLUGIN",
+	//todo: need to make this in environment variable
 	MagicCookieValue: "hello",
 }
 
@@ -61,27 +69,27 @@ func makeClient(cmd *exec.Cmd, pluginDispenser string) (interface{}, *plugin.Cli
 	}
 	return raw, client
 }
-
+//FrameworkPluginCall call th plugin related to DetectRuntime framework
 func FrameworkPluginCall(cmd *exec.Cmd) (interfaces.FrameworkVersions, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserFramework)
 	return raw.(interfaces.FrameworkVersions), client
 }
-
+//OrmPluginCall call th plugin related to DetectRuntime ORM
 func OrmPluginCall(cmd *exec.Cmd) (interfaces.ORMVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserOrm)
 	return raw.(interfaces.ORMVersion), client
 }
-
+//DetectRuntimePluginCall call th plugin related to DetectRuntime
 func DetectRuntimePluginCall(cmd *exec.Cmd) (interfaces.DetectRunTime, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
 	return raw.(interfaces.DetectRunTime), client
 }
-
+//DependenciesPluginCall call th plugin related to Dependencies
 func DependenciesPluginCall(cmd *exec.Cmd) (interfaces.Dependencies, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDependencies)
 	return raw.(interfaces.Dependencies), client
 }
-
+//DbPluginCall call th plugin related to DB
 func DbPluginCall(cmd *exec.Cmd) (interfaces.DbVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDB)
 	return raw.(interfaces.DbVersion), client
