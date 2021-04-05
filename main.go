@@ -17,6 +17,8 @@ func main() {
 	Scrape(path)
 }
 
+/* ReadPluginYamlFile it reads a yaml file of specific plugin and fetch
+version,author, etc ... */
 func ReadPluginYamlFile(path string) (*protos.Plugin, error) {
 	filename, _ := filepath.Abs(path)
 	yamlFile, err := ioutil.ReadFile(filename)
@@ -32,6 +34,9 @@ func ReadPluginYamlFile(path string) (*protos.Plugin, error) {
 	return &lang, nil
 }
 
+/*ParsePluginYamlFile it will fetch paths of all plugins using walk function and
+parse all dependencies to their categories for example postgres is a Db
+*/
 func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
 	var pluginDetailsFileLst []string
 	//TODO make path dynamic from supported language
@@ -121,18 +126,19 @@ func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
 	return &languageVersion
 }
 
+//Scrape it scrape language, framework, orm etc .....
 func Scrape(path string) {
 	languages, _, _ := analyser.Analyse(path)
-	supportedLanguages, _ := supportedLanguagedParser()
+	supportedLanguages, _ := SupportedLanguagedParser()
 	decisionMakerInput := &protos.DecisionMakerInput{
 		LanguageSpecificDetection: []*protos.LanguageSpecificDetections{},
 		GloabalDetections:         nil,
 	}
 	for _, language := range languages {
 		var languagePath string
-		for _, Supportedlanguage := range supportedLanguages.Languages {
-			if Supportedlanguage.Name == language.Name {
-				languagePath = Supportedlanguage.Path
+		for _, supportedlanguage := range supportedLanguages.Languages {
+			if supportedlanguage.Name == language.Name {
+				languagePath = supportedlanguage.Path
 				break
 			}
 		}
@@ -155,13 +161,15 @@ func Scrape(path string) {
 	}
 }
 
-func RunAllDetectors(languageSpecificDetections *protos.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, runtimeVersion, path string) {
+//RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
+func RunAllDetectors(languageSpecificDetections *protos.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, runtimeVersion string, path string) {
 	languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
 	languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
 	languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
 }
 
-func supportedLanguagedParser() (*protos.SupportedLanguages, error) {
+//supportedLanguagedParser it reads yaml file and fetch out supported languges by our system
+func SupportedLanguagedParser() (*protos.SupportedLanguages, error) {
 	filename, _ := filepath.Abs("./static/supportedLanguages.yaml")
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {

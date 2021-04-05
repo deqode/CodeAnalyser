@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces/framework.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces/framework.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/pluginDetails.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/pluginDetails.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/go.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
