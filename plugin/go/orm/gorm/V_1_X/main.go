@@ -6,9 +6,9 @@ import (
 	"code-analyser/pluginClient/pb"
 	"github.com/hashicorp/go-plugin"
 )
-
+//GormV1X is a plugin of type ORM
 type GormV1X struct{}
-//PercentOfORMUsed will return usage of ORM
+//Detect will return usage of ORM
 func (g GormV1X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputDetectOrm, error) {
 	return &pb.ServiceOutputDetectOrm{
 		Used:               true,

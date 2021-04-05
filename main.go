@@ -34,7 +34,6 @@ func ReadPluginYamlFile(path string) (*protos.Plugin, error) {
 
 func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
 	var pluginDetailsFileLst []string
-	//TODO make path dynamic from supported language
 	err := filepath.Walk(rootPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
