@@ -13,7 +13,7 @@ import "protos/outputs/global/startUpCommands.proto";
 import "protos/outputs/languageSpecific/appserver.proto";
 import "protos/outputs/languageSpecific/buildDirectory.proto";
 import "protos/outputs/languageSpecific/db.proto";
-import "protos/outputs/languageSpecific/getDependencies.proto";
+import "protos/outputs/languageSpecific/dependencies.proto";
 import "protos/outputs/languageSpecific/env.proto";
 import "protos/outputs/languageSpecific/framework.proto";
 import "protos/outputs/languageSpecific/libraries.proto";
@@ -40,10 +40,10 @@ message LanguageSpecificDetections{
 }
 
 message GlobalDetections{
-    repeated ProcFileOutput procFile=1;
-    repeated MakefileOutput makefile=2;
-    repeated DockerFileOutput dockerFile=3;
-    repeated DockerComposeFileOutput dockerComposeFile=4;
+  repeated ProcFileOutput procFile = 1;
+  repeated MakefileOutput makefile = 2;
+  repeated DockerFileOutput dockerFile = 3;
+  repeated DockerComposeFileOutput dockerComposeFile = 4;
 }
 
 
@@ -53,4 +53,9 @@ message Commands{
   repeated SeedCommandsOutput seedCommands = 3;
   repeated MigrationCommandsOutput MigrationCommands = 4;
   //   todo:   DetectAdHocScripts
+}
+
+message DecisionMakerInput {
+  repeated LanguageSpecificDetections languageSpecificDetection = 1;
+  GlobalDetections gloabalDetections = 2;
 }

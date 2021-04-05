@@ -57,6 +57,7 @@ func (m *GRPCServer) IsDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.
 	}, err
 }
 
+//PercentOfDbUsed it gives percesnt of db used in project and implements DbServiceServer interface
 func (m *GRPCServer) PercentOfDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	res, err := m.Impl.PercentOfDbUsed(input)
 	return &pb.ServiceOutputFloat{

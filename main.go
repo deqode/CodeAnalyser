@@ -14,8 +14,6 @@ import (
 
 func main() {
 	path := "./"
-
-	//log.Println(languageVersion)
 	Scrape(path)
 }
 
@@ -34,10 +32,10 @@ func ReadPluginYamlFile(path string) (*protos.Plugin, error) {
 	return &lang, nil
 }
 
-func ParsePluginYamlFile() *protos.LanguageVersion {
+func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
 	var pluginDetailsFileLst []string
 	//TODO make path dynamic from supported language
-	err := filepath.Walk("./plugin",
+	err := filepath.Walk(rootPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -126,6 +124,10 @@ func ParsePluginYamlFile() *protos.LanguageVersion {
 func Scrape(path string) {
 	languages, _, _ := analyser.Analyse(path)
 	supportedLanguages, _ := supportedLanguagedParser()
+	decisionMakerInput := &protos.DecisionMakerInput{
+		LanguageSpecificDetection: []*protos.LanguageSpecificDetections{},
+		GloabalDetections:         nil,
+	}
 	for _, language := range languages {
 		var languagePath string
 		for _, Supportedlanguage := range supportedLanguages.Languages {
@@ -135,15 +137,28 @@ func Scrape(path string) {
 			}
 		}
 		if languagePath != "" {
-			yamlLangObject := ParsePluginYamlFile()
+			yamlLangObject := ParsePluginYamlFile(languagePath)
 			runtimeVersion := (runners.DetectRuntime(nil, path, yamlLangObject))
 			if runtimeVersion == "" {
 				break
 			}
-			runners.GetParsedDependencis(nil, runtimeVersion, path, yamlLangObject)
+			allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, yamlLangObject)
+			languageSpecificDetections := protos.LanguageSpecificDetections{
+				Name:           language.Name,
+				RuntimeVersion: runtimeVersion,
+			}
+			RunAllDetectors(&languageSpecificDetections, allDependencies, runtimeVersion, path)
+			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
+			log.Println(decisionMakerInput)
 		}
 
 	}
+}
+
+func RunAllDetectors(languageSpecificDetections *protos.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, runtimeVersion, path string) {
+	languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
+	languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
+	languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
 }
 
 func supportedLanguagedParser() (*protos.SupportedLanguages, error) {

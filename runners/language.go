@@ -38,7 +38,7 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.Lang
 	return runtimeVersion.Value
 }
 
-func GetParsedDependencis(ctx context.Context, languageVersion, path string, langYamlObject *protos.LanguageVersion) *protos.LanguageVersion {
+func GetParsedDependencis(ctx context.Context, languageVersion, path string, langYamlObject *protos.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
 
 	var dependenciesCommand *protos.DependencyVersionDetails
@@ -66,17 +66,10 @@ func GetParsedDependencis(ctx context.Context, languageVersion, path string, lan
 			return nil
 		}
 		dependenciesList := getdependenciesFound.Value
-
-		//log.Println(dependenciesList)
-
 		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[ORM] = ParseOrmFromDependencies(dependenciesList, langYamlObject)
-		//log.Println(AllDependencies)
-		//log.Println(OrmRunner(AllDependencies[ORM], runtimeVersion, path).Orms)
-		//log.Println(DbRunner(AllDependencies[DB], runtimeVersion, path).Databases)
-		//log.Println(FrameworkRunner(AllDependencies[Framework], runtimeVersion, path))
-
+       return AllDependencies
 	}
 
 	return nil
