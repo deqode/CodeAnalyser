@@ -13,7 +13,7 @@ import "protos/outputs/global/startUpCommands.proto";
 import "protos/outputs/languageSpecific/appserver.proto";
 import "protos/outputs/languageSpecific/buildDirectory.proto";
 import "protos/outputs/languageSpecific/db.proto";
-import "protos/outputs/languageSpecific/dependencies.proto";
+import "protos/outputs/languageSpecific/getDependencies.proto";
 import "protos/outputs/languageSpecific/env.proto";
 import "protos/outputs/languageSpecific/framework.proto";
 import "protos/outputs/languageSpecific/libraries.proto";

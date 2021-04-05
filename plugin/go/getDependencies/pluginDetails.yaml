@@ -1,0 +1,12 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "getDependencies"
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "go run plugin/go/getDependencies/main.go"
+

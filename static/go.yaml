@@ -3,7 +3,7 @@ runtimeversions:
   versions:
    - name: "v1.x"
      semver: ">=1.x,<=2.x"
-     plugincommand: "go run plugin/go/dependencies/main.go"
+     plugincommand: "go run plugin/go/getDependencies/main.go"
 
   
 framework:
@@ -11,7 +11,7 @@ framework:
     versions:
       - name: "v1.x"
         semver: ">=1.x,<2.x"
-        plugincommand: "go run plugin/go/dependencies/main.go"
+        plugincommand: "go run plugin/go/getDependencies/main.go"
 
       - name: "v2.x"
         semver: ">=2.x,<=3.x"

@@ -22,3 +22,13 @@ func SeverValidate(semverstring, value string) bool {
 	a, _ := c.Validate(v)
 	return a
 }
+func SeverValidateFromArray(semverstrings []string,value string)bool{
+	for _,sem:=range semverstrings{
+		if SeverValidate(sem,value){
+			return true
+		}
+	}
+	return false
+
+
+}

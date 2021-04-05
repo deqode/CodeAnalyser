@@ -9,10 +9,12 @@ import (
 
 type Gorm_V_1_X struct{}
 
-func (g Gorm_V_1_X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
-		Value: true,
-		Error: nil,
+func (g Gorm_V_1_X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputDetectOrm, error) {
+	return &pb.ServiceOutputDetectOrm{
+		Used:               true,
+		SupportedDbName:    "postgres",
+		SupportedDbVersion: "6.8",
+		Error:              nil,
 	}, nil
 }
 

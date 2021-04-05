@@ -4,24 +4,19 @@ option go_package = "./protos";
 
 
 message LanguageVersion{
-  RuntimeVersions runtimeversions = 1;
-  repeated PluginVersions framework = 2;
-  repeated PluginVersions databases = 3;
-  repeated PluginVersions orms = 4;
-  repeated PluginVersions libraries = 5;
-  repeated PluginVersions dependencies = 6;
-}
-message RuntimeVersions{
-  string detector = 1;
-  repeated PluginSemver versions  = 2;
-}
-message PluginVersions {
-  string name=1;
-  repeated PluginSemver versions = 2;
+  string detectruntimecommand = 7;
+  map<string, DependencyVersionDetails> runtimeversions = 1;
+  map<string, DependencyDetails> framework = 2;
+  map<string, DependencyDetails>  databases = 3;
+  map<string, DependencyDetails>  orms = 4;
+  map<string, DependencyDetails>  libraries = 5;
+  map<string, DependencyDetails>  dependencies = 6;
 }
 
-message PluginSemver{
-  string name = 1;
-  string semver = 2;
+message DependencyDetails{
+  map<string, DependencyVersionDetails> version = 1;
+}
+message DependencyVersionDetails{
+  repeated string semver = 2;
   string plugincommand = 4;
 }

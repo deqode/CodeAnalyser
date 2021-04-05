@@ -31,7 +31,7 @@ type LanguageSpecificDetections struct {
 	Framework      []*FrameworkOutput      `protobuf:"bytes,4,rep,name=framework,proto3" json:"framework,omitempty"`
 	Db             *DBOutput               `protobuf:"bytes,5,opt,name=db,proto3" json:"db,omitempty"`
 	Orm            *OrmOutput              `protobuf:"bytes,6,opt,name=orm,proto3" json:"orm,omitempty"`
-	Dependencies   []*DependenciesOutput   `protobuf:"bytes,7,rep,name=dependencies,proto3" json:"dependencies,omitempty"`
+	Dependencies   []*DependenciesOutput   `protobuf:"bytes,7,rep,name=getDependencies,proto3" json:"getDependencies,omitempty"`
 	Libraries      []*LibrariesOutput      `protobuf:"bytes,8,rep,name=libraries,proto3" json:"libraries,omitempty"`
 	StaticAssets   []*StaticAssetsOutput   `protobuf:"bytes,9,rep,name=staticAssets,proto3" json:"staticAssets,omitempty"`
 	StackOutput    []*StackOutput          `protobuf:"bytes,10,rep,name=stackOutput,proto3" json:"stackOutput,omitempty"`
@@ -474,7 +474,7 @@ var file_protos_outputs_decisionMaker_proto_depIdxs = []int32{
 	4,  // 1: LanguageSpecificDetections.framework:type_name -> FrameworkOutput
 	5,  // 2: LanguageSpecificDetections.db:type_name -> DBOutput
 	6,  // 3: LanguageSpecificDetections.orm:type_name -> OrmOutput
-	7,  // 4: LanguageSpecificDetections.dependencies:type_name -> DependenciesOutput
+	7,  // 4: LanguageSpecificDetections.getDependencies:type_name -> DependenciesOutput
 	8,  // 5: LanguageSpecificDetections.libraries:type_name -> LibrariesOutput
 	9,  // 6: LanguageSpecificDetections.staticAssets:type_name -> StaticAssetsOutput
 	10, // 7: LanguageSpecificDetections.stackOutput:type_name -> StackOutput

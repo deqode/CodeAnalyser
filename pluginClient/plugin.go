@@ -20,7 +20,7 @@ const (
 	PluginDispenserDB            = "db"
 	PluginDispenserOrm           = "orm"
 	PluginDispenserDetectRuntime = "detectRuntime"
-	PluginDispenserDependencies  = "dependencies"
+	PluginDispenserDependencies  = "getDependencies"
 )
 
 var PluginMap = map[string]plugin.Plugin{

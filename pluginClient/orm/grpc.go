@@ -10,7 +10,7 @@ type GRPCClient struct {
 	Client pb.OrmServiceClient
 }
 
-func (G *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+func (G *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputDetectOrm, error) {
 	res, err := G.Client.Detect(context.Background(), input)
 	return res, err
 }
@@ -29,7 +29,7 @@ type GRPCServer struct {
 	Impl interfaces.ORMVersion
 }
 
-func (G *GRPCServer) Detect(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+func (G *GRPCServer) Detect(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputDetectOrm, error) {
 	res, err := G.Impl.Detect(input)
 	return res, err
 }

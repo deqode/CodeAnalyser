@@ -1,7 +1,5 @@
 package runners
 
-//todo: think good name
-
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
@@ -9,16 +7,15 @@ import (
 	"code-analyser/protos/protos"
 	"code-analyser/utils"
 	"context"
-	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"log"
 	"os/exec"
-	"path/filepath"
 )
 
-type Dependency struct {
-	Name    string
-	Version string
+//todo: think good name
+
+type DependencyDetail struct {
+	Version    string
+	Command string
 }
 
 const (
@@ -28,7 +25,7 @@ const (
 )
 
 func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.LanguageVersion) string {
-	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Runtimeversions.Detector))
+	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Detectruntimecommand))
 	defer client.Kill()
 	runtimeVersion, err := runtimeResponse.DetectRuntime(&pb.ServiceInputString{Value: path})
 	if err != nil {
@@ -42,30 +39,15 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.Lang
 	return runtimeVersion.Value
 }
 
-func ParseLangaugeYML(filePath string) *protos.LanguageVersion {
-	path, _ := filepath.Abs(filePath)
+func GetParsedDependencis(ctx context.Context,languageVersion, path string, langYamlObject *protos.LanguageVersion) *protos.LanguageVersion {
+	AllDependencies := map[string]map[string]DependencyDetail{}
 
-	yamlFile, err := ioutil.ReadFile(path)
-	if err != nil {
-		utils.Logger(err, "ERROR")
-		return nil
-	}
-	var lang protos.LanguageVersion
-	err = yaml.Unmarshal(yamlFile, &lang)
-	if err != nil {
-		utils.Logger(err)
-		return nil
-	}
-	return &lang
-}
-
-func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, langYamlObject *protos.LanguageVersion) *protos.LanguageVersion {
-	AllDependencies := map[string]map[string]*protos.PluginSemver{}
-
-	var dependenciesCommand *protos.PluginSemver
-	for _, supportedRuntimeVersions := range langYamlObject.Runtimeversions.Versions {
-		if helpers.SeverValidate(supportedRuntimeVersions.Semver, runtimeVersion) {
+	var dependenciesCommand *protos.DependencyVersionDetails
+	var runtimeVersion string
+	for rt, supportedRuntimeVersions := range langYamlObject.Runtimeversions {
+		if helpers.SeverValidateFromArray(supportedRuntimeVersions.Semver, languageVersion) {
 			dependenciesCommand = supportedRuntimeVersions
+			runtimeVersion = rt
 			break
 		}
 	}
@@ -86,13 +68,15 @@ func GetParsedDependencis(ctx context.Context, runtimeVersion, path string, lang
 		}
 		dependenciesList := getdependenciesFound.Value
 
+		log.Println(dependenciesList)
+
 		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[ORM] = ParseOrmFromDependencies(dependenciesList, langYamlObject)
 		//log.Println(AllDependencies)
-		log.Println(OrmRunner(AllDependencies[ORM], runtimeVersion, path).Orms)
-		log.Println(DbRunner(AllDependencies[DB], runtimeVersion, path).Databases)
-		log.Println(FrameworkRunner(AllDependencies[Framework], runtimeVersion, path))
+		//log.Println(OrmRunner(AllDependencies[ORM], runtimeVersion, path).Orms)
+		//log.Println(DbRunner(AllDependencies[DB], runtimeVersion, path).Databases)
+		//log.Println(FrameworkRunner(AllDependencies[Framework], runtimeVersion, path))
 
 	}
 
