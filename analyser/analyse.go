@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-cmd/cmd"
 )
-
+// File is a struct of language name and percentage used
 type File struct {
 	Name    string
 	Percent float64
