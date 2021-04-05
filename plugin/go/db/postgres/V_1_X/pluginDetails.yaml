@@ -4,10 +4,10 @@ author:
   email: "rfr"
 date: "rvtrv"
 plugindetails:
-  type: "databases"
+  type: "database"
   name: "postgres"
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"
-  command: "go run plugin/go/db/postgres/V_1_X/main.gogo run plugin/go/db/postgres/V_1_X/main.go"
+  command: "go run plugin/go/db/postgres/V_1_X/main.go"
 

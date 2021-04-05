@@ -89,7 +89,7 @@ func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
 				languageVersion.Orms = map[string]*protos.DependencyDetails{parsedFile.Name: &dependencyDetails}
 			}
 			break
-		case "databases":
+		case "database":
 			if val, ok := languageVersion.Databases[parsedFile.Name]; ok {
 				val.Version[parsedFile.Version] = &protos.DependencyVersionDetails{
 					Semver:        parsedFile.Semver,
