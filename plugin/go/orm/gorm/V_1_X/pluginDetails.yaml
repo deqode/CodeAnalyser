@@ -1,0 +1,13 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "orm"
+  name: "gorm"
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "go run plugin/go/orm/gorm/V_1_X/main.go"
+

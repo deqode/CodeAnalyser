@@ -9,14 +9,17 @@ import (
 	"os/exec"
 )
 
-func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]*protos.PluginSemver {
+func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
 	//framework
-	db := map[string]*protos.PluginSemver{}
-	for _, supportedDb := range langYamlObject.Databases {
-		if versionUsed, ok := dependenciesList[supportedDb.Name]; ok {
-			for _, v := range supportedDb.Versions {
-				if helpers.SeverValidate(v.Semver, versionUsed) {
-					db[supportedDb.Name] = v
+	db := map[string]DependencyDetail{}
+	for key, supportedDb := range langYamlObject.Databases {
+		if versionUsed, ok := dependenciesList[key]; ok {
+			for versionName, v := range supportedDb.Version {
+				if helpers.SeverValidateFromArray(v.Semver, versionUsed) {
+					db[key] = DependencyDetail{
+						Version: versionName,
+						Command: v.Plugincommand,
+					}
 				}
 			}
 		}
@@ -25,7 +28,7 @@ func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject 
 }
 
 //DbRunner will run to detect its dbs and return its detectors
-func DbRunner(dbList map[string]*protos.PluginSemver, runtimeVersion, root string) protos.DBOutput {
+func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *protos.DBOutput {
 	dbOutput := protos.DBOutput{
 		Used:      false,
 		Databases: []*protos.DB{},
@@ -35,11 +38,11 @@ func DbRunner(dbList map[string]*protos.PluginSemver, runtimeVersion, root strin
 		isUsed := DbDetectorRunner(dbUsed, dbDetails, runtimeVersion, root)
 		dbOutput.Databases = append(dbOutput.Databases, isUsed)
 	}
-	return dbOutput
+	return &dbOutput
 }
 
 ////TODO handle errors on every method calls
-func DbDetectorRunner(name string, dbDetails *protos.PluginSemver, runTimeVersion, root string) *protos.DB {
+func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *protos.DB {
 	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", "go run plugin/go/db/postgres/V_1_X/main.go"))
 	defer client.Kill()
 	isUsed, err := dbResponse.IsDbUsed(&pb.ServiceInput{
@@ -63,7 +66,7 @@ func DbDetectorRunner(name string, dbDetails *protos.PluginSemver, runTimeVersio
 		if detection.Value == true {
 			return &protos.DB{
 				Name:    name,
-				Version: dbDetails.Name,
+				Version: dbDetails.Version,
 				Port:    detection.IntValue,
 			}
 		}

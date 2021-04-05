@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/language_detectors/interfaces/framework.go" beforeDir="false" afterPath="$PROJECT_DIR$/language_detectors/interfaces/framework.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/pluginDetails.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/go/db/postgres/V_1_X/pluginDetails.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/go.yaml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +31,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
@@ -48,12 +60,13 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ToolWindowGit.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="yaml" />
     <property name="configurable..is.expanded" value="false" />
     <property name="configurable.GoLibrariesConfigurable.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/plugin/go/db" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -61,13 +74,15 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/plugin/go/db/postgres" />
+      <recent name="$PROJECT_DIR$/plugin/go/orm/gorm/V_1_X" />
+      <recent name="$PROJECT_DIR$/plugin/go/framework/beego/v1_x" />
+      <recent name="$PROJECT_DIR$/plugin/go/detectRuntime" />
       <recent name="$PROJECT_DIR$/plugin/go/db" />
-      <recent name="$PROJECT_DIR$/language_detectors" />
-      <recent name="$PROJECT_DIR$/analyser" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/plugin/go/frameworks" />
@@ -77,7 +92,7 @@
       <recent name="$PROJECT_DIR$/static" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build main.go">
+  <component name="RunManager" selected="Makefile.get-linter">
     <configuration name="go build code-analyser" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="code-analyser" />
       <working_directory value="$PROJECT_DIR$" />
@@ -107,8 +122,15 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="get-linter" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="get-linter" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Makefile.get-linter" />
         <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Go Build.go build interfaces.go" />
       </list>

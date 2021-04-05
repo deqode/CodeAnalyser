@@ -7,23 +7,25 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type Gorm_V_1_X struct{}
-
-func (g Gorm_V_1_X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+type GormV1X struct{}
+//PercentOfORMUsed will return usage of ORM
+func (g GormV1X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputDetectOrm, error) {
+	return &pb.ServiceOutputDetectOrm{
+		Used:               true,
+		SupportedDbName:    "postgres",
+		SupportedDbVersion: "6.8",
+		Error:              nil,
+	}, nil
+}
+//IsORMUsed will return % usage of ORM
+func (g GormV1X) IsORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	return &pb.ServiceOutputBool{
 		Value: true,
 		Error: nil,
 	}, nil
 }
-
-func (g Gorm_V_1_X) IsORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
-		Value: true,
-		Error: nil,
-	}, nil
-}
-
-func (g Gorm_V_1_X) PercentOfORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
+//PercentOfORMUsed will return % usage of ORM
+func (g GormV1X) PercentOfORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	return &pb.ServiceOutputFloat{
 		Value: 89.5,
 		Error: nil,
@@ -35,7 +37,7 @@ func main() {
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
 			pluginClient.PluginDispenserOrm: &orm.OrmGRPCPlugin{
-				Impl: &Gorm_V_1_X{},
+				Impl: &GormV1X{},
 			}},
 		GRPCServer: plugin.DefaultGRPCServer,
 	})

@@ -15,5 +15,7 @@ message ORM{
   string name = 1;
   //  version of orm
   string version = 2;
+  string supportedDbName = 3;
+  string supportedDbVersion = 4;
 }
 

@@ -1,0 +1,10 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "detectRuntime"
+  command: "go run plugin/go/detectRuntime/main.go"
+
+

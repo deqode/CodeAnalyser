@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrmServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
+	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputDetectOrm, error)
 	IsORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
 	PercentOfORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error)
 }
@@ -31,8 +31,8 @@ func NewOrmServiceClient(cc grpc.ClientConnInterface) OrmServiceClient {
 	return &ormServiceClient{cc}
 }
 
-func (c *ormServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
+func (c *ormServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputDetectOrm, error) {
+	out := new(ServiceOutputDetectOrm)
 	err := c.cc.Invoke(ctx, "/proto.OrmService/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (c *ormServiceClient) PercentOfORMUsed(ctx context.Context, in *ServiceInpu
 // All implementations must embed UnimplementedOrmServiceServer
 // for forward compatibility
 type OrmServiceServer interface {
-	Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error)
+	Detect(context.Context, *ServiceInput) (*ServiceOutputDetectOrm, error)
 	IsORMUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
 	PercentOfORMUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
 	//mustEmbedUnimplementedOrmServiceServer()
@@ -72,7 +72,7 @@ type OrmServiceServer interface {
 type UnimplementedOrmServiceServer struct {
 }
 
-func (UnimplementedOrmServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
+func (UnimplementedOrmServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputDetectOrm, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 func (UnimplementedOrmServiceServer) IsORMUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {

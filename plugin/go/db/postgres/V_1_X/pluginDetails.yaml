@@ -1,0 +1,13 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "database"
+  name: "postgres"
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "go run plugin/go/db/postgres/V_1_X/main.go"
+

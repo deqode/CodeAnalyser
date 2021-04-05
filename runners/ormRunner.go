@@ -9,13 +9,16 @@ import (
 	"os/exec"
 )
 
-func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]*protos.PluginSemver {
-	orm := map[string]*protos.PluginSemver{}
-	for _, supportedOrm := range langYamlObject.Orms {
-		if versionUsed, ok := dependenciesList[supportedOrm.Name]; ok {
-			for _, v := range supportedOrm.Versions {
-				if helpers.SeverValidate(v.Semver, versionUsed) {
-					orm[supportedOrm.Name] = v
+func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
+	orm := map[string]DependencyDetail{}
+	for key, supportedOrm := range langYamlObject.Orms {
+		if versionUsed, ok := dependenciesList[key]; ok {
+			for versionName, v := range supportedOrm.Version {
+				if helpers.SeverValidateFromArray(v.Semver, versionUsed) {
+					orm[key] = DependencyDetail{
+						Version: versionName,
+						Command: v.Plugincommand,
+					}
 				}
 			}
 		}
@@ -23,7 +26,7 @@ func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject
 	return orm
 }
 
-func OrmRunner(ormList map[string]*protos.PluginSemver, runtimeVersion, root string) protos.OrmOutput {
+func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string) *protos.OrmOutput {
 	ormOutputs := protos.OrmOutput{
 		Used: false,
 		Orms: []*protos.ORM{},
@@ -33,10 +36,10 @@ func OrmRunner(ormList map[string]*protos.PluginSemver, runtimeVersion, root str
 		usedOrm := OrmDetectorRunner(ormUsed, ormDetails, runtimeVersion, root)
 		ormOutputs.Orms = append(ormOutputs.Orms, usedOrm)
 	}
-	return ormOutputs
+	return &ormOutputs
 }
 
-func OrmDetectorRunner(name string, ormDetails *protos.PluginSemver, runTimeVersion, root string) *protos.ORM {
+func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion, root string) *protos.ORM {
 	ormResponse, client := pluginClient.OrmPluginCall(exec.Command("sh", "-c", "go run plugin/go/orm/gorm/V_1_X/main.go"))
 	defer client.Kill()
 	isUsed, err := ormResponse.IsORMUsed(&pb.ServiceInput{
@@ -57,10 +60,10 @@ func OrmDetectorRunner(name string, ormDetails *protos.PluginSemver, runTimeVers
 			utils.Logger(err)
 			return nil
 		}
-		if detection.Value == true {
+		if detection.Used == true {
 			return &protos.ORM{
 				Name:    name,
-				Version: ormDetails.Name,
+				Version: ormDetails.Version,
 			}
 		}
 	}

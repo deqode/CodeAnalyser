@@ -4,8 +4,15 @@ option go_package = "../pb";
 
 import "proto/common.proto";
 
+message ServiceOutputDetectOrm{
+  bool used = 1;
+  string supportedDbName = 2;
+  string supportedDbVersion = 3;
+  ServiceError error = 4;
+}
+
 service OrmService {
-  rpc Detect(ServiceInput) returns (ServiceOutputBool);  // deep level detection
+  rpc Detect(ServiceInput) returns (ServiceOutputDetectOrm);  // deep level detection
   rpc IsORMUsed(ServiceInput) returns (ServiceOutputBool);
   rpc PercentOfORMUsed(ServiceInput) returns (ServiceOutputFloat);
 }

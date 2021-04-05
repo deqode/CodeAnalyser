@@ -40,10 +40,10 @@ message LanguageSpecificDetections{
 }
 
 message GlobalDetections{
-    repeated ProcFileOutput procFile=1;
-    repeated MakefileOutput makefile=2;
-    repeated DockerFileOutput dockerFile=3;
-    repeated DockerComposeFileOutput dockerComposeFile=4;
+  repeated ProcFileOutput procFile = 1;
+  repeated MakefileOutput makefile = 2;
+  repeated DockerFileOutput dockerFile = 3;
+  repeated DockerComposeFileOutput dockerComposeFile = 4;
 }
 
 
@@ -53,4 +53,9 @@ message Commands{
   repeated SeedCommandsOutput seedCommands = 3;
   repeated MigrationCommandsOutput MigrationCommands = 4;
   //   todo:   DetectAdHocScripts
+}
+
+message DecisionMakerInput {
+  repeated LanguageSpecificDetections languageSpecificDetection = 1;
+  GlobalDetections gloabalDetections = 2;
 }
