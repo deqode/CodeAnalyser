@@ -3,12 +3,10 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/protos/protos"
-	"log"
 )
 
 func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
 	orm := map[string]DependencyDetail{}
-	log.Println(langYamlObject.Orms)
 	for key, supportedOrm := range langYamlObject.Orms {
 		if versionUsed, ok := dependenciesList[key]; ok {
 			for versionName, v := range supportedOrm.Version {

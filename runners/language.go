@@ -68,12 +68,12 @@ func GetParsedDependencis(ctx context.Context,languageVersion, path string, lang
 		}
 		dependenciesList := getdependenciesFound.Value
 
-		log.Println(dependenciesList)
+		//log.Println(dependenciesList)
 
 		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[ORM] = ParseOrmFromDependencies(dependenciesList, langYamlObject)
-		//log.Println(AllDependencies)
+		log.Println(AllDependencies)
 		//log.Println(OrmRunner(AllDependencies[ORM], runtimeVersion, path).Orms)
 		//log.Println(DbRunner(AllDependencies[DB], runtimeVersion, path).Databases)
 		//log.Println(FrameworkRunner(AllDependencies[Framework], runtimeVersion, path))
