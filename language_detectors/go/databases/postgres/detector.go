@@ -8,20 +8,20 @@ import (
 	"os/exec"
 )
 
-var postgresVersions=[]*interfaces.DbVersionDetector{
+var postgresVersions = []*interfaces.DbVersionDetector{
 	{
-		Default:true,
-		Name:"v1.x",
-		Semver: "",
+		Default:  true,
+		Name:     "v1.x",
+		Semver:   "",
 		Detector: &V_1_X.Postgres_V_1_X{},
 	},
 }
 
 type PostgresDb struct {
-	Version[]*interfaces.DbVersionDetector
+	Version []*interfaces.DbVersionDetector
 }
 
-func (p *PostgresDb) GetVersionDetector(runtimeVersion, dbVersionFile, root string) (interfaces.DbVersionDetector,*plugin.Client) {
+func (p *PostgresDb) GetVersionDetector(runtimeVersion, dbVersionFile, root string) (interfaces.DbVersionDetector, *plugin.Client) {
 
 	////TODO: need to add semver check and return correct version
 	dbDetector, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", "go run plugin/go/db/postgres/V_1_X/main.go"))

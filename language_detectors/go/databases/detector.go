@@ -7,14 +7,14 @@ import (
 )
 
 var databases = map[string]interfaces.Db{
-	"postgres":&postgres.PostgresDb{},
+	"postgres": &postgres.PostgresDb{},
 }
 
 type GODbDetector struct {
 }
 
-func (receiver *GODbDetector) GetDetector(libraryVersion, root, dbUsed string) interfaces.Db{
-	utils.Logger("dbUsed",dbUsed)
+func (receiver *GODbDetector) GetDetector(libraryVersion, root, dbUsed string) interfaces.Db {
+	utils.Logger("dbUsed", dbUsed)
 	return databases[dbUsed]
 }
 

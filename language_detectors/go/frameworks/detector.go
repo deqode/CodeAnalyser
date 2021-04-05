@@ -8,8 +8,7 @@ import (
 
 var frameworks = map[string]interfaces.Framework{
 	"beego": &beego.BeegoFramework{},
-	"gin": &gin.GinFramework{},
-
+	"gin":   &gin.GinFramework{},
 }
 
 type GOFrameworkDetector struct {
@@ -18,7 +17,7 @@ type GOFrameworkDetector struct {
 func (d *GOFrameworkDetector) GetLibrariesUsed(runtimeVersion, root string) *map[string]string {
 	return &map[string]string{
 		"beego": "1.3",
-		"gin":"2.5",
+		"gin":   "2.5",
 	}
 }
 

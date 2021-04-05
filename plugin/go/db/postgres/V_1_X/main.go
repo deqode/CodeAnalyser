@@ -37,8 +37,8 @@ func main() {
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
 			pluginClient.PluginDispenserDB: &db.DbGRPCPlugin{
-			Impl: &Postgres_V_1_X{},
-		}},
+				Impl: &Postgres_V_1_X{},
+			}},
 		GRPCServer: plugin.DefaultGRPCServer,
 	})
 }

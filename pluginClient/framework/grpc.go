@@ -9,9 +9,6 @@ import (
 // GRPCClient is an implementation of FrameworkVersions that talks over RPC.
 type GRPCClient struct{ Client pb.FrameworkServiceClient }
 
-
-
-
 func (m *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	ret, err := m.Client.Detect(context.Background(), &pb.ServiceInput{
 		RuntimeVersion: input.RuntimeVersion,
@@ -43,7 +40,6 @@ func (m *GRPCServer) Detect(ctx context.Context, req *pb.ServiceInput) (*pb.Serv
 	v, err := m.Impl.Detect(req)
 	return &pb.ServiceOutputBool{Value: v.Value, Error: v.Error}, err
 }
-
 
 func (m *GRPCServer) IsFrameworkUsed(ctx context.Context, req *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	v, err := m.Impl.IsFrameworkUsed(req)

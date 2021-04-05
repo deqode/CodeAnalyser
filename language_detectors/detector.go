@@ -16,4 +16,3 @@ const (
 	PYTHON     = "Python"
 	JAVASCRIPT = "JavaScript"
 )
-
