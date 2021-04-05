@@ -7,25 +7,25 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type Postgres_V_1_X struct {
+type PostgresV1X struct {
 }
-
-func (receiver *Postgres_V_1_X) IsDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+//IsDbUsed need to add cmt
+func (receiver *PostgresV1X) IsDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	return &pb.ServiceOutputBool{
 		Value: true,
 		Error: nil,
 	}, nil
 }
-
-func (receiver *Postgres_V_1_X) PercentOfDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
+//PercentOfDbUsed need to add cmt
+func (receiver *PostgresV1X) PercentOfDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	return &pb.ServiceOutputFloat{
 		Error: nil,
 		Value: 88,
 	}, nil
 }
 
-// it returns port as well
-func (receiver *Postgres_V_1_X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBoolInt, error) {
+// Detect it returns port as well
+func (receiver *PostgresV1X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBoolInt, error) {
 	return &pb.ServiceOutputBoolInt{
 		Value:    true,
 		IntValue: 6588,
