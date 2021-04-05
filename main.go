@@ -1,8 +1,8 @@
 package main
 
 import (
-	"code-analyser/protos/protos"
 	"code-analyser/analyser"
+	"code-analyser/protos/protos"
 	"code-analyser/runners"
 	"io/ioutil"
 	"log"
@@ -34,7 +34,7 @@ func ReadPluginYamlFile(path string) (*protos.Plugin, error) {
 	return &lang, nil
 }
 
-func ParsePluginYamlFile() *protos.LanguageVersion{
+func ParsePluginYamlFile() *protos.LanguageVersion {
 	var pluginDetailsFileLst []string
 	//TODO make path dynamic from supported language
 	err := filepath.Walk("./plugin",
@@ -53,10 +53,10 @@ func ParsePluginYamlFile() *protos.LanguageVersion{
 	var languageVersion protos.LanguageVersion
 	for _, pluginFile := range pluginDetailsFileLst {
 		parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
-		if parsedRawFile==nil{
+		if parsedRawFile == nil {
 			continue
 		}
-		parsedFile:=parsedRawFile.PluginDetails
+		parsedFile := parsedRawFile.PluginDetails
 		switch parsedFile.Type {
 		case "framework":
 			if val, ok := languageVersion.Framework[parsedFile.Name]; ok {
@@ -140,7 +140,7 @@ func Scrape(path string) {
 			if runtimeVersion == "" {
 				break
 			}
-			runners.GetParsedDependencis(nil,runtimeVersion, path, yamlLangObject)
+			runners.GetParsedDependencis(nil, runtimeVersion, path, yamlLangObject)
 		}
 
 	}

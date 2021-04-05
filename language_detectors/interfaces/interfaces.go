@@ -21,7 +21,7 @@ type LanguageSpecificDetector interface {
 	//DetectDBs will return Dbs detected in string
 	DetectDBs(ctx context.Context, runtimeVersion, root string) (*protos.DBOutput, error)
 	//DetectORMs will return orm detected in string
-	DetectORMs(ctx context.Context, runtimeVersion,root string) (*protos.OrmOutput, error)
+	DetectORMs(ctx context.Context, runtimeVersion, root string) (*protos.OrmOutput, error)
 	//DetectDependencies will return getDependencies detected in string
 	DetectDependencies(context.Context, string, string) ([]*protos.DependenciesOutput, error)
 	//DetectLibraries will return libraries detected in string
