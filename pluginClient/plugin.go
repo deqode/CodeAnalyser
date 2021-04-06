@@ -33,12 +33,12 @@ const (
 
 //PluginMap is a map of dispenser string and plugin
 var PluginMap = map[string]plugin.Plugin{
-	PluginDispenserFramework:     &framework.FrameworkGRPCPlugin{},
-	PluginDispenserDB:            &db.DbGRPCPlugin{},
-	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
-	PluginDispenserDependencies:  &dependencies.DependenciesGRPCPlugin{},
-	PluginDispenserOrm:           &orm.OrmGRPCPlugin{},
-	PluginDispenserEnv:           &env.EnvGRPCPlugin{},
+	PluginDispenserFramework:     &framework.GRPCPlugin{},
+	PluginDispenserDB:            &db.GRPCPlugin{},
+	PluginDispenserDetectRuntime: &detectRuntime.GRPCPlugin{},
+	PluginDispenserDependencies:  &dependencies.GRPCPlugin{},
+	PluginDispenserOrm:           &orm.GRPCPlugin{},
+	PluginDispenserEnv:           &env.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin

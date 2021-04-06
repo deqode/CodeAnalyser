@@ -26,7 +26,7 @@ import "code-analyser/protos/output/languageSpecific/staticAssets.proto";
 message LanguageSpecificDetections{
   string name = 1;
   string runtimeVersion = 2;
-  repeated EnvOutput env = 3;
+  EnvOutput env = 3;
   repeated FrameworkOutput framework = 4;
   DBOutput db = 5;
   OrmOutput orm = 6;

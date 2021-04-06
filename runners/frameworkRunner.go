@@ -71,7 +71,7 @@ func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runt
 				return nil
 			}
 			return &languageSpecificPB.FrameworkOutput{
-				Used:           false,
+				Used:           isUsed.Value,
 				Name:           name,
 				Version:        framworkDetails.Version,
 				PercentageUsed: percentageUsed.Value,

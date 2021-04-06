@@ -19,6 +19,7 @@ func main() {
 	path := "./"
 	Scrape(path)
 }
+
 //ReadPluginYamlFile It wil read yaml file of specific plugin
 func ReadPluginYamlFile(filePath struct {
 	path string
@@ -95,7 +96,7 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 			languageVersion.Detectruntimecommand = parsedFile.Command
 			break
 		case "env":
-			languageVersion.DetectenvCommand = parsedFile.Command
+			languageVersion.DetectEnvCommand = parsedFile.Command
 			break
 		case "orm":
 			if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
@@ -170,6 +171,7 @@ func Scrape(path string) {
 			languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
 				Name:           language.Name,
 				RuntimeVersion: runtimeVersion,
+				Env:            runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path),
 			}
 			RunAllDetectors(&languageSpecificDetections, allDependencies, runtimeVersion, path)
 			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)

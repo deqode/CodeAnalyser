@@ -7,8 +7,9 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
+//EnvPlugin
 type EnvPlugin struct{}
-
+//Detect function for envs keyvalues and keys implemented from Env interface
 func (e EnvPlugin) Detect(input *pb.ServiceInput) (*pb.ServiceOutputEnv, error) {
 	return &pb.ServiceOutputEnv{
 		EnvKeyValues: map[string]string{
@@ -19,6 +20,7 @@ func (e EnvPlugin) Detect(input *pb.ServiceInput) (*pb.ServiceOutputEnv, error) 
 		Error: nil,
 	}, nil
 }
+
 
 func (e EnvPlugin) IsUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	return &pb.ServiceOutputBool{
@@ -31,7 +33,7 @@ func main()  {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserEnv: &env.EnvGRPCPlugin{Impl: &EnvPlugin{}},
+			pluginClient.PluginDispenserEnv: &env.GRPCPlugin{Impl: &EnvPlugin{}},
 		},
 
 		// A non-nil value here enables gRPC serving for this plugin...
