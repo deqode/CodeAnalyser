@@ -2,7 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f4d14132-a306-4bef-b762-bb1dc8e415f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/language_detectors/interfaces/env.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugin/go/env/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plugin/go/env/pluginDetails.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/env/grpc.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/env/plugin.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/pb/env.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/pb/env_grpc.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pluginClient/proto/env.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/pluginClient/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/outputs/languageSpecific/env.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/outputs/languageSpecific/env.proto" afterDir="false" />
+=======
 
       <change beforePath="$PROJECT_DIR$/deployement_files/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/deployementFiles/interface.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployement_files/make/make.go" beforeDir="false" afterPath="$PROJECT_DIR$/deployementFiles/make/make.go" afterDir="false" />
@@ -89,15 +101,31 @@
 >>>>>>> fd6bf969f2e7589095b8285c74093e2cbfa144e1
       <change beforePath="$PROJECT_DIR$/runners/language.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/language.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/runners/ormRunner.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/ormRunner.go" afterDir="false" />
+>>>>>>> 6ccb4856bab1c295440e94f57dd0ee87055961b7
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
   <component name="GOROOT" url="file:///usr/lib/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
@@ -112,6 +140,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />

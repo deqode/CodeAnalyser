@@ -19,6 +19,7 @@ func main() {
 	path := "./"
 	Scrape(path)
 }
+
 //ReadPluginYamlFile It wil read yaml file of specific plugin
 func ReadPluginYamlFile(filePath struct {
 	path string
@@ -94,6 +95,9 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 		case "detectRuntime":
 			languageVersion.Detectruntimecommand = parsedFile.Command
 			break
+		case "env":
+			languageVersion.DetectEnvCommand = parsedFile.Command
+			break
 		case "orm":
 			if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
 				val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
@@ -168,7 +172,7 @@ func Scrape(path string) {
 				Name:           language.Name,
 				RuntimeVersion: runtimeVersion,
 			}
-			RunAllDetectors(&languageSpecificDetections, allDependencies, runtimeVersion, path)
+			RunAllDetectors(&languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
 			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
 			log.Println(decisionMakerInput)
 		}
@@ -177,10 +181,11 @@ func Scrape(path string) {
 }
 
 //RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
-func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, runtimeVersion string, path string) {
+func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string) {
 	languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
 	languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
 	languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
+	languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
 }
 
 //SupportedLanguagedParser it reads yaml file and fetch out supported languges by our system
