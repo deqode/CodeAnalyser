@@ -1,0 +1,20 @@
+syntax = "proto3";
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+message OrmOutput{
+  // check orm
+  bool used = 1;
+  // list of all orms
+  repeated ORM orms = 2;
+  // Should output database configuration details
+}
+
+message ORM{
+  //  name of orm
+  string name = 1;
+  //  version of orm
+  string version = 2;
+  string supportedDbName = 3;
+  string supportedDbVersion = 4;
+}
+

@@ -1,17 +1,17 @@
 package db
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/pb"
 	"golang.org/x/net/context"
 )
-
+// GRPCClient is an implementation of FrameworkVersions that talks over RPC.
 type GRPCClient struct {
 	Client pb.DbServiceClient
 }
-
 //TODO handle all errors
-//IsDbUsed will Detect if DB used
+
+//Detect will detect if DB used
 func (G *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBoolInt, error) {
 	res, err := G.Client.Detect(context.Background(), &pb.ServiceInput{
 		RuntimeVersion: input.RuntimeVersion,
@@ -37,12 +37,12 @@ func (G *GRPCClient) PercentOfDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputF
 	})
 	return res, err
 }
-
+//GRPCServer  is the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
 	Impl interfaces.DbVersion
 }
 
-//IsDbUsed will Detect if DB used
+//Detect will Detect if DB used
 func (m *GRPCServer) Detect(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputBoolInt, error) {
 	res, err := m.Impl.Detect(input)
 	return &pb.ServiceOutputBoolInt{

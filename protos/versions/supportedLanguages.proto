@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "./protos/versions";
+option go_package = "code-analyser/protos/pb/versions";
 message supportedLanguages{
 repeated Language languages=1;
 }

@@ -21,7 +21,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserDependencies: &dependencies.DependenciesGRPCPlugin{Impl: &GetGoDependencies{}},
+			pluginClient.PluginDispenserDependencies: &dependencies.GRPCPlugin{Impl: &GetGoDependencies{}},
 		},
 		GRPCServer: plugin.DefaultGRPCServer,
 	})

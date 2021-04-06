@@ -1,0 +1,6 @@
+syntax = "proto3";
+option go_package = "code-analyser/protos/pb/output/global";
+message DockerComposeFileOutput{
+  bool used=1;
+}
+

@@ -1,7 +1,7 @@
 syntax = "proto3";
-option go_package = "./protos/versions";
-// todo: update
+option go_package = "code-analyser/protos/pb/versions";
 
+// todo: update
 
 message LanguageVersion{
   string detectruntimecommand = 7;

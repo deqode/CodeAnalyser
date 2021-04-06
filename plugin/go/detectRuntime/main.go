@@ -21,7 +21,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{Impl: &DetectGoRuntime{}},
+			pluginClient.PluginDispenserDetectRuntime: &detectRuntime.GRPCPlugin{Impl: &DetectGoRuntime{}},
 		},
 
 		// A non-nil value here enables gRPC serving for this plugin...

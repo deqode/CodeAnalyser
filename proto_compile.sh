@@ -1,7 +1,7 @@
 
-protoc --go_out=./protos/ ./protos/**/**/*.proto
-protoc --go_out=./protos/ ./protos/**/*.proto
-protoc --go_out=./protos/ ./protos/*.proto
+cd ..
+protoc -I.  --go_out=.  code-analyser/protos/*/*/*.proto
+protoc -I.  --go_out=.  code-analyser/protos/*/*.proto
+cd code-analyser
 
-cd pluginClient
-protoc -I . --proto_path=./proto --go_out=./pb --go-grpc_out=./pb ./proto/*.proto
+

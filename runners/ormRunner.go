@@ -4,8 +4,8 @@ import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
-	languageSpecificPB "code-analyser/protos/protos/outputs/languageSpecific"
-	versionsPB "code-analyser/protos/protos/versions"
+	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
+	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"os/exec"
 )

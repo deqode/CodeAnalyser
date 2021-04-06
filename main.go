@@ -2,9 +2,9 @@ package main
 
 import (
 	"code-analyser/analyser"
-	"code-analyser/protos/protos"
-	utilsPB "code-analyser/protos/protos/outputs/utils"
-	versionsPB "code-analyser/protos/protos/versions"
+	decisionmakerPB "code-analyser/protos/pb"
+	utilsPB "code-analyser/protos/pb/output/utils"
+	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
 	"errors"
 	"gopkg.in/yaml.v2"
@@ -148,8 +148,8 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 func Scrape(path string) {
 	languages, _, _ := analyser.Analyse(path)
 	supportedLanguages, _ := SupportedLanguagedParser()
-	decisionMakerInput := &protos.DecisionMakerInput{
-		LanguageSpecificDetection: []*protos.LanguageSpecificDetections{},
+	decisionMakerInput := &decisionmakerPB.DecisionMakerInput{
+		LanguageSpecificDetection: []*decisionmakerPB.LanguageSpecificDetections{},
 		GloabalDetections:         nil,
 	}
 	for _, language := range languages {
@@ -161,14 +161,13 @@ func Scrape(path string) {
 			}
 		}
 		if languagePath != "" {
-			yamlLangObject := ParsePluginYamlFile(languagePath)
-			runtimeVersion := runners.DetectRuntime(nil, path, yamlLangObject)
+			pluginDetails := ParsePluginYamlFile(languagePath)
+			runtimeVersion := runners.DetectRuntime(nil, path, pluginDetails)
 			if runtimeVersion == "" {
 				break
 			}
-
-			allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, yamlLangObject)
-			languageSpecificDetections := protos.LanguageSpecificDetections{
+			allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, pluginDetails)
+			languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
 				Name:           language.Name,
 				RuntimeVersion: runtimeVersion,
 			}
@@ -181,7 +180,7 @@ func Scrape(path string) {
 }
 
 //RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
-func RunAllDetectors(languageSpecificDetections *protos.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, runtimeVersion string, path string) {
+func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, runtimeVersion string, path string) {
 	languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
 	languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
 	languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)

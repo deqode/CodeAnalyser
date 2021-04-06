@@ -1,6 +1,0 @@
-syntax = "proto3";
-option go_package = "./protos/outputs/global";
-message DockerComposeFileOutput{
-  bool used=1;
-}
-
