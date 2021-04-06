@@ -9,5 +9,5 @@ plugindetails:
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"
-  command: "go run plugin/go/orm/gorm/V_1_X/main.go"
+  command: "go run alfredPlugin/main.go"
 

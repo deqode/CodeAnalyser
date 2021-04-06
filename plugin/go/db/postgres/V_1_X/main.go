@@ -6,9 +6,11 @@ import (
 	"code-analyser/pluginClient/pb"
 	"github.com/hashicorp/go-plugin"
 )
+
 //PostgresV1X is a plugin
 type PostgresV1X struct {
 }
+
 //IsDbUsed if DB used in repo
 func (receiver *PostgresV1X) IsDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	return &pb.ServiceOutputBool{
@@ -16,6 +18,7 @@ func (receiver *PostgresV1X) IsDbUsed(input *pb.ServiceInput) (*pb.ServiceOutput
 		Error: nil,
 	}, nil
 }
+
 //PercentOfDbUsed % of DB used
 func (receiver *PostgresV1X) PercentOfDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	return &pb.ServiceOutputFloat{

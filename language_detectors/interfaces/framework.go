@@ -19,6 +19,7 @@ type FrameworkVersions interface {
 	IsFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputBool, error)
 	PercentOfFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputFloat, error)
 }
+
 //FrameworkVersionDetector
 type FrameworkVersionDetector struct {
 	Default  bool

@@ -32,15 +32,17 @@ func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string)
 		Orms: []*protos.ORM{},
 	}
 	for ormUsed, ormDetails := range ormList {
-		ormOutputs.Used = true
 		usedOrm := OrmDetectorRunner(ormUsed, ormDetails, runtimeVersion, root)
-		ormOutputs.Orms = append(ormOutputs.Orms, usedOrm)
+		if usedOrm != nil {
+			ormOutputs.Used = true
+			ormOutputs.Orms = append(ormOutputs.Orms, usedOrm)
+		}
 	}
 	return &ormOutputs
 }
 
 func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion, root string) *protos.ORM {
-	ormResponse, client := pluginClient.OrmPluginCall(exec.Command("sh", "-c", "go run plugin/go/orm/gorm/V_1_X/main.go"))
+	ormResponse, client := pluginClient.OrmPluginCall(exec.Command("sh", "-c", ormDetails.Command))
 	defer client.Kill()
 	isUsed, err := ormResponse.IsORMUsed(&pb.ServiceInput{
 		RuntimeVersion: runTimeVersion,

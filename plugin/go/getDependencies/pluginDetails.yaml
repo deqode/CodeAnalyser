@@ -8,5 +8,5 @@ plugindetails:
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"
-  command: "go run plugin/go/getDependencies/main.go"
+  command: "go run alfredPlugin/main.go"
 

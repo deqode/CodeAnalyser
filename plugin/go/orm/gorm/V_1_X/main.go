@@ -6,8 +6,10 @@ import (
 	"code-analyser/pluginClient/pb"
 	"github.com/hashicorp/go-plugin"
 )
+
 //GormV1X is a plugin of type ORM
 type GormV1X struct{}
+
 //Detect will return usage of ORM
 func (g GormV1X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputDetectOrm, error) {
 	return &pb.ServiceOutputDetectOrm{
@@ -17,6 +19,7 @@ func (g GormV1X) Detect(input *pb.ServiceInput) (*pb.ServiceOutputDetectOrm, err
 		Error:              nil,
 	}, nil
 }
+
 //IsORMUsed will return % usage of ORM
 func (g GormV1X) IsORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	return &pb.ServiceOutputBool{
@@ -24,6 +27,7 @@ func (g GormV1X) IsORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error
 		Error: nil,
 	}, nil
 }
+
 //PercentOfORMUsed will return % usage of ORM
 func (g GormV1X) PercentOfORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	return &pb.ServiceOutputFloat{

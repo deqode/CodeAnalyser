@@ -69,7 +69,7 @@ func GetParsedDependencis(ctx context.Context, languageVersion, path string, lan
 		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, langYamlObject)
 		AllDependencies[ORM] = ParseOrmFromDependencies(dependenciesList, langYamlObject)
-       return AllDependencies
+		return AllDependencies
 	}
 
 	return nil

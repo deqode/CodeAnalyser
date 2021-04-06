@@ -6,8 +6,10 @@ import (
 	"code-analyser/pluginClient/pb"
 	"github.com/hashicorp/go-plugin"
 )
+
 //GetGoDependencies is a plugin of type get language dependencies
 type GetGoDependencies struct{}
+
 //GetDependencies will return map of dependencies and versions
 func (d *GetGoDependencies) GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error) {
 	return &pb.ServiceOutputStringMap{

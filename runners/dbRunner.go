@@ -34,16 +34,18 @@ func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *
 		Databases: []*protos.DB{},
 	}
 	for dbUsed, dbDetails := range dbList {
-		dbOutput.Used = true
 		isUsed := DbDetectorRunner(dbUsed, dbDetails, runtimeVersion, root)
-		dbOutput.Databases = append(dbOutput.Databases, isUsed)
+		if isUsed != nil {
+			dbOutput.Used = true
+			dbOutput.Databases = append(dbOutput.Databases, isUsed)
+		}
 	}
 	return &dbOutput
 }
 
 ////TODO handle errors on every method calls
 func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *protos.DB {
-	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", "go run plugin/go/db/postgres/V_1_X/main.go"))
+	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", dbDetails.Command))
 	defer client.Kill()
 	isUsed, err := dbResponse.IsDbUsed(&pb.ServiceInput{
 		RuntimeVersion: runTimeVersion,

@@ -39,10 +39,9 @@ func FrameworkRunner(frameworkList map[string]DependencyDetail, runtimeVersion, 
 	return frameworkOutputs
 }
 
-
 //FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runtimeVersion, root string) *protos.FrameworkOutput {
-	frameworkResponse, client := pluginClient.FrameworkPluginCall(exec.Command("sh", "-c", "go run plugin/go/framework/beego/v1_x/main.go"))
+	frameworkResponse, client := pluginClient.FrameworkPluginCall(exec.Command("sh", "-c", framworkDetails.Command))
 	defer client.Kill()
 	isUsed, err := frameworkResponse.IsFrameworkUsed(&pb.ServiceInput{
 		RuntimeVersion: runtimeVersion,

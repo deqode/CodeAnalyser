@@ -6,8 +6,10 @@ import (
 	"code-analyser/pluginClient/pb"
 	"github.com/hashicorp/go-plugin"
 )
+
 //DetectGoRuntime to detect runtime version of language
 type DetectGoRuntime struct{}
+
 //DetectRuntime to detect runtime version of language
 func (d DetectGoRuntime) DetectRuntime(inputString *pb.ServiceInputString) (*pb.ServiceOutputString, error) {
 	return &pb.ServiceOutputString{
