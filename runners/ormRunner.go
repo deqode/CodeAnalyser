@@ -9,6 +9,7 @@ import (
 	"os/exec"
 )
 
+//ParseOrmFromDependencies It takes dependenciesList and filter out orms in map format
 func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
 	orm := map[string]DependencyDetail{}
 	for key, supportedOrm := range langYamlObject.Orms {
@@ -25,7 +26,7 @@ func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject
 	}
 	return orm
 }
-
+//OrmRunner it append list of ORMS in ormoutput object
 func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string) *protos.OrmOutput {
 	ormOutputs := protos.OrmOutput{
 		Used: false,
@@ -39,6 +40,7 @@ func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string)
 	return &ormOutputs
 }
 
+//OrmDetectorRunner it run plugin file of ORM
 func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion, root string) *protos.ORM {
 	ormResponse, client := pluginClient.OrmPluginCall(exec.Command("sh", "-c", "go run plugin/go/orm/gorm/V_1_X/main.go"))
 	defer client.Kill()
