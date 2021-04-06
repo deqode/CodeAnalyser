@@ -13,6 +13,7 @@ type GRPCClient struct {
 type GRPCServer struct {
 	Impl interfaces.Dependencies
 }
+
 //GetDependencies will return all the dependencies used
 func (m *GRPCClient) GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error) {
 	res, err := m.Client.GetDependencies(context.Background(), inputString)
@@ -21,7 +22,8 @@ func (m *GRPCClient) GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceO
 	}
 	return res, err
 }
-//GetDependencies will return all the dependencies used 
+
+//GetDependencies will return all the dependencies used
 func (m *GRPCServer) GetDependencies(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputStringMap, error) {
 	res, err := m.Impl.GetDependencies(input)
 	return res, err

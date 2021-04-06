@@ -4,12 +4,13 @@ import (
 	"code-analyser/analyser"
 	"code-analyser/protos/protos"
 	"code-analyser/runners"
+	"errors"
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
-
-	"gopkg.in/yaml.v2"
+	"strings"
 )
 
 func main() {
@@ -17,10 +18,11 @@ func main() {
 	Scrape(path)
 }
 
-/* ReadPluginYamlFile it reads a yaml file of specific plugin and fetch
-version,author, etc ... */
-func ReadPluginYamlFile(path string) (*protos.Plugin, error) {
-	filename, _ := filepath.Abs(path)
+func ReadPluginYamlFile(filePath struct {
+	path string
+	dir  string
+}) (*protos.Plugin, error) {
+	filename, _ := filepath.Abs(filePath.path)
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -31,6 +33,11 @@ func ReadPluginYamlFile(path string) (*protos.Plugin, error) {
 	if err != nil {
 		return nil, err
 	}
+	if lang.PluginDetails.Command != "" && strings.Contains(lang.PluginDetails.Command, "alfredPlugin/") {
+		lang.PluginDetails.Command = strings.Replace(lang.PluginDetails.Command, "alfredPlugin/", filePath.dir, 1)
+	} else {
+		return nil, errors.New("invalid command in plugin")
+	}
 	return &lang, nil
 }
 
@@ -38,14 +45,21 @@ func ReadPluginYamlFile(path string) (*protos.Plugin, error) {
 parse all dependencies to their categories for example postgres is a Db
 */
 func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
-	var pluginDetailsFileLst []string
+	var pluginDetailsFileLst []struct {
+		path string
+		dir  string
+	}
 	err := filepath.Walk(rootPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
 			if info.Name() == "pluginDetails.yaml" {
-				pluginDetailsFileLst = append(pluginDetailsFileLst, path)
+				dir := strings.Split(path, info.Name())[0]
+				pluginDetailsFileLst = append(pluginDetailsFileLst, struct {
+					path string
+					dir  string
+				}{path: path, dir: dir})
 			}
 			return nil
 		})

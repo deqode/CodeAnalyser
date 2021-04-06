@@ -5,6 +5,6 @@ author:
 date: "rvtrv"
 plugindetails:
   type: "detectRuntime"
-  command: "go run plugin/go/detectRuntime/main.go"
+  command: "go run alfredPlugin/main.go"
 
 
