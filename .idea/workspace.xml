@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="551dd0ed-4dba-4e09-8b3d-5536396b5eb5" name="Default Changelist" comment="">
+    <list default="true" id="f4d14132-a306-4bef-b762-bb1dc8e415f5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/deployement_files/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/deployementFiles/interface.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployement_files/make/make.go" beforeDir="false" afterPath="$PROJECT_DIR$/deployementFiles/make/make.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployement_files/proc/proc.go" beforeDir="false" afterPath="$PROJECT_DIR$/deployementFiles/proc/proc.go" afterDir="false" />
@@ -29,6 +30,10 @@
       <change beforePath="$PROJECT_DIR$/pluginClient/orm/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/orm/plugin.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pluginClient/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/plugin.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/runners/detectorsRunners.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/detectorsRunners.go" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/runners/dbRunner.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/dbRunner.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/frameworkRunner.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/frameworkRunner.go" afterDir="false" />
+>>>>>>> fd6bf969f2e7589095b8285c74093e2cbfa144e1
       <change beforePath="$PROJECT_DIR$/runners/language.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/language.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,36 +41,14 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Go Application" />
-        <option value="Go File" />
-      </list>
-    </option>
-  </component>
-  <component name="GOROOT" url="file:///usr/local/go" />
+  <component name="GOROOT" url="file:///usr/lib/go" />
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="8d9044e957e118199cad6181895dadebdb38cd2a" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
-  <component name="ProjectId" id="1pHoUh8L2iTtV1dzTL5BvI07QYs" />
+  <component name="ProjectId" id="1qkejdwPMf6lI0X8zxb5OFZfXPI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -74,47 +57,15 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="DatabaseDriversLRU" value="postgresql" />
-    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="ToolWindowGit.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="yaml" />
-    <property name="configurable..is.expanded" value="false" />
-    <property name="configurable.GoLibrariesConfigurable.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="go.vgo" />
+    <property name="last_opened_file_path" value="$USER_HOME$" />
   </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/plugin/go/db/postgres" />
-      <recent name="$PROJECT_DIR$/plugin/go/orm/gorm/V_1_X" />
-      <recent name="$PROJECT_DIR$/plugin/go/framework/beego/v1_x" />
-      <recent name="$PROJECT_DIR$/plugin/go/detectRuntime" />
-      <recent name="$PROJECT_DIR$/plugin/go/db" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/plugin/go/frameworks" />
-      <recent name="$PROJECT_DIR$/pluginClient" />
-      <recent name="$PROJECT_DIR$/protos/pb" />
-      <recent name="$PROJECT_DIR$/pluginClient/python/framework" />
-      <recent name="$PROJECT_DIR$/static" />
-    </key>
-  </component>
+<<<<<<< HEAD
   <component name="RunManager" selected="Makefile.run-linter">
     <configuration name="go build code-analyser" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="code-analyser" />
@@ -145,6 +96,9 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+=======
+  <component name="RunManager">
+>>>>>>> fd6bf969f2e7589095b8285c74093e2cbfa144e1
     <configuration name="get-linter" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/Makefile" target="get-linter" workingDirectory="" arguments="">
         <envs />
@@ -161,8 +115,6 @@
       <list>
         <item itemvalue="Makefile.run-linter" />
         <item itemvalue="Makefile.get-linter" />
-        <item itemvalue="Go Build.go build main.go" />
-        <item itemvalue="Go Build.go build interfaces.go" />
       </list>
     </recent_temporary>
   </component>
@@ -171,19 +123,7 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

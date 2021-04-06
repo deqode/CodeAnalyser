@@ -8,7 +8,7 @@ import (
 	"code-analyser/utils"
 	"os/exec"
 )
-
+//ParseFrameworkFromDependencies It will filter out frameworks from dependency list
 func ParseFrameworkFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
 	framework := map[string]DependencyDetail{}
 	for key, supportedFramework := range langYamlObject.Framework {

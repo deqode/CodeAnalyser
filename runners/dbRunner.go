@@ -9,6 +9,7 @@ import (
 	"os/exec"
 )
 
+//ParseDbFromDependencies It will filter out frameworks from dependencies list
 func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
 	//framework
 	db := map[string]DependencyDetail{}
@@ -43,7 +44,9 @@ func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *
 	return &dbOutput
 }
 
-////TODO handle errors on every method calls
+//TODO handle errors on every method calls
+
+//DbDetectorRunner It will execute plugin from command fetched from yaml file of same plugin
 func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *protos.DB {
 	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", dbDetails.Command))
 	defer client.Kill()
