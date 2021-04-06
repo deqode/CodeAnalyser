@@ -4,7 +4,7 @@ import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
-	versionsPB "code-analyser/protos/protos/versions"
+	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"context"
 	"os/exec"
@@ -48,7 +48,7 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.
 }
 
 //GetParsedDependencis get map of parsed dependencies for example beego is a framework
-func GetParsedDependencis(ctx context.Context, languageVersion, path string, pluginDetails *protos.LanguageVersion) map[string]map[string]DependencyDetail {
+func GetParsedDependencis(ctx context.Context, languageVersion, path string, pluginDetails *versionsPB.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
 
 	var dependenciesCommand *versionsPB.DependencyVersionDetails

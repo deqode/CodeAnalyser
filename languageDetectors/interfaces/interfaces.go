@@ -3,7 +3,7 @@ package interfaces
 import (
 	language_detectors "code-analyser/deployementFiles"
 	"code-analyser/pluginClient/pb"
-	languageSpecificPB "code-analyser/protos/protos/outputs/languageSpecific"
+	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	"context"
 )
 

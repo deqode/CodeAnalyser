@@ -1,0 +1,62 @@
+syntax = "proto3";
+package protos.decisionMaker;
+option go_package = "code-analyser/protos/pb/";
+
+import  "code-analyser/protos/output/global/buildCommands.proto";
+import "code-analyser/protos/output/global/dockercompose.proto";
+import "code-analyser/protos/output/global/dockerfile.proto";
+import "code-analyser/protos/output/global/makefile.proto";
+import "code-analyser/protos/output/global/migrationCommands.proto";
+import "code-analyser/protos/output/global/proc.proto";
+import "code-analyser/protos/output/global/seedCommands.proto";
+import "code-analyser/protos/output/global/startUpCommands.proto";
+
+import  "code-analyser/protos/output/languageSpecific/appserver.proto";
+import "code-analyser/protos/output/languageSpecific/buildDirectory.proto";
+import "code-analyser/protos/output/languageSpecific/db.proto";
+import "code-analyser/protos/output/languageSpecific/dependencies.proto";
+import "code-analyser/protos/output/languageSpecific/env.proto";
+import "code-analyser/protos/output/languageSpecific/framework.proto";
+import "code-analyser/protos/output/languageSpecific/libraries.proto";
+import "code-analyser/protos/output/languageSpecific/orm.proto";
+import "code-analyser/protos/output/languageSpecific/stack.proto";
+import "code-analyser/protos/output/languageSpecific/staticAssets.proto";
+
+
+message LanguageSpecificDetections{
+  string name = 1;
+  string runtimeVersion = 2;
+  repeated EnvOutput env = 3;
+  repeated FrameworkOutput framework = 4;
+  DBOutput db = 5;
+  OrmOutput orm = 6;
+  repeated DependenciesOutput dependencies = 7;
+  repeated LibrariesOutput libraries = 8;
+  repeated StaticAssetsOutput staticAssets = 9;
+  repeated StackOutput stackOutput = 10;
+  repeated AppserverOutput appserver = 11;
+  repeated BuildDirectoryOutput buildDirectory = 12;
+  Commands commands = 13;
+  // todo: DetectTestCasesRunCommands
+}
+
+message GlobalDetections{
+  repeated ProcFileOutput procFile = 1;
+  repeated MakefileOutput makefile = 2;
+  repeated DockerFileOutput dockerFile = 3;
+  repeated DockerComposeFileOutput dockerComposeFile = 4;
+}
+
+
+message Commands{
+  repeated BuildCommandsOutput buildCommands = 1;
+  repeated StartUpCommandsOutput startUpCommands = 2;
+  repeated SeedCommandsOutput seedCommands = 3;
+  repeated MigrationCommandsOutput MigrationCommands = 4;
+//     todo:   DetectAdHocScripts
+}
+
+message DecisionMakerInput {
+  repeated LanguageSpecificDetections languageSpecificDetection = 1;
+  GlobalDetections gloabalDetections = 2;
+}

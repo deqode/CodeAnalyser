@@ -1,7 +1,7 @@
 package deployementFiles
 
 import (
-	globalPB "code-analyser/protos/protos/outputs/global"
+	globalPB "code-analyser/protos/pb/output/global"
 	"context"
 )
 
