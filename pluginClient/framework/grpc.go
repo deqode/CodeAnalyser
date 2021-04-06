@@ -1,7 +1,7 @@
 package framework
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/pb"
 	"golang.org/x/net/context"
 )

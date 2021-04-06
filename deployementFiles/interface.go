@@ -1,4 +1,4 @@
-package language_detectors
+package deployementFiles
 
 import (
 	"code-analyser/protos/protos"

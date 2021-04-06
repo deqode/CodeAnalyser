@@ -40,7 +40,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserOrm: &orm.OrmGRPCPlugin{
+			pluginClient.PluginDispenserOrm: &orm.GRPCPlugin{
 				Impl: &GormV1X{},
 			}},
 		GRPCServer: plugin.DefaultGRPCServer,

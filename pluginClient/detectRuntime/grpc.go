@@ -1,18 +1,15 @@
 package detectRuntime
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/pb"
 	"golang.org/x/net/context"
 )
-
+// GRPCClient is an implementation of FrameworkVersions that talks over RPC.
 type GRPCClient struct {
 	Client pb.DetectRuntimeServiceClient
 }
 
-type GRPCServer struct {
-	Impl interfaces.DetectRunTime
-}
 
 //DetectRuntime will return runtime of language
 func (m *GRPCClient) DetectRuntime(inputString *pb.ServiceInputString) (*pb.ServiceOutputString, error) {
@@ -23,6 +20,10 @@ func (m *GRPCClient) DetectRuntime(inputString *pb.ServiceInputString) (*pb.Serv
 	return res, err
 }
 
+//GRPCServer  is the gRPC server that GRPCClient talks to.
+type GRPCServer struct {
+	Impl interfaces.DetectRunTime
+}
 //DetectRuntime will return runtime of language
 func (m *GRPCServer) DetectRuntime(ctx context.Context, inputString *pb.ServiceInputString) (*pb.ServiceOutputString, error) {
 	res, err := m.Impl.DetectRuntime(inputString)

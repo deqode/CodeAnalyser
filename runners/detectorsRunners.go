@@ -1,7 +1,7 @@
 package runners
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/utils"
 	"sync"
 )

@@ -38,7 +38,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserFramework: &framework.FrameworkGRPCPlugin{Impl: &BeegoV1x{}},
+			pluginClient.PluginDispenserFramework: &framework.GRPCPlugin{Impl: &BeegoV1x{}},
 		},
 
 		// A non-nil value here enables gRPC serving for this plugin...

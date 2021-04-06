@@ -1,4 +1,4 @@
-package language_detectors
+package languageDetectors
 
 const (
 	//GO is Go"

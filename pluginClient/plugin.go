@@ -1,7 +1,7 @@
 package pluginClient
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
@@ -30,11 +30,11 @@ const (
 
 //PluginMap is a map of dispenser string and plugin
 var PluginMap = map[string]plugin.Plugin{
-	PluginDispenserFramework:     &framework.FrameworkGRPCPlugin{},
-	PluginDispenserDB:            &db.DbGRPCPlugin{},
-	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
-	PluginDispenserDependencies:  &dependencies.DependenciesGRPCPlugin{},
-	PluginDispenserOrm:           &orm.OrmGRPCPlugin{},
+	PluginDispenserFramework:     &framework.GRPCPlugin{},
+	PluginDispenserDB:            &db.GRPCPlugin{},
+	PluginDispenserDetectRuntime: &detectRuntime.GRPCPlugin{},
+	PluginDispenserDependencies:  &dependencies.GRPCPlugin{},
+	PluginDispenserOrm:           &orm.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin

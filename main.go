@@ -152,12 +152,12 @@ func Scrape(path string) {
 			}
 		}
 		if languagePath != "" {
-			yamlLangObject := ParsePluginYamlFile(languagePath)
-			runtimeVersion := (runners.DetectRuntime(nil, path, yamlLangObject))
+			pluginDetails := ParsePluginYamlFile(languagePath)
+			runtimeVersion := runners.DetectRuntime(nil, path, pluginDetails)
 			if runtimeVersion == "" {
 				break
 			}
-			allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, yamlLangObject)
+			allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, pluginDetails)
 			languageSpecificDetections := protos.LanguageSpecificDetections{
 				Name:           language.Name,
 				RuntimeVersion: runtimeVersion,

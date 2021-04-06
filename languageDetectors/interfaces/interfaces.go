@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	language_detectors "code-analyser/deployement_files"
+	language_detectors "code-analyser/deployementFiles"
 	"code-analyser/pluginClient/pb"
 	"code-analyser/protos/protos"
 	"context"

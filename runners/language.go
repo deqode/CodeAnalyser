@@ -23,8 +23,8 @@ const (
 	ORM       = "ORM"
 )
 
-func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.LanguageVersion) string {
-	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Detectruntimecommand))
+func DetectRuntime(ctx context.Context, path string, pluginDetails *protos.LanguageVersion) string {
+	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", pluginDetails.Detectruntimecommand))
 	defer client.Kill()
 	runtimeVersion, err := runtimeResponse.DetectRuntime(&pb.ServiceInputString{Value: path})
 	if err != nil {
@@ -38,12 +38,12 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.Lang
 	return runtimeVersion.Value
 }
 
-func GetParsedDependencis(ctx context.Context, languageVersion, path string, langYamlObject *protos.LanguageVersion) map[string]map[string]DependencyDetail {
+func GetParsedDependencis(ctx context.Context, languageVersion, path string, pluginDetails *protos.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
 
 	var dependenciesCommand *protos.DependencyVersionDetails
 	var runtimeVersion string
-	for rt, supportedRuntimeVersions := range langYamlObject.Runtimeversions {
+	for rt, supportedRuntimeVersions := range pluginDetails.Runtimeversions {
 		if helpers.SeverValidateFromArray(supportedRuntimeVersions.Semver, languageVersion) {
 			dependenciesCommand = supportedRuntimeVersions
 			runtimeVersion = rt
@@ -66,9 +66,9 @@ func GetParsedDependencis(ctx context.Context, languageVersion, path string, lan
 			return nil
 		}
 		dependenciesList := getdependenciesFound.Value
-		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, langYamlObject)
-		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, langYamlObject)
-		AllDependencies[ORM] = ParseOrmFromDependencies(dependenciesList, langYamlObject)
+		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, pluginDetails)
+		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, pluginDetails)
+		AllDependencies[ORM] = ParseOrmFromDependencies(dependenciesList, pluginDetails)
 		return AllDependencies
 	}
 
