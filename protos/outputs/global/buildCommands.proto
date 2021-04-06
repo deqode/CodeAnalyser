@@ -1,12 +1,12 @@
 syntax = "proto3";
-option go_package = "./protos";
+option go_package = "./protos/outputs/global";
 
-import "protos/outputs/global/command.proto";
+//import "protos/outputs/global/command.proto";
 
 message BuildCommandsOutput{
   // check BuildCommands
   bool used = 1;
   // list of all BuildCommands
-  repeated Command buildCommands = 2;
+//  repeated Command buildCommands = 2;
 }
 

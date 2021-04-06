@@ -4,12 +4,13 @@ import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
-	"code-analyser/protos/protos"
+	languageSpecificPB "code-analyser/protos/protos/outputs/languageSpecific"
+	versionsPB "code-analyser/protos/protos/versions"
 	"code-analyser/utils"
 	"os/exec"
 )
 //ParseFrameworkFromDependencies It will filter out frameworks from dependency list
-func ParseFrameworkFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
+func ParseFrameworkFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
 	framework := map[string]DependencyDetail{}
 	for key, supportedFramework := range langYamlObject.Framework {
 		if versionUsed, ok := dependenciesList[key]; ok {
@@ -28,8 +29,8 @@ func ParseFrameworkFromDependencies(dependenciesList map[string]string, langYaml
 
 //FrameworkRunner will run to find Frameworks & returns its detectors.
 //Must be called in LanguageSpecificDetector.DetectFrameworks
-func FrameworkRunner(frameworkList map[string]DependencyDetail, runtimeVersion, root string) []*protos.FrameworkOutput {
-	var frameworkOutputs []*protos.FrameworkOutput
+func FrameworkRunner(frameworkList map[string]DependencyDetail, runtimeVersion, root string) []*languageSpecificPB.FrameworkOutput {
+	var frameworkOutputs []*languageSpecificPB.FrameworkOutput
 	for frameworkUsed, frameworkDetails := range frameworkList {
 		isUsed := FrameworkDetectorRunner(frameworkUsed, frameworkDetails, runtimeVersion, root)
 		if isUsed != nil {
@@ -40,7 +41,7 @@ func FrameworkRunner(frameworkList map[string]DependencyDetail, runtimeVersion, 
 }
 
 //FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
-func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runtimeVersion, root string) *protos.FrameworkOutput {
+func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runtimeVersion, root string) *languageSpecificPB.FrameworkOutput {
 	frameworkResponse, client := pluginClient.FrameworkPluginCall(exec.Command("sh", "-c", framworkDetails.Command))
 	defer client.Kill()
 	isUsed, err := frameworkResponse.IsFrameworkUsed(&pb.ServiceInput{
@@ -69,7 +70,7 @@ func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runt
 				utils.Logger(err)
 				return nil
 			}
-			return &protos.FrameworkOutput{
+			return &languageSpecificPB.FrameworkOutput{
 				Used:           false,
 				Name:           name,
 				Version:        framworkDetails.Version,

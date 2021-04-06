@@ -1,7 +1,5 @@
-
-    syntax = "proto3";
-option go_package = "./protos";
-
+syntax = "proto3";
+option go_package = "./protos/outputs/languageSpecific";
 
 message BuildDirectoryOutput{
   // check BuildDirectory

@@ -4,7 +4,7 @@ import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
-	"code-analyser/protos/protos"
+	versionsPB "code-analyser/protos/protos/versions"
 	"code-analyser/utils"
 	"context"
 	"os/exec"
@@ -32,7 +32,7 @@ const (
 )
 
 //DetectRuntime It will detect language and its version
-func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.LanguageVersion) string {
+func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.LanguageVersion) string {
 	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Detectruntimecommand))
 	defer client.Kill()
 	runtimeVersion, err := runtimeResponse.DetectRuntime(&pb.ServiceInputString{Value: path})
@@ -48,10 +48,10 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.Lang
 }
 
 //GetParsedDependencis get map of parsed dependencies for example beego is a framework
-func GetParsedDependencis(ctx context.Context, languageVersion, path string, langYamlObject *protos.LanguageVersion) map[string]map[string]DependencyDetail {
+func GetParsedDependencis(ctx context.Context, languageVersion, path string, langYamlObject *versionsPB.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
 
-	var dependenciesCommand *protos.DependencyVersionDetails
+	var dependenciesCommand *versionsPB.DependencyVersionDetails
 	var runtimeVersion string
 	for rt, supportedRuntimeVersions := range langYamlObject.Runtimeversions {
 		if helpers.SeverValidateFromArray(supportedRuntimeVersions.Semver, languageVersion) {
