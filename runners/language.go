@@ -12,17 +12,26 @@ import (
 
 //todo: think good name
 
+//DependencyDetail It stores version and execution command of dependency as a plugin for example
+//beego = {
+//           version : 1.5
+//           command : "go plugin/beego/main.go"
+//        }
 type DependencyDetail struct {
 	Version string
 	Command string
 }
 
 const (
+	//Framework is FRAMEWORK
 	Framework = "FRAMEWORK"
-	DB        = "DB"
-	ORM       = "ORM"
+	//DB is DB ( database)
+	DB = "DB"
+	//ORM is ORM
+	ORM = "ORM"
 )
 
+//DetectRuntime It will detect language and its version
 func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.LanguageVersion) string {
 	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Detectruntimecommand))
 	defer client.Kill()
@@ -38,6 +47,7 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.Lang
 	return runtimeVersion.Value
 }
 
+//GetParsedDependencis get map of parsed dependencies for example beego is a framework
 func GetParsedDependencis(ctx context.Context, languageVersion, path string, langYamlObject *protos.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
 

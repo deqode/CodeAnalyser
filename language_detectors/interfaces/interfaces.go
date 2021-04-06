@@ -7,6 +7,7 @@ import (
 	"context"
 )
 
+//LanguageSpecificDetector It contains methods for detection of different dependencies
 type LanguageSpecificDetector interface {
 	//DetectRuntime will give runtime version of the language
 	DetectRuntime(context.Context, string) (string, error)
@@ -37,12 +38,13 @@ type LanguageSpecificDetector interface {
 
 //TODO need to segregate and decouple our code
 
+//DetectRunTime This is for Detect version and its language
 type DetectRunTime interface {
 	DetectRuntime(inputString *pb.ServiceInputString) (*pb.ServiceOutputString, error)
 }
 
+//Dependencies It is for all dependencies for example beego,gin,postgres
 type Dependencies interface {
 	GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error)
 }
 
-//count 14

@@ -17,7 +17,7 @@ func main() {
 	path := "./"
 	Scrape(path)
 }
-
+//ReadPluginYamlFile It wil read yaml file of specific plugin
 func ReadPluginYamlFile(filePath struct {
 	path string
 	dir  string
@@ -181,7 +181,7 @@ func RunAllDetectors(languageSpecificDetections *protos.LanguageSpecificDetectio
 	languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
 }
 
-//supportedLanguagedParser it reads yaml file and fetch out supported languges by our system
+//SupportedLanguagedParser it reads yaml file and fetch out supported languges by our system
 func SupportedLanguagedParser() (*protos.SupportedLanguages, error) {
 	filename, _ := filepath.Abs("./static/supportedLanguages.yaml")
 	yamlFile, err := ioutil.ReadFile(filename)
