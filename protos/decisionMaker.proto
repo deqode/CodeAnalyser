@@ -1,5 +1,6 @@
 syntax = "proto3";
-option go_package = "./protos";
+package protos;
+option go_package = "./";
 
 import "protos/outputs/global/buildCommands.proto";
 import "protos/outputs/global/dockercompose.proto";

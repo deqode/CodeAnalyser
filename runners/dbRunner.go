@@ -4,13 +4,14 @@ import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
-	"code-analyser/protos/protos"
+	languageSpecificPB "code-analyser/protos/protos/outputs/languageSpecific"
+	versionsPB "code-analyser/protos/protos/versions"
 	"code-analyser/utils"
 	"os/exec"
 )
 
 //ParseDbFromDependencies It will filter out frameworks from dependencies list
-func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
+func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
 	//framework
 	db := map[string]DependencyDetail{}
 	for key, supportedDb := range langYamlObject.Databases {
@@ -29,10 +30,10 @@ func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject 
 }
 
 //DbRunner will run to detect its dbs and return its detectors
-func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *protos.DBOutput {
-	dbOutput := protos.DBOutput{
+func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *languageSpecificPB.DBOutput {
+	dbOutput := languageSpecificPB.DBOutput{
 		Used:      false,
-		Databases: []*protos.DB{},
+		Databases: []*languageSpecificPB.DB{},
 	}
 	for dbUsed, dbDetails := range dbList {
 		isUsed := DbDetectorRunner(dbUsed, dbDetails, runtimeVersion, root)
@@ -47,7 +48,7 @@ func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *
 //TODO handle errors on every method calls
 
 //DbDetectorRunner It will execute plugin from command fetched from yaml file of same plugin
-func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *protos.DB {
+func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *languageSpecificPB.DB {
 	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", dbDetails.Command))
 	defer client.Kill()
 	isUsed, err := dbResponse.IsDbUsed(&pb.ServiceInput{
@@ -69,7 +70,7 @@ func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, r
 			return nil
 		}
 		if detection.Value == true {
-			return &protos.DB{
+			return &languageSpecificPB.DB{
 				Name:    name,
 				Version: dbDetails.Version,
 				Port:    detection.IntValue,

@@ -1,7 +1,6 @@
 syntax = "proto3";
-option go_package = "./protos";
+option go_package = "./protos/outputs/global";
 import "protos/outputs/global/command.proto";
-
 
 message SeedCommandsOutput{
   // check SeedCommand

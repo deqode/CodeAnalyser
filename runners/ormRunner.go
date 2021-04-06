@@ -4,13 +4,14 @@ import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/pb"
-	"code-analyser/protos/protos"
+	languageSpecificPB "code-analyser/protos/protos/outputs/languageSpecific"
+	versionsPB "code-analyser/protos/protos/versions"
 	"code-analyser/utils"
 	"os/exec"
 )
 
 //ParseOrmFromDependencies It takes dependenciesList and filter out orms in map format
-func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject *protos.LanguageVersion) map[string]DependencyDetail {
+func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
 	orm := map[string]DependencyDetail{}
 	for key, supportedOrm := range langYamlObject.Orms {
 		if versionUsed, ok := dependenciesList[key]; ok {
@@ -27,10 +28,10 @@ func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject
 	return orm
 }
 //OrmRunner it append list of ORMS in ormoutput object
-func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string) *protos.OrmOutput {
-	ormOutputs := protos.OrmOutput{
+func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string) *languageSpecificPB.OrmOutput {
+	ormOutputs := languageSpecificPB.OrmOutput{
 		Used: false,
-		Orms: []*protos.ORM{},
+		Orms: []*languageSpecificPB.ORM{},
 	}
 	for ormUsed, ormDetails := range ormList {
 		usedOrm := OrmDetectorRunner(ormUsed, ormDetails, runtimeVersion, root)
@@ -43,7 +44,7 @@ func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string)
 }
 
 //OrmDetectorRunner it run plugin file of ORM
-func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion, root string) *protos.ORM {
+func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion, root string) *languageSpecificPB.ORM {
 	ormResponse, client := pluginClient.OrmPluginCall(exec.Command("sh", "-c", ormDetails.Command))
 	defer client.Kill()
 	isUsed, err := ormResponse.IsORMUsed(&pb.ServiceInput{
@@ -65,7 +66,7 @@ func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion,
 			return nil
 		}
 		if detection.Used == true {
-			return &protos.ORM{
+			return &languageSpecificPB.ORM{
 				Name:    name,
 				Version: ormDetails.Version,
 			}

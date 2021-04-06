@@ -3,7 +3,7 @@ package interfaces
 import (
 	language_detectors "code-analyser/deployementFiles"
 	"code-analyser/pluginClient/pb"
-	"code-analyser/protos/protos"
+	languageSpecificPB "code-analyser/protos/protos/outputs/languageSpecific"
 	"context"
 )
 
@@ -16,23 +16,23 @@ type LanguageSpecificDetector interface {
 	// TODO: interface ?
 	RunParsers(context.Context, string, string) (interface{}, error)
 	////ParseENVs will return ENVs
-	ParseENVs(context.Context, string) ([]*protos.EnvOutput, error)
+	ParseENVs(context.Context, string) ([]*languageSpecificPB.EnvOutput, error)
 	////DetectFrameworks  will return framework detected in Dir
-	DetectFrameworks(ctx context.Context, runtimeVersion string, root string) ([]*protos.FrameworkOutput, error)
+	DetectFrameworks(ctx context.Context, runtimeVersion string, root string) ([]*languageSpecificPB.FrameworkOutput, error)
 	//DetectDBs will return Dbs detected in string
-	DetectDBs(ctx context.Context, runtimeVersion, root string) (*protos.DBOutput, error)
+	DetectDBs(ctx context.Context, runtimeVersion, root string) (*languageSpecificPB.DBOutput, error)
 	//DetectORMs will return orm detected in string
-	DetectORMs(ctx context.Context, runtimeVersion, root string) (*protos.OrmOutput, error)
+	DetectORMs(ctx context.Context, runtimeVersion, root string) (*languageSpecificPB.OrmOutput, error)
 	//DetectDependencies will return getDependencies detected in string
-	DetectDependencies(context.Context, string, string) ([]*protos.DependenciesOutput, error)
+	DetectDependencies(context.Context, string, string) ([]*languageSpecificPB.DependenciesOutput, error)
 	//DetectLibraries will return libraries detected in string
-	DetectLibraries(context.Context, string, string) ([]*protos.LibrariesOutput, error)
+	DetectLibraries(context.Context, string, string) ([]*languageSpecificPB.LibrariesOutput, error)
 	//GetStaticAssets will return type of staticAssets detected in string
-	GetStaticAssets(context.Context, string, string) ([]*protos.StaticAssetsOutput, error)
-	GetStack(context.Context, string, string) ([]*protos.StackOutput, error)
-	DetectAppserver(context.Context, string, string) ([]*protos.AppserverOutput, error)
-	DetectBuildDirectory(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error)
-	DetectTestCasesRunCommands(context.Context, string, string) ([]*protos.BuildDirectoryOutput, error) // Todo: proto
+	GetStaticAssets(context.Context, string, string) ([]*languageSpecificPB.StaticAssetsOutput, error)
+	GetStack(context.Context, string, string) ([]*languageSpecificPB.StackOutput, error)
+	DetectAppserver(context.Context, string, string) ([]*languageSpecificPB.AppserverOutput, error)
+	DetectBuildDirectory(context.Context, string, string) ([]*languageSpecificPB.BuildDirectoryOutput, error)
+	DetectTestCasesRunCommands(context.Context, string, string) ([]*languageSpecificPB.BuildDirectoryOutput, error) // Todo: proto
 	language_detectors.Commands
 }
 

@@ -3,6 +3,8 @@ package main
 import (
 	"code-analyser/analyser"
 	"code-analyser/protos/protos"
+	utilsPB "code-analyser/protos/protos/outputs/utils"
+	versionsPB "code-analyser/protos/protos/versions"
 	"code-analyser/runners"
 	"errors"
 	"gopkg.in/yaml.v2"
@@ -21,13 +23,13 @@ func main() {
 func ReadPluginYamlFile(filePath struct {
 	path string
 	dir  string
-}) (*protos.Plugin, error) {
+}) (*utilsPB.Plugin, error) {
 	filename, _ := filepath.Abs(filePath.path)
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
-	var lang protos.Plugin
+	var lang utilsPB.Plugin
 
 	err = yaml.Unmarshal(yamlFile, &lang)
 	if err != nil {
@@ -44,7 +46,7 @@ func ReadPluginYamlFile(filePath struct {
 /*ParsePluginYamlFile it will fetch paths of all plugins using walk function and
 parse all dependencies to their categories for example postgres is a Db
 */
-func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
+func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 	var pluginDetailsFileLst []struct {
 		path string
 		dir  string
@@ -66,7 +68,7 @@ func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
 	if err != nil {
 		log.Println(err)
 	}
-	var languageVersion protos.LanguageVersion
+	var languageVersion versionsPB.LanguageVersion
 	for _, pluginFile := range pluginDetailsFileLst {
 		parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
 		if parsedRawFile == nil {
@@ -76,17 +78,17 @@ func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
 		switch parsedFile.Type {
 		case "framework":
 			if val, ok := languageVersion.Framework[parsedFile.Name]; ok {
-				val.Version[parsedFile.Version] = &protos.DependencyVersionDetails{
+				val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 					Semver:        parsedFile.Semver,
 					Plugincommand: parsedFile.Command,
 				}
 			} else {
-				dependencyDetails := protos.DependencyDetails{Version: map[string]*protos.DependencyVersionDetails{}}
-				dependencyDetails.Version[parsedFile.Version] = &protos.DependencyVersionDetails{
+				dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
+				dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 					Semver:        parsedFile.Semver,
 					Plugincommand: parsedFile.Command,
 				}
-				languageVersion.Framework = map[string]*protos.DependencyDetails{parsedFile.Name: &dependencyDetails}
+				languageVersion.Framework = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
 			}
 			break
 		case "detectRuntime":
@@ -94,42 +96,42 @@ func ParsePluginYamlFile(rootPath string) *protos.LanguageVersion {
 			break
 		case "orm":
 			if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
-				val.Version[parsedFile.Version] = &protos.DependencyVersionDetails{
+				val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 					Semver:        parsedFile.Semver,
 					Plugincommand: parsedFile.Command,
 				}
 			} else {
-				dependencyDetails := protos.DependencyDetails{Version: map[string]*protos.DependencyVersionDetails{}}
-				dependencyDetails.Version[parsedFile.Version] = &protos.DependencyVersionDetails{
+				dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
+				dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 					Semver:        parsedFile.Semver,
 					Plugincommand: parsedFile.Command,
 				}
-				languageVersion.Orms = map[string]*protos.DependencyDetails{parsedFile.Name: &dependencyDetails}
+				languageVersion.Orms = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
 			}
 			break
 		case "database":
 			if val, ok := languageVersion.Databases[parsedFile.Name]; ok {
-				val.Version[parsedFile.Version] = &protos.DependencyVersionDetails{
+				val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 					Semver:        parsedFile.Semver,
 					Plugincommand: parsedFile.Command,
 				}
 			} else {
-				dependencyDetails := protos.DependencyDetails{Version: map[string]*protos.DependencyVersionDetails{}}
-				dependencyDetails.Version[parsedFile.Version] = &protos.DependencyVersionDetails{
+				dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
+				dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 					Semver:        parsedFile.Semver,
 					Plugincommand: parsedFile.Command,
 				}
-				languageVersion.Databases = map[string]*protos.DependencyDetails{parsedFile.Name: &dependencyDetails}
+				languageVersion.Databases = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
 			}
 			break
 		case "getDependencies":
 			if languageVersion.Runtimeversions != nil {
-				languageVersion.Runtimeversions[parsedFile.Version] = &protos.DependencyVersionDetails{
+				languageVersion.Runtimeversions[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 					Semver:        parsedFile.Semver,
 					Plugincommand: parsedFile.Command,
 				}
 			} else {
-				languageVersion.Runtimeversions = map[string]*protos.DependencyVersionDetails{parsedFile.Version: {
+				languageVersion.Runtimeversions = map[string]*versionsPB.DependencyVersionDetails{parsedFile.Version: {
 					Semver:        parsedFile.Semver,
 					Plugincommand: parsedFile.Command,
 				}}
@@ -182,13 +184,13 @@ func RunAllDetectors(languageSpecificDetections *protos.LanguageSpecificDetectio
 }
 
 //SupportedLanguagedParser it reads yaml file and fetch out supported languges by our system
-func SupportedLanguagedParser() (*protos.SupportedLanguages, error) {
+func SupportedLanguagedParser() (*versionsPB.SupportedLanguages, error) {
 	filename, _ := filepath.Abs("./static/supportedLanguages.yaml")
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
-	var lang protos.SupportedLanguages
+	var lang versionsPB.SupportedLanguages
 
 	err = yaml.Unmarshal(yamlFile, &lang)
 	if err != nil {
