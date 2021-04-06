@@ -5,6 +5,7 @@ import (
 	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
+	"code-analyser/pluginClient/env"
 	"code-analyser/pluginClient/framework"
 	"code-analyser/pluginClient/orm"
 	"code-analyser/utils"
@@ -26,6 +27,8 @@ const (
 	PluginDispenserDetectRuntime = "detectRuntime"
 	//PluginDispenserDependencies  is a getDependencies
 	PluginDispenserDependencies = "getDependencies"
+	//PluginDispenserEnv is a string env
+	PluginDispenserEnv = "env"
 )
 
 //PluginMap is a map of dispenser string and plugin
@@ -35,6 +38,7 @@ var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
 	PluginDispenserDependencies:  &dependencies.DependenciesGRPCPlugin{},
 	PluginDispenserOrm:           &orm.OrmGRPCPlugin{},
+	PluginDispenserEnv:           &env.EnvGRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -98,4 +102,9 @@ func DependenciesPluginCall(cmd *exec.Cmd) (interfaces.Dependencies, *plugin.Cli
 func DbPluginCall(cmd *exec.Cmd) (interfaces.DbVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDB)
 	return raw.(interfaces.DbVersion), client
+}
+
+func EnvPluginCall(cmd *exec.Cmd) (interfaces.Env, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserEnv)
+	return raw.(interfaces.Env), client
 }

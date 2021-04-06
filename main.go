@@ -94,6 +94,9 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 		case "detectRuntime":
 			languageVersion.Detectruntimecommand = parsedFile.Command
 			break
+		case "env":
+			languageVersion.DetectenvCommand = parsedFile.Command
+			break
 		case "orm":
 			if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
 				val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
@@ -159,10 +162,11 @@ func Scrape(path string) {
 		}
 		if languagePath != "" {
 			yamlLangObject := ParsePluginYamlFile(languagePath)
-			runtimeVersion := (runners.DetectRuntime(nil, path, yamlLangObject))
+			runtimeVersion := runners.DetectRuntime(nil, path, yamlLangObject)
 			if runtimeVersion == "" {
 				break
 			}
+
 			allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, yamlLangObject)
 			languageSpecificDetections := protos.LanguageSpecificDetections{
 				Name:           language.Name,

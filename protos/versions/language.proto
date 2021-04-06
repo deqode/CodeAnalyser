@@ -11,6 +11,7 @@ message LanguageVersion{
   map<string, DependencyDetails>  orms = 4;
   map<string, DependencyDetails>  libraries = 5;
   map<string, DependencyDetails>  dependencies = 6;
+  string detectenvCommand = 8;
 }
 
 message DependencyDetails{
