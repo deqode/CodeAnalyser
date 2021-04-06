@@ -103,7 +103,7 @@ func DbPluginCall(cmd *exec.Cmd) (interfaces.DbVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDB)
 	return raw.(interfaces.DbVersion), client
 }
-
+//EnvPluginCall call th plugin related to DB
 func EnvPluginCall(cmd *exec.Cmd) (interfaces.Env, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserEnv)
 	return raw.(interfaces.Env), client

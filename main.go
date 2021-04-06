@@ -171,9 +171,8 @@ func Scrape(path string) {
 			languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
 				Name:           language.Name,
 				RuntimeVersion: runtimeVersion,
-				Env:            runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path),
 			}
-			RunAllDetectors(&languageSpecificDetections, allDependencies, runtimeVersion, path)
+			RunAllDetectors(&languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
 			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
 			log.Println(decisionMakerInput)
 		}
@@ -182,10 +181,11 @@ func Scrape(path string) {
 }
 
 //RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
-func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, runtimeVersion string, path string) {
+func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string) {
 	languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
 	languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
 	languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
+	languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
 }
 
 //SupportedLanguagedParser it reads yaml file and fetch out supported languges by our system

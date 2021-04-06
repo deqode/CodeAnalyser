@@ -19,7 +19,6 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EnvServiceClient interface {
 	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputEnv, error)
-	IsEnvUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
 }
 
 type envServiceClient struct {
@@ -39,21 +38,11 @@ func (c *envServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ..
 	return out, nil
 }
 
-func (c *envServiceClient) IsEnvUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
-	err := c.cc.Invoke(ctx, "/proto.EnvService/IsEnvUsed", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // EnvServiceServer is the server API for EnvService service.
 // All implementations must embed UnimplementedEnvServiceServer
 // for forward compatibility
 type EnvServiceServer interface {
 	Detect(context.Context, *ServiceInput) (*ServiceOutputEnv, error)
-	IsEnvUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
 	//mustEmbedUnimplementedEnvServiceServer()
 }
 
@@ -63,9 +52,6 @@ type UnimplementedEnvServiceServer struct {
 
 func (UnimplementedEnvServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputEnv, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
-}
-func (UnimplementedEnvServiceServer) IsEnvUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IsEnvUsed not implemented")
 }
 func (UnimplementedEnvServiceServer) mustEmbedUnimplementedEnvServiceServer() {}
 
@@ -98,24 +84,6 @@ func _EnvService_Detect_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _EnvService_IsEnvUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(EnvServiceServer).IsEnvUsed(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/proto.EnvService/IsEnvUsed",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EnvServiceServer).IsEnvUsed(ctx, req.(*ServiceInput))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // EnvService_ServiceDesc is the grpc.ServiceDesc for EnvService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -126,10 +94,6 @@ var EnvService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Detect",
 			Handler:    _EnvService_Detect_Handler,
-		},
-		{
-			MethodName: "IsEnvUsed",
-			Handler:    _EnvService_IsEnvUsed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-//EnvPlugin
+//EnvPlugin is a plugin to check env available
 type EnvPlugin struct{}
 //Detect function for envs keyvalues and keys implemented from Env interface
 func (e EnvPlugin) Detect(input *pb.ServiceInput) (*pb.ServiceOutputEnv, error) {
@@ -21,13 +21,6 @@ func (e EnvPlugin) Detect(input *pb.ServiceInput) (*pb.ServiceOutputEnv, error) 
 	}, nil
 }
 
-
-func (e EnvPlugin) IsUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
-		Value: true,
-		Error: nil,
-	}, nil
-}
 
 func main()  {
 	plugin.Serve(&plugin.ServeConfig{

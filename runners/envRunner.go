@@ -8,11 +8,12 @@ import (
 	"code-analyser/utils"
 	"os/exec"
 )
-
-func EnvDetectAndRunner(yamlLangObject *versionsPB.LanguageVersion, runtimeVersion, root string) *languageSpecific.EnvOutput {
-	res, client := pluginClient.EnvPluginCall(exec.Command("sh", "-c", yamlLangObject.DetectEnvCommand))
+//EnvDetectAndRunner will run to find Frameworks & returns its detectors.
+func EnvDetectAndRunner(pluginDetails *versionsPB.LanguageVersion, runtimeVersion, root string) *languageSpecific.EnvOutput {
+	res, client := pluginClient.EnvPluginCall(exec.Command("sh", "-c", pluginDetails.DetectEnvCommand))
 	defer client.Kill()
-	isUsed, err := res.IsUsed(&pb.ServiceInput{
+
+	detection, err := res.Detect(&pb.ServiceInput{
 		RuntimeVersion: runtimeVersion,
 		Root:           root,
 	})
@@ -20,17 +21,10 @@ func EnvDetectAndRunner(yamlLangObject *versionsPB.LanguageVersion, runtimeVersi
 		utils.Logger(err)
 		return nil
 	}
-	if isUsed.Value == true {
-		detection, err := res.Detect(&pb.ServiceInput{
-			RuntimeVersion: runtimeVersion,
-			Root:           root,
-		})
-		if err != nil {
-			utils.Logger(err)
-			return nil
-		}
+	if detection.EnvKeyValues != nil || detection.Keys != nil {
+
 		return &languageSpecific.EnvOutput{
-			EnvUsed:      isUsed.Value,
+			EnvUsed:      true,
 			EnvKeyValues: detection.EnvKeyValues,
 			Variables:    detection.Keys,
 		}
