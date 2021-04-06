@@ -48,7 +48,7 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *protos.Lang
 }
 
 //GetParsedDependencis get map of parsed dependencies for example beego is a framework
-func GetParsedDependencis(ctx context.Context, languageVersion, path string, langYamlObject *protos.LanguageVersion) map[string]map[string]DependencyDetail {
+func GetParsedDependencis(ctx context.Context, languageVersion, path string, pluginDetails *protos.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
 
 	var dependenciesCommand *protos.DependencyVersionDetails
