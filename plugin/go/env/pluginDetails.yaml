@@ -5,5 +5,5 @@ author:
 date: "25/02/1999"
 plugindetails:
   type: "env"
-  command: "go run alfredPlugin/main.go"
+  command: "alfredPlugin/plugin"
 
