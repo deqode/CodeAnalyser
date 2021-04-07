@@ -13,7 +13,7 @@ type GetGoDependencies struct{}
 //GetDependencies will return map of dependencies and versions
 func (d *GetGoDependencies) GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error) {
 	return &pb.ServiceOutputStringMap{
-		Value: map[string]string{"beego": "1.2", "gorm": "1.1", "postgres": "1.1"},
+		Value: map[string]string{"beego": "1.2", "gorm": "1.1", "postgres": "1.1","kafka":"1.2"},
 	}, nil
 }
 
@@ -21,7 +21,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserDependencies: &dependencies.DependenciesGRPCPlugin{Impl: &GetGoDependencies{}},
+			pluginClient.PluginDispenserDependencies: &dependencies.GRPCPlugin{Impl: &GetGoDependencies{}},
 		},
 		GRPCServer: plugin.DefaultGRPCServer,
 	})

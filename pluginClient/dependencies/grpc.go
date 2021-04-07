@@ -1,15 +1,16 @@
 package dependencies
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/pb"
 	"golang.org/x/net/context"
 )
-
+// GRPCClient is an implementation of FrameworkVersions that talks over RPC.
 type GRPCClient struct {
 	Client pb.DependenciesServiceClient
 }
 
+//GRPCServer  is the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
 	Impl interfaces.Dependencies
 }

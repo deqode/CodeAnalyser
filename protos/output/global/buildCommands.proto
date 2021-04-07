@@ -1,0 +1,12 @@
+syntax = "proto3";
+option go_package = "code-analyser/protos/pb/output/global";
+
+import "code-analyser/protos/output/global/command.proto";
+
+message BuildCommandsOutput{
+  // check BuildCommands
+  bool used = 1;
+  // list of all BuildCommands
+  repeated Command buildCommands = 2;
+}
+

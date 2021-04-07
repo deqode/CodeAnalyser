@@ -1,0 +1,10 @@
+syntax = "proto3";
+option go_package = "code-analyser/protos/pb/output/global";
+
+message Command{
+  //  name of command
+  string command = 1;
+  //  args of commands
+  repeated string args = 2;
+}
+

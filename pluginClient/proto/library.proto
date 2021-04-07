@@ -1,0 +1,22 @@
+syntax = "proto3";
+package proto;
+option go_package = "../pb";
+
+import "proto/common.proto";
+
+service LibraryService {
+  rpc   Detect(ServiceInput) returns (ServiceOutputLibraryType);
+  rpc   IsUsed(ServiceInput) returns (ServiceOutputBool);
+  rpc   PercentOfUsed(ServiceInput) returns (ServiceOutputFloat);
+}
+
+message  ServiceOutputLibraryType{
+  bool value = 1;
+  enum Type {
+    REPLACED = 0;
+    EXTERNAL = 1;
+  }
+  Type type = 3;
+  ServiceError error = 2;
+}
+

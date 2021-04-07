@@ -1,11 +1,13 @@
 package pluginClient
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
+	"code-analyser/pluginClient/env"
 	"code-analyser/pluginClient/framework"
+	"code-analyser/pluginClient/library"
 	"code-analyser/pluginClient/orm"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
@@ -26,17 +28,20 @@ const (
 	PluginDispenserDetectRuntime = "detectRuntime"
 	//PluginDispenserDependencies  is a getDependencies
 	PluginDispenserDependencies = "getDependencies"
-	PluginDispenserLibraries    = "getLibraries"
+	PluginDispenserLibrary = "library"
+	//PluginDispenserEnv is a string env
+	PluginDispenserEnv = "env"
 )
 
 //PluginMap is a map of dispenser string and plugin
 var PluginMap = map[string]plugin.Plugin{
-	PluginDispenserFramework:     &framework.FrameworkGRPCPlugin{},
-	PluginDispenserDB:            &db.DbGRPCPlugin{},
-	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
-	PluginDispenserDependencies:  &dependencies.DependenciesGRPCPlugin{},
-	PluginDispenserOrm:           &orm.OrmGRPCPlugin{},
-	PluginDispenserLibraries: &GetLi
+	PluginDispenserLibrary:     &library.GRPCPlugin{},
+	PluginDispenserFramework:     &framework.GRPCPlugin{},
+	PluginDispenserDB:            &db.GRPCPlugin{},
+	PluginDispenserDetectRuntime: &detectRuntime.GRPCPlugin{},
+	PluginDispenserDependencies:  &dependencies.GRPCPlugin{},
+	PluginDispenserOrm:           &orm.GRPCPlugin{},
+	PluginDispenserEnv:           &env.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -100,4 +105,15 @@ func DependenciesPluginCall(cmd *exec.Cmd) (interfaces.Dependencies, *plugin.Cli
 func DbPluginCall(cmd *exec.Cmd) (interfaces.DbVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDB)
 	return raw.(interfaces.DbVersion), client
+}
+
+//EnvPluginCall call th plugin related to DB
+func EnvPluginCall(cmd *exec.Cmd) (interfaces.Env, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserEnv)
+	return raw.(interfaces.Env), client
+}
+
+func LibraryPluginCall(cmd *exec.Cmd) (interfaces.Library, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserLibrary)
+	return raw.(interfaces.Library), client
 }

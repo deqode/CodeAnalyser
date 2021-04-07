@@ -1,21 +1,29 @@
 package framework
 
 import (
-	"code-analyser/language_detectors/interfaces"
+	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/pb"
+	"code-analyser/utils"
+	"errors"
 	"golang.org/x/net/context"
 )
 
 // GRPCClient is an implementation of FrameworkVersions that talks over RPC.
 type GRPCClient struct{ Client pb.FrameworkServiceClient }
 
+//TODO add nil check in service input variables
 //Detect will detect the usage of framework
 func (m *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	ret, err := m.Client.Detect(context.Background(), &pb.ServiceInput{
-		RuntimeVersion: input.RuntimeVersion,
-		Root:           input.Root,
-	})
-	return ret, err
+	if input != nil {
+		ret, err := m.Client.Detect(context.Background(), &pb.ServiceInput{
+			RuntimeVersion: input.RuntimeVersion,
+			Root:           input.Root,
+		})
+		return ret, err
+	}
+	utils.Logger("service input nil found in Detect method")
+	return nil, errors.New("service input nil found")
+
 }
 
 //IsFrameworkUsed returns true if that framework used
