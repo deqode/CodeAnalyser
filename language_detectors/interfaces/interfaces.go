@@ -48,3 +48,6 @@ type Dependencies interface {
 	GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error)
 }
 
+type GetLibraries interface {
+	GetLibraries(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error)
+}

@@ -4,6 +4,6 @@ author:
   email: "rfr"
 date: "rvtrv"
 plugindetails:
-  type: "getDependencies"
+  type: "getLibraries"
   command: "go run alfredPlugin/main.go"
 

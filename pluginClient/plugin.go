@@ -26,6 +26,7 @@ const (
 	PluginDispenserDetectRuntime = "detectRuntime"
 	//PluginDispenserDependencies  is a getDependencies
 	PluginDispenserDependencies = "getDependencies"
+	PluginDispenserLibraries    = "getLibraries"
 )
 
 //PluginMap is a map of dispenser string and plugin
@@ -35,6 +36,7 @@ var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserDetectRuntime: &detectRuntime.DetectRuntimeGRPCPlugin{},
 	PluginDispenserDependencies:  &dependencies.DependenciesGRPCPlugin{},
 	PluginDispenserOrm:           &orm.OrmGRPCPlugin{},
+	PluginDispenserLibraries: &GetLi
 }
 
 //HandshakeConfig stores the config for plugin

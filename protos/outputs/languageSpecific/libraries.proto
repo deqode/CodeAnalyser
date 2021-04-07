@@ -2,15 +2,17 @@ syntax = "proto3";
 option go_package = "./protos/outputs/languageSpecific";
 
 message LibrariesOutput{
-  // check library
-  bool used = 1;
   // list of all library
-  repeated Library libraries = 2;
+  map<string, LibraryDetails> libraryDetails = 1;
 }
-message Library{
+message LibraryDetails{
   //  name of library
-  string name = 1;
+  string version = 1;
   //  type of library
-  string type = 2;
+  enum Type {
+    REPLACED = 0;
+    EXTERNAL = 1;
+  }
+  Type type = 2;
 }
 
