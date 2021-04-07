@@ -6,6 +6,7 @@ import (
 	utilsPB "code-analyser/protos/pb/output/utils"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
+	"code-analyser/utils"
 	"errors"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -13,6 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 )
 
 func main() {
@@ -67,82 +69,92 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 			return nil
 		})
 	if err != nil {
-		log.Println(err)
+		utils.Logger(err)
 	}
-	var languageVersion versionsPB.LanguageVersion
+	languageVersion := &versionsPB.LanguageVersion{}
+	var wg sync.WaitGroup
+
 	for _, pluginFile := range pluginDetailsFileLst {
-		parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
-		if parsedRawFile == nil {
-			continue
-		}
-		parsedFile := parsedRawFile.PluginDetails
-		switch parsedFile.Type {
-		case "framework":
-			if val, ok := languageVersion.Framework[parsedFile.Name]; ok {
-				val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-					Semver:        parsedFile.Semver,
-					Plugincommand: parsedFile.Command,
+		wg.Add(1)
+		pluginFile := pluginFile
+		go func() {
+			defer wg.Done()
+
+			parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
+			if parsedRawFile != nil {
+				parsedFile := parsedRawFile.PluginDetails
+				switch parsedFile.Type {
+				case "framework":
+					if val, ok := languageVersion.Framework[parsedFile.Name]; ok {
+						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+					} else {
+						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
+						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+						languageVersion.Framework = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+					}
+					break
+				case "detectRuntime":
+					languageVersion.Detectruntimecommand = parsedFile.Command
+					break
+				case "env":
+					languageVersion.DetectEnvCommand = parsedFile.Command
+					break
+				case "orm":
+					if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
+						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+					} else {
+						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
+						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+						languageVersion.Orms = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+					}
+					break
+				case "database":
+					if val, ok := languageVersion.Databases[parsedFile.Name]; ok {
+						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+					} else {
+						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
+						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+						languageVersion.Databases = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+					}
+					break
+				case "getDependencies":
+					if languageVersion.Runtimeversions != nil {
+						languageVersion.Runtimeversions[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+					} else {
+						languageVersion.Runtimeversions = map[string]*versionsPB.DependencyVersionDetails{parsedFile.Version: {
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}}
+					}
 				}
-			} else {
-				dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
-				dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-					Semver:        parsedFile.Semver,
-					Plugincommand: parsedFile.Command,
-				}
-				languageVersion.Framework = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
 			}
-			break
-		case "detectRuntime":
-			languageVersion.Detectruntimecommand = parsedFile.Command
-			break
-		case "env":
-			languageVersion.DetectEnvCommand = parsedFile.Command
-			break
-		case "orm":
-			if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
-				val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-					Semver:        parsedFile.Semver,
-					Plugincommand: parsedFile.Command,
-				}
-			} else {
-				dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
-				dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-					Semver:        parsedFile.Semver,
-					Plugincommand: parsedFile.Command,
-				}
-				languageVersion.Orms = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
-			}
-			break
-		case "database":
-			if val, ok := languageVersion.Databases[parsedFile.Name]; ok {
-				val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-					Semver:        parsedFile.Semver,
-					Plugincommand: parsedFile.Command,
-				}
-			} else {
-				dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
-				dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-					Semver:        parsedFile.Semver,
-					Plugincommand: parsedFile.Command,
-				}
-				languageVersion.Databases = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
-			}
-			break
-		case "getDependencies":
-			if languageVersion.Runtimeversions != nil {
-				languageVersion.Runtimeversions[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-					Semver:        parsedFile.Semver,
-					Plugincommand: parsedFile.Command,
-				}
-			} else {
-				languageVersion.Runtimeversions = map[string]*versionsPB.DependencyVersionDetails{parsedFile.Version: {
-					Semver:        parsedFile.Semver,
-					Plugincommand: parsedFile.Command,
-				}}
-			}
-		}
+		}()
+
 	}
-	return &languageVersion
+	wg.Wait()
+
+	return languageVersion
 }
 
 //Scrape it scrape language, framework, orm etc .....
@@ -153,7 +165,13 @@ func Scrape(path string) {
 		LanguageSpecificDetection: []*decisionmakerPB.LanguageSpecificDetections{},
 		GloabalDetections:         nil,
 	}
+	var wg sync.WaitGroup
+
 	for _, language := range languages {
+		wg.Add(1)
+		language := language
+		go func() {
+			defer wg.Done()
 		var languagePath string
 		for _, supportedlanguage := range supportedLanguages.Languages {
 			if supportedlanguage.Name == language.Name {
@@ -164,28 +182,46 @@ func Scrape(path string) {
 		if languagePath != "" {
 			pluginDetails := ParsePluginYamlFile(languagePath)
 			runtimeVersion := runners.DetectRuntime(nil, path, pluginDetails)
-			if runtimeVersion == "" {
-				break
+			if runtimeVersion != "" {
+				allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, pluginDetails)
+				languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
+					Name:           language.Name,
+					RuntimeVersion: runtimeVersion,
+				}
+				RunAllDetectors(&languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
+				decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
+				log.Println(decisionMakerInput)
 			}
-			allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, pluginDetails)
-			languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
-				Name:           language.Name,
-				RuntimeVersion: runtimeVersion,
-			}
-			RunAllDetectors(&languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
-			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
-			log.Println(decisionMakerInput)
-		}
 
+		}
+	}()
 	}
+	wg.Wait()
+
 }
 
 //RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
 func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string) {
-	languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
-	languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
-	languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
-	languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
+	var wg sync.WaitGroup
+	wg.Add(4)
+	go func() {
+		defer wg.Done()
+		languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
+	}()
+	go func() {
+		defer wg.Done()
+		languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
+	}()
+	go func() {
+		defer wg.Done()
+		languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
+	}()
+	go func() {
+		defer wg.Done()
+		languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
+	}()
+	wg.Wait()
+
 }
 
 //SupportedLanguagedParser it reads yaml file and fetch out supported languges by our system
