@@ -43,7 +43,7 @@ func (c *detectRuntimeServiceClient) DetectRuntime(ctx context.Context, in *Serv
 // for forward compatibility
 type DetectRuntimeServiceServer interface {
 	DetectRuntime(context.Context, *ServiceInputString) (*ServiceOutputString, error)
-	//mustEmbedUnimplementedDetectRuntimeServiceServer()
+//	mustEmbedUnimplementedDetectRuntimeServiceServer()
 }
 
 // UnimplementedDetectRuntimeServiceServer must be embedded to have forward compatible implementations.

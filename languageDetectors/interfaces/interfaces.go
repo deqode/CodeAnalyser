@@ -26,7 +26,7 @@ type LanguageSpecificDetector interface {
 	//DetectDependencies will return getDependencies detected in string
 	DetectDependencies(context.Context, string, string) ([]*languageSpecificPB.DependenciesOutput, error)
 	//DetectLibraries will return libraries detected in string
-	DetectLibraries(context.Context, string, string) ([]*languageSpecificPB.LibrariesOutput, error)
+	DetectLibraries(context.Context, string, string) ([]*languageSpecificPB.LibraryOutput, error)
 	//GetStaticAssets will return type of staticAssets detected in string
 	GetStaticAssets(context.Context, string, string) ([]*languageSpecificPB.StaticAssetsOutput, error)
 	GetStack(context.Context, string, string) ([]*languageSpecificPB.StackOutput, error)
@@ -47,4 +47,3 @@ type DetectRunTime interface {
 type Dependencies interface {
 	GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error)
 }
-

@@ -98,13 +98,10 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						}
 						languageVersion.Framework = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
 					}
-					break
 				case "detectRuntime":
 					languageVersion.Detectruntimecommand = parsedFile.Command
-					break
 				case "env":
 					languageVersion.DetectEnvCommand = parsedFile.Command
-					break
 				case "orm":
 					if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
@@ -119,7 +116,20 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						}
 						languageVersion.Orms = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
 					}
-					break
+				case "library":
+					if val, ok := languageVersion.Libraries[parsedFile.Name]; ok {
+						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+					} else {
+						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
+						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+							Semver:        parsedFile.Semver,
+							Plugincommand: parsedFile.Command,
+						}
+						languageVersion.Libraries = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+					}
 				case "database":
 					if val, ok := languageVersion.Databases[parsedFile.Name]; ok {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
@@ -134,7 +144,6 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						}
 						languageVersion.Databases = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
 					}
-					break
 				case "getDependencies":
 					if languageVersion.Runtimeversions != nil {
 						languageVersion.Runtimeversions[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
@@ -203,7 +212,7 @@ func Scrape(path string) {
 //RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
 func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string) {
 	var wg sync.WaitGroup
-	wg.Add(4)
+	wg.Add(5)
 	go func() {
 		defer wg.Done()
 		languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
@@ -220,6 +229,11 @@ func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecifi
 		defer wg.Done()
 		languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
 	}()
+	go func ()  {
+		defer wg.Done()
+	languageSpecificDetections.Libraries=runners.LibraryRunner(allDependencies[runners.Library],runtimeVersion,path)
+	}()
+
 	wg.Wait()
 
 }

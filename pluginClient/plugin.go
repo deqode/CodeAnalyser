@@ -7,6 +7,7 @@ import (
 	"code-analyser/pluginClient/detectRuntime"
 	"code-analyser/pluginClient/env"
 	"code-analyser/pluginClient/framework"
+	"code-analyser/pluginClient/library"
 	"code-analyser/pluginClient/orm"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
@@ -27,12 +28,14 @@ const (
 	PluginDispenserDetectRuntime = "detectRuntime"
 	//PluginDispenserDependencies  is a getDependencies
 	PluginDispenserDependencies = "getDependencies"
+	PluginDispenserLibrary = "library"
 	//PluginDispenserEnv is a string env
 	PluginDispenserEnv = "env"
 )
 
 //PluginMap is a map of dispenser string and plugin
 var PluginMap = map[string]plugin.Plugin{
+	PluginDispenserLibrary:     &library.GRPCPlugin{},
 	PluginDispenserFramework:     &framework.GRPCPlugin{},
 	PluginDispenserDB:            &db.GRPCPlugin{},
 	PluginDispenserDetectRuntime: &detectRuntime.GRPCPlugin{},
@@ -103,8 +106,14 @@ func DbPluginCall(cmd *exec.Cmd) (interfaces.DbVersion, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDB)
 	return raw.(interfaces.DbVersion), client
 }
+
 //EnvPluginCall call th plugin related to DB
 func EnvPluginCall(cmd *exec.Cmd) (interfaces.Env, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserEnv)
 	return raw.(interfaces.Env), client
+}
+
+func LibraryPluginCall(cmd *exec.Cmd) (interfaces.Library, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserLibrary)
+	return raw.(interfaces.Library), client
 }

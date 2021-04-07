@@ -9,10 +9,11 @@ path[5]="plugin/go/orm/gorm/V_1_X"
 
 for p in "${path[@]}"; do
     rm ${p}/plugin -f
+#    git rm -r ${p}/plugin
 done
 
-for p in "${path[@]}"; do
-    cd ${p}
-    go build   -o plugin
-    cd ${root}
-done
+ for p in "${path[@]}"; do
+     cd ${p}
+     go build   -o plugin
+     cd ${root}
+ done

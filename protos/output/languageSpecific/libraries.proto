@@ -1,16 +1,15 @@
 syntax = "proto3";
 option go_package = "code-analyser/protos/pb/output/languageSpecific";
 
-message LibrariesOutput{
-  // check library
-  bool used = 1;
+message LibraryOutput{
   // list of all library
-  repeated Library libraries = 2;
+  enum Type {
+    REPLACED = 0;
+    EXTERNAL = 1;
+  }
+  Type type = 1;
+  bool used = 2;
+  string name = 3;
+  string version = 4;
+  float percentageUsed = 5;
 }
-message Library{
-  //  name of library
-  string name = 1;
-  //  type of library
-  string type = 2;
-}
-

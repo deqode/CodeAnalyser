@@ -28,7 +28,8 @@ const (
 	//DB is DB ( database)
 	DB = "DB"
 	//ORM is ORM
-	ORM = "ORM"
+	ORM     = "ORM"
+	Library = "LIBRARY"
 )
 
 //DetectRuntime It will detect language and its version
@@ -50,7 +51,6 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.
 //GetParsedDependencis get map of parsed dependencies for example beego is a framework
 func GetParsedDependencis(ctx context.Context, languageVersion, path string, pluginDetails *versionsPB.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
-
 	var dependenciesCommand *versionsPB.DependencyVersionDetails
 	var runtimeVersion string
 	for rt, supportedRuntimeVersions := range pluginDetails.Runtimeversions {
@@ -79,6 +79,7 @@ func GetParsedDependencis(ctx context.Context, languageVersion, path string, plu
 		AllDependencies[Framework] = ParseFrameworkFromDependencies(dependenciesList, pluginDetails)
 		AllDependencies[DB] = ParseDbFromDependencies(dependenciesList, pluginDetails)
 		AllDependencies[ORM] = ParseOrmFromDependencies(dependenciesList, pluginDetails)
+		AllDependencies[Library] = ParseLibraryFromDependencies(dependenciesList, pluginDetails)
 		return AllDependencies
 	}
 
