@@ -2,13 +2,15 @@ package env
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"golang.org/x/net/context"
 )
+
 //GRPCClient struct for grpc client call
 type GRPCClient struct {
 	Client pb.EnvServiceClient
 }
+
 //Detect method implemented from Env interface (interface implemented by us)
 func (m *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputEnv, error) {
 	res, err := m.Client.Detect(context.Background(), &pb.ServiceInput{
@@ -17,7 +19,6 @@ func (m *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputEnv, error
 	})
 	return res, err
 }
-
 
 //GRPCServer struct for plugin call
 type GRPCServer struct {
@@ -33,4 +34,3 @@ func (m *GRPCServer) Detect(ctx context.Context, input *pb.ServiceInput) (*pb.Se
 		Error:        res.Error,
 	}, err
 }
-

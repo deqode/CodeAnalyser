@@ -2,7 +2,7 @@ package dependencies
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"context"
 	"github.com/hashicorp/go-plugin"
 	"google.golang.org/grpc"

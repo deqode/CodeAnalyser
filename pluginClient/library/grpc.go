@@ -2,7 +2,7 @@ package library
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"code-analyser/utils"
 	"errors"
 	"golang.org/x/net/context"

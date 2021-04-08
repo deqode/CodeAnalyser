@@ -1,7 +1,9 @@
 package interfaces
 
-import "code-analyser/pluginClient/pb"
+import (
+	"code-analyser/protos/pb/plugin"
+)
 // Env will be implemented for plugin
 type Env interface {
-	Detect(*pb.ServiceInput)(*pb.ServiceOutputEnv,error)
+	Detect(*plugin.ServiceInput)(*plugin.ServiceOutputEnv,error)
 }

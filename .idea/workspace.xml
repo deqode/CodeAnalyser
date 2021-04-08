@@ -1,30 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3ac58aa-c5da-4969-a491-7742aab6835d" name="Default Changelist" comment="" />
+    <list default="true" id="b3ac58aa-c5da-4969-a491-7742aab6835d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grpc_compile.sh" beforeDir="false" afterPath="$PROJECT_DIR$/grpc_compile.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/languageDetectors/interfaces/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/languageDetectors/interfaces/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/languageDetectors/interfaces/env.go" beforeDir="false" afterPath="$PROJECT_DIR$/languageDetectors/interfaces/env.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/languageDetectors/interfaces/framework.go" beforeDir="false" afterPath="$PROJECT_DIR$/languageDetectors/interfaces/framework.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/languageDetectors/interfaces/interfaces.go" beforeDir="false" afterPath="$PROJECT_DIR$/languageDetectors/interfaces/interfaces.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/languageDetectors/interfaces/libraries.go" beforeDir="false" afterPath="$PROJECT_DIR$/languageDetectors/interfaces/libraries.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/languageDetectors/interfaces/orm.go" beforeDir="false" afterPath="$PROJECT_DIR$/languageDetectors/interfaces/orm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/db/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/db/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/db/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/db/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/dependencies/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/dependencies/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/dependencies/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/dependencies/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/detectRuntime/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/detectRuntime/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/detectRuntime/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/detectRuntime/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/env/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/env/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/env/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/env/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/framework/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/framework/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/framework/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/framework/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/library/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/library/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/library/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/library/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/orm/grpc.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/orm/grpc.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/orm/plugin.go" beforeDir="false" afterPath="$PROJECT_DIR$/pluginClient/orm/plugin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/common.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/db.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/db_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/dependencies.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/dependencies_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/detectRuntime.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/detectRuntime_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/env.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/env_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/framework.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/framework_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/getLibraries.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/getLibraries_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/library.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/library_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/orm.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/pb/orm_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/common.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/plugin/common.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/db.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/plugin/db.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/dependencies.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/plugin/dependencies.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/detectRuntime.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/plugin/detectRuntime.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/env.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/plugin/env.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/framework.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/plugin/framework.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/library.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/plugin/library.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginClient/proto/orm.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/plugin/orm.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proto_compile.sh" beforeDir="false" afterPath="$PROJECT_DIR$/proto_compile.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/decisionMaker/decisionMaker.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/decisionMaker/decisionMaker.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/output/global/buildCommands.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/output/global/buildCommands.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/output/global/migrationCommands.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/output/global/migrationCommands.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/output/global/seedCommands.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/output/global/seedCommands.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/output/global/startUpCommands.proto" beforeDir="false" afterPath="$PROJECT_DIR$/protos/output/global/startUpCommands.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/decisionMaker.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/buildCommands.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/command.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/dockercompose.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/dockerfile.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/makefile.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/migrationCommands.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/proc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/seedCommands.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/global/startUpCommands.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/appserver.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/buildDirectory.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/db.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/dependencies.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/env.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/framework.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/libraries.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/orm.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/stack.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/languageSpecific/staticAssets.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/output/utils/pluginYaml.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/versions/language.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/pb/versions/supportedLanguages.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/protos/protos/outputs/languageSpecific/libraries.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/env.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/env.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/framework.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/framework.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/language.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/language.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/library.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/library.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runners/orm.go" beforeDir="false" afterPath="$PROJECT_DIR$/runners/orm.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../linuxbrew/.linuxbrew/Cellar/go/1.16.3_1/libexec" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1qsKsNulEeu24UFCO9BwhOXuNX9" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/protos/plugin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/protos/plugin" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
@@ -40,6 +140,10 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

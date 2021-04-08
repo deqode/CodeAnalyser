@@ -2,7 +2,7 @@ package detectRuntime
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"golang.org/x/net/context"
 )
 // GRPCClient is an implementation of FrameworkVersions that talks over RPC.

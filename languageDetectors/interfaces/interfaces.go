@@ -2,8 +2,8 @@ package interfaces
 
 import (
 	language_detectors "code-analyser/deployementFiles"
-	"code-analyser/pluginClient/pb"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
+	"code-analyser/protos/pb/plugin"
 	"context"
 )
 
@@ -40,10 +40,10 @@ type LanguageSpecificDetector interface {
 
 //DetectRunTime This is for Detect version and its language
 type DetectRunTime interface {
-	DetectRuntime(inputString *pb.ServiceInputString) (*pb.ServiceOutputString, error)
+	DetectRuntime(inputString *plugin.ServiceInputString) (*plugin.ServiceOutputString, error)
 }
 
 //Dependencies It is for all dependencies for example beego,gin,postgres
 type Dependencies interface {
-	GetDependencies(inputString *pb.ServiceInput) (*pb.ServiceOutputStringMap, error)
+	GetDependencies(inputString *plugin.ServiceInput) (*plugin.ServiceOutputStringMap, error)
 }

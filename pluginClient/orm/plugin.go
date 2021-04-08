@@ -2,11 +2,12 @@ package orm
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"context"
 	"github.com/hashicorp/go-plugin"
 	"google.golang.org/grpc"
 )
+
 // GRPCPlugin is the implementation of plugin.GRPCPlugin so we can serve/consume this.
 type GRPCPlugin struct {
 	plugin.Plugin

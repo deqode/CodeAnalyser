@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.26.0
 // 	protoc        v3.6.1
-// source: proto/db.proto
+// source: protos/plugin/db.proto
 
-package pb
+package plugin
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -33,7 +33,7 @@ type ServiceOutputBoolInt struct {
 func (x *ServiceOutputBoolInt) Reset() {
 	*x = ServiceOutputBoolInt{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_db_proto_msgTypes[0]
+		mi := &file_protos_plugin_db_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +46,7 @@ func (x *ServiceOutputBoolInt) String() string {
 func (*ServiceOutputBoolInt) ProtoMessage() {}
 
 func (x *ServiceOutputBoolInt) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_db_proto_msgTypes[0]
+	mi := &file_protos_plugin_db_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +59,7 @@ func (x *ServiceOutputBoolInt) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceOutputBoolInt.ProtoReflect.Descriptor instead.
 func (*ServiceOutputBoolInt) Descriptor() ([]byte, []int) {
-	return file_proto_db_proto_rawDescGZIP(), []int{0}
+	return file_protos_plugin_db_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ServiceOutputBoolInt) GetValue() bool {
@@ -83,11 +83,12 @@ func (x *ServiceOutputBoolInt) GetError() *ServiceError {
 	return nil
 }
 
-var File_proto_db_proto protoreflect.FileDescriptor
+var File_protos_plugin_db_proto protoreflect.FileDescriptor
 
-var file_proto_db_proto_rawDesc = []byte{
-	0x0a, 0x0e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x64, 0x62, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x05, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x12, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63,
+var file_protos_plugin_db_proto_rawDesc = []byte{
+	0x0a, 0x16, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x73, 0x2f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x2f,
+	0x64, 0x62, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
+	0x1a, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x73, 0x2f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x2f, 0x63,
 	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x73, 0x0a, 0x14, 0x53,
 	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x42, 0x6f, 0x6f, 0x6c,
 	0x49, 0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01,
@@ -108,31 +109,33 @@ var file_proto_db_proto_rawDesc = []byte{
 	0x4f, 0x66, 0x44, 0x62, 0x55, 0x73, 0x65, 0x64, 0x12, 0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x1a, 0x19, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x75, 0x74,
-	0x70, 0x75, 0x74, 0x46, 0x6c, 0x6f, 0x61, 0x74, 0x42, 0x07, 0x5a, 0x05, 0x2e, 0x2e, 0x2f, 0x70,
-	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x75, 0x74, 0x46, 0x6c, 0x6f, 0x61, 0x74, 0x42, 0x20, 0x5a, 0x1e, 0x63, 0x6f, 0x64, 0x65,
+	0x2d, 0x61, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x65, 0x72, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x73,
+	0x2f, 0x70, 0x62, 0x2f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
-	file_proto_db_proto_rawDescOnce sync.Once
-	file_proto_db_proto_rawDescData = file_proto_db_proto_rawDesc
+	file_protos_plugin_db_proto_rawDescOnce sync.Once
+	file_protos_plugin_db_proto_rawDescData = file_protos_plugin_db_proto_rawDesc
 )
 
-func file_proto_db_proto_rawDescGZIP() []byte {
-	file_proto_db_proto_rawDescOnce.Do(func() {
-		file_proto_db_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_db_proto_rawDescData)
+func file_protos_plugin_db_proto_rawDescGZIP() []byte {
+	file_protos_plugin_db_proto_rawDescOnce.Do(func() {
+		file_protos_plugin_db_proto_rawDescData = protoimpl.X.CompressGZIP(file_protos_plugin_db_proto_rawDescData)
 	})
-	return file_proto_db_proto_rawDescData
+	return file_protos_plugin_db_proto_rawDescData
 }
 
-var file_proto_db_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_proto_db_proto_goTypes = []interface{}{
+var file_protos_plugin_db_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_protos_plugin_db_proto_goTypes = []interface{}{
 	(*ServiceOutputBoolInt)(nil), // 0: proto.ServiceOutputBoolInt
 	(*ServiceError)(nil),         // 1: proto.ServiceError
 	(*ServiceInput)(nil),         // 2: proto.ServiceInput
 	(*ServiceOutputBool)(nil),    // 3: proto.ServiceOutputBool
 	(*ServiceOutputFloat)(nil),   // 4: proto.ServiceOutputFloat
 }
-var file_proto_db_proto_depIdxs = []int32{
+var file_protos_plugin_db_proto_depIdxs = []int32{
 	1, // 0: proto.ServiceOutputBoolInt.error:type_name -> proto.ServiceError
 	2, // 1: proto.DbService.Detect:input_type -> proto.ServiceInput
 	2, // 2: proto.DbService.IsDbUsed:input_type -> proto.ServiceInput
@@ -147,14 +150,14 @@ var file_proto_db_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_proto_db_proto_init() }
-func file_proto_db_proto_init() {
-	if File_proto_db_proto != nil {
+func init() { file_protos_plugin_db_proto_init() }
+func file_protos_plugin_db_proto_init() {
+	if File_protos_plugin_db_proto != nil {
 		return
 	}
-	file_proto_common_proto_init()
+	file_protos_plugin_common_proto_init()
 	if !protoimpl.UnsafeEnabled {
-		file_proto_db_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_protos_plugin_db_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*ServiceOutputBoolInt); i {
 			case 0:
 				return &v.state
@@ -171,18 +174,18 @@ func file_proto_db_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_proto_db_proto_rawDesc,
+			RawDescriptor: file_protos_plugin_db_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_db_proto_goTypes,
-		DependencyIndexes: file_proto_db_proto_depIdxs,
-		MessageInfos:      file_proto_db_proto_msgTypes,
+		GoTypes:           file_protos_plugin_db_proto_goTypes,
+		DependencyIndexes: file_protos_plugin_db_proto_depIdxs,
+		MessageInfos:      file_protos_plugin_db_proto_msgTypes,
 	}.Build()
-	File_proto_db_proto = out.File
-	file_proto_db_proto_rawDesc = nil
-	file_proto_db_proto_goTypes = nil
-	file_proto_db_proto_depIdxs = nil
+	File_protos_plugin_db_proto = out.File
+	file_protos_plugin_db_proto_rawDesc = nil
+	file_protos_plugin_db_proto_goTypes = nil
+	file_protos_plugin_db_proto_depIdxs = nil
 }
