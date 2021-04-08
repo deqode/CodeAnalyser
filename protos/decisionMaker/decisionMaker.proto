@@ -1,6 +1,6 @@
 syntax = "proto3";
 package protos.decisionMaker;
-option go_package = "code-analyser/protos/pb/";
+option go_package = "code-analyser/protos/pb/;pb";
 
 import  "protos/output/global/buildCommands.proto";
 import "protos/output/global/dockercompose.proto";
