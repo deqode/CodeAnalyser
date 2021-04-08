@@ -31,7 +31,7 @@ type LanguageSpecificDetector interface {
 	GetStaticAssets(context.Context, string, string) ([]*languageSpecificPB.StaticAssetsOutput, error)
 	GetStack(context.Context, string, string) ([]*languageSpecificPB.StackOutput, error)
 	DetectAppserver(context.Context, string, string) ([]*languageSpecificPB.AppserverOutput, error)
-	DetectBuildDirectory(context.Context, string, string) ([]*languageSpecificPB.BuildDirectoryOutput, error)
+	DetectBuildDirectory(context.Context, string, string) (*languageSpecificPB.BuildDirectoryOutput, error)
 	DetectTestCasesRunCommands(context.Context, string, string) ([]*languageSpecificPB.BuildDirectoryOutput, error) // Todo: proto
 	language_detectors.Commands
 }
@@ -54,4 +54,12 @@ type PreDetectCommands interface {
 
 type StaticAssets interface {
 	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputStaticAssets, error)
+}
+
+type BuildDirectory interface {
+	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputStringMap, error)
+}
+
+type TestCasesRunCommands interface {
+	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputTestCommand, error)
 }

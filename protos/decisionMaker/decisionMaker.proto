@@ -12,7 +12,6 @@ import "protos/output/global/seedCommands.proto";
 import "protos/output/global/startUpCommands.proto";
 
 import  "protos/output/languageSpecific/appserver.proto";
-import "protos/output/languageSpecific/buildDirectory.proto";
 import "protos/output/languageSpecific/db.proto";
 import "protos/output/languageSpecific/dependencies.proto";
 import "protos/output/languageSpecific/env.proto";
@@ -35,7 +34,7 @@ message LanguageSpecificDetections{
   StaticAssetsOutput staticAssets = 9;
   repeated StackOutput stackOutput = 10;
   repeated AppserverOutput appserver = 11;
-  repeated BuildDirectoryOutput buildDirectory = 12;
+  map<string, string> buildDirectoryOutput = 12;
   Commands commands = 13;
   // todo: DetectTestCasesRunCommands
 }

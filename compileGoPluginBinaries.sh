@@ -9,6 +9,7 @@ path[5]="plugin/go/orm/gorm/V_1_X"
 path[6]="plugin/go/libraries/kafka/V1X"
 path[7]="plugin/go/preDetectCommand"
 path[8]="plugin/go/staticAssets"
+path[9]="plugin/go/buildDirectory"
 
 for p in "${path[@]}"; do
     rm ${p}/plugin -f

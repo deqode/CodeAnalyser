@@ -1,0 +1,15 @@
+syntax = "proto3";
+package proto;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/plugin/common.proto";
+import "protos/output/global/command.proto";
+
+service TestCaseCommands {
+  rpc Detect(ServiceInput) returns (ServiceOutputTestCommand);
+}
+
+message ServiceOutputTestCommand {
+  repeated Command commands = 1;
+  ServiceError error = 2;
+}

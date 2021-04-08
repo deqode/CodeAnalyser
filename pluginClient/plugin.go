@@ -2,6 +2,7 @@ package pluginClient
 
 import (
 	"code-analyser/languageDetectors/interfaces"
+	"code-analyser/pluginClient/buildDirectory"
 	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
@@ -11,6 +12,7 @@ import (
 	"code-analyser/pluginClient/orm"
 	"code-analyser/pluginClient/preDetectCommand"
 	"code-analyser/pluginClient/staticAssets"
+	"code-analyser/pluginClient/testCasesCommands"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/go-plugin"
@@ -30,24 +32,28 @@ const (
 	PluginDispenserDetectRuntime = "detectRuntime"
 	//PluginDispenserDependencies  is a getDependencies
 	PluginDispenserDependencies = "getDependencies"
-	PluginDispenserLibrary = "library"
+	PluginDispenserLibrary      = "library"
 	//PluginDispenserEnv is a string env
-	PluginDispenserEnv = "env"
+	PluginDispenserEnv              = "env"
 	PluginDispenserPreDetectCommand = "preDetectCommand"
-	PluginDispenserStaticAssets = "StaticAssets"
+	PluginDispenserStaticAssets     = "staticAssets"
+	PluginDispenserBuildDirectory   = "buildDirectory"
+	PluginDispenserTestCaseCommand  = "testCaseCommand"
 )
 
 //PluginMap is a map of dispenser string and plugin
 var PluginMap = map[string]plugin.Plugin{
-	PluginDispenserLibrary:     &library.GRPCPlugin{},
-	PluginDispenserFramework:     &framework.GRPCPlugin{},
-	PluginDispenserDB:            &db.GRPCPlugin{},
-	PluginDispenserDetectRuntime: &detectRuntime.GRPCPlugin{},
-	PluginDispenserDependencies:  &dependencies.GRPCPlugin{},
-	PluginDispenserOrm:           &orm.GRPCPlugin{},
-	PluginDispenserEnv:           &env.GRPCPlugin{},
+	PluginDispenserLibrary:          &library.GRPCPlugin{},
+	PluginDispenserFramework:        &framework.GRPCPlugin{},
+	PluginDispenserDB:               &db.GRPCPlugin{},
+	PluginDispenserDetectRuntime:    &detectRuntime.GRPCPlugin{},
+	PluginDispenserDependencies:     &dependencies.GRPCPlugin{},
+	PluginDispenserOrm:              &orm.GRPCPlugin{},
+	PluginDispenserEnv:              &env.GRPCPlugin{},
 	PluginDispenserPreDetectCommand: &preDetectCommand.GRPCPlugin{},
-	PluginDispenserStaticAssets: &staticAssets.GRPCPlugin{},
+	PluginDispenserStaticAssets:     &staticAssets.GRPCPlugin{},
+	PluginDispenserBuildDirectory:   &buildDirectory.GRPCPlugin{},
+	PluginDispenserTestCaseCommand:  &testCasesCommands.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -132,4 +138,14 @@ func PreDetectCommandPluginCall(cmd *exec.Cmd) (interfaces.PreDetectCommands, *p
 func StaticAssetsPluginCall(cmd *exec.Cmd) (interfaces.StaticAssets, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserStaticAssets)
 	return raw.(interfaces.StaticAssets), client
+}
+
+func BuildDirectoryPluginCall(cmd *exec.Cmd) (interfaces.BuildDirectory, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserBuildDirectory)
+	return raw.(interfaces.BuildDirectory), client
+}
+
+func TestCaseCommandPluginCall(cmd *exec.Cmd) (interfaces.TestCasesRunCommands, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserTestCaseCommand)
+	return raw.(interfaces.TestCasesRunCommands), client
 }
