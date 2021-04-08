@@ -2,7 +2,7 @@ package preDetectCommand
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"golang.org/x/net/context"
 )
 

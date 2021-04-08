@@ -2,7 +2,7 @@ package framework
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -16,11 +16,13 @@ type GRPCPlugin struct {
 	// that are written in Go.
 	Impl interfaces.FrameworkVersions
 }
+
 //GRPCServer plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, s *grpc.Server) error {
 	pb.RegisterFrameworkServiceServer(s, &GRPCServer{Impl: p.Impl})
 	return nil
 }
+
 //GRPCClient plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, c *grpc.ClientConn) (interface{}, error) {
 	return &GRPCClient{Client: pb.NewFrameworkServiceClient(c)}, nil

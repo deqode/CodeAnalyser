@@ -3,7 +3,7 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"context"

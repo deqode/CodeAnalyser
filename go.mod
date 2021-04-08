@@ -7,11 +7,15 @@ require (
 	github.com/ckaznocha/protoc-gen-lint v0.2.1 // indirect
 	github.com/fatih/color v1.10.0 // indirect
 	github.com/go-cmd/cmd v1.3.0
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/go-hclog v0.14.1
 	github.com/hashicorp/go-plugin v1.4.0
-	golang.org/x/net v0.0.0-20210324205630-d1beb07c2056
+	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4
+	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57 // indirect
+	golang.org/x/text v0.3.6 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
-	google.golang.org/grpc v1.36.0
+	google.golang.org/genproto v0.0.0-20210406143921-e86de6bf7a46 // indirect
+	google.golang.org/grpc v1.37.0
 	google.golang.org/protobuf v1.26.0
 	gopkg.in/yaml.v2 v2.4.0
 )

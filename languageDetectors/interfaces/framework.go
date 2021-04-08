@@ -1,11 +1,11 @@
 package interfaces
 
 import (
-	"code-analyser/pluginClient/pb"
+	"code-analyser/protos/pb/plugin"
 )
 //FrameworkVersions It defines methods of framework
 type FrameworkVersions interface {
-	Detect(*pb.ServiceInput) (*pb.ServiceOutputBool, error) //todo: can return FrameworkOutput ?
-	IsFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputBool, error)
-	PercentOfFrameworkUsed(*pb.ServiceInput) (*pb.ServiceOutputFloat, error)
+	Detect(*plugin.ServiceInput) (*plugin.ServiceOutputBool, error) //todo: can return FrameworkOutput ?
+	IsFrameworkUsed(*plugin.ServiceInput) (*plugin.ServiceOutputBool, error)
+	PercentOfFrameworkUsed(*plugin.ServiceInput) (*plugin.ServiceOutputFloat, error)
 }

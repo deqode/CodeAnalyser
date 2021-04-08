@@ -2,7 +2,7 @@ package db
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

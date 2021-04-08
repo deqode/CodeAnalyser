@@ -1,7 +1,7 @@
 syntax = "proto3";
 option go_package = "code-analyser/protos/pb/output/global";
 
-import "code-analyser/protos/output/global/command.proto";
+import "protos/output/global/command.proto";
 
 message BuildCommandsOutput{
   // check BuildCommands

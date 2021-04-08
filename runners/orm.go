@@ -3,8 +3,8 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
-	"code-analyser/pluginClient/pb"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
+	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"os/exec"
@@ -27,6 +27,7 @@ func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject
 	}
 	return orm
 }
+
 //OrmRunner it append list of ORMS in ormoutput object
 func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string) *languageSpecificPB.OrmOutput {
 	ormOutputs := languageSpecificPB.OrmOutput{

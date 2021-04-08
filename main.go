@@ -2,9 +2,9 @@ package main
 
 import (
 	"code-analyser/analyser"
-	"code-analyser/pluginClient/pb"
 	decisionmakerPB "code-analyser/protos/pb"
 	utilsPB "code-analyser/protos/pb/output/utils"
+	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
 	"code-analyser/utils"
