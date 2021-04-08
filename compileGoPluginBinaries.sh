@@ -7,6 +7,7 @@ path[3]="plugin/go/framework/beego/v1_x"
 path[4]="plugin/go/getDependencies"
 path[5]="plugin/go/orm/gorm/V_1_X"
 path[6]="plugin/go/libraries/kafka/V1X"
+path[7]="plugin/go/preDetectCommand"
 
 for p in "${path[@]}"; do
     rm ${p}/plugin -f

@@ -7,6 +7,7 @@ import (
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"context"
+	"log"
 	"os/exec"
 )
 
@@ -24,12 +25,12 @@ type DependencyDetail struct {
 
 const (
 	//Framework is FRAMEWORK
-	Framework = "FRAMEWORK"
+	Framework = "framework"
 	//DB is DB ( database)
-	DB = "DB"
+	DB = "db"
 	//ORM is ORM
-	ORM     = "ORM"
-	Library = "LIBRARY"
+	ORM     = "orm"
+	Library = "library"
 )
 
 //DetectRuntime It will detect language and its version
@@ -46,6 +47,19 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.
 		return ""
 	}
 	return runtimeVersion.Value
+}
+
+func RunPreDetectCommand(ctx context.Context, input *pb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) {
+	runtimeResponse, client := pluginClient.PreDetectCommandPluginCall(exec.Command("sh", "-c", pluginDetails.PreDetectCommand))
+	defer client.Kill()
+	runtimeVersion, err := runtimeResponse.RunPreDetect(input)
+	if err != nil {
+		utils.Logger(err)
+	}
+	if runtimeVersion.Error != nil {
+		utils.Logger(runtimeVersion.Error)
+	}
+	log.Println("------------------------ pre detect commands found and executed successfully ")
 }
 
 //GetParsedDependencis get map of parsed dependencies for example beego is a framework

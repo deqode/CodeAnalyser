@@ -47,3 +47,7 @@ type DetectRunTime interface {
 type Dependencies interface {
 	GetDependencies(inputString *plugin.ServiceInput) (*plugin.ServiceOutputStringMap, error)
 }
+
+type PreDetectCommands interface {
+	RunPreDetect(input *plugin.ServiceInput) (*plugin.ServiceEmptyOutput, error)
+}
