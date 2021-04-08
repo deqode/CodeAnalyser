@@ -4,6 +4,7 @@ import (
 	"code-analyser/analyser"
 	decisionmakerPB "code-analyser/protos/pb"
 	utilsPB "code-analyser/protos/pb/output/utils"
+	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
 	"code-analyser/utils"
@@ -102,6 +103,8 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 					languageVersion.Detectruntimecommand = parsedFile.Command
 				case "env":
 					languageVersion.DetectEnvCommand = parsedFile.Command
+				case "preDetectCommand":
+					languageVersion.PreDetectCommand = parsedFile.Command
 				case "orm":
 					if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
@@ -181,29 +184,33 @@ func Scrape(path string) {
 		language := language
 		go func() {
 			defer wg.Done()
-		var languagePath string
-		for _, supportedlanguage := range supportedLanguages.Languages {
-			if supportedlanguage.Name == language.Name {
-				languagePath = supportedlanguage.Path
-				break
-			}
-		}
-		if languagePath != "" {
-			pluginDetails := ParsePluginYamlFile(languagePath)
-			runtimeVersion := runners.DetectRuntime(nil, path, pluginDetails)
-			if runtimeVersion != "" {
-				allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, pluginDetails)
-				languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
-					Name:           language.Name,
-					RuntimeVersion: runtimeVersion,
+			var languagePath string
+			for _, supportedlanguage := range supportedLanguages.Languages {
+				if supportedlanguage.Name == language.Name {
+					languagePath = supportedlanguage.Path
+					break
 				}
-				RunAllDetectors(&languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
-				decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
-				log.Println(decisionMakerInput)
 			}
+			if languagePath != "" {
+				pluginDetails := ParsePluginYamlFile(languagePath)
+				runtimeVersion := runners.DetectRuntime(nil, path, pluginDetails)
+				runners.RunPreDetectCommand(nil, &pb.ServiceInput{
+					RuntimeVersion: runtimeVersion,
+					Root:           path,
+				}, pluginDetails)
+				if runtimeVersion != "" {
+					allDependencies := runners.GetParsedDependencis(nil, runtimeVersion, path, pluginDetails)
+					languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
+						Name:           language.Name,
+						RuntimeVersion: runtimeVersion,
+					}
+					RunAllDetectors(&languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
+					decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
+					log.Println(decisionMakerInput)
+				}
 
-		}
-	}()
+			}
+		}()
 	}
 	wg.Wait()
 
@@ -229,9 +236,9 @@ func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecifi
 		defer wg.Done()
 		languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
 	}()
-	go func ()  {
+	go func() {
 		defer wg.Done()
-	languageSpecificDetections.Libraries=runners.LibraryRunner(allDependencies[runners.Library],runtimeVersion,path)
+		languageSpecificDetections.Libraries = runners.LibraryRunner(allDependencies[runners.Library], runtimeVersion, path)
 	}()
 
 	wg.Wait()

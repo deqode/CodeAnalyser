@@ -9,6 +9,7 @@ import (
 	"code-analyser/pluginClient/framework"
 	"code-analyser/pluginClient/library"
 	"code-analyser/pluginClient/orm"
+	"code-analyser/pluginClient/preDetectCommand"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/go-plugin"
@@ -31,6 +32,7 @@ const (
 	PluginDispenserLibrary = "library"
 	//PluginDispenserEnv is a string env
 	PluginDispenserEnv = "env"
+	PluginDispenserPreDetectCommand = "preDetectCommand"
 )
 
 //PluginMap is a map of dispenser string and plugin
@@ -42,6 +44,7 @@ var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserDependencies:  &dependencies.GRPCPlugin{},
 	PluginDispenserOrm:           &orm.GRPCPlugin{},
 	PluginDispenserEnv:           &env.GRPCPlugin{},
+	PluginDispenserPreDetectCommand: &preDetectCommand.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -116,4 +119,9 @@ func EnvPluginCall(cmd *exec.Cmd) (interfaces.Env, *plugin.Client) {
 func LibraryPluginCall(cmd *exec.Cmd) (interfaces.Library, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserLibrary)
 	return raw.(interfaces.Library), client
+}
+
+func PreDetectCommandPluginCall(cmd *exec.Cmd) (interfaces.PreDetectCommands, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserPreDetectCommand)
+	return raw.(interfaces.PreDetectCommands), client
 }

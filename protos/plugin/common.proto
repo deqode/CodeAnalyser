@@ -20,6 +20,10 @@ message  ServiceOutputInt {
 
 }
 
+message ServiceEmptyOutput {
+  ServiceError error = 1;
+}
+
 message  ServiceOutputFloat {
   float value = 1;
   ServiceError error = 2;
@@ -44,9 +48,9 @@ message ServiceOutputStringMap{
 message ServiceError{
   string message = 1;
   enum ErrorCode{
-  Error=0;
-  //TODO discuss error codes and types
+    Error = 0;
+    //TODO discuss error codes and types
   }
   ErrorCode errorType = 2;
-  string cause=3;
+  string cause = 3;
 }
