@@ -1,4 +1,6 @@
 syntax = "proto3";
+package protos.versions;
+
 option go_package = "code-analyser/protos/pb/versions";
 
 // todo: update
