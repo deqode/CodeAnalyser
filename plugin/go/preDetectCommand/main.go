@@ -2,8 +2,8 @@ package main
 
 import (
 	"code-analyser/pluginClient"
-	"code-analyser/pluginClient/pb"
 	"code-analyser/pluginClient/preDetectCommand"
+	pb "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 

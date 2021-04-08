@@ -1,0 +1,15 @@
+syntax = "proto3";
+package proto;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/plugin/common.proto";
+import "protos/output/languageSpecific/staticAssets.proto";
+
+service StaticAssetsService {
+  rpc Detect(ServiceInput) returns (ServiceOutputStaticAssets);
+}
+
+message ServiceOutputStaticAssets{
+  ServiceError error = 1;
+  repeated StaticAsset staticAsset = 2;
+}

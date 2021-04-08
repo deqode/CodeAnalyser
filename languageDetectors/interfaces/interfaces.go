@@ -51,3 +51,7 @@ type Dependencies interface {
 type PreDetectCommands interface {
 	RunPreDetect(input *plugin.ServiceInput) (*plugin.ServiceEmptyOutput, error)
 }
+
+type StaticAssets interface {
+	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputStaticAssets, error)
+}

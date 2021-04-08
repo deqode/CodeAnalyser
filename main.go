@@ -105,6 +105,8 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 					languageVersion.DetectEnvCommand = parsedFile.Command
 				case "preDetectCommand":
 					languageVersion.PreDetectCommand = parsedFile.Command
+				case "staticAssets":
+					languageVersion.StaticAssetsCommand = parsedFile.Command
 				case "orm":
 					if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
@@ -219,7 +221,7 @@ func Scrape(path string) {
 //RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
 func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string) {
 	var wg sync.WaitGroup
-	wg.Add(5)
+	wg.Add(6)
 	go func() {
 		defer wg.Done()
 		languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
@@ -235,6 +237,13 @@ func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecifi
 	go func() {
 		defer wg.Done()
 		languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
+	}()
+	go func() {
+		defer wg.Done()
+		languageSpecificDetections.StaticAssets = runners.RunStaticAssetsCommand(nil, &pb.ServiceInput{
+			RuntimeVersion: runtimeVersion,
+			Root:           path,
+		}, pluginDetails)
 	}()
 	go func() {
 		defer wg.Done()

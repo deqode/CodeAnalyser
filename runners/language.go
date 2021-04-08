@@ -3,6 +3,7 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
+	"code-analyser/protos/pb/output/languageSpecific"
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
@@ -47,6 +48,27 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.
 		return ""
 	}
 	return runtimeVersion.Value
+}
+
+func RunStaticAssetsCommand(ctx context.Context, input *pb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.StaticAssetsOutput {
+	res, client := pluginClient.StaticAssetsPluginCall(exec.Command("sh", "-c", pluginDetails.StaticAssetsCommand))
+	defer client.Kill()
+	detection, err := res.Detect(input)
+	if err != nil {
+		utils.Logger(err)
+		return nil
+	}
+	if detection.Error != nil {
+		utils.Logger(err)
+		return nil
+	}
+	staticAssetsOutput := languageSpecific.StaticAssetsOutput{
+		Assets: detection.StaticAsset,
+	}
+	if len(detection.StaticAsset) > 0 {
+		staticAssetsOutput.Used = true
+	}
+	return &staticAssetsOutput
 }
 
 func RunPreDetectCommand(ctx context.Context, input *pb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) {

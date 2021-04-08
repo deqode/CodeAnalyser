@@ -13,6 +13,7 @@ message LanguageVersion{
   map<string, DependencyDetails>  dependencies = 6;
   string detectEnvCommand = 8;
   string preDetectCommand = 9;
+  string staticAssetsCommand = 10;
 }
 
 message DependencyDetails{

@@ -3,7 +3,7 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/orm"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 

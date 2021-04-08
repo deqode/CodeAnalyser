@@ -3,12 +3,13 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/env"
-	"code-analyser/pluginClient/pb"
+	pb "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 
 //EnvPlugin is a plugin to check env available
 type EnvPlugin struct{}
+
 //Detect function for envs keyvalues and keys implemented from Env interface
 func (e EnvPlugin) Detect(input *pb.ServiceInput) (*pb.ServiceOutputEnv, error) {
 	return &pb.ServiceOutputEnv{
@@ -21,8 +22,7 @@ func (e EnvPlugin) Detect(input *pb.ServiceInput) (*pb.ServiceOutputEnv, error) 
 	}, nil
 }
 
-
-func main()  {
+func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{

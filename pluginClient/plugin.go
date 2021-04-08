@@ -10,6 +10,7 @@ import (
 	"code-analyser/pluginClient/library"
 	"code-analyser/pluginClient/orm"
 	"code-analyser/pluginClient/preDetectCommand"
+	"code-analyser/pluginClient/staticAssets"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
 	"github.com/hashicorp/go-plugin"
@@ -33,6 +34,7 @@ const (
 	//PluginDispenserEnv is a string env
 	PluginDispenserEnv = "env"
 	PluginDispenserPreDetectCommand = "preDetectCommand"
+	PluginDispenserStaticAssets = "StaticAssets"
 )
 
 //PluginMap is a map of dispenser string and plugin
@@ -45,6 +47,7 @@ var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserOrm:           &orm.GRPCPlugin{},
 	PluginDispenserEnv:           &env.GRPCPlugin{},
 	PluginDispenserPreDetectCommand: &preDetectCommand.GRPCPlugin{},
+	PluginDispenserStaticAssets: &staticAssets.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -124,4 +127,9 @@ func LibraryPluginCall(cmd *exec.Cmd) (interfaces.Library, *plugin.Client) {
 func PreDetectCommandPluginCall(cmd *exec.Cmd) (interfaces.PreDetectCommands, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserPreDetectCommand)
 	return raw.(interfaces.PreDetectCommands), client
+}
+
+func StaticAssetsPluginCall(cmd *exec.Cmd) (interfaces.StaticAssets, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserStaticAssets)
+	return raw.(interfaces.StaticAssets), client
 }
