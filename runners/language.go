@@ -65,6 +65,27 @@ func DetectAndRunBuildDirectory(ctx context.Context, input *pb.ServiceInput, plu
 	return detection.Value
 }
 
+func DetectTestCasesCommand(ctx context.Context, input *pb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.TestCasesCommandOutput {
+	res, client := pluginClient.TestCaseCommandPluginCall(exec.Command("sh", "-c", pluginDetails.DetectTestCasesCommand))
+	defer client.Kill()
+	detection, err := res.Detect(input)
+	if err != nil {
+		utils.Logger(err)
+		return nil
+	}
+	if detection.Error != nil {
+		utils.Logger(detection.Error)
+		return nil
+	}
+	testCasesCommandOutput := languageSpecific.TestCasesCommandOutput{
+		Commands: detection.Commands,
+	}
+	if len(detection.Commands) > 0 {
+		testCasesCommandOutput.Used = true
+	}
+	return &testCasesCommandOutput
+}
+
 func RunStaticAssetsCommand(ctx context.Context, input *pb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.StaticAssetsOutput {
 	res, client := pluginClient.StaticAssetsPluginCall(exec.Command("sh", "-c", pluginDetails.StaticAssetsCommand))
 	defer client.Kill()

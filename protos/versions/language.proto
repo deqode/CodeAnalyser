@@ -15,6 +15,7 @@ message LanguageVersion{
   string preDetectCommand = 9;
   string staticAssetsCommand = 10;
   string buildDirectoryCommand = 11;
+  string detectTestCasesCommand = 12;
 }
 
 message DependencyDetails{

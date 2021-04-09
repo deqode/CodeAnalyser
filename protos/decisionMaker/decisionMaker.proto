@@ -20,6 +20,7 @@ import "protos/output/languageSpecific/libraries.proto";
 import "protos/output/languageSpecific/orm.proto";
 import "protos/output/languageSpecific/stack.proto";
 import "protos/output/languageSpecific/staticAssets.proto";
+import "protos/output/languageSpecific/testCasesCommand.proto";
 
 
 message LanguageSpecificDetections{
@@ -35,7 +36,7 @@ message LanguageSpecificDetections{
   repeated StackOutput stackOutput = 10;
   repeated AppserverOutput appserver = 11;
   map<string, string> buildDirectoryOutput = 12;
-  Commands commands = 13;
+  TestCasesCommandOutput testCases = 13;
   // todo: DetectTestCasesRunCommands
 }
 

@@ -21,4 +21,3 @@ func (g *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) 
 func (g *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
 	return &GRPCClient{Client: pb.NewTestCaseCommandsClient(conn)}, nil
 }
-
