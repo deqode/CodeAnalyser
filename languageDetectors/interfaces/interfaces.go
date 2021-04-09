@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	language_detectors "code-analyser/deployementFiles"
+	language_detectors "code-analyser/GlobalFiles"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	"code-analyser/protos/pb/plugin"
 	"context"
@@ -15,7 +15,7 @@ type LanguageSpecificDetector interface {
 	RunPreDetect(context.Context, string, string) (bool, error)
 	// TODO: interface ?
 	RunParsers(context.Context, string, string) (interface{}, error)
-	////ParseENVs will return ENVs
+	// ParseENVs  will return ENVs
 	ParseENVs(context.Context, string) ([]*languageSpecificPB.EnvOutput, error)
 	////DetectFrameworks  will return framework detected in Dir
 	DetectFrameworks(ctx context.Context, runtimeVersion string, root string) ([]*languageSpecificPB.FrameworkOutput, error)
@@ -31,7 +31,7 @@ type LanguageSpecificDetector interface {
 	GetStaticAssets(context.Context, string, string) ([]*languageSpecificPB.StaticAssetsOutput, error)
 	GetStack(context.Context, string, string) ([]*languageSpecificPB.StackOutput, error)
 	DetectAppserver(context.Context, string, string) ([]*languageSpecificPB.AppserverOutput, error)
-	DetectBuildDirectory(context.Context, string, string) ([]*languageSpecificPB.BuildDirectoryOutput, error)
+	DetectBuildDirectory(context.Context, string, string) (*languageSpecificPB.BuildDirectoryOutput, error)
 	DetectTestCasesRunCommands(context.Context, string, string) ([]*languageSpecificPB.BuildDirectoryOutput, error) // Todo: proto
 	language_detectors.Commands
 }
@@ -54,4 +54,12 @@ type PreDetectCommands interface {
 
 type StaticAssets interface {
 	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputStaticAssets, error)
+}
+
+type BuildDirectory interface {
+	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputStringMap, error)
+}
+
+type TestCasesRunCommands interface {
+	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputTestCommand, error)
 }

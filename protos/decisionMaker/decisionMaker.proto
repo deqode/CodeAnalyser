@@ -11,7 +11,6 @@ import "protos/output/global/seedCommands.proto";
 import "protos/output/global/startUpCommands.proto";
 
 import  "protos/output/language_specific/appserver.proto";
-import "protos/output/language_specific/buildDirectory.proto";
 import "protos/output/language_specific/db.proto";
 import "protos/output/language_specific/dependencies.proto";
 import "protos/output/language_specific/env.proto";
@@ -20,43 +19,43 @@ import "protos/output/language_specific/libraries.proto";
 import "protos/output/language_specific/orm.proto";
 import "protos/output/language_specific/stack.proto";
 import "protos/output/language_specific/staticAssets.proto";
-
-
+import "protos/output/language_specific/testCasesCommand.proto";
 
 message LanguageSpecificDetections {
-  string name                                  = 1;
-  string runtimeVersion                        = 2;
-  protos.output.language_specific.EnvOutput env                                = 3;
-  repeated protos.output.language_specific.FrameworkOutput framework           = 4;
-  protos.output.language_specific.DBOutput db                                  = 5;
-  protos.output.language_specific.OrmOutput orm                                = 6;
-  repeated protos.output.language_specific.DependenciesOutput dependencies     = 7;
-  repeated protos.output.language_specific.LibraryOutput libraries             = 8;
-  protos.output.language_specific.StaticAssetsOutput staticAssets              = 9;
-  repeated protos.output.language_specific.StackOutput stackOutput             = 10;
-  repeated protos.output.language_specific.AppserverOutput appserver           = 11;
-  repeated protos.output.language_specific.BuildDirectoryOutput buildDirectory = 12;
-  Commands commands                            = 13;
+  string name = 1;
+  string runtimeVersion = 2;
+  protos.output.language_specific.EnvOutput env = 3;
+  repeated protos.output.language_specific.FrameworkOutput framework = 4;
+  protos.output.language_specific.DBOutput db = 5;
+  protos.output.language_specific.OrmOutput orm = 6;
+  repeated protos.output.language_specific.DependenciesOutput dependencies = 7;
+  repeated protos.output.language_specific.LibraryOutput libraries = 8;
+  protos.output.language_specific.StaticAssetsOutput staticAssets = 9;
+  repeated protos.output.language_specific.StackOutput stackOutput = 10;
+  repeated protos.output.language_specific.AppserverOutput appserver = 11;
+  map<string, string> buildDirectory = 12;
+  protos.output.language_specific.TestCasesCommandOutput testCases = 13;
+  Commands commands = 14;
   // todo: DetectTestCasesRunCommands
 }
 
 message GlobalDetections {
-  repeated protos.output.global.ProcFileOutput procFile                   = 1;
-  repeated protos.output.global.MakefileOutput makefile                   = 2;
-  repeated protos.output.global.DockerFileOutput dockerFile               = 3;
+  repeated protos.output.global.ProcFileOutput procFile = 1;
+  repeated protos.output.global.MakefileOutput makefile = 2;
+  repeated protos.output.global.DockerFileOutput dockerFile = 3;
   repeated protos.output.global.DockerComposeFileOutput dockerComposeFile = 4;
 }
 
 
 message Commands {
-  repeated protos.output.global.BuildCommandsOutput buildCommands         = 1;
-  repeated protos.output.global.StartUpCommandsOutput startUpCommands     = 2;
-  repeated protos.output.global.SeedCommandsOutput seedCommands           = 3;
+  repeated protos.output.global.BuildCommandsOutput buildCommands = 1;
+  repeated protos.output.global.StartUpCommandsOutput startUpCommands = 2;
+  repeated protos.output.global.SeedCommandsOutput seedCommands = 3;
   repeated protos.output.global.MigrationCommandsOutput MigrationCommands = 4;
   //     todo:   DetectAdHocScripts
 }
 
 message DecisionMakerInput {
   repeated LanguageSpecificDetections languageSpecificDetection = 1;
-  GlobalDetections gloabalDetections                            = 2;
+  GlobalDetections gloabalDetections = 2;
 }

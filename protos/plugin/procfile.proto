@@ -1,0 +1,15 @@
+syntax = "proto3";
+package proto;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/plugin/common.proto";
+import "protos/output/global/proc.proto";
+
+service ProcFileService {
+  rpc Detect(ServiceInputString) returns (ServiceOutputProcFile);
+}
+
+message ServiceOutputProcFile{
+  ServiceError error = 1;
+  repeated protos.output.global.ProcFileOutput procFile = 2;
+}

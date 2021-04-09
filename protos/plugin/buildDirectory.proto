@@ -1,0 +1,9 @@
+syntax = "proto3";
+package proto;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/plugin/common.proto";
+
+service BuildDirectory {
+  rpc Detect(ServiceInput) returns (ServiceOutputStringMap);
+}

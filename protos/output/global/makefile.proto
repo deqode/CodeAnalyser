@@ -1,9 +1,17 @@
 syntax = "proto3";
-package protos.output.global;
+package protos . output. global;
 
 option go_package = "code-analyser/protos/pb/output/global";
-message MakefileOutput{
-  bool used=1;
+import "protos/output/global/command.proto";
 
+message MakefileOutput {
+  // check BuildCommands
+  bool used                   = 1;
+  // list of all BuildCommands
+  repeated MakeFile makeFiles = 2;
 }
 
+message MakeFile {
+  string fileName               = 1;
+  repeated Command makeCommands = 2;
+}

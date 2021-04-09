@@ -1,0 +1,10 @@
+syntax = "proto3";
+package protos.output.language_specific;
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+import "protos/output/global/command.proto";
+
+message TestCasesCommandOutput {
+  bool used = 1;
+  repeated protos.output.global.Command commands = 2;
+}
