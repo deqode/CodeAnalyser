@@ -184,6 +184,7 @@ func Scrape(path string) {
 		GloabalDetections:         nil,
 	}
 	var wg sync.WaitGroup
+	var mutex = &sync.Mutex{}
 
 	for _, language := range languages {
 		wg.Add(1)
@@ -191,9 +192,9 @@ func Scrape(path string) {
 		go func() {
 			defer wg.Done()
 			var languagePath string
-			for _, supportedlanguage := range supportedLanguages.Languages {
-				if supportedlanguage.Name == language.Name {
-					languagePath = supportedlanguage.Path
+			for _, supportedLanguage := range supportedLanguages.Languages {
+				if supportedLanguage.Name == language.Name {
+					languagePath = supportedLanguage.Path
 					break
 				}
 			}
@@ -211,7 +212,10 @@ func Scrape(path string) {
 						RuntimeVersion: runtimeVersion,
 					}
 					RunAllDetectors(&languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
+					mutex.Lock()
 					decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
+					mutex.Unlock()
+
 					log.Println(decisionMakerInput)
 				}
 
@@ -226,36 +230,50 @@ func Scrape(path string) {
 func RunAllDetectors(languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string) {
 	var wg sync.WaitGroup
 	wg.Add(8)
+	var mutex = &sync.Mutex{}
 	go func() {
 		defer wg.Done()
+		mutex.Lock()
 		languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
+		mutex.Unlock()
 	}()
 	go func() {
 		defer wg.Done()
+		mutex.Lock()
 		languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
+		mutex.Unlock()
+
 	}()
 	go func() {
 		defer wg.Done()
+		mutex.Lock()
 		languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
+		mutex.Unlock()
 	}()
 	go func() {
 		defer wg.Done()
+		mutex.Lock()
 		languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
+		mutex.Unlock()
 	}()
 	go func() {
 		defer wg.Done()
+		mutex.Lock()
 		languageSpecificDetections.StaticAssets = runners.RunStaticAssetsCommand(nil, &pb.ServiceInput{
 			RuntimeVersion: runtimeVersion,
 			Root:           path,
 		}, pluginDetails)
+		mutex.Unlock()
 	}()
 	go func() {
 		defer wg.Done()
+		mutex.Lock()
 		languageSpecificDetections.Libraries = runners.LibraryRunner(allDependencies[runners.Library], runtimeVersion, path)
+		mutex.Unlock()
 	}()
 	go func() {
 		defer wg.Done()
-		languageSpecificDetections.BuildDirectoryOutput = runners.DetectAndRunBuildDirectory(nil, &pb.ServiceInput{
+		languageSpecificDetections.BuildDirectory = runners.DetectAndRunBuildDirectory(nil, &pb.ServiceInput{
 			RuntimeVersion: runtimeVersion,
 			Root:           path,
 		}, pluginDetails)

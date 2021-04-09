@@ -16,8 +16,12 @@ tidy:
 	go mod tidy
 	#go mod vendor
 
+proto-buf:
+	buf lint
+	buf generate
+
 # Run all the linters
-run-all-linter: get-linter get-fmt run-linter run-fmt tidy
+run-all-linter: get-linter get-fmt run-linter run-fmt tidy proto-buf
 
 #Get the test coverage
 #test:

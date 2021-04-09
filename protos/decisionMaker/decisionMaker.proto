@@ -1,8 +1,7 @@
 syntax = "proto3";
-package protos.decisionMaker;
-option go_package = "code-analyser/protos/pb/;pb";
+option go_package = "code-analyser/protos/pb";
 
-import  "protos/output/global/buildCommands.proto";
+import "protos/output/global/buildCommands.proto";
 import "protos/output/global/dockercompose.proto";
 import "protos/output/global/dockerfile.proto";
 import "protos/output/global/makefile.proto";
@@ -11,48 +10,48 @@ import "protos/output/global/proc.proto";
 import "protos/output/global/seedCommands.proto";
 import "protos/output/global/startUpCommands.proto";
 
-import  "protos/output/languageSpecific/appserver.proto";
-import "protos/output/languageSpecific/db.proto";
-import "protos/output/languageSpecific/dependencies.proto";
-import "protos/output/languageSpecific/env.proto";
-import "protos/output/languageSpecific/framework.proto";
-import "protos/output/languageSpecific/libraries.proto";
-import "protos/output/languageSpecific/orm.proto";
-import "protos/output/languageSpecific/stack.proto";
-import "protos/output/languageSpecific/staticAssets.proto";
-import "protos/output/languageSpecific/testCasesCommand.proto";
+import  "protos/output/language_specific/appserver.proto";
+import "protos/output/language_specific/db.proto";
+import "protos/output/language_specific/dependencies.proto";
+import "protos/output/language_specific/env.proto";
+import "protos/output/language_specific/framework.proto";
+import "protos/output/language_specific/libraries.proto";
+import "protos/output/language_specific/orm.proto";
+import "protos/output/language_specific/stack.proto";
+import "protos/output/language_specific/staticAssets.proto";
+import "protos/output/language_specific/testCasesCommand.proto";
 
-
-message LanguageSpecificDetections{
+message LanguageSpecificDetections {
   string name = 1;
   string runtimeVersion = 2;
-  EnvOutput env = 3;
-  repeated FrameworkOutput framework = 4;
-  DBOutput db = 5;
-  OrmOutput orm = 6;
-  repeated DependenciesOutput dependencies = 7;
-  repeated LibraryOutput libraries = 8;
-  StaticAssetsOutput staticAssets = 9;
-  repeated StackOutput stackOutput = 10;
-  repeated AppserverOutput appserver = 11;
-  map<string, string> buildDirectoryOutput = 12;
-  TestCasesCommandOutput testCases = 13;
+  protos.output.language_specific.EnvOutput env = 3;
+  repeated protos.output.language_specific.FrameworkOutput framework = 4;
+  protos.output.language_specific.DBOutput db = 5;
+  protos.output.language_specific.OrmOutput orm = 6;
+  repeated protos.output.language_specific.DependenciesOutput dependencies = 7;
+  repeated protos.output.language_specific.LibraryOutput libraries = 8;
+  protos.output.language_specific.StaticAssetsOutput staticAssets = 9;
+  repeated protos.output.language_specific.StackOutput stackOutput = 10;
+  repeated protos.output.language_specific.AppserverOutput appserver = 11;
+  map<string, string> buildDirectory = 12;
+  protos.output.language_specific.TestCasesCommandOutput testCases = 13;
+  Commands commands = 14;
   // todo: DetectTestCasesRunCommands
 }
 
-message GlobalDetections{
-  repeated ProcFileOutput procFile = 1;
-  repeated MakefileOutput makefile = 2;
-  repeated DockerFileOutput dockerFile = 3;
-  repeated DockerComposeFileOutput dockerComposeFile = 4;
+message GlobalDetections {
+  repeated protos.output.global.ProcFileOutput procFile = 1;
+  repeated protos.output.global.MakefileOutput makefile = 2;
+  repeated protos.output.global.DockerFileOutput dockerFile = 3;
+  repeated protos.output.global.DockerComposeFileOutput dockerComposeFile = 4;
 }
 
 
-message Commands{
-  repeated BuildCommandsOutput buildCommands = 1;
-  repeated StartUpCommandsOutput startUpCommands = 2;
-  repeated SeedCommandsOutput seedCommands = 3;
-  repeated MigrationCommandsOutput MigrationCommands = 4;
+message Commands {
+  repeated protos.output.global.BuildCommandsOutput buildCommands = 1;
+  repeated protos.output.global.StartUpCommandsOutput startUpCommands = 2;
+  repeated protos.output.global.SeedCommandsOutput seedCommands = 3;
+  repeated protos.output.global.MigrationCommandsOutput MigrationCommands = 4;
   //     todo:   DetectAdHocScripts
 }
 

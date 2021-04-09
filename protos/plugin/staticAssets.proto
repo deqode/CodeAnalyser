@@ -3,7 +3,7 @@ package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
-import "protos/output/languageSpecific/staticAssets.proto";
+import "protos/output/language_specific/staticAssets.proto";
 
 service StaticAssetsService {
   rpc Detect(ServiceInput) returns (ServiceOutputStaticAssets);
@@ -11,5 +11,5 @@ service StaticAssetsService {
 
 message ServiceOutputStaticAssets{
   ServiceError error = 1;
-  repeated StaticAsset staticAsset = 2;
+  repeated protos.output.language_specific.StaticAsset staticAsset = 2;
 }

@@ -10,6 +10,6 @@ service TestCaseCommands {
 }
 
 message ServiceOutputTestCommand {
-  repeated Command commands = 1;
+  repeated protos.output.global.Command commands = 1;
   ServiceError error = 2;
 }
