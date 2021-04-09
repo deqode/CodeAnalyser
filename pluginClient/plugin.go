@@ -4,6 +4,7 @@ import (
 	"code-analyser/GlobalFiles"
 	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/buildDirectory"
+	"code-analyser/pluginClient/commands"
 	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
@@ -46,6 +47,7 @@ const (
 	PluginDispenserProcFile         = "procFile"
 	PluginDispenserMakeFile         = "makeFile"
 	PluginDispenserDockerFile       = "dockerFile"
+	PluginDispenserCommand          = "command"
 )
 
 //PluginMap is a map of dispenser string and plugin
@@ -63,7 +65,8 @@ var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserTestCaseCommand:  &testCasesCommands.GRPCPlugin{},
 	PluginDispenserProcFile:         &procFile.GRPCPlugin{},
 	PluginDispenserMakeFile:         &makeFile.GRPCPlugin{},
-	PluginDispenserDockerFile:&dockerFile.GRPCPlugin{},
+	PluginDispenserDockerFile:       &dockerFile.GRPCPlugin{},
+	PluginDispenserCommand:          &commands.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -172,4 +175,9 @@ func MakeFilePluginCall(cmd *exec.Cmd) (GlobalFiles.Makefiles, *plugin.Client) {
 func DockerFilePluginCall(cmd *exec.Cmd) (GlobalFiles.DockerFile, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserDockerFile)
 	return raw.(GlobalFiles.DockerFile), client
+}
+
+func CommandsPluginCall(cmd *exec.Cmd) (GlobalFiles.Commands, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserCommand)
+	return raw.(GlobalFiles.Commands), client
 }

@@ -1,0 +1,50 @@
+syntax = "proto3";
+package proto ;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/plugin/common.proto";
+import "protos/output/global/buildCommands.proto";
+import "protos/output/global/dockercompose.proto";
+import "protos/output/global/seedCommands.proto";
+import "protos/output/global/migrationCommands.proto";
+import "protos/output/global/adHocScripts.proto";
+import "protos/output/global/startUpCommands.proto";
+
+
+service CommandsService {
+  rpc DetectBuildCommands (ServiceCommandsInput) returns (ServiceOutputDetectBuildCommands);
+  rpc DetectStartUpCommands (ServiceCommandsInput) returns (ServiceOutputStartUpCommands);
+  rpc DetectSeedCommands (ServiceCommandsInput) returns (ServiceOutputSeedCommands);
+  rpc DetectMigrationCommands (ServiceCommandsInput) returns (ServiceMigrationCommands);
+  rpc DetectAdHocScripts (ServiceCommandsInput) returns (ServiceAdHocScripts);
+}
+
+message ServiceCommandsInput {
+  string root     = 1;
+  string language = 2;
+}
+
+message ServiceOutputDetectBuildCommands {
+  ServiceError error                                                  = 1;
+  repeated protos . output. global. BuildCommandsOutput buildCommands = 2;
+}
+
+message ServiceOutputStartUpCommands {
+  ServiceError error                                                      = 1;
+  repeated protos . output. global. StartUpCommandsOutput startUpCommands = 2;
+}
+
+message ServiceOutputSeedCommands {
+  ServiceError error                                                = 1;
+  repeated protos . output. global. SeedCommandsOutput seedCommands = 2;
+}
+
+message ServiceMigrationCommands {
+  ServiceError error                                                          = 1;
+  repeated protos . output. global. MigrationCommandsOutput migrationCommands = 2;
+}
+
+message ServiceAdHocScripts {
+  ServiceError error                                                          = 1;
+  repeated protos . output. global. AdHocScriptsOutput adHocScripts = 2;
+}

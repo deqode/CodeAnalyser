@@ -2,6 +2,7 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/pluginClient"
 	decisionmakerPB "code-analyser/protos/pb"
 	utilsPB "code-analyser/protos/pb/output/utils"
 	pb "code-analyser/protos/pb/plugin"
@@ -13,12 +14,19 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"sync"
 )
 
 func main() {
+	runtimeResponse, client := pluginClient.CommandsPluginCall(exec.Command("sh", "-c", " go run plugin/commands/main.go "))
+	log.Println(runtimeResponse.DetectBuildCommands(&pb.ServiceCommandsInput{
+		Root:     "",
+		Language: "",
+	}))
+	defer client.Kill()
 	path := "./"
 	Scrape(path)
 }
