@@ -1,0 +1,22 @@
+syntax = "proto3";
+package proto;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/plugin/common.proto";
+import "protos/output/global/dockerfile.proto";
+import "protos/output/global/dockercompose.proto";
+
+service DockerFileService {
+  rpc DetectDockerFiles(ServiceInputString) returns (ServiceOutputDockerFile);
+  rpc DetectDockerComposeFiles(ServiceInputString) returns (ServiceOutputDockerComposeFile);
+}
+
+message ServiceOutputDockerFile{
+  ServiceError error = 1;
+  repeated protos.output.global.DockerFileOutput dockerFile = 2;
+}
+
+message ServiceOutputDockerComposeFile{
+  ServiceError error = 1;
+  repeated protos.output.global.DockerComposeFileOutput dockerComposeFile = 2;
+}

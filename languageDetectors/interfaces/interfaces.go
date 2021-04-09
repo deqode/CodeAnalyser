@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	language_detectors "code-analyser/deployementFiles"
+	language_detectors "code-analyser/GlobalFiles"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	"code-analyser/protos/pb/plugin"
 	"context"
@@ -15,7 +15,7 @@ type LanguageSpecificDetector interface {
 	RunPreDetect(context.Context, string, string) (bool, error)
 	// TODO: interface ?
 	RunParsers(context.Context, string, string) (interface{}, error)
-	////ParseENVs will return ENVs
+	// ParseENVs  will return ENVs
 	ParseENVs(context.Context, string) ([]*languageSpecificPB.EnvOutput, error)
 	////DetectFrameworks  will return framework detected in Dir
 	DetectFrameworks(ctx context.Context, runtimeVersion string, root string) ([]*languageSpecificPB.FrameworkOutput, error)

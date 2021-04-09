@@ -1,0 +1,13 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "makefile"
+  name: "postgres"
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "alfredPlugin/plugin"
+

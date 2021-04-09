@@ -1,15 +1,19 @@
 package pluginClient
 
 import (
+	"code-analyser/GlobalFiles"
 	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
+	dockerFile "code-analyser/pluginClient/docker"
 	"code-analyser/pluginClient/env"
 	"code-analyser/pluginClient/framework"
 	"code-analyser/pluginClient/library"
+	"code-analyser/pluginClient/makeFile"
 	"code-analyser/pluginClient/orm"
 	"code-analyser/pluginClient/preDetectCommand"
+	"code-analyser/pluginClient/procFile"
 	"code-analyser/pluginClient/staticAssets"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-hclog"
@@ -30,24 +34,30 @@ const (
 	PluginDispenserDetectRuntime = "detectRuntime"
 	//PluginDispenserDependencies  is a getDependencies
 	PluginDispenserDependencies = "getDependencies"
-	PluginDispenserLibrary = "library"
+	PluginDispenserLibrary      = "library"
 	//PluginDispenserEnv is a string env
-	PluginDispenserEnv = "env"
+	PluginDispenserEnv              = "env"
 	PluginDispenserPreDetectCommand = "preDetectCommand"
-	PluginDispenserStaticAssets = "StaticAssets"
+	PluginDispenserStaticAssets     = "StaticAssets"
+	PluginDispenserProcFile         = "procFile"
+	PluginDispenserMakeFile         = "makeFile"
+	PluginDispenserDockerFile       = "dockerFile"
 )
 
 //PluginMap is a map of dispenser string and plugin
 var PluginMap = map[string]plugin.Plugin{
-	PluginDispenserLibrary:     &library.GRPCPlugin{},
-	PluginDispenserFramework:     &framework.GRPCPlugin{},
-	PluginDispenserDB:            &db.GRPCPlugin{},
-	PluginDispenserDetectRuntime: &detectRuntime.GRPCPlugin{},
-	PluginDispenserDependencies:  &dependencies.GRPCPlugin{},
-	PluginDispenserOrm:           &orm.GRPCPlugin{},
-	PluginDispenserEnv:           &env.GRPCPlugin{},
+	PluginDispenserLibrary:          &library.GRPCPlugin{},
+	PluginDispenserFramework:        &framework.GRPCPlugin{},
+	PluginDispenserDB:               &db.GRPCPlugin{},
+	PluginDispenserDetectRuntime:    &detectRuntime.GRPCPlugin{},
+	PluginDispenserDependencies:     &dependencies.GRPCPlugin{},
+	PluginDispenserOrm:              &orm.GRPCPlugin{},
+	PluginDispenserEnv:              &env.GRPCPlugin{},
 	PluginDispenserPreDetectCommand: &preDetectCommand.GRPCPlugin{},
-	PluginDispenserStaticAssets: &staticAssets.GRPCPlugin{},
+	PluginDispenserStaticAssets:     &staticAssets.GRPCPlugin{},
+	PluginDispenserProcFile:         &procFile.GRPCPlugin{},
+	PluginDispenserMakeFile:         &makeFile.GRPCPlugin{},
+	PluginDispenserDockerFile:&dockerFile.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -132,4 +142,19 @@ func PreDetectCommandPluginCall(cmd *exec.Cmd) (interfaces.PreDetectCommands, *p
 func StaticAssetsPluginCall(cmd *exec.Cmd) (interfaces.StaticAssets, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserStaticAssets)
 	return raw.(interfaces.StaticAssets), client
+}
+
+func ProcFilePluginCall(cmd *exec.Cmd) (GlobalFiles.ProcFile, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserProcFile)
+	return raw.(GlobalFiles.ProcFile), client
+}
+
+func MakeFilePluginCall(cmd *exec.Cmd) (GlobalFiles.Makefiles, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserMakeFile)
+	return raw.(GlobalFiles.Makefiles), client
+}
+
+func DockerFilePluginCall(cmd *exec.Cmd) (GlobalFiles.DockerFile, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserDockerFile)
+	return raw.(GlobalFiles.DockerFile), client
 }

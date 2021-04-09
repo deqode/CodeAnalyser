@@ -182,7 +182,6 @@ func Scrape(path string) {
 	var wg sync.WaitGroup
 	var mutex = &sync.Mutex{}
 
-
 	for _, language := range languages {
 		wg.Add(1)
 		language := language
