@@ -2,6 +2,19 @@ syntax = "proto3";
 package protos.output.global;
 
 option go_package = "code-analyser/protos/pb/output/global";
-message ProcFileOutput{
+import "protos/output/global/command.proto";
+
+message ProcFileOutput {
+  // check ProcCommands
+  bool used                   = 1;
+  // list of all ProcCommands
+  repeated ProcFile procFiles = 2;
 }
+
+message ProcFile {
+  string fileName               = 1;
+  repeated Command procCommands = 2;
+
+}
+
 

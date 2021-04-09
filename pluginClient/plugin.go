@@ -1,16 +1,20 @@
 package pluginClient
 
 import (
+	"code-analyser/GlobalFiles"
 	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient/buildDirectory"
 	"code-analyser/pluginClient/db"
 	"code-analyser/pluginClient/dependencies"
 	"code-analyser/pluginClient/detectRuntime"
+	dockerFile "code-analyser/pluginClient/docker"
 	"code-analyser/pluginClient/env"
 	"code-analyser/pluginClient/framework"
 	"code-analyser/pluginClient/library"
+	"code-analyser/pluginClient/makeFile"
 	"code-analyser/pluginClient/orm"
 	"code-analyser/pluginClient/preDetectCommand"
+	"code-analyser/pluginClient/procFile"
 	"code-analyser/pluginClient/staticAssets"
 	"code-analyser/pluginClient/testCasesCommands"
 	"code-analyser/utils"
@@ -39,6 +43,9 @@ const (
 	PluginDispenserStaticAssets     = "staticAssets"
 	PluginDispenserBuildDirectory   = "buildDirectory"
 	PluginDispenserTestCaseCommand  = "testCaseCommand"
+	PluginDispenserProcFile         = "procFile"
+	PluginDispenserMakeFile         = "makeFile"
+	PluginDispenserDockerFile       = "dockerFile"
 )
 
 //PluginMap is a map of dispenser string and plugin
@@ -54,6 +61,9 @@ var PluginMap = map[string]plugin.Plugin{
 	PluginDispenserStaticAssets:     &staticAssets.GRPCPlugin{},
 	PluginDispenserBuildDirectory:   &buildDirectory.GRPCPlugin{},
 	PluginDispenserTestCaseCommand:  &testCasesCommands.GRPCPlugin{},
+	PluginDispenserProcFile:         &procFile.GRPCPlugin{},
+	PluginDispenserMakeFile:         &makeFile.GRPCPlugin{},
+	PluginDispenserDockerFile:&dockerFile.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -148,4 +158,18 @@ func BuildDirectoryPluginCall(cmd *exec.Cmd) (interfaces.BuildDirectory, *plugin
 func TestCaseCommandPluginCall(cmd *exec.Cmd) (interfaces.TestCasesRunCommands, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserTestCaseCommand)
 	return raw.(interfaces.TestCasesRunCommands), client
+}
+func ProcFilePluginCall(cmd *exec.Cmd) (GlobalFiles.ProcFile, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserProcFile)
+	return raw.(GlobalFiles.ProcFile), client
+}
+
+func MakeFilePluginCall(cmd *exec.Cmd) (GlobalFiles.Makefiles, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserMakeFile)
+	return raw.(GlobalFiles.Makefiles), client
+}
+
+func DockerFilePluginCall(cmd *exec.Cmd) (GlobalFiles.DockerFile, *plugin.Client) {
+	raw, client := makeClient(cmd, PluginDispenserDockerFile)
+	return raw.(GlobalFiles.DockerFile), client
 }

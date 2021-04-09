@@ -1,8 +1,16 @@
 syntax = "proto3";
-package protos.output.global;
+package protos . output. global;
+import "protos/output/global/command.proto";
 
 option go_package = "code-analyser/protos/pb/output/global";
-message DockerComposeFileOutput{
-  bool used=1;
+message DockerComposeFileOutput {
+  bool used                              = 1;
+  repeated DockerComposeFile dockerComposeFiles = 2;
+
 }
 
+
+message DockerComposeFile {
+  string fileName                        = 1;
+  repeated Command dockerComposeCommands = 2;
+}
