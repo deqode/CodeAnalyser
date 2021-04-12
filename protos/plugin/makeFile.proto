@@ -11,5 +11,5 @@ service MakeFileService {
 
 message ServiceOutputMakeFile{
   ServiceError error = 1;
-  repeated protos.output.global.MakefileOutput makeFile = 2;
+  protos.output.global.MakefileOutput makeFile = 2;
 }
