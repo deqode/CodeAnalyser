@@ -17,7 +17,7 @@ func (m ProcFile) Detect(inputString *pb.ServiceInputString) (*pb.ServiceOutputP
 
 	return &pb.ServiceOutputProcFile{
 		Error: nil,
-		ProcFile:  []*global.ProcFileOutput{{
+		ProcFile: &global.ProcFileOutput{
 			Used: true,
 			ProcFiles: []*global.ProcFile{
 				{
@@ -29,8 +29,7 @@ func (m ProcFile) Detect(inputString *pb.ServiceInputString) (*pb.ServiceOutputP
 						},
 					},
 				},
-			},
-		}},
+			}},
 	}, nil
 }
 

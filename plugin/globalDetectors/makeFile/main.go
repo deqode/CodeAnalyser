@@ -17,7 +17,7 @@ func (m MakeFile) Detect(inputString *pb.ServiceInputString) (*pb.ServiceOutputM
 
 	return &pb.ServiceOutputMakeFile{
 		Error: nil,
-		MakeFile: []*global.MakefileOutput{{
+		MakeFile: &global.MakefileOutput{
 			Used: true,
 			MakeFiles: []*global.MakeFile{
 				{
@@ -29,8 +29,7 @@ func (m MakeFile) Detect(inputString *pb.ServiceInputString) (*pb.ServiceOutputM
 						},
 					},
 				},
-			},
-		}},
+			}},
 	}, nil
 }
 

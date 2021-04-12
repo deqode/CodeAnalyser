@@ -11,6 +11,9 @@ path[7]="plugin/go/preDetectCommand"
 path[8]="plugin/go/staticAssets"
 path[9]="plugin/go/buildDirectory"
 path[10]="plugin/go/testCasesCommands"
+path[11]="plugin/globalDetectors/docker"
+path[12]="plugin/globalDetectors/makeFile"
+path[13]="plugin/globalDetectors/procFile"
 
 for p in "${path[@]}"; do
     rm ${p}/plugin -f
