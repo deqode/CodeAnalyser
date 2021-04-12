@@ -4,10 +4,6 @@ author:
   email: "rfr"
 date: "rvtrv"
 plugindetails:
-  type: "makefile"
-  name: "postgres"
-  version: "v1.x"
-  semver:
-    - ">=1.x,<2.x"
+  type: "procFile"
   command: "alfredPlugin/plugin"
 

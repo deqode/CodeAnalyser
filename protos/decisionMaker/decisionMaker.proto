@@ -40,10 +40,10 @@ message LanguageSpecificDetections {
 }
 
 message GlobalDetections {
-  repeated protos.output.global.ProcFileOutput procFile = 1;
-  repeated protos.output.global.MakefileOutput makefile = 2;
-  repeated protos.output.global.DockerFileOutput dockerFile = 3;
-  repeated protos.output.global.DockerComposeFileOutput dockerComposeFile = 4;
+  protos.output.global.ProcFileOutput procFile = 1;
+  protos.output.global.MakefileOutput makefile = 2;
+  protos.output.global.DockerFileOutput dockerFile = 3;
+  protos.output.global.DockerComposeFileOutput dockerComposeFile = 4;
 }
 
 

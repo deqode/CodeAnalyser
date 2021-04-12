@@ -13,10 +13,10 @@ service DockerFileService {
 
 message ServiceOutputDockerFile{
   ServiceError error = 1;
-  repeated protos.output.global.DockerFileOutput dockerFile = 2;
+  protos.output.global.DockerFileOutput dockerFile = 2;
 }
 
 message ServiceOutputDockerComposeFile{
   ServiceError error = 1;
-  repeated protos.output.global.DockerComposeFileOutput dockerComposeFile = 2;
+  protos.output.global.DockerComposeFileOutput dockerComposeFile = 2;
 }

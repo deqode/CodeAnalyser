@@ -1,0 +1,10 @@
+syntax = "proto3";
+package protos.versions;
+
+option go_package = "code-analyser/protos/pb/versions";
+
+message GlobalPlugin{
+  string dockerFile = 1;
+  string procFile = 2;
+  string makeFile = 3;
+}
