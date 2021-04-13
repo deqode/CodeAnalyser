@@ -17,16 +17,18 @@ type GlobalFile interface {
 
 // Commands Various different commands
 type Commands interface {
-	DetectBuildCommands(context.Context, string) ([]*globalPB.BuildCommandsOutput, error)
-	DetectStartUpCommands(context.Context, string) ([]*globalPB.StartUpCommandsOutput, error)
-	DetectSeedCommands(context.Context, string) ([]*globalPB.SeedCommandsOutput, error)
-	DetectMigrationCommands(context.Context, string) ([]*globalPB.MigrationCommandsOutput, error)
-	DetectAdHocScripts(context.Context, string) (interface{}, error) //Todo: output proto
+	DetectBuildCommands(inputString *plugin.ServiceCommandsInput) (*plugin.ServiceOutputDetectBuildCommands, error)
+	DetectStartUpCommands(inputString *plugin.ServiceCommandsInput) (*plugin.ServiceOutputStartUpCommands, error)
+	DetectSeedCommands(inputString *plugin.ServiceCommandsInput) (*plugin.ServiceOutputSeedCommands, error)
+	DetectMigrationCommands(inputString *plugin.ServiceCommandsInput) (*plugin.ServiceMigrationCommands, error)
+	DetectAdHocScripts(inputString *plugin.ServiceCommandsInput) (*plugin.ServiceAdHocScripts, error) //Todo:DetectAdHocScripts output proto
 }
 
 type ProcFile interface {
 	Detect(inputString *plugin.ServiceInputString) (*plugin.ServiceOutputProcFile, error)
 }
+
+
 type Makefiles interface {
 	Detect(inputString *plugin.ServiceInputString) (*plugin.ServiceOutputMakeFile, error)
 }
