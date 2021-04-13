@@ -14,6 +14,7 @@ path[10]="plugin/go/testCasesCommands"
 path[11]="plugin/globalDetectors/docker"
 path[12]="plugin/globalDetectors/makeFile"
 path[13]="plugin/globalDetectors/procFile"
+path[14]="plugin/globalDetectors/commands"
 
 for p in "${path[@]}"; do
     rm ${p}/plugin -f

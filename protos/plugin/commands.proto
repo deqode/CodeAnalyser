@@ -4,7 +4,6 @@ option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
 import "protos/output/global/buildCommands.proto";
-import "protos/output/global/dockercompose.proto";
 import "protos/output/global/seedCommands.proto";
 import "protos/output/global/migrationCommands.proto";
 import "protos/output/global/adHocScripts.proto";
@@ -26,25 +25,25 @@ message ServiceCommandsInput {
 
 message ServiceOutputDetectBuildCommands {
   ServiceError error                                                  = 1;
-  repeated protos . output. global. BuildCommandsOutput buildCommands = 2;
+  protos . output. global. BuildCommandsOutput buildCommands = 2;
 }
 
 message ServiceOutputStartUpCommands {
   ServiceError error                                                      = 1;
-  repeated protos . output. global. StartUpCommandsOutput startUpCommands = 2;
+  protos . output. global. StartUpCommandsOutput startUpCommands = 2;
 }
 
 message ServiceOutputSeedCommands {
   ServiceError error                                                = 1;
-  repeated protos . output. global. SeedCommandsOutput seedCommands = 2;
+  protos . output. global. SeedCommandsOutput seedCommands = 2;
 }
 
 message ServiceMigrationCommands {
   ServiceError error                                                          = 1;
-  repeated protos . output. global. MigrationCommandsOutput migrationCommands = 2;
+  protos . output. global. MigrationCommandsOutput migrationCommands = 2;
 }
 
 message ServiceAdHocScripts {
   ServiceError error                                                          = 1;
-  repeated protos . output. global. AdHocScriptsOutput adHocScripts = 2;
+  protos . output. global. AdHocScriptsOutput adHocScripts = 2;
 }

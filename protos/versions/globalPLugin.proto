@@ -7,4 +7,5 @@ message GlobalPlugin{
   string dockerFile = 1;
   string procFile = 2;
   string makeFile = 3;
+  string commands = 4;
 }

@@ -14,30 +14,78 @@ type Commands struct {
 
 func (d Commands) DetectBuildCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceOutputDetectBuildCommands, error) {
 	return &pb.ServiceOutputDetectBuildCommands{
-		Error:         nil,
-		BuildCommands:[]*global.BuildCommandsOutput{
-			{
-				Used:          true,
-				BuildCommands: nil,
+		Error: nil,
+		BuildCommands: &global.BuildCommandsOutput{
+			Used: true,
+			BuildCommands: []*global.Command{
+				{
+					Command: "go",
+					Args:    []string{"build one"},
+				},
 			},
-		} ,
+		},
 	}, nil
 }
 
 func (d Commands) DetectStartUpCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceOutputStartUpCommands, error) {
-	return nil, nil
+	return &pb.ServiceOutputStartUpCommands{
+		Error: nil,
+		StartUpCommands: &global.StartUpCommandsOutput{
+			Used: true,
+			StartUpCommands: []*global.Command{
+				{
+					Command: "go",
+					Args:    []string{"build one"},
+				},
+			},
+		},
+	}, nil
 }
 
 func (d Commands) DetectSeedCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceOutputSeedCommands, error) {
-	return nil, nil
+	return &pb.ServiceOutputSeedCommands{
+		Error: nil,
+		SeedCommands: &global.SeedCommandsOutput{
+			Used: true,
+			SeedCommandCommand: []*global.Command{
+				{
+					Command: "go",
+					Args:    []string{"build one"},
+				},
+			},
+		},
+	}, nil
 }
 
 func (d Commands) DetectMigrationCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceMigrationCommands, error) {
-	return nil, nil
+	return &pb.ServiceMigrationCommands{
+		Error: nil,
+		MigrationCommands: &global.MigrationCommandsOutput{
+			Used: true,
+			MigrationCommand: []*global.Command{
+				{
+					Command: "go",
+					Args:    []string{"build one"},
+				},
+			},
+		},
+	}, nil
 }
 
 func (d Commands) DetectAdHocScripts(inputString *pb.ServiceCommandsInput) (*pb.ServiceAdHocScripts, error) {
-	return nil,nil}
+	return &pb.ServiceAdHocScripts{
+		Error: nil,
+		AdHocScripts: &global.AdHocScriptsOutput{
+			Used: true,
+			AdHocScripts: []*global.Command{
+				{
+					Command: "go",
+					Args:    []string{"build one"},
+				},
+			},
+		},
+	}, nil
+}
 
 func main() {
 	plugin.Serve(&plugin.ServeConfig{

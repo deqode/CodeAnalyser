@@ -9,6 +9,7 @@ import "protos/output/global/migrationCommands.proto";
 import "protos/output/global/proc.proto";
 import "protos/output/global/seedCommands.proto";
 import "protos/output/global/startUpCommands.proto";
+import "protos/output/global/adHocScripts.proto";
 
 import  "protos/output/language_specific/appserver.proto";
 import "protos/output/language_specific/db.proto";
@@ -35,7 +36,6 @@ message LanguageSpecificDetections {
   repeated protos.output.language_specific.AppserverOutput appserver = 11;
   map<string, string> buildDirectory = 12;
   protos.output.language_specific.TestCasesCommandOutput testCases = 13;
-  Commands commands = 14;
   // todo: DetectTestCasesRunCommands
 }
 
@@ -48,14 +48,15 @@ message GlobalDetections {
 
 
 message Commands {
-  repeated protos.output.global.BuildCommandsOutput buildCommands = 1;
-  repeated protos.output.global.StartUpCommandsOutput startUpCommands = 2;
-  repeated protos.output.global.SeedCommandsOutput seedCommands = 3;
-  repeated protos.output.global.MigrationCommandsOutput MigrationCommands = 4;
-  //     todo:   DetectAdHocScripts
+   protos.output.global.BuildCommandsOutput buildCommands = 1;
+   protos.output.global.StartUpCommandsOutput startUpCommands = 2;
+   protos.output.global.SeedCommandsOutput seedCommands = 3;
+   protos.output.global.MigrationCommandsOutput MigrationCommands = 4;
+   protos.output.global.AdHocScriptsOutput adHocScriptsOutput = 5;
 }
 
 message DecisionMakerInput {
   repeated LanguageSpecificDetections languageSpecificDetection = 1;
   GlobalDetections gloabalDetections = 2;
+  Commands commands = 3;
 }
