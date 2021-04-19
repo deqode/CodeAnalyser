@@ -1,3 +1,5 @@
 languages:
   - name: "Go"
     path: "./plugin/go"
+  - name: "JavaScript"
+    path: "./plugin/js"

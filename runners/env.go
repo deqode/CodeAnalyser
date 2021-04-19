@@ -12,8 +12,9 @@ import (
 //EnvDetectAndRunner will run to find Frameworks & returns its detectors.
 func EnvDetectAndRunner(pluginDetails *versionsPB.LanguageVersion, runtimeVersion, root string) *languageSpecific.EnvOutput {
 	res, client := pluginClient.EnvPluginCall(exec.Command("sh", "-c", pluginDetails.DetectEnvCommand))
-	defer client.Kill()
-
+	for client.Exited() {
+		client.Kill()
+	}
 	detection, err := res.Detect(&pb.ServiceInput{
 		RuntimeVersion: runtimeVersion,
 		Root:           root,

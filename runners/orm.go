@@ -47,7 +47,9 @@ func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string)
 //OrmDetectorRunner it run plugin file of ORM
 func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion, root string) *languageSpecificPB.ORM {
 	ormResponse, client := pluginClient.OrmPluginCall(exec.Command("sh", "-c", ormDetails.Command))
-	defer client.Kill()
+	for client.Exited() {
+		client.Kill()
+	}
 	isUsed, err := ormResponse.IsORMUsed(&pb.ServiceInput{
 		RuntimeVersion: runTimeVersion,
 		Root:           root,
@@ -57,7 +59,7 @@ func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion,
 		return nil
 	}
 
-	if isUsed.Value == true {
+	if isUsed.Value {
 		detection, err := ormResponse.Detect(&pb.ServiceInput{
 			RuntimeVersion: runTimeVersion,
 			Root:           root,
@@ -66,7 +68,7 @@ func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion,
 			utils.Logger(err)
 			return nil
 		}
-		if detection.Used == true {
+		if detection.Used {
 			return &languageSpecificPB.ORM{
 				Name:    name,
 				Version: ormDetails.Version,

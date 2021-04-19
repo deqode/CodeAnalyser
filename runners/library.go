@@ -41,7 +41,9 @@ func LibraryRunner(libraryList map[string]DependencyDetail, runtimeVersion, root
 //FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtimeVersion, root string) *languageSpecificPB.LibraryOutput {
 	libraryResponse, client := pluginClient.LibraryPluginCall(exec.Command("sh", "-c", libraryDetails.Command))
-	defer client.Kill()
+	for client.Exited() {
+		client.Kill()
+	}
 	isUsed, err := libraryResponse.IsUsed(&pb.ServiceInput{
 		RuntimeVersion: runtimeVersion,
 		Root:           root,
@@ -50,7 +52,7 @@ func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtime
 		utils.Logger(err)
 		return nil
 	}
-	if isUsed.Value == true {
+	if isUsed.Value {
 		detection, err := libraryResponse.Detect(&pb.ServiceInput{
 			RuntimeVersion: runtimeVersion,
 			Root:           root,
@@ -59,7 +61,7 @@ func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtime
 			utils.Logger(err)
 			return nil
 		}
-		if detection.Value == true {
+		if detection.Value {
 			percentUsed, err := libraryResponse.PercentOfUsed(&pb.ServiceInput{
 				RuntimeVersion: runtimeVersion,
 				Root:           root,

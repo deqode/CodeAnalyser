@@ -1,22 +1,22 @@
 {
-  "name": "getdependencies",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "f"
-  },
-  "dependencies": {
-    "@grpc/proto-loader": "^0.6.1",
-    "get-port": "^5.1.1",
-    "grpc-health-check": "^1.8.0",
-    "mongoose": "^5.12.4",
-    "nodemon": "^2.0.7"
-  },
-  "author": "kishan",
-  "license": "ISC"
+    "name": "getdependencies",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "f"
+    },
+    "dependencies": {
+        "@grpc/grpc-js": "^1.2.12",
+        "@grpc/proto-loader": "^0.6.1",
+        "express": "^4.17.1",
+        "get-port": "^5.1.1",
+        "grpc-health-check": "^1.8.0"
+    },
+    "author": "kishan",
+    "license": "ISC"
 }

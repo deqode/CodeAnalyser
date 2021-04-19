@@ -4,10 +4,9 @@ author:
   email: "rfr"
 date: "rvtrv"
 plugindetails:
-  type: "framework"
-  name: "express"
+  type: "getDependencies"
   version: "v1.x"
   semver:
-    - ">=1.x,<2.x"
-  command: "alfredPlugin/plugin"
+    - ">=1.x,<16.x"
+  command: "node alfredPlugin/server.js"
 

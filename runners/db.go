@@ -50,7 +50,9 @@ func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *
 //DbDetectorRunner It will execute plugin from command fetched from yaml file of same plugin
 func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *languageSpecificPB.DB {
 	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", dbDetails.Command))
-	defer client.Kill()
+	for client.Exited() {
+		client.Kill()
+	}
 	isUsed, err := dbResponse.IsDbUsed(&pb.ServiceInput{
 		RuntimeVersion: runTimeVersion,
 		Root:           root,
@@ -60,7 +62,7 @@ func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, r
 		return nil
 	}
 
-	if isUsed.Value == true {
+	if isUsed.Value {
 		detection, err := dbResponse.Detect(&pb.ServiceInput{
 			RuntimeVersion: runTimeVersion,
 			Root:           root,
@@ -69,7 +71,7 @@ func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, r
 			utils.Logger(err)
 			return nil
 		}
-		if detection.Value == true {
+		if detection.Value {
 			return &languageSpecificPB.DB{
 				Name:    name,
 				Version: dbDetails.Version,

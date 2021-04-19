@@ -4,10 +4,10 @@ author:
   email: "rfr"
 date: "rvtrv"
 plugindetails:
-  type: "framework"
-  name: "express"
+  type: "database"
+  name: "postgres"
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"
-  command: "alfredPlugin/plugin"
+  command: "node alfredPlugin/server.js"
 

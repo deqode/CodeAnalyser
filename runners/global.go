@@ -12,7 +12,9 @@ import (
 
 func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.DockerFileOutput, *global.DockerComposeFileOutput) {
 	runtimeResponse, client := pluginClient.DockerFilePluginCall(exec.Command("sh", "-c", globalPlugin.DockerFile))
-	defer client.Kill()
+	for client.Exited() {
+		client.Kill()
+	}
 	detectDockerFile, err := runtimeResponse.DetectDockerFiles(&pb.ServiceInputString{Value: path})
 	if err != nil {
 		utils.Logger(err)
@@ -36,7 +38,9 @@ func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *
 
 func DetectAndRunProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFileOutput {
 	runtimeResponse, client := pluginClient.ProcFilePluginCall(exec.Command("sh", "-c", globalPlugin.ProcFile))
-	defer client.Kill()
+	for client.Exited() {
+		client.Kill()
+	}
 	detectProcFile, err := runtimeResponse.Detect(&pb.ServiceInputString{Value: path})
 	if err != nil {
 		utils.Logger(err)
@@ -51,7 +55,9 @@ func DetectAndRunProcFile(ctx context.Context, path string, globalPlugin *versio
 
 func DetectAndRunMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakefileOutput {
 	runtimeResponse, client := pluginClient.MakeFilePluginCall(exec.Command("sh", "-c", globalPlugin.MakeFile))
-	defer client.Kill()
+	for client.Exited() {
+		client.Kill()
+	}
 	detectMakeFile, err := runtimeResponse.Detect(&pb.ServiceInputString{Value: path})
 	if err != nil {
 		utils.Logger(err)
@@ -65,9 +71,10 @@ func DetectAndRunMakeFile(ctx context.Context, path string, globalPlugin *versio
 }
 
 func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.SeedCommandsOutput, *global.BuildCommandsOutput, *global.MigrationCommandsOutput, *global.StartUpCommandsOutput, *global.AdHocScriptsOutput) {
-
 	response, client := pluginClient.CommandsPluginCall(exec.Command("sh", "-c", globalPlugin.Commands))
-	defer client.Kill()
+	for client.Exited() {
+		client.Kill()
+	}
 	var err error
 	serviceCommandsInput := &pb.ServiceCommandsInput{
 		Root:     path,
