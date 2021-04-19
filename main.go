@@ -23,12 +23,14 @@ import (
 
 func main() {
 	//path := "./"
-	runtimeResponse, client := pluginClient.DependenciesPluginCall(exec.Command("sh", "-c", "node plugin/js/getDependencies/server.js"))
-	value, err := runtimeResponse.GetDependencies(&pb.ServiceInput{RuntimeVersion: "", Root: "/home/deqode/Desktop/code-analyser/plugin/js/preDetectCommands"})
+	runtimeResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", "node plugin/js/db/redis/v1_x"))
+	value, err := runtimeResponse.Detect(&pb.ServiceInput{RuntimeVersion: "", Root: ""})
 	if err != nil {
 		log.Println(err)
 	}
 	log.Println(value)
+	log.Println(runtimeResponse.IsDbUsed(&pb.ServiceInput{RuntimeVersion: "", Root: ""}))
+	log.Println(runtimeResponse.PercentOfDbUsed(&pb.ServiceInput{RuntimeVersion: "", Root: ""}))
 
 	for client.Exited() {
 		client.Kill()

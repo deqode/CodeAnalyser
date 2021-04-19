@@ -12,7 +12,7 @@ function runPreDetect(input, callback) {
     detectors: Object.values(depcheck.detector),
   };
   depcheck(path, options, (unused) => {
-    removeUnusedFromPackageJson(unused, packageJsonFile,path).then(
+    removeUnusedFromPackageJson(unused, packageJsonFile, path).then(
       (resolve) => {
         installMissingDependencies(Object.keys(unused.missing), path);
         callback(null, { error: null });
@@ -22,8 +22,15 @@ function runPreDetect(input, callback) {
   });
 }
 
-function removeUnusedFromPackageJson(unused, packageJsonFile,path) {
-  return new Promise((resolve, reject) => {
+/**
+ *
+ * @param {depcheck.Results} unused - result of depcheck method
+ * @param {JSON} packageJsonFile - package.json file object
+ * @param {string} path - path of project
+ * @returns {Promise<string>} 
+ */
+function removeUnusedFromPackageJson(unused, packageJsonFile, path) {
+  var promise = new Promise((resolve, reject) => {
     if (unused.dependencies.length || unused.devDependencies.length) {
       unused.dependencies.forEach((element) => {
         delete packageJsonFile.dependencies[element];
@@ -42,8 +49,13 @@ function removeUnusedFromPackageJson(unused, packageJsonFile,path) {
       );
     } else resolve("");
   });
+  return promise;
 }
 
+/**
+ * @param {Array<string>} missing - array of name of dependencies which are missing
+ * @param {string} path - path where we have to install dependencies
+ */
 function installMissingDependencies(missing, path) {
   if (missing.length)
     childProcess.exec(
