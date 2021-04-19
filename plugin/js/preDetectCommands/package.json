@@ -1,0 +1,16 @@
+{
+    "name": "predetectcommands",
+    "version": "1.0.0",
+    "description": "this plugin is for execute commands before detection for example remove unused files ",
+    "main": "server.js",
+    "scripts": {},
+    "dependencies": {
+        "@grpc/grpc-js": "^1.2.12",
+        "@grpc/proto-loader": "^0.6.1",
+        "depcheck": "^1.4.0",
+        "get-port": "^5.1.1",
+        "grpc-health-check": "^1.8.0"
+    },
+    "author": "kishan",
+    "license": "ISC"
+}

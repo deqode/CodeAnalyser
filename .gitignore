@@ -5,4 +5,11 @@
 # Unignore all dirs
 !*/
 
+plugin/js/detectRunTime/node_modules/
+
+plugin/js/getDependencies/node_modules/
+
+plugin/js/preDetectCommands/node_modules/
+
 .idea/
+

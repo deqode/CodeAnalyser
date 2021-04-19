@@ -2,6 +2,7 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/pluginClient"
 	decisionmakerPB "code-analyser/protos/pb"
 	utilsPB "code-analyser/protos/pb/output/utils"
 	pb "code-analyser/protos/pb/plugin"
@@ -9,18 +10,30 @@ import (
 	"code-analyser/runners"
 	"code-analyser/utils"
 	"errors"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"sync"
+
+	"gopkg.in/yaml.v2"
 )
 
 func main() {
-	path := "./"
-	Scrape(path)
+	//path := "./"
+	runtimeResponse, client := pluginClient.DependenciesPluginCall(exec.Command("sh", "-c", "node plugin/js/getDependencies/server.js"))
+	value, err := runtimeResponse.GetDependencies(&pb.ServiceInput{RuntimeVersion: "", Root: "/home/deqode/Desktop/code-analyser/plugin/js/preDetectCommands"})
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(value)
+
+	for client.Exited() {
+		client.Kill()
+	}
+	//Scrape(path)
 }
 
 //ReadPluginYamlFile It wil read yaml file of specific plugin
