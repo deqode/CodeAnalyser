@@ -8,6 +8,6 @@ plugindetails:
   name: "redis"
   version: "v1.x"
   semver:
-    - ">=1.x,<2.x"
+    - ">=1.x,<4.x"
   command: "node alfredPlugin/server.js"
 

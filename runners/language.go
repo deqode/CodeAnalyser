@@ -136,7 +136,7 @@ func GetParsedDependencis(ctx context.Context, languageVersion, path string, plu
 	var dependenciesCommand *versionsPB.DependencyVersionDetails
 	var runtimeVersion string
 	for rt, supportedRuntimeVersions := range pluginDetails.Runtimeversions {
-		if helpers.SeverValidateFromArray(supportedRuntimeVersions.Semver, languageVersion) {
+		if helpers.SemverValidateFromArray(supportedRuntimeVersions.Semver, languageVersion) {
 			dependenciesCommand = supportedRuntimeVersions
 			runtimeVersion = rt
 			break

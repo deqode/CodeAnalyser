@@ -15,7 +15,7 @@ func ParseLibraryFromDependencies(dependenciesList map[string]string, langYamlOb
 	for key, supportedLibrary := range langYamlObject.Libraries {
 		if versionUsed, ok := dependenciesList[key]; ok {
 			for versionName, v := range supportedLibrary.Version {
-				if helpers.SeverValidateFromArray(v.Semver, versionUsed) {
+				if helpers.SemverValidateFromArray(v.Semver, versionUsed) {
 					library[key] = DependencyDetail{
 						Version: versionName,
 						Command: v.Plugincommand,

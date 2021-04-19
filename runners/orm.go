@@ -16,7 +16,7 @@ func ParseOrmFromDependencies(dependenciesList map[string]string, langYamlObject
 	for key, supportedOrm := range langYamlObject.Orms {
 		if versionUsed, ok := dependenciesList[key]; ok {
 			for versionName, v := range supportedOrm.Version {
-				if helpers.SeverValidateFromArray(v.Semver, versionUsed) {
+				if helpers.SemverValidateFromArray(v.Semver, versionUsed) {
 					orm[key] = DependencyDetail{
 						Version: versionName,
 						Command: v.Plugincommand,

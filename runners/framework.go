@@ -16,7 +16,7 @@ func ParseFrameworkFromDependencies(dependenciesList map[string]string, langYaml
 	for key, supportedFramework := range langYamlObject.Framework {
 		if versionUsed, ok := dependenciesList[key]; ok {
 			for versionName, v := range supportedFramework.Version {
-				if helpers.SeverValidateFromArray(v.Semver, versionUsed) {
+				if helpers.SemverValidateFromArray(v.Semver, versionUsed) {
 					framework[key] = DependencyDetail{
 						Version: versionName,
 						Command: v.Plugincommand,

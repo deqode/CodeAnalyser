@@ -17,7 +17,7 @@ func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject 
 	for key, supportedDb := range langYamlObject.Databases {
 		if versionUsed, ok := dependenciesList[key]; ok {
 			for versionName, v := range supportedDb.Version {
-				if helpers.SeverValidateFromArray(v.Semver, versionUsed) {
+				if helpers.SemverValidateFromArray(v.Semver, versionUsed) {
 					db[key] = DependencyDetail{
 						Version: versionName,
 						Command: v.Plugincommand,
