@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	path := "/home/deqode/Documents/basic_repo/expressRepo"
+	path := "/home/deqode/Downloads/basicRepo"
 	Scrape(path)
 }
 

@@ -1,6 +1,6 @@
 function detect(input, callback) {
   let path = input.request.root;
-  callback(null, { value: true, intValue: 3500, error: null });
+  callback(null, { value: true, intValue: null, error: null });
   // callback(reject, { value: null, error: reject })
 }
 

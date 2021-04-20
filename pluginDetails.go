@@ -138,7 +138,11 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
 						}
-						languageVersion.Framework = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+						if languageVersion.Framework == nil {
+							languageVersion.Framework = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+						} else {
+							languageVersion.Framework[parsedFile.Name] = &dependencyDetails
+						}
 					}
 				case "detectRuntime":
 					languageVersion.Detectruntimecommand = parsedFile.Command
@@ -164,7 +168,13 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
 						}
-						languageVersion.Orms = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+
+						if languageVersion.Orms == nil {
+							languageVersion.Orms = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+						} else {
+							languageVersion.Orms[parsedFile.Name] = &dependencyDetails
+						}
+
 					}
 				case "library":
 					if val, ok := languageVersion.Libraries[parsedFile.Name]; ok {
@@ -178,7 +188,11 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
 						}
-						languageVersion.Libraries = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+						if languageVersion.Libraries == nil {
+							languageVersion.Libraries = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+						} else {
+							languageVersion.Libraries[parsedFile.Name]=&dependencyDetails
+						}
 					}
 				case "database":
 					if val, ok := languageVersion.Databases[parsedFile.Name]; ok {
@@ -194,8 +208,9 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						}
 						if languageVersion.Databases == nil {
 							languageVersion.Databases = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
+						} else {
+							languageVersion.Databases[parsedFile.Name] = &dependencyDetails
 						}
-						languageVersion.Databases[parsedFile.Name] = &dependencyDetails
 					}
 				case "getDependencies":
 					if languageVersion.Runtimeversions != nil {
