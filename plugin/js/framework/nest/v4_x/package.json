@@ -1,0 +1,15 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "detection of express",
+  "main": "server.js",
+  "scripts": {},
+  "dependencies": {
+    "@grpc/grpc-js": "^1.2.12",
+    "@grpc/proto-loader": "^0.6.1",
+    "get-port": "^5.1.1",
+    "grpc-health-check": "^1.8.0"
+  },
+  "author": "kishan",
+  "license": "ISC"
+}

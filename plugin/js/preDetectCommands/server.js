@@ -4,7 +4,7 @@ const healthCheck = require("./healthCheck");
 const getPort = require("get-port");
 const methods = require("./methods");
 
-let absPath = "/home/deqode/Desktop/code-analyser/";
+let absPath = "";
 const protoPath = [
   absPath + "protos/plugin/predetectcommand.proto",
   absPath + "protos/plugin/common.proto",

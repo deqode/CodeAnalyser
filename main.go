@@ -7,13 +7,16 @@ import (
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
 	"log"
+	"os"
 	"sync"
 
 	"golang.org/x/net/context"
 )
 
 func main() {
-	path := "/home/deqode/Downloads/basicRepo"
+	path := os.Args[1]
+	log.Println("Initialized Scrapping ")
+	log.Println("Scrapping on "+path)
 	Scrape(path)
 }
 
@@ -49,7 +52,6 @@ func Scrape(path string) {
 					Root:           path,
 				}, pluginDetails)
 				if runtimeVersion != "" {
-
 					allDependencies := runners.GetParsedDependencis(ctx, runtimeVersion, path, pluginDetails)
 					languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
 						Name:           language.Name,
@@ -63,7 +65,16 @@ func Scrape(path string) {
 					decisionMakerInput.GloabalDetections = &gloabalDetections
 					decisionMakerInput.Commands = &commands
 					mutex.Unlock()
-					log.Println(decisionMakerInput.LanguageSpecificDetection)
+					//log.Println(decisionMakerInput.LanguageSpecificDetection)
+					for _,v:= range decisionMakerInput.LanguageSpecificDetection{
+						log.Println("Language identified as ", v.Name,"& version", v.RuntimeVersion)
+						for _,f :=range v.Framework{
+							log.Println("Framework identified as ", f.Name,f.Version)
+						}
+						for _,f :=range v.Db.Databases{
+							log.Println("Database identified as ", f.Name,f.Version,f.Port)
+						}
+					}
 				}
 
 			}

@@ -127,7 +127,7 @@ func RunPreDetectCommand(ctx context.Context, input *pb.ServiceInput, pluginDeta
 	if runtimeVersion.Error != nil {
 		utils.Logger(runtimeVersion.Error)
 	}
-	log.Println("------------------------ pre detect commands found and executed successfully ")
+	log.Println("pre detect commands found and executed successfully ")
 }
 
 //GetParsedDependencis get map of parsed dependencies for example beego is a framework
