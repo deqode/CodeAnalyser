@@ -7,17 +7,16 @@ import (
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
 	"log"
-	"os"
 	"sync"
 
 	"golang.org/x/net/context"
 )
 
 func main() {
-	path := os.Args[1]
-	log.Println("Initialized Scrapping ")
-	log.Println("Scrapping on "+path)
-	Scrape(path)
+	//path := os.Args[1]
+	//log.Println("Initialized Scrapping ")
+	//log.Println("Scrapping on "+path)
+	Scrape("./")
 }
 
 //Scrape it scrape language, framework, orm etc .....
@@ -87,7 +86,7 @@ func Scrape(path string) {
 //RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
 func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string, globalDetection *decisionmakerPB.GlobalDetections, globalPlugin *versionsPB.GlobalPlugin, commands *decisionmakerPB.Commands) {
 	var wg sync.WaitGroup
-	wg.Add(11)
+	wg.Add(12)
 	var mutex = &sync.Mutex{}
 	go func() {
 		defer wg.Done()
@@ -95,6 +94,25 @@ func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionma
 		globalDetection.DockerFile, globalDetection.DockerComposeFile = runners.DetectDockerAndComposeFile(ctx, path, globalPlugin)
 		mutex.Unlock()
 	}()
+	go func() {
+		defer wg.Done()
+		if pluginDetails.Commands != "" {
+			mutex.Lock()
+			 seed,build,migration,startup,adhoc:=runners.GetCommands(ctx, &pb.ServiceInput{
+				RuntimeVersion: runtimeVersion,
+				Root:           path,
+			}, pluginDetails)
+			languageSpecificDetections.Commands=&decisionmakerPB.Commands{
+				BuildCommands:      build,
+				StartUpCommands:    startup,
+				SeedCommands:       seed,
+				MigrationCommands:  migration,
+				AdHocScriptsOutput: adhoc,
+			}
+			mutex.Unlock()
+		}
+	}()
+
 	go func() {
 		defer wg.Done()
 		mutex.Lock()

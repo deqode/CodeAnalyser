@@ -146,6 +146,8 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 					}
 				case "detectRuntime":
 					languageVersion.Detectruntimecommand = parsedFile.Command
+				case "commands":
+					languageVersion.Commands = parsedFile.Command
 				case "env":
 					languageVersion.DetectEnvCommand = parsedFile.Command
 				case "preDetectCommand":
@@ -191,7 +193,7 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						if languageVersion.Libraries == nil {
 							languageVersion.Libraries = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
 						} else {
-							languageVersion.Libraries[parsedFile.Name]=&dependencyDetails
+							languageVersion.Libraries[parsedFile.Name] = &dependencyDetails
 						}
 					}
 				case "database":

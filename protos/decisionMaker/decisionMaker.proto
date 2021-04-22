@@ -36,6 +36,7 @@ message LanguageSpecificDetections {
   repeated protos.output.language_specific.AppserverOutput appserver = 11;
   map<string, string> buildDirectory = 12;
   protos.output.language_specific.TestCasesCommandOutput testCases = 13;
+  Commands commands = 14;
   // todo: DetectTestCasesRunCommands
 }
 
