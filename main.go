@@ -31,53 +31,55 @@ func Scrape(path string) {
 	var mutex = &sync.Mutex{}
 	var ctx context.Context = nil
 	for _, language := range languages {
-		wg.Add(1)
-		language := language
-		go func() {
-			defer wg.Done()
-			var languagePath string
-			for _, supportedLanguage := range supportedLanguages.Languages {
-				if supportedLanguage.Name == language.Name {
-					languagePath = supportedLanguage.Path
-					break
+		if language.Percent > 70 {
+			wg.Add(1)
+			language := language
+			go func() {
+				defer wg.Done()
+				var languagePath string
+				for _, supportedLanguage := range supportedLanguages.Languages {
+					if supportedLanguage.Name == language.Name {
+						languagePath = supportedLanguage.Path
+						break
+					}
 				}
-			}
-			if languagePath != "" {
-				pluginDetails := ParsePluginYamlFile(languagePath)
-				globalPlugins := ParseGlobalPluginYaml("./plugin/globalDetectors")
-				runtimeVersion := runners.DetectRuntime(ctx, path, pluginDetails)
-				runners.RunPreDetectCommand(ctx, &pb.ServiceInput{
-					RuntimeVersion: runtimeVersion,
-					Root:           path,
-				}, pluginDetails)
-				if runtimeVersion != "" {
-					allDependencies := runners.GetParsedDependencis(ctx, runtimeVersion, path, pluginDetails)
-					languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
-						Name:           language.Name,
+				if languagePath != "" {
+					pluginDetails := ParsePluginYamlFile(languagePath)
+					globalPlugins := ParseGlobalPluginYaml("./plugin/globalDetectors")
+					runtimeVersion := runners.DetectRuntime(ctx, path, pluginDetails)
+					runners.RunPreDetectCommand(ctx, &pb.ServiceInput{
 						RuntimeVersion: runtimeVersion,
-					}
-					gloabalDetections := decisionmakerPB.GlobalDetections{}
-					commands := decisionmakerPB.Commands{}
-					RunAllDetectors(ctx, &languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path, &gloabalDetections, globalPlugins, &commands)
-					mutex.Lock()
-					decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
-					decisionMakerInput.GloabalDetections = &gloabalDetections
-					decisionMakerInput.Commands = &commands
-					mutex.Unlock()
-					//log.Println(decisionMakerInput.LanguageSpecificDetection)
-					for _,v:= range decisionMakerInput.LanguageSpecificDetection{
-						log.Println("Language identified as ", v.Name,"& version", v.RuntimeVersion)
-						for _,f :=range v.Framework{
-							log.Println("Framework identified as ", f.Name,f.Version)
+						Root:           path,
+					}, pluginDetails)
+					if runtimeVersion != "" {
+						allDependencies := runners.GetParsedDependencis(ctx, runtimeVersion, path, pluginDetails)
+						languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
+							Name:           language.Name,
+							RuntimeVersion: runtimeVersion,
 						}
-						for _,f :=range v.Db.Databases{
-							log.Println("Database identified as ", f.Name,f.Version,f.Port)
+						gloabalDetections := decisionmakerPB.GlobalDetections{}
+						commands := decisionmakerPB.Commands{}
+						RunAllDetectors(ctx, &languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path, &gloabalDetections, globalPlugins, &commands)
+						mutex.Lock()
+						decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
+						decisionMakerInput.GloabalDetections = &gloabalDetections
+						decisionMakerInput.Commands = &commands
+						mutex.Unlock()
+						for _, v := range decisionMakerInput.LanguageSpecificDetection {
+							log.Println("Language identified as ", v.Name, "& version", v.RuntimeVersion)
+							for _, f := range v.Framework {
+								log.Println("Framework identified as ", f.Name, f.Version)
+							}
+							for _, f := range v.Db.Databases {
+								log.Println("Database identified as ", f.Name, f.Version, f.Port)
+							}
+							log.Println(v.Commands)
 						}
 					}
-				}
 
-			}
-		}()
+				}
+			}()
+		}
 	}
 	wg.Wait()
 
@@ -98,11 +100,11 @@ func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionma
 		defer wg.Done()
 		if pluginDetails.Commands != "" {
 			mutex.Lock()
-			 seed,build,migration,startup,adhoc:=runners.GetCommands(ctx, &pb.ServiceInput{
+			seed, build, migration, startup, adhoc := runners.GetCommands(ctx, &pb.ServiceInput{
 				RuntimeVersion: runtimeVersion,
 				Root:           path,
 			}, pluginDetails)
-			languageSpecificDetections.Commands=&decisionmakerPB.Commands{
+			languageSpecificDetections.Commands = &decisionmakerPB.Commands{
 				BuildCommands:      build,
 				StartUpCommands:    startup,
 				SeedCommands:       seed,
