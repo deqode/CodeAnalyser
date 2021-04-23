@@ -16,7 +16,7 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	Scrape("./")
+	Scrape("/home/deqode/Downloads/basicRepo")
 }
 
 //Scrape it scrape language, framework, orm etc .....

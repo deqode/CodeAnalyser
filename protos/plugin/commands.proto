@@ -19,31 +19,31 @@ service CommandsService {
 }
 
 message ServiceCommandsInput {
-  string root     = 1;
+  string root = 1;
   string language = 2;
 }
 
 message ServiceOutputDetectBuildCommands {
-  ServiceError error                                                  = 1;
-  protos . output. global. BuildCommandsOutput buildCommands = 2;
+  ServiceError error = 1;
+  protos.output.global.BuildCommandsOutput buildCommands = 2;
 }
 
 message ServiceOutputStartUpCommands {
-  ServiceError error                                                      = 1;
-  protos . output. global. StartUpCommandsOutput startUpCommands = 2;
+  ServiceError error = 1;
+  protos.output.global.StartUpCommandsOutput startUpCommands = 2;
 }
 
 message ServiceOutputSeedCommands {
-  ServiceError error                                                = 1;
-  protos . output. global. SeedCommandsOutput seedCommands = 2;
+  ServiceError error = 1;
+  protos.output.global.SeedCommandsOutput seedCommands = 2;
 }
 
 message ServiceMigrationCommands {
-  ServiceError error                                                          = 1;
-  protos . output. global. MigrationCommandsOutput migrationCommands = 2;
+  ServiceError error = 1;
+  protos.output.global.MigrationCommandsOutput migrationCommands = 2;
 }
 
 message ServiceAdHocScripts {
-  ServiceError error                                                          = 1;
-  protos . output. global. AdHocScriptsOutput adHocScripts = 2;
+  ServiceError error = 1;
+  protos.output.global.AdHocScriptsOutput adHocScripts = 2;
 }

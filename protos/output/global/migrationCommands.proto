@@ -7,7 +7,7 @@ message MigrationCommandsOutput{
   // check MigrationCommand
   bool used = 1;
   // list of all MigrationCommand
-  repeated Command migrationCommand = 2;
+  repeated Command migrationCommands = 2;
 }
 
 
