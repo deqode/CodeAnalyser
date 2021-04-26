@@ -74,6 +74,7 @@ func Scrape(path string) {
 								log.Println("Database identified as ", f.Name, f.Version, f.Port)
 							}
 							log.Println(v.Commands)
+							log.Println(v.Env)
 						}
 					}
 

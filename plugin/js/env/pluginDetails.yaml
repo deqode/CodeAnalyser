@@ -1,0 +1,8 @@
+version: "0.2"
+author:
+  name: "kishan chaurasiya"
+  email: "kchaurasiya@deqode.com"
+date: "25/02/1999"
+plugindetails:
+  type: "env"
+  command: "node alfredPlugin/server.js"

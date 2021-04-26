@@ -33,9 +33,8 @@ function detectStartUpCommands(input, callback) {
     let command = jsonFile.scripts
       ? jsonFile.scripts.start
         ? jsonFile.scripts.start
-        : undefined
-      : undefined;
-    command = command.length ? true : false;
+        : false
+      : false;
     callback(null, {
       startUpCommands: {
         used: command,
