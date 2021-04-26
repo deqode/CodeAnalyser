@@ -1,24 +1,17 @@
-const fs = require("fs");
+const common = require("../common");
 
 function getDependencies(input, callback) {
   let path = input.request.root;
-  let promise = new Promise((resolve, reject) => {
-    fs.readdir(path, (err, data) => {
-      if (err) reject(err);
-      if (data.find((element) => element === "package.json")) {
-        let rawFile = fs.readFileSync(path + "/package.json");
-        let parsedFile = JSON.parse(rawFile);
-        parsedFile.dependencies
-          ? resolve(parsedFile.dependencies)
-          : resolve({});
-      } else reject("package.json file not found ");
-    });
-  });
-
-  promise.then(
-    (resolve) => callback(null, { value: resolve, error: null }),
-    (reject) => callback(reject, { value: null, error: reject })
+  let parsedFile = common.requirePathCheck(
+    path + "/package.json",
+    callback,
+    "package.json file not found"
   );
+  if (parsedFile) {
+    parsedFile.dependencies
+      ? callback(null, { value: parsedFile.dependencies, error: null })
+      : callback(null, { value: {}, error: null });
+  }
 }
 
 module.exports = {

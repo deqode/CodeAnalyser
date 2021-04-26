@@ -1,24 +1,17 @@
-const fs = require("fs");
+const common = require("../common");
 
 function detectRuntime(input, callback) {
   let path = input.request.value;
-  let promise = new Promise((resolve, reject) => {
-    fs.readdir(path, (err, data) => {
-      if (err) reject(err);
-      if (data.find((element) => element === "package.json")) {
-        let rawFile = fs.readFileSync(path + "/package.json");
-        let parsedFile = JSON.parse(rawFile);
-        if (parsedFile.engines && parsedFile.engines.node)
-          resolve(parsedFile.engines.node);
-        else resolve(process.version.slice(1));
-      }
-    });
-  });
-
-  promise.then(
-    (resolve) => callback(null, { value: resolve, error: null }),
-    (reject) => callback(reject, { value: null, error: reject })
+  let parsedFile = common.requirePathCheck(
+    path + "/package.json",
+    callback,
+    "package.json file not found"
   );
+  if (parsedFile) {
+    if (parsedFile.engines && parsedFile.engines.node)
+      callback(null, { value: parsedFile.engines.node, error: null });
+    else callback(null, { value: process.version.slice(1), error: null });
+  }
 }
 
 module.exports = {

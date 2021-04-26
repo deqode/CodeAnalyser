@@ -86,8 +86,8 @@ func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versio
 		return nil, nil, nil, nil, nil
 	}
 	if detectAdHocScript.Error != nil {
-		utils.Logger(err)
-		return nil, nil, nil, nil, nil
+		utils.Logger(detectAdHocScript.Error)
+		detectAdHocScript.AdHocScripts = nil
 	}
 	detectSeedCommand, err := response.DetectSeedCommands(serviceCommandsInput)
 	if err != nil {
@@ -95,8 +95,8 @@ func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versio
 		return nil, nil, nil, nil, detectAdHocScript.AdHocScripts
 	}
 	if detectSeedCommand.Error != nil {
-		utils.Logger(err)
-		return nil, nil, nil, nil, detectAdHocScript.AdHocScripts
+		utils.Logger(detectSeedCommand.Error)
+		detectSeedCommand.SeedCommands = nil
 	}
 	detectBuildCommands, err := response.DetectBuildCommands(serviceCommandsInput)
 	if err != nil {
@@ -104,8 +104,8 @@ func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versio
 		return detectSeedCommand.SeedCommands, nil, nil, nil, detectAdHocScript.AdHocScripts
 	}
 	if detectBuildCommands.Error != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, nil, nil, nil, detectAdHocScript.AdHocScripts
+		utils.Logger(detectBuildCommands.Error)
+		detectBuildCommands.BuildCommands = nil
 	}
 	detectMigrationCommands, err := response.DetectMigrationCommands(serviceCommandsInput)
 	if err != nil {
@@ -113,18 +113,17 @@ func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versio
 		return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, nil, nil, detectAdHocScript.AdHocScripts
 	}
 	if detectMigrationCommands.Error != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, nil, nil, detectAdHocScript.AdHocScripts
+		utils.Logger(detectMigrationCommands.Error)
+		detectMigrationCommands.MigrationCommands = nil
 	}
-
 	detectStartUpCommands, err := response.DetectStartUpCommands(serviceCommandsInput)
 	if err != nil {
 		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, detectMigrationCommands.MigrationCommands, nil, detectAdHocScript.AdHocScripts
+		detectStartUpCommands.StartUpCommands = nil
 	}
 	if detectStartUpCommands.Error != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, detectMigrationCommands.MigrationCommands, nil, detectAdHocScript.AdHocScripts
+		utils.Logger(detectStartUpCommands.Error)
+		detectStartUpCommands.StartUpCommands = nil
 	}
 	return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, detectMigrationCommands.MigrationCommands, detectStartUpCommands.StartUpCommands, detectAdHocScript.AdHocScripts
 }

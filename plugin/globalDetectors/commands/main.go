@@ -47,7 +47,7 @@ func (d Commands) DetectSeedCommands(inputString *pb.ServiceCommandsInput) (*pb.
 		Error: nil,
 		SeedCommands: &global.SeedCommandsOutput{
 			Used: true,
-			SeedCommandCommand: []*global.Command{
+			SeedCommands: []*global.Command{
 				{
 					Command: "go",
 					Args:    []string{"build one"},
@@ -62,7 +62,7 @@ func (d Commands) DetectMigrationCommands(inputString *pb.ServiceCommandsInput) 
 		Error: nil,
 		MigrationCommands: &global.MigrationCommandsOutput{
 			Used: true,
-			MigrationCommand: []*global.Command{
+			MigrationCommands: []*global.Command{
 				{
 					Command: "go",
 					Args:    []string{"build one"},
