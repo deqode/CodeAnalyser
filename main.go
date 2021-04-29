@@ -76,6 +76,7 @@ func Scrape(path string) {
 							log.Println(v.Commands)
 							log.Println(v.Env)
 							log.Println(v.TestCases)
+							log.Println(v.Libraries)
 						}
 					}
 

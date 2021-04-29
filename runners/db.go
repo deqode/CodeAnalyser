@@ -12,20 +12,22 @@ import (
 
 //ParseDbFromDependencies It will filter out frameworks from dependencies list
 func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
-	//framework
 	db := map[string]DependencyDetail{}
 	for key, supportedDb := range langYamlObject.Databases {
-		if versionUsed, ok := dependenciesList[key]; ok {
-			for versionName, v := range supportedDb.Version {
-				if helpers.SemverValidateFromArray(v.Semver, versionUsed) {
-					db[key] = DependencyDetail{
-						Version: versionName,
-						Command: v.Plugincommand,
+		for dbVersion, dependencyVersionDetails := range supportedDb.Version {
+			for _, library := range dependencyVersionDetails.Libraries {
+				if libraryUsedVersion, ok := dependenciesList[library.Name]; ok {
+					if helpers.SemverValidateFromArray(library.Semver, libraryUsedVersion) {
+						db[key] = DependencyDetail{
+							Version: dbVersion,
+							Command: dependencyVersionDetails.Plugincommand,
+						}
 					}
 				}
 			}
 		}
 	}
+
 	return db
 }
 

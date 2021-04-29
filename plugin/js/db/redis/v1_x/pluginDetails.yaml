@@ -6,8 +6,14 @@ date: "rvtrv"
 plugindetails:
   type: "database"
   name: "redis"
+  libraries:
+    - name: "pg"
+      semver:
+        - ">=1.x,<2.x"
+    - name: "pgsql"
+      semver:
+        - ">=1.x,<2.x"
   version: "v1.x"
   semver:
     - ">=1.x,<4.x"
   command: "node alfredPlugin/server.js"
-

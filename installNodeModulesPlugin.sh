@@ -9,6 +9,8 @@ path[5]="plugin/js/framework/express/v4_x"
 path[6]="plugin/js/framework/nest/v4_x"
 path[7]="plugin/js/getDependencies"
 path[8]="plugin/js/preDetectCommands"
+path[9]="plugin/js/libraries/kafka/v1_x"
+path[10]="plugin/js/libraries/mongoose/v1_x"
 
  for p in "${path[@]}"; do
      cd ${p}

@@ -14,12 +14,14 @@ import (
 func ParseFrameworkFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
 	framework := map[string]DependencyDetail{}
 	for key, supportedFramework := range langYamlObject.Framework {
-		if versionUsed, ok := dependenciesList[key]; ok {
-			for versionName, v := range supportedFramework.Version {
-				if helpers.SemverValidateFromArray(v.Semver, versionUsed) {
-					framework[key] = DependencyDetail{
-						Version: versionName,
-						Command: v.Plugincommand,
+		for frameworkVersion, dependencyVersionDetails := range supportedFramework.Version {
+			for _, library := range dependencyVersionDetails.Libraries {
+				if libraryUsedVersion, ok := dependenciesList[library.Name]; ok {
+					if helpers.SemverValidateFromArray(library.Semver, libraryUsedVersion) {
+						framework[key] = DependencyDetail{
+							Version: frameworkVersion,
+							Command: dependencyVersionDetails.Plugincommand,
+						}
 					}
 				}
 			}

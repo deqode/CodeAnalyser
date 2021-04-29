@@ -1,7 +1,7 @@
 {
-  "name": "express",
+  "name": "kafka_v1_x",
   "version": "1.0.0",
-  "description": "detection of express",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -9,6 +9,12 @@ message Details{
   string version = 3;
   repeated string semver = 4;
   string command = 5;
+  repeated  Library libraries=6;
+}
+
+message Library {
+  string name =1;
+  repeated  string semver=2;
 }
 
 message Plugin{

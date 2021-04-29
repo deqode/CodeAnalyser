@@ -3,13 +3,8 @@
     "version": "1.0.0",
     "description": "",
     "main": "server.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "f"
-    },
+    "scripts": {},
+    "repository": {},
     "dependencies": {
         "@grpc/grpc-js": "^1.2.12",
         "@grpc/proto-loader": "^0.6.1",

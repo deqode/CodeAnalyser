@@ -131,12 +131,14 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
+							Libraries:     parsedFile.Libraries,
 						}
 					} else {
 						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
 						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
+							Libraries:     parsedFile.Libraries,
 						}
 						if languageVersion.Framework == nil {
 							languageVersion.Framework = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
@@ -163,12 +165,14 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
+							Libraries:     parsedFile.Libraries,
 						}
 					} else {
 						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
 						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
+							Libraries:     parsedFile.Libraries,
 						}
 
 						if languageVersion.Orms == nil {
@@ -183,12 +187,14 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
+							Libraries:     parsedFile.Libraries,
 						}
 					} else {
 						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
 						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
+							Libraries:     parsedFile.Libraries,
 						}
 						if languageVersion.Libraries == nil {
 							languageVersion.Libraries = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
@@ -201,12 +207,14 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
+							Libraries:     parsedFile.Libraries,
 						}
 					} else {
 						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
 						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
+							Libraries:     parsedFile.Libraries,
 						}
 						if languageVersion.Databases == nil {
 							languageVersion.Databases = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}

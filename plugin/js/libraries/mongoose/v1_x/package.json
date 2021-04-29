@@ -1,9 +1,10 @@
 {
-  "name": "express",
+  "name": "mongoose_v1_x",
   "version": "1.0.0",
-  "description": "detection of express",
+  "description": "",
   "main": "server.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "dependencies": {

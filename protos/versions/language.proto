@@ -1,6 +1,8 @@
 syntax = "proto3";
 package protos.versions;
 
+import "protos/output/utils/pluginYaml.proto";
+
 option go_package = "code-analyser/protos/pb/versions";
 
 // todo: update
@@ -26,5 +28,14 @@ message DependencyDetails{
 }
 message DependencyVersionDetails{
   repeated string semver = 2;
-  string plugincommand = 4;
+  repeated protos.output.utils.Library libraries = 1;
+  string plugincommand = 3;
 }
+
+//express:{
+//   3.4:{
+//      libraries:{
+//semver:[],
+//    name:""
+//    }}
+//    }
