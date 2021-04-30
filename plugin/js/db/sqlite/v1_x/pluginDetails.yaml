@@ -6,13 +6,19 @@ date: "rvtrv"
 plugindetails:
   type: "database"
   libraries:
-    - name: "mongodb"
+    - name: "sqlite"
       semver:
-        - ">=1.x,<4.x"
-    - name: "mongoose"
+        - ">=1.x,<5.x"
+    - name: "sqlite3"
       semver:
         - ">=1.x,<6.x"
-  name: "mongoDB"
+    - name: "better-sqlite3"
+      semver:
+        - ">=1.x,<8.x"
+    - name: "sql.js"
+      semver:
+        - ">=1.x,<2.x"
+  name: "sqlite"
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"

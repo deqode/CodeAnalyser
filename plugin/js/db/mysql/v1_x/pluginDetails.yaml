@@ -5,24 +5,15 @@ author:
 date: "rvtrv"
 plugindetails:
   type: "database"
-  name: "redis"
   libraries:
-    - name: "redis"
-      semver:
-        - ">=1.x,<4.x"
-    - name: "handy-redis"
+    - name: "mysql"
       semver:
         - ">=1.x,<3.x"
-    - name: "ioredis"
-      semver:
-        - ">=1.x,<5.x"
-    - name: "redis-fast-driver"
+    - name: "mysql2"
       semver:
         - ">=1.x,<3.x"
-    - name : "tedis"
-      semver:
-        - ">=0.x,<1.x"
+  name: "mysql"
   version: "v1.x"
   semver:
-    - ">=1.x,<4.x"
+    - ">=1.x,<2.x"
   command: "node alfredPlugin/server.js"

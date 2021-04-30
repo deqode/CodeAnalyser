@@ -1,0 +1,17 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "framework"
+  name: "expressway"
+  libraries:
+    - name: "express"
+      semver:
+        - ">=1.x,<5.x"
+  version: "v4.x"
+  semver:
+    - ">=1.x,<5.x"
+  command: "node alfredPlugin/server.js"
+

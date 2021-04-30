@@ -1,5 +1,5 @@
 {
-  "name": "postgres_v1_x",
+  "name": "mariadb_v1_x",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -13,6 +13,6 @@
     "get-port": "^5.1.1",
     "grpc-health-check": "^1.8.0"
   },
-  "author": "kishan",
+  "author": "",
   "license": "ISC"
 }

@@ -4,10 +4,9 @@ const healthCheck = require("./healthCheck");
 const getPort = require("get-port");
 const methods = require("./methods");
 
-let absPath = "";
 const protoPath = [
-  absPath + "protos/plugin/library.proto",
-  absPath + "protos/plugin/common.proto",
+  "protos/plugin/framework.proto",
+  "protos/plugin/common.proto",
 ];
 
 //load proto file
@@ -16,13 +15,14 @@ const packageDefinition = protoLoader.loadSync(protoPath, {
   defaults: true,
   objects: true,
   oneofs: true,
+  longs: true,
 });
 const protoFile = grpc.loadPackageDefinition(packageDefinition);
 
 const server = new grpc.Server();
 
 server.addService(healthCheck.healthe.service, healthCheck.healthImpl);
-server.addService(protoFile.proto.LibraryService.service, methods);
+server.addService(protoFile.proto.FrameworkService.service, methods);
 
 // server creation
 (async () => {

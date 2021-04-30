@@ -6,13 +6,10 @@ date: "rvtrv"
 plugindetails:
   type: "database"
   libraries:
-    - name: "mongodb"
-      semver:
-        - ">=1.x,<4.x"
-    - name: "mongoose"
+    - name: "oracledb"
       semver:
         - ">=1.x,<6.x"
-  name: "mongoDB"
+  name: "oracle"
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"

@@ -8,10 +8,16 @@ plugindetails:
   libraries:
     - name: "pg"
       semver:
-        - ">=1.x,<2.x"
-    - name: "pgsql"
+        - ">=1.x,<9.x"
+    - name: "postgres"
       semver:
         - ">=1.x,<2.x"
+    - name: "postgresql-client"
+      semver:
+        - ">=1.x,<2.x"
+    - name: "pg-connection-string"
+      semver:
+        - ">=1.x,<3.x"
   name: "postgres"
   version: "v1.x"
   semver:

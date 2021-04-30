@@ -1,5 +1,5 @@
 {
-  "name": "mongoose_v1_x",
+  "name": "cassandra_v1_x",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",

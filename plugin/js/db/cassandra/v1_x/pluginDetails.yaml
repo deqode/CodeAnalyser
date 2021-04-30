@@ -6,13 +6,10 @@ date: "rvtrv"
 plugindetails:
   type: "database"
   libraries:
-    - name: "mongodb"
+    - name: "cassandra-driver"
       semver:
-        - ">=1.x,<4.x"
-    - name: "mongoose"
-      semver:
-        - ">=1.x,<6.x"
-  name: "mongoDB"
+        - ">=1.x,<5.x"
+  name: "cassandra"
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"
