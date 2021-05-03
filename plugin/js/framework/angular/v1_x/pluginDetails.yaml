@@ -5,13 +5,11 @@ author:
 date: "rvtrv"
 plugindetails:
   type: "framework"
-  name: "expressway"
+  name: "angular"
   libraries:
-    - name: "express"
+    - name: "@angular/core"
       semver:
-        - ">=1.x,<5.x"
-  version: "v4.x"
-  semver:
-    - ">=1.x,<5.x"
+        - ">=1.x,<12.x"
+  version: "v1.x"
   command: "node alfredPlugin/server.js"
 

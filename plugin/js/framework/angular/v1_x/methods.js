@@ -1,3 +1,4 @@
+const fs = require('fs');
 function detect(input, callback) {
   let path = input.request.root;
   callback(null, { value: true, error: null });
@@ -6,8 +7,10 @@ function detect(input, callback) {
 
 function isFrameworkUsed(input, callback) {
   let path = input.request.root;
-  callback(null, { value: true, error: null });
-  // callback(reject, { value: null, error: reject })
+  if (fs.existsSync(`${path}/angular.json`))
+    callback(null, { value: true, error: null });
+  else
+    callback(null, { value: false, error: null });
 }
 
 function percentOfFrameworkUsed(input, callback) {

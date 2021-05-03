@@ -1,0 +1,12 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "library"
+  name: "mongoose"
+  version: "v1.x"
+  semver:
+    - ">=1.x,<6.x"
+  command: "node alfredPlugin/server.js"

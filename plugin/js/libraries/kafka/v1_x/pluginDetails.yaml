@@ -5,7 +5,7 @@ author:
 date: "rvtrv"
 plugindetails:
   type: "library"
-  name: "kafka-node "
+  name: "kafka-node"
   version: "v1.x"
   semver:
     - ">=1.x,<6.x"

@@ -1,0 +1,15 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "framework"
+  name: "vue"
+  libraries:
+    - name: "vue"
+      semver:
+        - ">=1.x,<3.x"
+  version: "v1.x"
+  command: "node alfredPlugin/server.js"
+
