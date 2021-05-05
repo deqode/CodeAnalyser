@@ -11,6 +11,8 @@ plugindetails:
         - ">=1.x,<3.x"
   name: "MariaDB"
   version: "v1.x"
+  description: "MariaDB is a community-developed, commercially supported fork of the MySQL relational database management system"
+  icon : ""
   semver:
     - ">=1.x,<2.x"
   command: "node alfredPlugin/server.js"

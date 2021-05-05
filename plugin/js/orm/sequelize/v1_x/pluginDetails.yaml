@@ -4,9 +4,11 @@ author:
   email: "rfr"
 date: "rvtrv"
 plugindetails:
-  type: "library"
+  type: "orm"
   name: "sequelize"
   version: "v1.x"
+  description : "Sequelize is a promise-based Node.js ORM tool for Postgres, MySQL, MariaDB, SQLite and Microsoft SQL Server. "
+  icon : ""
   semver:
     - ">=1.x,<7.x"
   command: "node alfredPlugin/server.js"

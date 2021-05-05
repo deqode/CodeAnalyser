@@ -7,6 +7,8 @@ plugindetails:
   type: "library"
   name: "mongoose"
   version: "v1.x"
+  description : "Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. Mongoose supports both promises and callbacks."
+  icon: ""
   semver:
     - ">=1.x,<6.x"
   command: "node alfredPlugin/server.js"

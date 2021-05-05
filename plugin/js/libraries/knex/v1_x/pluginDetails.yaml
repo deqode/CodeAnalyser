@@ -7,6 +7,8 @@ plugindetails:
   type: "library"
   name: "knex"
   version: "v1.x"
+  description: " a SQL query builder for Postgres, MSSQL, MySQL, MariaDB, SQLite3, Oracle, and Amazon Redshift designed to be flexible, portable, and fun to use"
+  icon: ""
   semver:
     - ">=0.x,<1.x"
   command: "node alfredPlugin/server.js"

@@ -19,6 +19,8 @@ plugindetails:
       semver:
         - ">=1.x,<3.x"
   name: "postgres"
+  description : "PostgreSQL, also known as Postgres, is a free and open-source relational database management system"
+  icon : ""
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"

@@ -11,5 +11,7 @@ plugindetails:
       semver:
         - ">=1.x,<5.x"
   version: "v1.x"
+  description : "Express.js, or simply Express, is a back end web application framework for Node.js, released as free and open-source software under the MIT License"
+  icon : ""
   command: "node alfredPlugin/server.js"
 

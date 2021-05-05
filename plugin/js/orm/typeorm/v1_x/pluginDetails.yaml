@@ -4,9 +4,11 @@ author:
   email: "rfr"
 date: "rvtrv"
 plugindetails:
-  type: "library"
+  type: "orm"
   name: "typeorm"
   version: "v1.x"
+  description: "TypeORM is an ORM that can run in NodeJS, Browser, Cordova, PhoneGap, Ionic, React Native, NativeScript, Expo, and Electron platforms and can be used with TypeScript and JavaScript"
+  icon: ""
   semver:
     - ">=0.x,<1.x"
   command: "node alfredPlugin/server.js"

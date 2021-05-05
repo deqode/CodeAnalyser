@@ -11,5 +11,7 @@ plugindetails:
       semver:
         - ">=1.x,<11.x"
   version: "v1.x"
+  description : "Next.js is a React framework that is bound to ease your life as a React developer by abstracting away the common and redundant tasks (such as routing) into relatively simpler and powerful APIs."
+  icon : ""
   command: "node alfredPlugin/server.js"
 

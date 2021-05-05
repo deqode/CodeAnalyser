@@ -10,6 +10,8 @@ plugindetails:
       semver:
         - ">=1.x,<5.x"
   name: "cassandra"
+  description: "Apache Cassandra is a free and open-source, distributed, wide-column store, NoSQL database management system"
+  icon: ""
   version: "v1.x"
   semver:
     - ">=1.x,<2.x"

@@ -7,7 +7,7 @@ function detect(input, callback) {
   });
 }
 
-function isORMUsed(input, callback) {
+function isOrmUsed(input, callback) {
   let path = input.request.root;
   callback(null, {
     value: true,
@@ -15,7 +15,7 @@ function isORMUsed(input, callback) {
   });
 }
 
-function PercentOfORMUsed(input, callback) {
+function percentOfORMUsed(input, callback) {
   let path = input.request.root;
   callback(null, {
     error: null,
@@ -23,6 +23,6 @@ function PercentOfORMUsed(input, callback) {
 }
 module.exports = {
   detect: detect,
-  isUsed: isORMUsed,
-  percentOfUsed: isORMUsed
+  isOrmUsed: isOrmUsed,
+  percentOfORMUsed: percentOfORMUsed
 };

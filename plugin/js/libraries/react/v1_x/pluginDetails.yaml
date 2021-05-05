@@ -7,6 +7,8 @@ plugindetails:
   type: "library"
   name: "react"
   version: "v1.x"
+  description : "React is an open-source, front end, JavaScript library for building user interfaces or UI components"
+  icon : :""
   semver:
     - ">=1.x,<18.x"
   command: "node alfredPlugin/server.js"

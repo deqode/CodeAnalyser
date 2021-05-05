@@ -11,5 +11,7 @@ plugindetails:
       semver:
         - ">=1.x,<4.x"
   version: "v1.x"
+  description : "Gatsby is a React-based open-source framework for creating websites and apps"
+  icon : ""
   command: "node alfredPlugin/server.js"
 
