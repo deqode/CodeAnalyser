@@ -4,5 +4,5 @@ author:
   email: "rfr"
 date: "rvtrv"
 plugindetails:
-  type: "preDetectCommand"
+  type: "preDetectCommands"
   command: "alfredPlugin/plugin"

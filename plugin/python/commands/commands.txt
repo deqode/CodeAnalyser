@@ -1,0 +1,5 @@
+proto generation
+
+python3 -m grpc_tools.protoc -I ../../../  --python_out=.  --grpc_python_out=. ../../../protos/plugin/common.proto  ../../../protos/plugin/commands.proto
+
+                                input path should be at project level

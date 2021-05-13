@@ -178,6 +178,7 @@ func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetail
 }
 
 func RunPreDetectCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) {
+    log.Println(pluginDetails.PreDetectCommand,"--------##############")
 	runtimeResponse, client := pluginClient.PreDetectCommandPluginCall(exec.Command("sh", "-c", pluginDetails.PreDetectCommand))
 	for client.Exited() {
 		client.Kill()

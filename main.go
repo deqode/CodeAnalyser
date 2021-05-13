@@ -17,6 +17,19 @@ func main() {
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
 	Scrape("/home/deqode/Downloads/basicRepo")
+
+	//response, client := pluginClient.CommandsPluginCall(exec.Command("sh", "-c", "python3 plugin/python/commands/server.py"))
+	//for client.Exited() {
+	//	client.Kill()
+	//}
+	//isUsed, err := response.DetectBuildCommands(&pb.ServiceCommandsInput{
+	//	Language: "dfgdf",
+	//	Root:     "sdfdsfd",
+	//})
+	//if err != nil {
+	//	log.Println("---------", err)
+	//}
+	//log.Println(isUsed, err)
 }
 
 //Scrape it scrape language, framework, orm etc .....
