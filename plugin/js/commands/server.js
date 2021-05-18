@@ -4,16 +4,15 @@ const healthCheck = require("./healthCheck");
 const getPort = require("get-port");
 const methods = require("./methods");
 
-let absPath = "";
 const protoPath = [
-  absPath + "protos/plugin/commands.proto",
-  absPath + "protos/plugin/common.proto",
-  absPath + "protos/output/global/startUpCommands.proto",
-  absPath + "protos/output/global/buildCommands.proto",
-  absPath + "protos/output/global/adHocScripts.proto",
-  absPath + "protos/output/global/migrationCommands.proto",
-  absPath + "protos/output/global/seedCommands.proto",
-  absPath + "protos/output/global/command.proto",
+  __dirname + "../../../../protos/plugin/commands.proto",
+  __dirname + "../../../../protos/plugin/common.proto",
+  __dirname + "../../../../protos/output/global/startUpCommands.proto",
+  __dirname + "../../../../protos/output/global/buildCommands.proto",
+  __dirname + "../../../../protos/output/global/adHocScripts.proto",
+  __dirname + "../../../../protos/output/global/migrationCommands.proto",
+  __dirname + "../../../../protos/output/global/seedCommands.proto",
+  __dirname + "../../../../protos/output/global/command.proto",
 ];
 
 //load proto file

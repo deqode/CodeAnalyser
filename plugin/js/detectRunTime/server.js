@@ -5,8 +5,8 @@ const getPort = require("get-port");
 const methods = require("./methods");
 
 const protoPath = [
-  "protos/plugin/detectRuntime.proto",
-  "protos/plugin/common.proto",
+  __dirname + "../../../../protos/plugin/detectRuntime.proto",
+  __dirname + "../../../../protos/plugin/common.proto",
 ];
 
 //load proto file

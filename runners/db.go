@@ -10,7 +10,11 @@ import (
 	"os/exec"
 )
 
-//ParseDbFromDependencies It will filter out frameworks from dependencies list
+/*
+ParseDbFromDependencies It will filter out frameworks from dependencies list where
+dependenciesList : list of dependencies of any project ,
+langYamlObject : dependencies supported by us
+*/
 func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
 	db := map[string]DependencyDetail{}
 	for key, supportedDb := range langYamlObject.Databases {

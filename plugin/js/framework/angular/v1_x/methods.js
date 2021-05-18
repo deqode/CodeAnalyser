@@ -15,7 +15,7 @@ function isFrameworkUsed(input, callback) {
 
 function percentOfFrameworkUsed(input, callback) {
   let path = input.request.root;
-  callback(null, { value: 15.6, error: null });
+  callback(null, { error: null });
   // callback(reject, { value: null, error: reject })
 }
 

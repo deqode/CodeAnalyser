@@ -47,12 +47,18 @@ func Scrape(path string) {
 					pluginDetails := ParsePluginYamlFile(languagePath)
 					globalPlugins := ParseGlobalPluginYaml("./plugin/globalDetectors")
 					runtimeVersion := runners.DetectRuntime(ctx, path, pluginDetails)
+					//res, err := json.MarshalIndent(pluginDetails.Framework, "", "  ")
+					//if err != nil {
+					//	log.Fatalf(err.Error())
+					//}
+					//fmt.Printf("MarshalIndent funnction output\n %s\n", string(res))
 					runners.RunPreDetectCommand(ctx, &pb.ServiceInput{
 						RuntimeVersion: runtimeVersion,
 						Root:           path,
 					}, pluginDetails)
 					if runtimeVersion != "" {
-						allDependencies := runners.GetParsedDependencis(ctx, runtimeVersion, path, pluginDetails)
+						allDependencies := runners.GetParsedDependencies(ctx, runtimeVersion, path, pluginDetails)
+						log.Println(allDependencies[runners.Framework])
 						languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
 							Name:           language.Name,
 							RuntimeVersion: runtimeVersion,

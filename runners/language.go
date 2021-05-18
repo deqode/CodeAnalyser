@@ -192,8 +192,8 @@ func RunPreDetectCommand(ctx context.Context, input *pluginPb.ServiceInput, plug
 	log.Println("pre detect commands found and executed successfully ")
 }
 
-//GetParsedDependencis get map of parsed dependencies for example beego is a framework
-func GetParsedDependencis(ctx context.Context, languageVersion, path string, pluginDetails *versionsPB.LanguageVersion) map[string]map[string]DependencyDetail {
+//GetParsedDependencies get map of parsed dependencies for example beego is a framework
+func GetParsedDependencies(ctx context.Context, languageVersion, path string, pluginDetails *versionsPB.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
 	var dependenciesCommand *versionsPB.DependencyVersionDetails
 	var runtimeVersion string
