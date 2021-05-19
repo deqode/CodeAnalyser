@@ -3,7 +3,6 @@ package runners
 import (
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	versionsPB "code-analyser/protos/pb/versions"
-	"code-analyser/utils"
 )
 
 type OrmParsingCase struct {
@@ -80,85 +79,85 @@ type OrmRunnerInput struct {
 }
 
 var OrmRunnerCases = []OrmRunnerCase{
-	{
-		Input: OrmRunnerInput{
-			OrmList:        map[string]DependencyDetail{},
-			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
-		},
-		Output: &languageSpecificPB.OrmOutput{
-			Used: false,
-			Orms: []*languageSpecificPB.ORM{},
-		},
-	},
-	{
-		Input: OrmRunnerInput{
-			OrmList: map[string]DependencyDetail{
-				"typeorm": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/typeorm/v1_x/server.js",
-				},
-				"bookshelf": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/bookshelf/v1_x/server.js",
-				},
-			},
-			RuntimeVersion: "",
-			Root:           "/tefsdfstdfdsfingRepos/empfdsfdstyRepo",
-		},
-		Output: &languageSpecificPB.OrmOutput{
-			Used: false,
-			Orms: []*languageSpecificPB.ORM{},
-		},
-	},
-	{
-		Input: OrmRunnerInput{
-			OrmList: map[string]DependencyDetail{
-				"sequelize": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/sequelize/v1_x/server.js",
-				},
-				"bookshelf": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/bookshelf/v1_x/server.js",
-				},
-			},
-			RuntimeVersion: "",
-			Root:           utils.ProjectPath() +"/testingRepos/orm/repo1",
-		},
-		Output: &languageSpecificPB.OrmOutput{
-			Used: true,
-			Orms: []*languageSpecificPB.ORM{
-				{
-					Name:    "sequelize",
-					Version: "v1.x",
-				},
-				{
-					Name:    "bookshelf",
-					Version: "v1.x",
-				},
-			},
-		},
-	},
-	{
-		Input: OrmRunnerInput{
-			OrmList: map[string]DependencyDetail{
-				"typeorm": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/typeorm/v1_x/server.js",
-				},
-			},
-			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/orm/repo2",
-		},
-		Output: &languageSpecificPB.OrmOutput{
-			Used: true,
-			Orms: []*languageSpecificPB.ORM{
-				{
-					Name:    "typeorm",
-					Version: "v1.x",
-				},
-			},
-		},
-	},
+	//{
+	//	Input: OrmRunnerInput{
+	//		OrmList:        map[string]DependencyDetail{},
+	//		RuntimeVersion: "",
+	//		Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+	//	},
+	//	Output: &languageSpecificPB.OrmOutput{
+	//		Used: false,
+	//		Orms: []*languageSpecificPB.ORM{},
+	//	},
+	//},
+	//{
+	//	Input: OrmRunnerInput{
+	//		OrmList: map[string]DependencyDetail{
+	//			"typeorm": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/orm/typeorm/v1_x/server.js",
+	//			},
+	//			"bookshelf": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/orm/bookshelf/v1_x/server.js",
+	//			},
+	//		},
+	//		RuntimeVersion: "",
+	//		Root:           "/tefsdfstdfdsfingRepos/empfdsfdstyRepo",
+	//	},
+	//	Output: &languageSpecificPB.OrmOutput{
+	//		Used: false,
+	//		Orms: []*languageSpecificPB.ORM{},
+	//	},
+	//},
+	//{
+	//	Input: OrmRunnerInput{
+	//		OrmList: map[string]DependencyDetail{
+	//			"sequelize": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/orm/sequelize/v1_x/server.js",
+	//			},
+	//			"bookshelf": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/orm/bookshelf/v1_x/server.js",
+	//			},
+	//		},
+	//		RuntimeVersion: "",
+	//		Root:           utils.ProjectPath() +"/testingRepos/orm/repo1",
+	//	},
+	//	Output: &languageSpecificPB.OrmOutput{
+	//		Used: true,
+	//		Orms: []*languageSpecificPB.ORM{
+	//			{
+	//				Name:    "sequelize",
+	//				Version: "v1.x",
+	//			},
+	//			{
+	//				Name:    "bookshelf",
+	//				Version: "v1.x",
+	//			},
+	//		},
+	//	},
+	//},
+	//{
+	//	Input: OrmRunnerInput{
+	//		OrmList: map[string]DependencyDetail{
+	//			"typeorm": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/orm/typeorm/v1_x/server.js",
+	//			},
+	//		},
+	//		RuntimeVersion: "",
+	//		Root:           utils.ProjectPath() + "/testingRepos/orm/repo2",
+	//	},
+	//	Output: &languageSpecificPB.OrmOutput{
+	//		Used: true,
+	//		Orms: []*languageSpecificPB.ORM{
+	//			{
+	//				Name:    "typeorm",
+	//				Version: "v1.x",
+	//			},
+	//		},
+	//	},
+	//},
 }
