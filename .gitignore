@@ -23,3 +23,4 @@ plugin/go/preDetectCommand/plugin
 plugin/go/staticAssets/plugin
 plugin/go/testCasesCommands/plugin
 cover/
+cover/coverage.out
