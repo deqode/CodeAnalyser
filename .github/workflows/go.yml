@@ -21,7 +21,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         go-version: 14
-      run: bash installNodeModulesPlugin.sh
+      run: installNodeModulesPlugin.sh
 
     - name: Test
       run: make test
