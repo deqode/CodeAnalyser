@@ -24,7 +24,7 @@ jobs:
 
     - name: Setup node modules for plugin
       shell: bash
-      run: installNodeModulesPlugin.sh
+      run: bash installNodeModulesPlugin.sh
 
     - name: Test
       run: make test
