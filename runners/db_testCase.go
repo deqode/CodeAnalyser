@@ -3,7 +3,6 @@ package runners
 import (
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	versionsPB "code-analyser/protos/pb/versions"
-	"code-analyser/utils"
 )
 
 type DbParsingCase struct {
@@ -150,85 +149,85 @@ type DbRunnerInput struct {
 }
 
 var DbRunnerCases = []DbRunnerCase{
-	{
-		Input: DbRunnerInput{
-			DbList: map[string]DependencyDetail{
-				"mongodb": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mongodb/v1_x/server.js",
-				},
-			},
-			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/db/repo1",
-		},
-		Output: &languageSpecificPB.DBOutput{
-			Used: true,
-			Databases: []*languageSpecificPB.DB{
-				{
-					Name:    "mongodb",
-					Version: "v1.x",
-				},
-			},
-		},
-	},
-	{
-		Input: DbRunnerInput{
-			DbList:         map[string]DependencyDetail{},
-			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
-		},
-		Output: &languageSpecificPB.DBOutput{
-			Used:      false,
-			Databases: []*languageSpecificPB.DB{},
-		},
-	},
-	{
-		Input: DbRunnerInput{
-			DbList: map[string]DependencyDetail{
-				"mariadb": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
-				},
-				"redis": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
-				},
-			},
-			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/db/repo2",
-		},
-		Output: &languageSpecificPB.DBOutput{
-			Used: true,
-			Databases: []*languageSpecificPB.DB{
-				{
-					Name:    "mariadb",
-					Version: "v1.x",
-				},
-				{
-					Name:    "redis",
-					Version: "v1.x",
-				},
-			},
-		},
-	},
-	{
-		Input: DbRunnerInput{
-			DbList: map[string]DependencyDetail{
-				"mariadb": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
-				},
-				"redis": {
-					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
-				},
-			},
-			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepdfdsos/dbfsdsf/repo2",
-		},
-		Output: &languageSpecificPB.DBOutput{
-			Used: false,
-			Databases: []*languageSpecificPB.DB{},
-		},
-	},
+	//{
+	//	Input: DbRunnerInput{
+	//		DbList: map[string]DependencyDetail{
+	//			"mongodb": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/db/mongodb/v1_x/server.js",
+	//			},
+	//		},
+	//		RuntimeVersion: "",
+	//		Root:           utils.ProjectPath() + "/testingRepos/db/repo1",
+	//	},
+	//	Output: &languageSpecificPB.DBOutput{
+	//		Used: true,
+	//		Databases: []*languageSpecificPB.DB{
+	//			{
+	//				Name:    "mongodb",
+	//				Version: "v1.x",
+	//			},
+	//		},
+	//	},
+	//},
+	//{
+	//	Input: DbRunnerInput{
+	//		DbList:         map[string]DependencyDetail{},
+	//		RuntimeVersion: "",
+	//		Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+	//	},
+	//	Output: &languageSpecificPB.DBOutput{
+	//		Used:      false,
+	//		Databases: []*languageSpecificPB.DB{},
+	//	},
+	//},
+	//{
+	//	Input: DbRunnerInput{
+	//		DbList: map[string]DependencyDetail{
+	//			"mariadb": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
+	//			},
+	//			"redis": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
+	//			},
+	//		},
+	//		RuntimeVersion: "",
+	//		Root:           utils.ProjectPath() + "/testingRepos/db/repo2",
+	//	},
+	//	Output: &languageSpecificPB.DBOutput{
+	//		Used: true,
+	//		Databases: []*languageSpecificPB.DB{
+	//			{
+	//				Name:    "mariadb",
+	//				Version: "v1.x",
+	//			},
+	//			{
+	//				Name:    "redis",
+	//				Version: "v1.x",
+	//			},
+	//		},
+	//	},
+	//},
+	//{
+	//	Input: DbRunnerInput{
+	//		DbList: map[string]DependencyDetail{
+	//			"mariadb": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
+	//			},
+	//			"redis": {
+	//				Version: "v1.x",
+	//				Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
+	//			},
+	//		},
+	//		RuntimeVersion: "",
+	//		Root:           utils.ProjectPath() + "/testingRepdfdsos/dbfsdsf/repo2",
+	//	},
+	//	Output: &languageSpecificPB.DBOutput{
+	//		Used: false,
+	//		Databases: []*languageSpecificPB.DB{},
+	//	},
+	//},
 }
