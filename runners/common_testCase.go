@@ -327,4 +327,3 @@ var SupportedDependencies = versions.LanguageVersion{
 	DetectTestCasesCommand: "",
 	Commands:               "",
 }
-

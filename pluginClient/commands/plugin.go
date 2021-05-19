@@ -1,4 +1,5 @@
 package commands
+
 import (
 	"code-analyser/GlobalFiles"
 	pb "code-analyser/protos/pb/plugin"

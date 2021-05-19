@@ -24,7 +24,7 @@ var DependencyCases = []DependencyCase{
 		Input: DependencyInput{
 			Ctx:             nil,
 			LanguageVersion: "10.19.0",
-			Path:            commonUtils.ProjectPath() + "/runners/testRepo1",
+			Path:            commonUtils.ProjectPath() + "/testingRepos/parsedDependencies/testRepo1",
 			PluginDetails:   &SupportedDependencies,
 		},
 		Output: map[string]map[string]DependencyDetail{
@@ -52,7 +52,7 @@ var DependencyCases = []DependencyCase{
 		Input: DependencyInput{
 			Ctx:             nil,
 			LanguageVersion: "10.19.0",
-			Path:            commonUtils.ProjectPath() + "/runners/testRepo2",
+			Path:            commonUtils.ProjectPath() + "/testingRepos/parsedDependencies/testRepo2",
 			PluginDetails:   &SupportedDependencies,
 		},
 		Output: map[string]map[string]DependencyDetail{
@@ -83,7 +83,7 @@ var DependencyCases = []DependencyCase{
 		Input: DependencyInput{
 			Ctx:             nil,
 			LanguageVersion: "10.19.0",
-			Path:            commonUtils.ProjectPath() + "/runners/testRepo3",
+			Path:            commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
 			PluginDetails:   &SupportedDependencies,
 		},
 		Output: map[string]map[string]DependencyDetail{

@@ -5,10 +5,12 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	"golang.org/x/net/context"
 )
+
 // GRPCClient is an implementation of FrameworkVersions that talks over RPC.
 type GRPCClient struct {
 	Client pb.DbServiceClient
 }
+
 //TODO handle all errors
 
 //Detect will detect if DB used
@@ -37,6 +39,7 @@ func (G *GRPCClient) PercentOfDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputF
 	})
 	return res, err
 }
+
 //GRPCServer  is the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
 	Impl interfaces.DbVersion

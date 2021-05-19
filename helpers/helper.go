@@ -41,5 +41,3 @@ func SemverValidateFromArray(semverstrings []string, value string) bool {
 	return false
 
 }
-
-

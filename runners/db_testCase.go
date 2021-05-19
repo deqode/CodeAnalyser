@@ -1,20 +1,24 @@
 package runners
 
-import versionsPB "code-analyser/protos/pb/versions"
+import (
+	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
+	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/utils"
+)
 
-type DbCase struct {
-	Input  DbInput
+type DbParsingCase struct {
+	Input  DbParsingInput
 	Output map[string]DependencyDetail
 }
 
-type DbInput struct {
+type DbParsingInput struct {
 	DependenciesList map[string]string
 	LangYamlObject   *versionsPB.LanguageVersion
 }
 
-var DbCases = []DbCase{
+var DbCases = []DbParsingCase{
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"mongodb":  "3.5",
 				"mongoose": "5.5",
@@ -31,7 +35,7 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"mongoose": "5.5",
 				"express":  "6.9",
@@ -47,7 +51,7 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"cassandra-driver": "4.5",
 			},
@@ -61,7 +65,7 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"mariadb": "2.5",
 			},
@@ -75,7 +79,7 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"tedious": "11.3",
 			},
@@ -89,7 +93,7 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"mysql": "2.5",
 			},
@@ -103,7 +107,7 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"mysql2": "2.4",
 			},
@@ -117,7 +121,7 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"oracledb": "5.5",
 			},
@@ -131,7 +135,7 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"pg": "8.5",
 			},
@@ -145,188 +149,94 @@ var DbCases = []DbCase{
 		},
 	},
 	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"postgres": "1.8",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"postgres": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/postgres/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"postgresql-client": "1.8",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"postgres": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/postgres/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"pg-connection-string": "2.4",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"postgres": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/postgres/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"redis": "3.4",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"redis": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/redis/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"handy-redis": "2.4",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"redis": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/redis/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"ioredis": "4.4",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"redis": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/redis/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"redis-fast-driver": "2.8",
-				"express":           "7.8",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"redis": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/redis/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"tedis": "0.8",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"redis": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/redis/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"sqlite": "4.8",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"sqlite": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/sqlite/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"sqlite3": "5.5",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"sqlite": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/sqlite/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"better-sqlite3": "7.8",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"sqlite": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/sqlite/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
-			DependenciesList: map[string]string{
-				"sql.js": "1.8",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"sqlite": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/sqlite/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{},
 			LangYamlObject:   &SupportedDependencies,
 		},
 		Output: map[string]DependencyDetail{},
 	},
 	{
-		Input: DbInput{
+		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"dfgdgdfs": "fgdfsd78789",
 			},
 			LangYamlObject: &SupportedDependencies,
 		},
 		Output: map[string]DependencyDetail{},
+	},
+}
+
+type DbRunnerCase struct {
+	Input  DbRunnerInput
+	Output *languageSpecificPB.DBOutput
+}
+
+type DbRunnerInput struct {
+	DbList         map[string]DependencyDetail
+	RuntimeVersion string
+	Root           string
+}
+
+var DbRunnerCases = []DbRunnerCase{
+	{
+		Input: DbRunnerInput{
+			DbList: map[string]DependencyDetail{
+				"mongodb": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mongodb/v1_x/server.js",
+				},
+			},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath() + "/testingRepos/db/repo1",
+		},
+		Output: &languageSpecificPB.DBOutput{
+			Used: true,
+			Databases: []*languageSpecificPB.DB{
+				{
+					Name:    "mongodb",
+					Version: "v1.x",
+				},
+			},
+		},
+	},
+	{
+		Input: DbRunnerInput{
+			DbList:         map[string]DependencyDetail{},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+		},
+		Output: &languageSpecificPB.DBOutput{
+			Used:      false,
+			Databases: []*languageSpecificPB.DB{},
+		},
+	},
+	{
+		Input: DbRunnerInput{
+			DbList: map[string]DependencyDetail{
+				"mariadb": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
+				},
+				"redis": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
+				},
+			},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath() + "/testingRepos/db/repo2",
+		},
+		Output: &languageSpecificPB.DBOutput{
+			Used: true,
+			Databases: []*languageSpecificPB.DB{
+				{
+					Name:    "mariadb",
+					Version: "v1.x",
+				},
+				{
+					Name:    "redis",
+					Version: "v1.x",
+				},
+			},
+		},
 	},
 }

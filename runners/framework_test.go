@@ -7,7 +7,7 @@ import (
 )
 
 func TestFrameworkParsing(t *testing.T) {
-	for i, element := range FrameworkCases {
+	for i, element := range FrameworkParsingCases {
 		input := element.Input
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {

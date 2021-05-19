@@ -19,3 +19,17 @@ func TestDbParsing(t *testing.T) {
 		})
 	}
 }
+
+func TestDbRunner(t *testing.T) {
+	for i, element := range DbRunnerCases {
+		input := element.Input
+		output := element.Output
+		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
+			t.Parallel()
+			got := DbRunner(input.DbList, input.RuntimeVersion, input.Root)
+			if !reflect.DeepEqual(got, output) {
+				t.Error("expected this ", output, "\n got this ", got)
+			}
+		})
+	}
+}

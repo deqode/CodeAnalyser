@@ -1,27 +1,30 @@
 package runners
 
-import versionsPB "code-analyser/protos/pb/versions"
+import (
+	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
+	versionsPB "code-analyser/protos/pb/versions"
+)
 
-type FrameworkCase struct {
-	Input  FrameworkInput
+type FrameworkParsingCase struct {
+	Input  FrameworkParsingInput
 	Output map[string]DependencyDetail
 }
 
-type FrameworkInput struct {
+type FrameworkParsingInput struct {
 	DependenciesList map[string]string
 	LangYamlObject   *versionsPB.LanguageVersion
 }
 
-var FrameworkCases = []FrameworkCase{
+var FrameworkParsingCases = []FrameworkParsingCase{
 	{
-		Input: FrameworkInput{
+		Input: FrameworkParsingInput{
 			DependenciesList: map[string]string{},
 			LangYamlObject:   &SupportedDependencies,
 		},
 		Output: map[string]DependencyDetail{},
 	},
 	{
-		Input: FrameworkInput{
+		Input: FrameworkParsingInput{
 			DependenciesList: map[string]string{
 				"gdfsgd": "dsfdsf",
 			},
@@ -30,7 +33,7 @@ var FrameworkCases = []FrameworkCase{
 		Output: map[string]DependencyDetail{},
 	},
 	{
-		Input: FrameworkInput{
+		Input: FrameworkParsingInput{
 			DependenciesList: map[string]string{
 				"next":    "10.1",
 				"express": "4.5",
@@ -50,9 +53,9 @@ var FrameworkCases = []FrameworkCase{
 		},
 	},
 	{
-		Input: FrameworkInput{
+		Input: FrameworkParsingInput{
 			DependenciesList: map[string]string{
-				"vue":    "2.5",
+				"vue": "2.5",
 			},
 			LangYamlObject: &SupportedDependencies,
 		},
@@ -62,5 +65,27 @@ var FrameworkCases = []FrameworkCase{
 				Command: "node plugin/js/framework/vue/v1_x/server.js",
 			},
 		},
+	},
+}
+
+type FrameworkRunnerCase struct {
+	Input  FrameworkRunnerInput
+	Output []*languageSpecificPB.FrameworkOutput
+}
+
+type FrameworkRunnerInput struct {
+	FrameworkList  map[string]DependencyDetail
+	RuntimeVersion string
+	Root           string
+}
+
+var FrameworkRunnerCases = []FrameworkRunnerCase{
+	{
+		Input: FrameworkRunnerInput{
+			FrameworkList:  nil,
+			RuntimeVersion: "",
+			Root:           "",
+		},
+		Output: nil,
 	},
 }
