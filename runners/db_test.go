@@ -1,6 +1,7 @@
 package runners
 
 import (
+	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	"reflect"
 	"strconv"
 	"testing"
@@ -27,7 +28,15 @@ func TestDbRunner(t *testing.T) {
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
 			got := DbRunner(input.DbList, input.RuntimeVersion, input.Root)
-			if !reflect.DeepEqual(got, output) {
+			gotMap := map[string]*languageSpecificPB.DB{}
+			for _, value := range got.Databases {
+				gotMap[value.Name] = value
+			}
+			outputMap := map[string]*languageSpecificPB.DB{}
+			for _, value := range output.Databases {
+				outputMap[value.Name] = value
+			}
+			if !reflect.DeepEqual(gotMap, outputMap) || output.Used != got.Used {
 				t.Error("expected this ", output, "\n got this ", got)
 			}
 		})

@@ -217,10 +217,10 @@ var DbRunnerCases = []DbRunnerCase{
 					Version: "v1.x",
 					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
 				},
-				//"redis": {
-				//	Version: "v1.x",
-				//	Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
-				//},
+				"redis": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
+				},
 			},
 			RuntimeVersion: "",
 			Root:           utils.ProjectPath() + "/testingRepos/db/repo2",
@@ -232,10 +232,10 @@ var DbRunnerCases = []DbRunnerCase{
 					Name:    "mariadb",
 					Version: "v1.x",
 				},
-				//{
-				//	Name:    "redis",
-				//	Version: "v1.x",
-				//},
+				{
+					Name:    "redis",
+					Version: "v1.x",
+				},
 			},
 		},
 	},
