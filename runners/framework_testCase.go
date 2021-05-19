@@ -3,6 +3,7 @@ package runners
 import (
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/utils"
 )
 
 type FrameworkParsingCase struct {
@@ -82,10 +83,57 @@ type FrameworkRunnerInput struct {
 var FrameworkRunnerCases = []FrameworkRunnerCase{
 	{
 		Input: FrameworkRunnerInput{
-			FrameworkList:  nil,
+			FrameworkList: map[string]DependencyDetail{
+				"express": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/express/v1_x/server.js",
+				},
+			},
 			RuntimeVersion: "",
-			Root:           "",
+			Root:           utils.ProjectPath() + "/testingRepos/framework/repo1",
 		},
-		Output: nil,
+		Output: []*languageSpecificPB.FrameworkOutput{
+			{
+				Used:    true,
+				Name:    "express",
+				Version: "v1.x",
+			},
+		},
+	},
+	{
+		Input: FrameworkRunnerInput{
+			FrameworkList: map[string]DependencyDetail{
+				"angular": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/angular/v1_x/server.js",
+				},
+				"nest": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/nest/v1_x/server.js",
+				},
+			},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath() + "/testingRepos/framework/repo2",
+		},
+		Output: []*languageSpecificPB.FrameworkOutput{
+			{
+				Used:    true,
+				Name:    "nest",
+				Version: "v1.x",
+			},
+			{
+				Used:    false,
+				Name:    "angular",
+				Version: "v1.x",
+			},
+		},
+	},
+	{
+		Input: FrameworkRunnerInput{
+			FrameworkList:  map[string]DependencyDetail{},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+		},
+		Output: []*languageSpecificPB.FrameworkOutput{},
 	},
 }
