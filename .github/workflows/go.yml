@@ -20,7 +20,10 @@ jobs:
     - name: Set up Node
       uses: actions/setup-node@v2
       with:
-        go-version: 14
+        node-version: 14
+
+    - name: Setup node modules for plugin
+      shell: bash
       run: installNodeModulesPlugin.sh
 
     - name: Test
