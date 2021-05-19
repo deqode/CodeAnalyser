@@ -1,0 +1,17 @@
+{
+  "name": "testrepo2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/core": "^7.6.15",
+    "mariadb": "^2.5.3",
+    "react": "^17.0.2",
+    "typeorm": "^0.2.32"
+  }
+}
