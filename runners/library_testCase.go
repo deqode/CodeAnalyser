@@ -1,29 +1,30 @@
 package runners
 
 import (
+	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	versionsPB "code-analyser/protos/pb/versions"
 )
 
-type LibrariesCase struct {
-	Input  LibrariesInput
+type LibrariesParsingCase struct {
+	Input  LibrariesParsingInput
 	Output map[string]DependencyDetail
 }
 
-type LibrariesInput struct {
+type LibrariesParsingInput struct {
 	DependenciesList map[string]string
 	LangYamlObject   *versionsPB.LanguageVersion
 }
 
-var LibrariesCases = []LibrariesCase{
+var LibrariesParsingCases = []LibrariesParsingCase{
 	{
-		Input: LibrariesInput{
+		Input: LibrariesParsingInput{
 			DependenciesList: map[string]string{},
 			LangYamlObject:   &SupportedDependencies,
 		},
 		Output: map[string]DependencyDetail{},
 	},
 	{
-		Input: LibrariesInput{
+		Input: LibrariesParsingInput{
 			DependenciesList: map[string]string{
 				"sdgdfg": "sfd454",
 			},
@@ -32,7 +33,7 @@ var LibrariesCases = []LibrariesCase{
 		Output: map[string]DependencyDetail{},
 	},
 	{
-		Input: LibrariesInput{
+		Input: LibrariesParsingInput{
 			DependenciesList: map[string]string{
 				"kafka-node": "5.6",
 				"react":      "17.5",
@@ -56,7 +57,7 @@ var LibrariesCases = []LibrariesCase{
 		},
 	},
 	{
-		Input: LibrariesInput{
+		Input: LibrariesParsingInput{
 			DependenciesList: map[string]string{
 				"knex": "0.6",
 			},
@@ -68,5 +69,23 @@ var LibrariesCases = []LibrariesCase{
 				Command: "node plugin/js/libraries/knex/v1_x/server.js",
 			},
 		},
+	},
+}
+
+type LibraryRunnerCase struct {
+	Input  LibraryRunnerInput
+	Output []*languageSpecificPB.LibraryOutput
+}
+
+type LibraryRunnerInput struct {
+	LibraryList    map[string]DependencyDetail
+	RuntimeVersion string
+	Root           string
+}
+
+var LibraryRunnerCases = []LibraryRunnerCase{
+	{
+		Input:  LibraryRunnerInput{},
+		Output: nil,
 	},
 }
