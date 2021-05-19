@@ -53,8 +53,8 @@ func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runt
 		RuntimeVersion: runtimeVersion,
 		Root:           root,
 	})
-	if err != nil {
-		utils.Logger(err)
+	if err != nil || isUsed.Error != nil {
+		utils.Logger(err, isUsed.Error)
 		return nil
 	}
 	if isUsed.Value {
@@ -62,8 +62,8 @@ func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runt
 			RuntimeVersion: runtimeVersion,
 			Root:           root,
 		})
-		if err != nil {
-			utils.Logger(err)
+		if err != nil || detection.Error != nil {
+			utils.Logger(err, detection.Error)
 			return nil
 		}
 		if detection.Value {
@@ -71,8 +71,8 @@ func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runt
 				RuntimeVersion: runtimeVersion,
 				Root:           root,
 			})
-			if err != nil {
-				utils.Logger(err)
+			if err != nil || detection.Error != nil {
+				utils.Logger(err, detection.Error)
 				return nil
 			}
 			return &languageSpecificPB.FrameworkOutput{

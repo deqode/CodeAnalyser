@@ -63,8 +63,8 @@ func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, r
 		RuntimeVersion: runTimeVersion,
 		Root:           root,
 	})
-	if err != nil {
-		utils.Logger(err)
+	if err != nil || isUsed.Error != nil {
+		utils.Logger(err, isUsed.Error)
 		return nil
 	}
 
@@ -73,8 +73,8 @@ func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, r
 			RuntimeVersion: runTimeVersion,
 			Root:           root,
 		})
-		if err != nil {
-			utils.Logger(err)
+		if err != nil || detection.Error != nil {
+			utils.Logger(err, detection.Error)
 			return nil
 		}
 		if detection.Value {

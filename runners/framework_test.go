@@ -34,9 +34,8 @@ func TestFrameworkRunner(t *testing.T) {
 			}
 			outputMap := map[string]*languageSpecificPB.FrameworkOutput{}
 			for _, value := range output {
-				if value.Used == true {
-					outputMap[value.Name] = value
-				}
+				outputMap[value.Name] = value
+
 			}
 			if !reflect.DeepEqual(gotMap, outputMap) {
 				t.Error("expected this ", output, "\n got this ", got)

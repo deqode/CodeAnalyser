@@ -107,9 +107,9 @@ var FrameworkRunnerCases = []FrameworkRunnerCase{
 					Version: "v1.x",
 					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/angular/v1_x/server.js",
 				},
-				"nest": {
+				"gatsby": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/nest/v1_x/server.js",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/gatsby/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
@@ -118,12 +118,7 @@ var FrameworkRunnerCases = []FrameworkRunnerCase{
 		Output: []*languageSpecificPB.FrameworkOutput{
 			{
 				Used:    true,
-				Name:    "nest",
-				Version: "v1.x",
-			},
-			{
-				Used:    false,
-				Name:    "angular",
+				Name:    "gatsby",
 				Version: "v1.x",
 			},
 		},
@@ -133,6 +128,23 @@ var FrameworkRunnerCases = []FrameworkRunnerCase{
 			FrameworkList:  map[string]DependencyDetail{},
 			RuntimeVersion: "",
 			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+		},
+		Output: []*languageSpecificPB.FrameworkOutput{},
+	},
+	{
+		Input: FrameworkRunnerInput{
+			FrameworkList: map[string]DependencyDetail{
+				"angular": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/angular/v1_x/server.js",
+				},
+				"gatsby": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/gatsby/v1_x/server.js",
+				},
+			},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath() + "/testingfdsfsRepos/fsdfdsframework/repo2",
 		},
 		Output: []*languageSpecificPB.FrameworkOutput{},
 	},

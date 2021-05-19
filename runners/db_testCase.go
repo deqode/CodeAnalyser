@@ -53,20 +53,6 @@ var DbCases = []DbParsingCase{
 	{
 		Input: DbParsingInput{
 			DependenciesList: map[string]string{
-				"cassandra-driver": "4.5",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"cassandra": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/cassandra/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbParsingInput{
-			DependenciesList: map[string]string{
 				"mariadb": "2.5",
 			},
 			LangYamlObject: &SupportedDependencies,
@@ -96,20 +82,6 @@ var DbCases = []DbParsingCase{
 		Input: DbParsingInput{
 			DependenciesList: map[string]string{
 				"mysql": "2.5",
-			},
-			LangYamlObject: &SupportedDependencies,
-		},
-		Output: map[string]DependencyDetail{
-			"mysql": {
-				Version: "v1.x",
-				Command: "node plugin/js/db/mysql/v1_x/server.js",
-			},
-		},
-	},
-	{
-		Input: DbParsingInput{
-			DependenciesList: map[string]string{
-				"mysql2": "2.4",
 			},
 			LangYamlObject: &SupportedDependencies,
 		},
@@ -237,6 +209,26 @@ var DbRunnerCases = []DbRunnerCase{
 					Version: "v1.x",
 				},
 			},
+		},
+	},
+	{
+		Input: DbRunnerInput{
+			DbList: map[string]DependencyDetail{
+				"mariadb": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
+				},
+				"redis": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
+				},
+			},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath() + "/testingRepdfdsos/dbfsdsf/repo2",
+		},
+		Output: &languageSpecificPB.DBOutput{
+			Used: false,
+			Databases: []*languageSpecificPB.DB{},
 		},
 	},
 }

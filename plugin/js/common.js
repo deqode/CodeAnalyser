@@ -13,7 +13,6 @@ function requirePathCheck(path, callback, message = "path doesn't exist ") {
     let jsonFile = require(path);
     return jsonFile;
   } catch (error) {
-    console.log(error);
     callback(null, {
       value: null,
       error: {
