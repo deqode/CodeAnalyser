@@ -22,3 +22,4 @@ plugin/go/orm/gorm/V_1_X/plugin
 plugin/go/preDetectCommand/plugin
 plugin/go/staticAssets/plugin
 plugin/go/testCasesCommands/plugin
+cover/
