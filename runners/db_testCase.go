@@ -224,7 +224,7 @@ var DbRunnerCases = []DbRunnerCase{
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepdfdsos/dbfsdsf/repo2",
+			Root:           utils.ProjectPath() + "/testingRepos/dbfsdsf/repo2",
 		},
 		Output: &languageSpecificPB.DBOutput{
 			Used: false,

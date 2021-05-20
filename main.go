@@ -47,11 +47,6 @@ func Scrape(path string) {
 					pluginDetails := ParsePluginYamlFile(languagePath)
 					globalPlugins := ParseGlobalPluginYaml("./plugin/globalDetectors")
 					runtimeVersion := runners.DetectRuntime(ctx, path, pluginDetails)
-					//res, err := json.MarshalIndent(pluginDetails.Framework, "", "  ")
-					//if err != nil {
-					//	log.Fatalf(err.Error())
-					//}
-					//fmt.Printf("MarshalIndent funnction output\n %s\n", string(res))
 					runners.RunPreDetectCommand(ctx, &pb.ServiceInput{
 						RuntimeVersion: runtimeVersion,
 						Root:           path,
@@ -71,20 +66,21 @@ func Scrape(path string) {
 						decisionMakerInput.GloabalDetections = &gloabalDetections
 						decisionMakerInput.Commands = &commands
 						mutex.Unlock()
-						for _, v := range decisionMakerInput.LanguageSpecificDetection {
-							log.Println("Language identified as ", v.Name, "& version", v.RuntimeVersion)
-							for _, f := range v.Framework {
-								log.Println("Framework identified as ", f.Name, f.Version)
-							}
-							for _, f := range v.Db.Databases {
-								log.Println("Database identified as ", f.Name, f.Version, f.Port)
-							}
-							log.Println(v.Commands)
-							log.Println(v.Env)
-							log.Println(v.TestCases)
-							log.Println(v.Libraries)
-							log.Println(v.Orm)
-						}
+						log.Println(decisionMakerInput.LanguageSpecificDetection)
+						//for _, v := range decisionMakerInput.LanguageSpecificDetection {
+						//	log.Println("Language identified as ", v.Name, "& version", v.RuntimeVersion)
+						//	for _, f := range v.Framework {
+						//		log.Println("Framework identified as ", f.Name, f.Version)
+						//	}
+						//	for _, f := range v.Db.Databases {
+						//		log.Println("Database identified as ", f.Name, f.Version, f.Port)
+						//	}
+						//	log.Println(v.Commands)
+						//	log.Println(v.Env)
+						//	log.Println(v.TestCases)
+						//	log.Println(v.Libraries)
+						//	log.Println(v.Orm)
+						//}
 					}
 
 				}

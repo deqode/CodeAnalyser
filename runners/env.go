@@ -12,26 +12,27 @@ import (
 //EnvDetectAndRunner will run to find Frameworks & returns its detectors.
 func EnvDetectAndRunner(pluginDetails *versionsPB.LanguageVersion, runtimeVersion, root string) *languageSpecific.EnvOutput {
 	res, client := pluginClient.EnvPluginCall(exec.Command("sh", "-c", pluginDetails.DetectEnvCommand))
-	defer func() {
-		for client.Exited() {
-			client.Kill()
-		}
-	}()
+
+	for client.Exited() {
+		client.Kill()
+	}
+
 	detection, err := res.Detect(&pb.ServiceInput{
 		RuntimeVersion: runtimeVersion,
 		Root:           root,
 	})
-	if err != nil {
-		utils.Logger(err)
+	if err != nil || detection.Error != nil {
+		utils.Logger(err, detection.Error)
 		return nil
 	}
 
-	if detection.EnvKeyValues != nil || detection.Keys != nil {
-		return &languageSpecific.EnvOutput{
-			EnvUsed:      true,
-			EnvKeyValues: detection.EnvKeyValues,
-			Variables:    detection.Keys,
-		}
+	envOutput := languageSpecific.EnvOutput{
+		EnvUsed: false,
 	}
-	return nil
+	if detection.EnvKeyValues != nil || detection.Keys != nil {
+		envOutput.EnvUsed = true
+		envOutput.EnvKeyValues = detection.EnvKeyValues
+		envOutput.Variables = detection.Keys
+	}
+	return &envOutput
 }

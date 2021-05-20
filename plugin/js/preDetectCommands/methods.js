@@ -4,7 +4,7 @@ const common = require("../common");
 
 function runPreDetect(input, callback) {
   let path = input.request.root;
-  var packageJsonFile = common.requirePathCheck(
+  var packageJsonFile = common.requireJsonFile(
     path + "/package.json",
     callback,
     "package.json file not found"

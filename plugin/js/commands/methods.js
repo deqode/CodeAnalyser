@@ -3,7 +3,7 @@ const common = require("../common");
 
 function detectBuildCommands(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
     let command;
     if (jsonFile.scripts) {
@@ -28,7 +28,7 @@ function detectBuildCommands(input, callback) {
 
 function detectStartUpCommands(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
     let command = jsonFile.scripts
       ? jsonFile.scripts.start
@@ -52,7 +52,7 @@ function detectStartUpCommands(input, callback) {
 
 function detectSeedCommands(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
     let command;
     if (jsonFile.scripts) {
@@ -77,7 +77,7 @@ function detectSeedCommands(input, callback) {
 
 function detectMigrationCommands(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
     let command;
     if (jsonFile.scripts) {
@@ -102,7 +102,7 @@ function detectMigrationCommands(input, callback) {
 
 function detectAdHocScripts(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
     let command;
     if (jsonFile.scripts) {

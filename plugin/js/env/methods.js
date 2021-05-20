@@ -8,7 +8,7 @@ function detect(input, callback) {
   common.requirePathCheck(
     dirPath,
     callback,
-    "directory path not found"
+    "directory path not found" + dirPath.toString()
   );
   let envKeyValues = {};
 
