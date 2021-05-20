@@ -7,6 +7,7 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
+	"log"
 	"os/exec"
 )
 
@@ -55,6 +56,7 @@ func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *
 
 //DbDetectorRunner It will execute plugin from command fetched from yaml file of same plugin
 func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *languageSpecificPB.DB {
+	log.Fatalln(dbDetails.Command)
 	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", dbDetails.Command))
 	for client.Exited() {
 		client.Kill()
