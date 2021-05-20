@@ -3,6 +3,7 @@ package runners
 import (
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
 	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/utils"
 )
 
 type LibrariesParsingCase struct {
@@ -85,7 +86,75 @@ type LibraryRunnerInput struct {
 
 var LibraryRunnerCases = []LibraryRunnerCase{
 	{
-		Input:  LibraryRunnerInput{},
-		Output: nil,
+		Input: LibraryRunnerInput{
+			LibraryList: map[string]DependencyDetail{
+				"react": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/react/v1_x/server.js",
+				},
+			},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath()+"/testingRepos/libraries/repo1",
+		},
+		Output: []*languageSpecificPB.LibraryOutput{
+			{
+				Used:    true,
+				Name:    "react",
+				Version: "v1.x",
+			},
+		},
+	},
+	{
+		Input: LibraryRunnerInput{
+			LibraryList: map[string]DependencyDetail{
+				"kafka-node": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/kafka/v1_x/server.js",
+				},
+				"mongoose": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/mongoose/v1_x/server.js",
+				},
+			},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath()+"/testingRepos/libraries/repo2",
+		},
+		Output: []*languageSpecificPB.LibraryOutput{
+			{
+				Used:    true,
+				Name:    "kafka-node",
+				Version: "v1.x",
+			},
+			{
+				Used:    true,
+				Name:    "mongoose",
+				Version: "v1.x",
+			},
+		},
+	},
+	{
+		Input: LibraryRunnerInput{
+			LibraryList: map[string]DependencyDetail{
+				"kafka-node": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/kafka/v1_x/server.js",
+				},
+				"mongoose": {
+					Version: "v1.x",
+					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/mongoose/v1_x/server.js",
+				},
+			},
+			RuntimeVersion: "",
+			Root:           "dfsdf",
+		},
+		Output: []*languageSpecificPB.LibraryOutput{},
+	},
+	{
+		Input: LibraryRunnerInput{
+			LibraryList:    map[string]DependencyDetail{},
+			RuntimeVersion: "",
+			Root:           utils.ProjectPath()+"/testingRepos/emptyRepo",
+		},
+		Output: []*languageSpecificPB.LibraryOutput{},
 	},
 }
