@@ -43,11 +43,26 @@ func TestGetCommands(t *testing.T) {
 			t.Parallel()
 			var got DetectCommandOutput
 			got.SeedCommand, got.BuildCommand, got.MigrationCommand, got.StartUpCommand, got.AdHocScripts = GetCommands(input.Ctx, input.Input, input.PluginDetails)
-			RunTestCommand(got.BuildCommand.Used, output.BuildCommand.Used, got.BuildCommand.BuildCommands, output.BuildCommand.BuildCommands, t)
-			RunTestCommand(got.SeedCommand.Used, output.SeedCommand.Used, got.SeedCommand.SeedCommands, output.SeedCommand.SeedCommands, t)
-			RunTestCommand(got.StartUpCommand.Used, output.StartUpCommand.Used, got.StartUpCommand.StartUpCommands, output.StartUpCommand.StartUpCommands, t)
-			RunTestCommand(got.MigrationCommand.Used, output.MigrationCommand.Used, got.MigrationCommand.MigrationCommands, output.MigrationCommand.MigrationCommands, t)
-			RunTestCommand(got.AdHocScripts.Used, output.AdHocScripts.Used, got.AdHocScripts.AdHocScripts, output.AdHocScripts.AdHocScripts, t)
+			t.Run("Build command", func(r *testing.T) {
+				r.Parallel()
+				RunTestCommand(got.BuildCommand.Used, output.BuildCommand.Used, got.BuildCommand.BuildCommands, output.BuildCommand.BuildCommands, t)
+			})
+			t.Run("seed command", func(r *testing.T) {
+				r.Parallel()
+				RunTestCommand(got.SeedCommand.Used, output.SeedCommand.Used, got.SeedCommand.SeedCommands, output.SeedCommand.SeedCommands, t)
+			})
+			t.Run("startup command", func(r *testing.T) {
+				r.Parallel()
+				RunTestCommand(got.StartUpCommand.Used, output.StartUpCommand.Used, got.StartUpCommand.StartUpCommands, output.StartUpCommand.StartUpCommands, t)
+			})
+			t.Run("migration command", func(r *testing.T) {
+				r.Parallel()
+				RunTestCommand(got.MigrationCommand.Used, output.MigrationCommand.Used, got.MigrationCommand.MigrationCommands, output.MigrationCommand.MigrationCommands, t)
+			})
+			t.Run("Adhoc script", func(r *testing.T) {
+				r.Parallel()
+				RunTestCommand(got.AdHocScripts.Used, output.AdHocScripts.Used, got.AdHocScripts.AdHocScripts, output.AdHocScripts.AdHocScripts, t)
+			})
 		})
 
 	}
