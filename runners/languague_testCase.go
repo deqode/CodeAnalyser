@@ -133,11 +133,38 @@ type DetectTestCommandInput struct {
 var DetectTestCommandCases = []DetectTestCommandCase{
 	{
 		Input: DetectTestCommandInput{
-			Ctx:           nil,
-			Input:         nil,
+			Ctx: nil,
+			Input: &pluginPb.ServiceInput{
+				RuntimeVersion: "",
+				Root:           commonUtils.ProjectPath() + "/testingRepos/detectTestCase/repo1",
+			},
 			PluginDetails: &SupportedDependencies,
 		},
-		Output: nil,
+		Output: &languageSpecific.TestCasesCommandOutput{
+			Used: true,
+			Commands: []*global.Command{
+				{
+					Command: "npm",
+					Args:    []string{"test:map"},
+				},
+				{
+					Command: "npm",
+					Args:    []string{"test"},
+				},
+			},
+		},
+	},
+	{
+		Input: DetectTestCommandInput{
+			Ctx: nil,
+			Input: &pluginPb.ServiceInput{
+				RuntimeVersion: "",
+				Root:           commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			},
+			PluginDetails: &SupportedDependencies,
+		},
+		Output: &languageSpecific.TestCasesCommandOutput{
+		},
 	},
 }
 
@@ -158,4 +185,108 @@ type DetectCommandInput struct {
 	Ctx           context.Context
 	Input         *pluginPb.ServiceInput
 	PluginDetails *versions.LanguageVersion
+}
+
+var DetectCommandCases = []DetectCommandCase{
+	{
+		Input: DetectCommandInput{
+			Ctx: nil,
+			Input: &pluginPb.ServiceInput{
+				RuntimeVersion: "",
+				Root:           commonUtils.ProjectPath() + "/testingRepos/commands/repo1",
+			},
+			PluginDetails: &SupportedDependencies,
+		},
+		Output: DetectCommandOutput{
+			SeedCommand: &global.SeedCommandsOutput{
+				Used: true,
+				SeedCommands: []*global.Command{
+					{
+						Command: "npm run ",
+						Args:    []string{"seed:map"},
+					},
+					{
+						Command: "npm run ",
+						Args:    []string{"seed"},
+					},
+				},
+			},
+			BuildCommand: &global.BuildCommandsOutput{
+				Used: true,
+				BuildCommands: []*global.Command{
+					{
+						Command: "npm run ",
+						Args:    []string{"build:sw"},
+					},
+					{
+						Command: "npm run ",
+						Args:    []string{"build"},
+					},
+					{
+						Command: "npm run ",
+						Args:    []string{"postbuild"},
+					},
+				},
+			},
+			MigrationCommand: &global.MigrationCommandsOutput{
+				Used: true,
+				MigrationCommands: []*global.Command{
+					{
+						Command: "npm run ",
+						Args:    []string{"migration:sw"},
+					},
+				},
+			},
+			StartUpCommand: &global.StartUpCommandsOutput{
+				Used: true,
+				StartUpCommands: []*global.Command{
+					{
+						Command: "npm ",
+						Args:    []string{"start"},
+					},
+				},
+			},
+			AdHocScripts: &global.AdHocScriptsOutput{
+				Used: true,
+				AdHocScripts: []*global.Command{
+					{
+						Command: "npm run ",
+						Args:    []string{"adhoc:so"},
+					},
+				},
+			},
+		},
+	},
+	{
+		Input: DetectCommandInput{
+			Ctx: nil,
+			Input: &pluginPb.ServiceInput{
+				RuntimeVersion: "",
+				Root:           commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			},
+			PluginDetails: &SupportedDependencies,
+		},
+		Output: DetectCommandOutput{
+			SeedCommand: &global.SeedCommandsOutput{
+				Used:         false,
+				SeedCommands: []*global.Command{},
+			},
+			BuildCommand: &global.BuildCommandsOutput{
+				Used:          false,
+				BuildCommands: []*global.Command{},
+			},
+			MigrationCommand: &global.MigrationCommandsOutput{
+				Used:              false,
+				MigrationCommands: []*global.Command{},
+			},
+			StartUpCommand: &global.StartUpCommandsOutput{
+				Used:            false,
+				StartUpCommands: []*global.Command{},
+			},
+			AdHocScripts: &global.AdHocScriptsOutput{
+				Used:         false,
+				AdHocScripts: []*global.Command{},
+			},
+		},
+	},
 }

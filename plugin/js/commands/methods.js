@@ -18,10 +18,7 @@ function detectBuildCommands(input, callback) {
           command: "npm run ",
           args: element.split(' '),
         })
-        ) : [{
-          command: "",
-          args: [],
-        }]
+        ) : []
       },
       error: null,
     });
@@ -38,15 +35,19 @@ function detectStartUpCommands(input, callback) {
         : false
       : false;
     callback(null, {
-      startUpCommands: {
-        used: command,
-        startUpCommands: [
-          {
-            command: command ? "npm" : "",
-            args: command ? [" start"] : [],
-          },
-        ],
-      },
+      startUpCommands:
+        command ? {
+          used: true,
+          startUpCommands: [
+            {
+              command: "npm ",
+              args: ["start"],
+            },
+          ],
+        } : {
+          used: false,
+          startUpCommands: []
+        },
       error: null,
     });
   }
@@ -63,16 +64,17 @@ function detectSeedCommands(input, callback) {
       });
     }
     callback(null, {
-      seedCommands: {
-        used: command.length ? true : false,
-        seedCommands: command.length ? command.map(element => ({
-          command: "npm run ",
-          args: element.split(' '),
-        })
-        ) : [{
-          command: "",
-          args: [],
-        }]
+      seedCommands: command.length ? {
+        used: true,
+        seedCommands: command.map(
+          element => ({
+            command: "npm run ",
+            args: element.split(' '),
+          })
+        )
+      } : {
+        used: false,
+        seedCommands: []
       },
       error: null,
     });
@@ -87,20 +89,21 @@ function detectMigrationCommands(input, callback) {
     let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("migrate") != -1) command.push(element);
+        if (element.search("migrat") != -1) command.push(element);
       });
     }
     callback(null, {
-      migrationCommands: {
-        used: command.length ? true : false,
-        migrationCommand: command.length ? command.map(element => ({
-          command: "npm run ",
-          args: element.split(' '),
-        })
-        ) : [{
-          command: "",
-          args: [],
-        }]
+      migrationCommands: command.length ? {
+        used: true,
+        migrationCommands: command.map(
+          element => ({
+            command: "npm run ",
+            args: element.split(' '),
+          })
+        )
+      } : {
+        used: false,
+        migrationCommands: []
       },
       error: null,
     });
@@ -125,10 +128,7 @@ function detectAdHocScripts(input, callback) {
           command: "npm run ",
           args: element.split(' '),
         })
-        ) : [{
-          command: "",
-          args: [],
-        }]
+        ) : []
       },
       error: null,
     });

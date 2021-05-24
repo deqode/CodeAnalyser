@@ -15,10 +15,7 @@ function detect(input, callback) {
         command: "npm",
         args: [element],
       }))
-        : [{
-          command: "",
-          args: [],
-        }],
+        : [],
       error: null,
     });
   }

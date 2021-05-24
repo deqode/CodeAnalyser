@@ -121,7 +121,6 @@ func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetail
 	defer func() {
 		for client.Exited() {
 			client.Kill()
-			log.Println("client kill")
 		}
 	}()
 	var err error
