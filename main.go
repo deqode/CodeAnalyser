@@ -7,6 +7,7 @@ import (
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
 	"log"
+	"math"
 	"sync"
 
 	"golang.org/x/net/context"
@@ -16,7 +17,7 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	Scrape("/home/deqode/Downloads/basicRepo")
+	Scrape("/home/deqode/Downloads/covid19india-react-master")
 }
 
 //Scrape it scrape language, framework, orm etc .....
@@ -30,8 +31,12 @@ func Scrape(path string) {
 	var wg sync.WaitGroup
 	var mutex = &sync.Mutex{}
 	var ctx context.Context = nil
+	var mxLang = 0.0
+	for _, lang := range languages {
+		mxLang = math.Max(mxLang, lang.Percent)
+	}
 	for _, language := range languages {
-		if language.Percent > 70 {
+		if language.Percent == mxLang {
 			wg.Add(1)
 			language := language
 			go func() {

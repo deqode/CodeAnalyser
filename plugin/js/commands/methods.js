@@ -5,21 +5,23 @@ function detectBuildCommands(input, callback) {
   let path = input.request.root;
   let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
-    let command;
+    let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("build") != -1) command = element;
+        if (element.search("build") != -1) command.push(element);
       });
     }
     callback(null, {
       buildCommands: {
-        used: command ? true : false,
-        buildCommands: [
-          {
-            command: command ? "npm run " : "",
-            args: command ? [command] : [],
-          },
-        ],
+        used: command.length ? true : false,
+        buildCommands: command.length ? command.map(element => ({
+          command: "npm run ",
+          args: element.split(' '),
+        })
+        ) : [{
+          command: "",
+          args: [],
+        }]
       },
       error: null,
     });
@@ -54,71 +56,79 @@ function detectSeedCommands(input, callback) {
   let path = input.request.root;
   let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
-    let command;
+    let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("seed") != -1) command = element;
+        if (element.search("seed") != -1) command.push(element);
       });
     }
     callback(null, {
       seedCommands: {
-        used: command ? true : false,
-        seedCommands: [
-          {
-            command: command ? "npm run " : "",
-            args: command ? [command] : [],
-          },
-        ],
+        used: command.length ? true : false,
+        seedCommands: command.length ? command.map(element => ({
+          command: "npm run ",
+          args: element.split(' '),
+        })
+        ) : [{
+          command: "",
+          args: [],
+        }]
       },
       error: null,
     });
   }
 }
 
+//TODO implement logic in this method
 function detectMigrationCommands(input, callback) {
   let path = input.request.root;
   let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
-    let command;
+    let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("build") != -1) command = element;
+        if (element.search("migrate") != -1) command.push(element);
       });
     }
     callback(null, {
       migrationCommands: {
-        used: command ? true : false,
-        migrationCommand: [
-          {
-            command: command ? "npm run " : "",
-            args: command ? [command] : [],
-          },
-        ],
+        used: command.length ? true : false,
+        migrationCommand: command.length ? command.map(element => ({
+          command: "npm run ",
+          args: element.split(' '),
+        })
+        ) : [{
+          command: "",
+          args: [],
+        }]
       },
       error: null,
     });
   }
 }
 
+//TODO implement logic in this method
 function detectAdHocScripts(input, callback) {
   let path = input.request.root;
   let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
-    let command;
+    let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("build") != -1) command = element;
+        if (element.search("adhoc") != -1) command.push(element);
       });
     }
     callback(null, {
       adHocScripts: {
-        used: command ? true : false,
-        adHocScripts: [
-          {
-            command: command ? "npm run " : "",
-            args: command ? [command] : [],
-          },
-        ],
+        used: command.length ? true : false,
+        adHocScripts: command.length ? command.map(element => ({
+          command: "npm run ",
+          args: element.split(' '),
+        })
+        ) : [{
+          command: "",
+          args: [],
+        }]
       },
       error: null,
     });

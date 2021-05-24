@@ -7,7 +7,7 @@ import (
 )
 
 var SupportedDependencies = versions.LanguageVersion{
-	Detectruntimecommand: "node plugin/js/detectRunTime/server.js",
+	Detectruntimecommand: "node " + commonUtils.ProjectPath() + "/plugin/js/detectRunTime/server.js",
 	Runtimeversions: map[string]*versions.DependencyVersionDetails{"v1.x": {
 		Semver:        []string{">=1.x,<16.x"},
 		Plugincommand: "node " + commonUtils.ProjectPath() + "/plugin/js/getDependencies/server.js",
@@ -320,10 +320,10 @@ var SupportedDependencies = versions.LanguageVersion{
 		},
 	},
 	Dependencies:           nil,
-	DetectEnvCommand:       "",
+	DetectEnvCommand:       "node "+commonUtils.ProjectPath()+"/plugin/js/env/server.js",
 	PreDetectCommand:       "",
 	StaticAssetsCommand:    "",
 	BuildDirectoryCommand:  "",
-	DetectTestCasesCommand: "",
-	Commands:               "",
+	DetectTestCasesCommand: "node "+commonUtils.ProjectPath()+"/plugin/js/testCasesCommands/server.js",
+	Commands:               "node "+commonUtils.ProjectPath()+"/plugin/js/commands/server.js",
 }

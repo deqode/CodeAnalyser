@@ -20,9 +20,7 @@ type EnvInput struct {
 var EnvCases = []EnvCase{
 	{
 		Input: EnvInput{
-			pluginDetails: &versionsPB.LanguageVersion{
-				DetectEnvCommand: "node " + utils.ProjectPath() + "/plugin/js/env/server.js",
-			},
+			pluginDetails: &SupportedDependencies,
 			Root:           utils.ProjectPath() + "/testingRepos/env/repo1",
 			RuntimeVersion: "sfs",
 		},
@@ -39,9 +37,7 @@ var EnvCases = []EnvCase{
 	},
 	{
 		Input: EnvInput{
-			pluginDetails: &versionsPB.LanguageVersion{
-				DetectEnvCommand: "node " + utils.ProjectPath() + "/plugin/js/env/server.js",
-			},
+			pluginDetails: &SupportedDependencies,
 			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
 			RuntimeVersion: "sfs",
 		},
@@ -51,9 +47,7 @@ var EnvCases = []EnvCase{
 	},
 	{
 		Input: EnvInput{
-			pluginDetails: &versionsPB.LanguageVersion{
-				DetectEnvCommand: "node " + utils.ProjectPath() + "/plugin/js/env/server.js",
-			},
+			pluginDetails: &SupportedDependencies,
 			Root:           "/stfgsftestingRepos/emptyRepo",
 			RuntimeVersion: "sfs",
 		},
@@ -61,9 +55,7 @@ var EnvCases = []EnvCase{
 	},
 	{
 		Input: EnvInput{
-			pluginDetails: &versionsPB.LanguageVersion{
-				DetectEnvCommand: "node " + utils.ProjectPath() + "/plugin/js/env/server.js",
-			},
+			pluginDetails: &SupportedDependencies,
 			Root:           utils.ProjectPath() + "/testingRepos/env/repo2",
 			RuntimeVersion: "sfs",
 		},

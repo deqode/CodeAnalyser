@@ -1,9 +1,11 @@
 package runners
 
 import (
+	"code-analyser/protos/pb/output/global"
+	"code-analyser/protos/pb/output/languageSpecific"
+	pluginPb "code-analyser/protos/pb/plugin"
 	"code-analyser/protos/pb/versions"
 	commonUtils "code-analyser/utils"
-
 	"golang.org/x/net/context"
 )
 
@@ -93,4 +95,67 @@ var DependencyCases = []DependencyCase{
 			ORM:       {},
 		},
 	},
+}
+
+type DetectRunTimeCase struct {
+	Input  DetectRunTimeInput
+	Output string
+}
+
+type DetectRunTimeInput struct {
+	Ctx            context.Context
+	Path           string
+	YamlLangObject *versions.LanguageVersion
+}
+
+var DetectRunTimeCases = []DetectRunTimeCase{
+	{
+		Input: DetectRunTimeInput{
+			Ctx:            nil,
+			Path:           commonUtils.ProjectPath() + "/testingRepos/detectRunTime/repo1",
+			YamlLangObject: &SupportedDependencies,
+		},
+		Output: "12.3",
+	},
+}
+
+type DetectTestCommandCase struct {
+	Input  DetectTestCommandInput
+	Output *languageSpecific.TestCasesCommandOutput
+}
+
+type DetectTestCommandInput struct {
+	Ctx           context.Context
+	Input         *pluginPb.ServiceInput
+	PluginDetails *versions.LanguageVersion
+}
+
+var DetectTestCommandCases = []DetectTestCommandCase{
+	{
+		Input: DetectTestCommandInput{
+			Ctx:           nil,
+			Input:         nil,
+			PluginDetails: &SupportedDependencies,
+		},
+		Output: nil,
+	},
+}
+
+type DetectCommandCase struct {
+	Input  DetectCommandInput
+	Output DetectCommandOutput
+}
+
+type DetectCommandOutput struct {
+	SeedCommand      *global.SeedCommandsOutput
+	BuildCommand     *global.BuildCommandsOutput
+	MigrationCommand *global.MigrationCommandsOutput
+	StartUpCommand   *global.StartUpCommandsOutput
+	AdHocScripts     *global.AdHocScriptsOutput
+}
+
+type DetectCommandInput struct {
+	Ctx           context.Context
+	Input         *pluginPb.ServiceInput
+	PluginDetails *versions.LanguageVersion
 }
