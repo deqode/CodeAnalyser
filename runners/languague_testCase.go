@@ -1,6 +1,7 @@
 package runners
 
 import (
+	"code-analyser/protos/pb"
 	"code-analyser/protos/pb/output/global"
 	"code-analyser/protos/pb/output/languageSpecific"
 	pluginPb "code-analyser/protos/pb/plugin"
@@ -170,15 +171,7 @@ var DetectTestCommandCases = []DetectTestCommandCase{
 
 type DetectCommandCase struct {
 	Input  DetectCommandInput
-	Output DetectCommandOutput
-}
-
-type DetectCommandOutput struct {
-	SeedCommand      *global.SeedCommandsOutput
-	BuildCommand     *global.BuildCommandsOutput
-	MigrationCommand *global.MigrationCommandsOutput
-	StartUpCommand   *global.StartUpCommandsOutput
-	AdHocScripts     *global.AdHocScriptsOutput
+	Output *pb.Commands
 }
 
 type DetectCommandInput struct {
@@ -197,8 +190,8 @@ var DetectCommandCases = []DetectCommandCase{
 			},
 			PluginDetails: &SupportedDependencies,
 		},
-		Output: DetectCommandOutput{
-			SeedCommand: &global.SeedCommandsOutput{
+		Output: &pb.Commands{
+			SeedCommands: &global.SeedCommandsOutput{
 				Used: true,
 				SeedCommands: []*global.Command{
 					{
@@ -211,7 +204,7 @@ var DetectCommandCases = []DetectCommandCase{
 					},
 				},
 			},
-			BuildCommand: &global.BuildCommandsOutput{
+			BuildCommands: &global.BuildCommandsOutput{
 				Used: true,
 				BuildCommands: []*global.Command{
 					{
@@ -228,7 +221,7 @@ var DetectCommandCases = []DetectCommandCase{
 					},
 				},
 			},
-			MigrationCommand: &global.MigrationCommandsOutput{
+			MigrationCommands: &global.MigrationCommandsOutput{
 				Used: true,
 				MigrationCommands: []*global.Command{
 					{
@@ -237,7 +230,7 @@ var DetectCommandCases = []DetectCommandCase{
 					},
 				},
 			},
-			StartUpCommand: &global.StartUpCommandsOutput{
+			StartUpCommands: &global.StartUpCommandsOutput{
 				Used: true,
 				StartUpCommands: []*global.Command{
 					{
@@ -246,7 +239,7 @@ var DetectCommandCases = []DetectCommandCase{
 					},
 				},
 			},
-			AdHocScripts: &global.AdHocScriptsOutput{
+			AdHocScriptsOutput: &global.AdHocScriptsOutput{
 				Used: true,
 				AdHocScripts: []*global.Command{
 					{
@@ -266,24 +259,24 @@ var DetectCommandCases = []DetectCommandCase{
 			},
 			PluginDetails: &SupportedDependencies,
 		},
-		Output: DetectCommandOutput{
-			SeedCommand: &global.SeedCommandsOutput{
+		Output: &pb.Commands{
+			SeedCommands: &global.SeedCommandsOutput{
 				Used:         false,
 				SeedCommands: []*global.Command{},
 			},
-			BuildCommand: &global.BuildCommandsOutput{
+			BuildCommands: &global.BuildCommandsOutput{
 				Used:          false,
 				BuildCommands: []*global.Command{},
 			},
-			MigrationCommand: &global.MigrationCommandsOutput{
+			MigrationCommands: &global.MigrationCommandsOutput{
 				Used:              false,
 				MigrationCommands: []*global.Command{},
 			},
-			StartUpCommand: &global.StartUpCommandsOutput{
+			StartUpCommands: &global.StartUpCommandsOutput{
 				Used:            false,
 				StartUpCommands: []*global.Command{},
 			},
-			AdHocScripts: &global.AdHocScriptsOutput{
+			AdHocScriptsOutput: &global.AdHocScriptsOutput{
 				Used:         false,
 				AdHocScripts: []*global.Command{},
 			},

@@ -1,7 +1,7 @@
 package runners
 
 import (
-	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
+	testingUtil "code-analyser/utils/testing"
 	"reflect"
 	"strconv"
 	"testing"
@@ -28,17 +28,8 @@ func TestOrmRunner(t *testing.T) {
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
 			got := OrmRunner(input.OrmList, input.RuntimeVersion, input.Root)
-			gotMap := map[string]*languageSpecificPB.ORM{}
-			for _, value := range got.Orms {
-				gotMap[value.Name] = value
-			}
-			outputMap := map[string]*languageSpecificPB.ORM{}
-			for _, value := range output.Orms {
-				outputMap[value.Name] = value
-			}
-			if !reflect.DeepEqual(gotMap, outputMap) || output.Used != got.Used {
-				t.Error("expected this ", output, "\n got this ", got)
-			}
+			testingUtil.CheckOrmEquality(got, output, t)
 		})
 	}
 }
+

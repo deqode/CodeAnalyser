@@ -17,11 +17,12 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	Scrape("/home/deqode/Downloads/covid19india-react-master")
+	decisionMakerInput := Scrape("/home/deqode/Downloads/covid19india-react-master")
+	log.Println(decisionMakerInput.LanguageSpecificDetection[0])
 }
 
 //Scrape it scrape language, framework, orm etc .....
-func Scrape(path string) {
+func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 	languages, _, _ := analyser.Analyse(path)
 	supportedLanguages, _ := SupportedLanguagedParser()
 	decisionMakerInput := &decisionmakerPB.DecisionMakerInput{
@@ -58,7 +59,6 @@ func Scrape(path string) {
 					}, pluginDetails)
 					if runtimeVersion != "" {
 						allDependencies := runners.GetParsedDependencies(ctx, runtimeVersion, path, pluginDetails)
-						log.Println(allDependencies[runners.Framework])
 						languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
 							Name:           language.Name,
 							RuntimeVersion: runtimeVersion,
@@ -71,7 +71,6 @@ func Scrape(path string) {
 						decisionMakerInput.GloabalDetections = &gloabalDetections
 						decisionMakerInput.Commands = &commands
 						mutex.Unlock()
-						log.Println(decisionMakerInput.LanguageSpecificDetection)
 						//for _, v := range decisionMakerInput.LanguageSpecificDetection {
 						//	log.Println("Language identified as ", v.Name, "& version", v.RuntimeVersion)
 						//	for _, f := range v.Framework {
@@ -93,7 +92,7 @@ func Scrape(path string) {
 		}
 	}
 	wg.Wait()
-
+	return decisionMakerInput
 }
 
 //RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
@@ -111,17 +110,10 @@ func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionma
 		defer wg.Done()
 		if pluginDetails.Commands != "" {
 			mutex.Lock()
-			seed, build, migration, startup, adhoc := runners.GetCommands(ctx, &pb.ServiceInput{
+			languageSpecificDetections.Commands = runners.GetCommands(ctx, &pb.ServiceInput{
 				RuntimeVersion: runtimeVersion,
 				Root:           path,
 			}, pluginDetails)
-			languageSpecificDetections.Commands = &decisionmakerPB.Commands{
-				BuildCommands:      build,
-				StartUpCommands:    startup,
-				SeedCommands:       seed,
-				MigrationCommands:  migration,
-				AdHocScriptsOutput: adhoc,
-			}
 			mutex.Unlock()
 		}
 	}()

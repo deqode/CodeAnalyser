@@ -6,9 +6,6 @@
   "scripts": {
     "start": "node server.js"
   },
-  "engines": {
-    "node": "12.3"
-  },
   "author": "kishan",
   "license": "ISC",
   "dependencies": {
