@@ -3,33 +3,15 @@ name: CI
 on:
   push:
     branches:
-    - master
-    - develop
+      - master
+      - develop
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
-    steps: 
-    - uses: actions/checkout@v2
-
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.16
-    - name: Set up Node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 12.3.0
-
-    - name: Setup node modules for plugin
-      shell: bash
-      run: bash installNodeModulesPlugin.sh
-
-    - name: Test
-      run: make test
-
-    - name: Lint
-      run: make lint
-
-  
+    defaults:
+      run:
+        working-directory: ./
+    steps:
+      - name: Testing 
+        run: docker-compose up
