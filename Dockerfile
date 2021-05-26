@@ -10,7 +10,4 @@ RUN n 12.3.0
 COPY . /code-analyser
 WORKDIR /code-analyser
 
-RUN bash installNodeModulesPlugin.sh
-RUN bash compileGoPluginBinaries.sh
-
 CMD ["bash", "run.sh"]

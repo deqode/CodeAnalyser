@@ -11,5 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build the stack
-        run: docker-compose up
+      - name: Building docker
+        run: docker-compose build
+      - name: Start Docker Container
+        run: docker-compose run --rm code-analyser bash
+      - name: Installing Node Modules
+        run: bash installNodeModulesPlugin.sh
+      - name: Compile plugin binary
+        run: bash compileGoPluginBinaries.sh
+      - name: Test Case Run
+        run: make test
