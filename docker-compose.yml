@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+        code-analyser:
+          working_dir: /code-analyser
+          volumes:
+            - .:/code-analyser
+          build: .
+          command: make test

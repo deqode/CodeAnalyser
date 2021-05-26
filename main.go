@@ -6,6 +6,8 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
+	"encoding/json"
+	"fmt"
 	"log"
 	"math"
 	"sync"
@@ -17,8 +19,13 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	decisionMakerInput := Scrape("/home/deqode/Downloads/covid19india-react-master")
-	log.Println(decisionMakerInput.LanguageSpecificDetection[0])
+	decisionMakerInput := Scrape("/home/deqode/Downloads/spectrum-alpha")
+	//log.Println(decisionMakerInput.LanguageSpecificDetection[0])
+	res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
+	if err != nil {
+		log.Println("error:", err)
+	}
+	fmt.Print(string(res))
 }
 
 //Scrape it scrape language, framework, orm etc .....

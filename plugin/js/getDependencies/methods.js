@@ -8,8 +8,10 @@ function getDependencies(input, callback) {
     "package.json file not found"
   );
   if (parsedFile) {
+    devDependencies = {};
+    parsedFile.devDependencies ? devDependencies = { ...parsedFile.devDependencies } : {}
     parsedFile.dependencies
-      ? callback(null, { value: parsedFile.dependencies, error: null })
+      ? callback(null, { value: {...parsedFile.dependencies,...devDependencies}, error: null })
       : callback(null, { value: {}, error: null });
   }
 }
