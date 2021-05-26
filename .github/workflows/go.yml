@@ -15,4 +15,4 @@ jobs:
         run: docker-compose build
       - name: Start Docker Container
         shell: bash
-        run: docker-compose run --rm code-analyser installNodeModulesPlugin.sh compileGoPluginBinaries.sh run.sh
+        run: docker-compose run --rm code-analyser bash runTestCases.sh
