@@ -5,4 +5,3 @@ services:
           volumes:
             - .:/code-analyser
           build: .
-          command: make test

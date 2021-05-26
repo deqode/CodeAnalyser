@@ -14,10 +14,6 @@ jobs:
       - name: Building docker
         run: docker-compose build
       - name: Start Docker Container
-        run: docker-compose run --rm code-analyser bash
-      - name: Installing Node Modules
-        run: bash installNodeModulesPlugin.sh
-      - name: Compile plugin binary
-        run: bash compileGoPluginBinaries.sh
+        run: docker-compose run --rm code-analyser installNodeModulesPlugin.sh compileGoPluginBinaries.sh run.sh
       - name: Test Case Run
         run: make test

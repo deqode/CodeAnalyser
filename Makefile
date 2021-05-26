@@ -11,6 +11,11 @@ get-fmt:
 run-fmt:
 	go fmt ./...
 
+setup-node-modules:
+	 bash installNodeModulesPlugin.sh
+
+compile-plugin-binary:
+	bash compileGoPluginBinaries.sh
 
 tidy:
 	go mod tidy
