@@ -9,9 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
     steps:
-      - name: Testing 
+      - uses: actions/checkout@v2
+      - name: Build the stack
         run: docker-compose up
