@@ -19,7 +19,7 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	decisionMakerInput := Scrape("/home/deqode/Downloads/spectrum-alpha")
+	decisionMakerInput := Scrape("/home/deqode/Downloads/vue-express-mongo-boilerplate-master")
 	//log.Println(decisionMakerInput.LanguageSpecificDetection[0])
 	res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
 	if err != nil {
