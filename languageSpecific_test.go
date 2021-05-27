@@ -198,7 +198,7 @@ var LanguageSpecificTestCases = []LanguageSpecificTestCase{
 			{
 				Name:           "JavaScript",
 				RuntimeVersion: "12.3.0",
-				Env: &languageSpecific.EnvOutput{},
+				Env:            &languageSpecific.EnvOutput{},
 				Framework: []*languageSpecific.FrameworkOutput{
 					{
 						Used:    true,
@@ -385,6 +385,97 @@ var LanguageSpecificTestCases = []LanguageSpecificTestCase{
 							},
 						},
 					},
+					AdHocScriptsOutput: &global.AdHocScriptsOutput{},
+				},
+			},
+		},
+	},
+	{
+		Input: utils.ProjectPath() + "/testingRepos/languageSpecific/vue-express-mongo-boilerplate-master",
+		Output: []*decisionmakerPB.LanguageSpecificDetections{
+			{
+				Name:           "JavaScript",
+				RuntimeVersion: "12.3.0",
+				Env:            &languageSpecific.EnvOutput{},
+				Framework: []*languageSpecific.FrameworkOutput{
+					{
+						Used:    true,
+						Name:    "express",
+						Version: "v1.x",
+					},
+					{
+						Used:    true,
+						Name:    "vue",
+						Version: "v1.x",
+					},
+				},
+				Db: &languageSpecific.DBOutput{
+					Used: true,
+					Databases: []*languageSpecific.DB{
+						{
+							Name:    "redis",
+							Version: "v1.x",
+						},
+						{
+							Name:    "mongoDB",
+							Version: "v1.x",
+						},
+					},
+				},
+				Orm: &languageSpecific.OrmOutput{},
+				Libraries: []*languageSpecific.LibraryOutput{
+					{
+						Used:    true,
+						Name:    "mongoose",
+						Version: "v1.x",
+					},
+				},
+				TestCases: &languageSpecific.TestCasesCommandOutput{
+					Used: true,
+					Commands: []*global.Command{
+						{
+							Command: "npm",
+							Args:    []string{"test:unit"},
+						},
+						{
+							Command: "npm",
+							Args:    []string{"test:e2e:nightmare"},
+						},
+						{
+							Command: "npm",
+							Args:    []string{"test:e2e"},
+						},
+						{
+							Command: "npm",
+							Args:    []string{"test"},
+						},
+					},
+				},
+				Commands: &decisionmakerPB.Commands{
+					BuildCommands: &global.BuildCommandsOutput{
+						Used: true,
+						BuildCommands: []*global.Command{
+							{
+								Command: "npm run ",
+								Args:    []string{"build"},
+							},
+							{
+								Command: "npm run ",
+								Args:    []string{"build:server"},
+							},
+						},
+					},
+					StartUpCommands: &global.StartUpCommandsOutput{
+						Used: true,
+						StartUpCommands: []*global.Command{
+							{
+								Command: "npm ",
+								Args:    []string{"start"},
+							},
+						},
+					},
+					SeedCommands:       &global.SeedCommandsOutput{},
+					MigrationCommands:  &global.MigrationCommandsOutput{},
 					AdHocScriptsOutput: &global.AdHocScriptsOutput{},
 				},
 			},
