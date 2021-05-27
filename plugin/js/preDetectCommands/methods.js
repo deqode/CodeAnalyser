@@ -80,9 +80,11 @@ async function addMissingToPackageJson(missing, packageJsonFile) {
   if (missing.length) {
     const latestVersion = require("latest-version");
     for (let index = 0; index < missing.length; index++) {
-      packageJsonFile.dependencies[missing[index]] = await latestVersion(
-        missing[index]
-      );
+      try {
+        packageJsonFile.dependencies[missing[index]] = await latestVersion(missing[index]);
+      } catch (error) {
+        // handle this
+      }
     }
   }
 }
