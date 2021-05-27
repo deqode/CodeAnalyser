@@ -12,6 +12,7 @@ import (
 type DockerFile struct {
 }
 
+//TODO add file path instead of file name  for docker and docker compose
 func (d DockerFile) DetectDockerFiles(inputString *pb.ServiceInputString) (*pb.ServiceOutputDockerFile, error) {
 	return &pb.ServiceOutputDockerFile{
 		Error: nil,

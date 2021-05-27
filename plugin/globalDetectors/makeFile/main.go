@@ -12,6 +12,8 @@ import (
 type MakeFile struct {
 }
 
+//TODO impolement logic for detection and path of makefile
+
 // Detect it returns all detectors
 func (m MakeFile) Detect(inputString *pb.ServiceInputString) (*pb.ServiceOutputMakeFile, error) {
 

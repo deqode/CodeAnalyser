@@ -12,6 +12,7 @@ import (
 type Commands struct {
 }
 
+//TODO add logic for detection of same
 func (d Commands) DetectBuildCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceOutputDetectBuildCommands, error) {
 	return &pb.ServiceOutputDetectBuildCommands{
 		Error: nil,

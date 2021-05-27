@@ -12,6 +12,8 @@ import (
 type ProcFile struct {
 }
 
+//TODO add path of procfile and detection logic
+
 // Detect it returns all procfile
 func (m ProcFile) Detect(inputString *pb.ServiceInputString) (*pb.ServiceOutputProcFile, error) {
 
