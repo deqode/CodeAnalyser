@@ -20,8 +20,7 @@ type ProcFile struct {
 // Detect it returns all procfile
 func (m ProcFile) Detect(path *pb.ServiceInputString) (*pb.ServiceOutputProcFile, error) {
 	procFileOutput := &pb.ServiceOutputProcFile{
-		Error:    nil,
-		ProcFile: &global.ProcFileOutput{},
+		Error: nil,
 	}
 	if _, err := os.Stat(path.Value + "/Procfile"); !os.IsNotExist(err) {
 		fileData, err := ioutil.ReadFile(path.Value + "/Procfile") // just pass the file name
@@ -31,8 +30,11 @@ func (m ProcFile) Detect(path *pb.ServiceInputString) (*pb.ServiceOutputProcFile
 				Cause:   path.Value + "/Procfile",
 			}
 		}
-		procFileOutput.ProcFile.Used = true
-		procFileOutput.ProcFile.Commands = map[string]*global.Command{}
+		procFileOutput.ProcFile = &global.ProcFileOutput{
+			Used:     true,
+			FilePath: path.Value + "/Procfile",
+			Commands: map[string]*global.Command{},
+		}
 		procList := procfile.Parse(string(fileData)) // convert content to a 'string'
 		for name, command := range procList {
 			procFileOutput.ProcFile.Commands[name] = &global.Command{

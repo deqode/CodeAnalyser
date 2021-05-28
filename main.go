@@ -27,9 +27,9 @@ func main() {
 	//}
 	//fmt.Print(string(res))
 	//
-	res, client := pluginClient.ProcFilePluginCall(exec.Command("sh", "-c", "go run /home/deqode/Desktop/project/go/code-analyser/plugin/globalDetectors/procFile/main.go"))
-	result, _ := res.Detect(&pb.ServiceInputString{
-		Value: "/home/deqode/Downloads/basicRepo",
+	res, client := pluginClient.DockerFilePluginCall(exec.Command("sh", "-c", "go run /home/deqode/Desktop/project/go/code-analyser/plugin/globalDetectors/docker/main.go"))
+	result, _ := res.DetectDockerFiles(&pb.ServiceInputString{
+		Value: "/home/deqode/Desktop/project/go/code-analyser",
 	})
 	log.Println(result)
 	if client.Exited() {
@@ -149,13 +149,13 @@ func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionma
 	go func() {
 		defer wg.Done()
 		mutex.Lock()
-		globalDetection.ProcFile = runners.DetectAndRunProcFile(ctx, path, globalPlugin)
+		globalDetection.ProcFile = runners.DetectProcFile(ctx, path, globalPlugin)
 		mutex.Unlock()
 	}()
 	go func() {
 		defer wg.Done()
 		mutex.Lock()
-		globalDetection.Makefile = runners.DetectAndRunMakeFile(ctx, path, globalPlugin)
+		globalDetection.Makefile = runners.DetectMakeFile(ctx, path, globalPlugin)
 		mutex.Unlock()
 	}()
 	go func() {

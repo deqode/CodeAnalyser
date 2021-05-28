@@ -6,12 +6,8 @@ import "protos/output/global/command.proto";
 
 message MakefileOutput {
   // check BuildCommands
-  bool used                   = 1;
+  bool used = 1;
   // list of all BuildCommands
-  repeated MakeFile makeFiles = 2;
-}
-
-message MakeFile {
-  string filePath               = 1;
-  repeated Command commands = 2;
+  string filePath = 2;
+  repeated Command commands = 3;
 }

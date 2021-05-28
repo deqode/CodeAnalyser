@@ -36,38 +36,42 @@ func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *
 	return detectDockerFile.DockerFile, detectDockerComposeFile.DockerComposeFile
 }
 
-func DetectAndRunProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFileOutput {
+func DetectProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFileOutput {
 	runtimeResponse, client := pluginClient.ProcFilePluginCall(exec.Command("sh", "-c", globalPlugin.ProcFile))
 	for client.Exited() {
 		client.Kill()
 	}
+	procFileOutput := &global.ProcFileOutput{}
 	detectProcFile, err := runtimeResponse.Detect(&pb.ServiceInputString{Value: path})
 	if err != nil {
 		utils.Logger(err)
-		return nil
+		return procFileOutput
 	}
 	if detectProcFile.Error != nil {
 		utils.Logger(detectProcFile.Error)
-		return nil
+		return procFileOutput
 	}
-	return detectProcFile.ProcFile
+	procFileOutput = detectProcFile.ProcFile
+	return procFileOutput
 }
 
-func DetectAndRunMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakefileOutput {
+func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakefileOutput {
 	runtimeResponse, client := pluginClient.MakeFilePluginCall(exec.Command("sh", "-c", globalPlugin.MakeFile))
 	for client.Exited() {
 		client.Kill()
 	}
 	detectMakeFile, err := runtimeResponse.Detect(&pb.ServiceInputString{Value: path})
+	makeFileOutput := &global.MakefileOutput{}
 	if err != nil {
 		utils.Logger(err)
-		return nil
+		return makeFileOutput
 	}
 	if detectMakeFile.Error != nil {
 		utils.Logger(detectMakeFile.Error)
-		return nil
+		return makeFileOutput
 	}
-	return detectMakeFile.MakeFile
+	makeFileOutput = detectMakeFile.MakeFile
+	return makeFileOutput
 }
 
 func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.SeedCommandsOutput, *global.BuildCommandsOutput, *global.MigrationCommandsOutput, *global.StartUpCommandsOutput, *global.AdHocScriptsOutput) {
