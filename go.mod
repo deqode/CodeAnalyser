@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/Masterminds/semver v1.5.0
+	github.com/chrismytton/procfile v1.0.0
 	github.com/go-cmd/cmd v1.3.0
 	github.com/google/go-cmp v0.5.5
 	github.com/hashicorp/go-hclog v0.14.1

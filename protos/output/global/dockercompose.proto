@@ -11,6 +11,6 @@ message DockerComposeFileOutput {
 
 
 message DockerComposeFile {
-  string fileName                        = 1;
-  repeated Command dockerComposeCommands = 2;
+  string filePath                        = 1;
+  repeated Command commands = 2;
 }

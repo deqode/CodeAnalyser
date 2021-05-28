@@ -30,6 +30,8 @@ github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA
 github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghfAqPWnc=
 github.com/chavacava/garif v0.0.0-20210405163807-87a70f3d418b h1:StHNkfM8nXnNQnk5/0uYYhIqvvENd14hoHPnZsakTNo=
 github.com/chavacava/garif v0.0.0-20210405163807-87a70f3d418b/go.mod h1:Qjyv4H3//PWVzTeCezG2b9IRn6myJxJSr4TD/xo6ojU=
+github.com/chrismytton/procfile v1.0.0 h1:H1qBpcGKG/za57TOB1EHMvTeT/2oH7K0T89rsKWvFSg=
+github.com/chrismytton/procfile v1.0.0/go.mod h1:Xf4ziDMgX08pZLjsRwiWh/J6Nd73UZVTUSUkO+nDq+Q=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/cncf/udpa/go v0.0.0-20201120205902-5459f2c99403/go.mod h1:WmhPx2Nbnhtbo57+VJT5O0JRkEi1Wbu0z5j0R8u5Hbk=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=

@@ -23,8 +23,8 @@ func (m MakeFile) Detect(inputString *pb.ServiceInputString) (*pb.ServiceOutputM
 			Used: true,
 			MakeFiles: []*global.MakeFile{
 				{
-					FileName: "MakeFile",
-					MakeCommands: []*global.Command{
+					FilePath: "MakeFile",
+					Commands: []*global.Command{
 						{
 							Command: "run",
 							Args:    []string{"run", "make"},
