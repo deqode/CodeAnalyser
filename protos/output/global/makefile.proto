@@ -12,6 +12,6 @@ message MakefileOutput {
 }
 
 message MakeFile {
-  string fileName               = 1;
-  repeated Command makeCommands = 2;
+  string filePath               = 1;
+  repeated Command commands = 2;
 }

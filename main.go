@@ -2,14 +2,14 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/pluginClient"
 	decisionmakerPB "code-analyser/protos/pb"
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
-	"encoding/json"
-	"fmt"
 	"log"
 	"math"
+	"os/exec"
 	"sync"
 
 	"golang.org/x/net/context"
@@ -19,13 +19,22 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	decisionMakerInput := Scrape("/home/deqode/Downloads/vue-express-mongo-boilerplate-master")
-	//log.Println(decisionMakerInput.LanguageSpecificDetection[0])
-	res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
-	if err != nil {
-		log.Println("error:", err)
+	//decisionMakerInput := Scrape("/home/deqode/Downloads/testingfolder")
+	//log.Println(decisionMakerInput.LanguageSpecificDetection)
+	//res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
+	//if err != nil {
+	//	log.Println("error:", err)
+	//}
+	//fmt.Print(string(res))
+	//
+	res, client := pluginClient.ProcFilePluginCall(exec.Command("sh", "-c", "go run /home/deqode/Desktop/project/go/code-analyser/plugin/globalDetectors/procFile/main.go"))
+	result, _ := res.Detect(&pb.ServiceInputString{
+		Value: "/home/deqode/Downloads/basicRepo",
+	})
+	log.Println(result)
+	if client.Exited() {
+		client.Kill()
 	}
-	fmt.Print(string(res))
 }
 
 //Scrape it scrape language, framework, orm etc .....

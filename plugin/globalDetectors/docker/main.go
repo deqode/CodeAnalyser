@@ -20,8 +20,8 @@ func (d DockerFile) DetectDockerFiles(inputString *pb.ServiceInputString) (*pb.S
 			Used: false,
 			DockerFiles: []*global.DockerFile{
 				{
-					FileName: "Docker_Compose",
-					DockerCommands: []*global.Command{
+					FilePath: "Docker_Compose",
+					Commands: []*global.Command{
 						{
 							Command: "wow",
 							Args:    []string{"nice", "good"},
@@ -40,8 +40,8 @@ func (d DockerFile) DetectDockerComposeFiles(inputString *pb.ServiceInputString)
 			Used: false,
 			DockerComposeFiles: []*global.DockerComposeFile{
 				{
-					FileName: "Docker_Compose",
-					DockerComposeCommands: []*global.Command{
+					FilePath: "Docker_Compose",
+					Commands: []*global.Command{
 						{
 							Command: "compose",
 							Args:    []string{"nice", "good"},

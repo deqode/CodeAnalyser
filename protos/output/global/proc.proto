@@ -6,15 +6,12 @@ import "protos/output/global/command.proto";
 
 message ProcFileOutput {
   // check ProcCommands
-  bool used                   = 1;
+  bool used = 1;
   // list of all ProcCommands
-  repeated ProcFile procFiles = 2;
+  string filePath = 2;
+  map<string, Command>  commands = 3;
 }
 
-message ProcFile {
-  string fileName               = 1;
-  repeated Command procCommands = 2;
 
-}
 
 

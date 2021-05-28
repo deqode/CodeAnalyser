@@ -11,6 +11,6 @@ message DockerFileOutput{
 
 
 message DockerFile {
-  string fileName               = 1;
-  repeated Command dockerCommands = 2;
+  string filePath               = 1;
+  repeated Command commands = 2;
 }
