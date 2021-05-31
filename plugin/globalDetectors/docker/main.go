@@ -31,9 +31,9 @@ func (d DockerFile) DetectDockerComposeFiles(path *pb.ServiceInputString) (*pb.S
 	dockerComposeOutput := &pb.ServiceOutputDockerComposeFile{
 		Error:             nil,
 	}
-	if _, err := os.Stat(path.Value + "/docker-compose.yaml"); !os.IsNotExist(err) {
+	if _, err := os.Stat(path.Value + "/docker-compose.yml"); !os.IsNotExist(err) {
 		dockerComposeOutput.DockerComposeFile = &global.DockerComposeFileOutput{
-			FilePath: path.Value + "/docker-compose.yaml",
+			FilePath: path.Value + "/docker-compose.yml",
 			Used: true,
 		}
 	}

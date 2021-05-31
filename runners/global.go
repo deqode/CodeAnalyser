@@ -2,6 +2,7 @@ package runners
 
 import (
 	"code-analyser/pluginClient"
+	pbGlobal "code-analyser/protos/pb"
 	"code-analyser/protos/pb/output/global"
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
@@ -74,60 +75,59 @@ func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.G
 	return makeFileOutput
 }
 
-func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.SeedCommandsOutput, *global.BuildCommandsOutput, *global.MigrationCommandsOutput, *global.StartUpCommandsOutput, *global.AdHocScriptsOutput) {
+func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *pbGlobal.Commands {
 	response, client := pluginClient.CommandsPluginCall(exec.Command("sh", "-c", globalPlugin.Commands))
-	for client.Exited() {
-		client.Kill()
-	}
+	defer func() {
+		for client.Exited() {
+			client.Kill()
+		}
+	}()
 	var err error
 	serviceCommandsInput := &pb.ServiceCommandsInput{
 		Root:     path,
 		Language: "",
 	}
+	commands := pbGlobal.Commands{
+		BuildCommands:      nil,
+		StartUpCommands:    nil,
+		SeedCommands:       nil,
+		MigrationCommands:  nil,
+		AdHocScriptsOutput: nil,
+	}
 	detectAdHocScript, err := response.DetectAdHocScripts(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return nil, nil, nil, nil, nil
+	if err != nil || detectAdHocScript.Error != nil {
+		utils.Logger(err, detectAdHocScript.Error)
+		return &commands
 	}
-	if detectAdHocScript.Error != nil {
-		utils.Logger(detectAdHocScript.Error)
-		detectAdHocScript.AdHocScripts = nil
-	}
+	commands.AdHocScriptsOutput = detectAdHocScript.AdHocScripts
+
 	detectSeedCommand, err := response.DetectSeedCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return nil, nil, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectSeedCommand.Error != nil {
+		utils.Logger(err, detectSeedCommand.Error)
+		return &commands
 	}
-	if detectSeedCommand.Error != nil {
-		utils.Logger(detectSeedCommand.Error)
-		detectSeedCommand.SeedCommands = nil
-	}
+	commands.SeedCommands = detectSeedCommand.SeedCommands
+
 	detectBuildCommands, err := response.DetectBuildCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, nil, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectBuildCommands.Error != nil {
+		utils.Logger(err, detectBuildCommands.Error)
+		return &commands
 	}
-	if detectBuildCommands.Error != nil {
-		utils.Logger(detectBuildCommands.Error)
-		detectBuildCommands.BuildCommands = nil
-	}
+	commands.BuildCommands = detectBuildCommands.BuildCommands
+
 	detectMigrationCommands, err := response.DetectMigrationCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectMigrationCommands.Error != nil {
+		utils.Logger(err, detectMigrationCommands.Error)
+		return &commands
 	}
-	if detectMigrationCommands.Error != nil {
-		utils.Logger(detectMigrationCommands.Error)
-		detectMigrationCommands.MigrationCommands = nil
-	}
+	commands.MigrationCommands = detectMigrationCommands.MigrationCommands
+
 	detectStartUpCommands, err := response.DetectStartUpCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		detectStartUpCommands.StartUpCommands = nil
+	if err != nil || detectStartUpCommands.Error != nil {
+		utils.Logger(err, detectStartUpCommands.Error)
+		return &commands
 	}
-	if detectStartUpCommands.Error != nil {
-		utils.Logger(detectStartUpCommands.Error)
-		detectStartUpCommands.StartUpCommands = nil
-	}
-	return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, detectMigrationCommands.MigrationCommands, detectStartUpCommands.StartUpCommands, detectAdHocScript.AdHocScripts
+	commands.StartUpCommands = detectStartUpCommands.StartUpCommands
+
+	return &commands
 }

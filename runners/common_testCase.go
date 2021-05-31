@@ -320,10 +320,17 @@ var SupportedDependencies = versions.LanguageVersion{
 		},
 	},
 	Dependencies:           nil,
-	DetectEnvCommand:       "node "+commonUtils.ProjectPath()+"/plugin/js/env/server.js",
+	DetectEnvCommand:       "node " + commonUtils.ProjectPath() + "/plugin/js/env/server.js",
 	PreDetectCommand:       "",
 	StaticAssetsCommand:    "",
 	BuildDirectoryCommand:  "",
-	DetectTestCasesCommand: "node "+commonUtils.ProjectPath()+"/plugin/js/testCasesCommands/server.js",
-	Commands:               "node "+commonUtils.ProjectPath()+"/plugin/js/commands/server.js",
+	DetectTestCasesCommand: "node " + commonUtils.ProjectPath() + "/plugin/js/testCasesCommands/server.js",
+	Commands:               "node " + commonUtils.ProjectPath() + "/plugin/js/commands/server.js",
+}
+
+var GlobalPluginPath = versions.GlobalPlugin{
+	DockerFile: commonUtils.ProjectPath() + "/plugin/globalDetectors/docker/plugin",
+	ProcFile:   commonUtils.ProjectPath() + "/plugin/globalDetectors/procFile/plugin",
+	MakeFile:   commonUtils.ProjectPath() + "/plugin/globalDetectors/makeFile/plugin",
+	Commands:   commonUtils.ProjectPath() + "/plugin/globalDetectors/commands/plugin",
 }
