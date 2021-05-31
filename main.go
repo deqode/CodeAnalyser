@@ -2,14 +2,12 @@ package main
 
 import (
 	"code-analyser/analyser"
-	"code-analyser/pluginClient"
 	decisionmakerPB "code-analyser/protos/pb"
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
 	"log"
 	"math"
-	"os/exec"
 	"sync"
 
 	"golang.org/x/net/context"
@@ -19,22 +17,14 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	//decisionMakerInput := Scrape("/home/deqode/Downloads/testingfolder")
-	//log.Println(decisionMakerInput.LanguageSpecificDetection)
+	decisionMakerInput := Scrape("/home/deqode/Desktop/project/go/code-analyser")
+	log.Println(decisionMakerInput.LanguageSpecificDetection)
 	//res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
 	//if err != nil {
 	//	log.Println("error:", err)
 	//}
 	//fmt.Print(string(res))
-	//
-	res, client := pluginClient.DockerFilePluginCall(exec.Command("sh", "-c", "go run /home/deqode/Desktop/project/go/code-analyser/plugin/globalDetectors/docker/main.go"))
-	result, _ := res.DetectDockerFiles(&pb.ServiceInputString{
-		Value: "/home/deqode/Desktop/project/go/code-analyser",
-	})
-	log.Println(result)
-	if client.Exited() {
-		client.Kill()
-	}
+	log.Println(decisionMakerInput.GloabalDetections)
 }
 
 //Scrape it scrape language, framework, orm etc .....
@@ -46,8 +36,11 @@ func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 		GloabalDetections:         &decisionmakerPB.GlobalDetections{},
 	}
 	var wg sync.WaitGroup
-	var mutex = &sync.Mutex{}
 	var ctx context.Context = nil
+	globalPlugins := ParseGlobalPluginYaml("./plugin/globalDetectors")
+	gloabalDetections := decisionmakerPB.GlobalDetections{}
+	RunGlobalDetectors(&gloabalDetections, globalPlugins, ctx, path)
+	decisionMakerInput.GloabalDetections = &gloabalDetections
 	var mxLang = 0.0
 	for _, lang := range languages {
 		mxLang = math.Max(mxLang, lang.Percent)
@@ -67,7 +60,6 @@ func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 				}
 				if languagePath != "" {
 					pluginDetails := ParsePluginYamlFile(languagePath)
-					globalPlugins := ParseGlobalPluginYaml("./plugin/globalDetectors")
 					runtimeVersion := runners.DetectRuntime(ctx, path, pluginDetails)
 					runners.RunPreDetectCommand(ctx, &pb.ServiceInput{
 						RuntimeVersion: runtimeVersion,
@@ -79,28 +71,10 @@ func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 							Name:           language.Name,
 							RuntimeVersion: runtimeVersion,
 						}
-						gloabalDetections := decisionmakerPB.GlobalDetections{}
 						commands := decisionmakerPB.Commands{}
-						RunAllDetectors(ctx, &languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path, &gloabalDetections, globalPlugins, &commands)
-						mutex.Lock()
+						RunAllDetectors(ctx, &languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path, globalPlugins, &commands)
 						decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
-						decisionMakerInput.GloabalDetections = &gloabalDetections
 						decisionMakerInput.Commands = &commands
-						mutex.Unlock()
-						//for _, v := range decisionMakerInput.LanguageSpecificDetection {
-						//	log.Println("Language identified as ", v.Name, "& version", v.RuntimeVersion)
-						//	for _, f := range v.Framework {
-						//		log.Println("Framework identified as ", f.Name, f.Version)
-						//	}
-						//	for _, f := range v.Db.Databases {
-						//		log.Println("Database identified as ", f.Name, f.Version, f.Port)
-						//	}
-						//	log.Println(v.Commands)
-						//	log.Println(v.Env)
-						//	log.Println(v.TestCases)
-						//	log.Println(v.Libraries)
-						//	log.Println(v.Orm)
-						//}
 					}
 
 				}
@@ -111,10 +85,9 @@ func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 	return decisionMakerInput
 }
 
-//RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
-func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string, globalDetection *decisionmakerPB.GlobalDetections, globalPlugin *versionsPB.GlobalPlugin, commands *decisionmakerPB.Commands) {
+func RunGlobalDetectors(globalDetection *decisionmakerPB.GlobalDetections, globalPlugin *versionsPB.GlobalPlugin, ctx context.Context, path string) {
 	var wg sync.WaitGroup
-	wg.Add(12)
+	wg.Add(3)
 	var mutex = &sync.Mutex{}
 	go func() {
 		defer wg.Done()
@@ -122,6 +95,25 @@ func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionma
 		globalDetection.DockerFile, globalDetection.DockerComposeFile = runners.DetectDockerAndComposeFile(ctx, path, globalPlugin)
 		mutex.Unlock()
 	}()
+	go func() {
+		defer wg.Done()
+		mutex.Lock()
+		globalDetection.ProcFile = runners.DetectProcFile(ctx, path, globalPlugin)
+		mutex.Unlock()
+	}()
+	go func() {
+		defer wg.Done()
+		mutex.Lock()
+		globalDetection.Makefile = runners.DetectMakeFile(ctx, path, globalPlugin)
+		mutex.Unlock()
+	}()
+}
+
+//RunAllDetectors it runs all detectors of dependencies ex. orm,framework etc ....
+func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string, globalPlugin *versionsPB.GlobalPlugin, commands *decisionmakerPB.Commands) {
+	var wg sync.WaitGroup
+	wg.Add(9)
+	var mutex = &sync.Mutex{}
 	go func() {
 		defer wg.Done()
 		if pluginDetails.Commands != "" {
@@ -143,19 +135,7 @@ func RunAllDetectors(ctx context.Context, languageSpecificDetections *decisionma
 	go func() {
 		defer wg.Done()
 		mutex.Lock()
-		commands.SeedCommands, commands.BuildCommands, commands.MigrationCommands, commands.StartUpCommands, commands.AdHocScriptsOutput = runners.DetectAndRunCommands(ctx, path, globalPlugin)
-		mutex.Unlock()
-	}()
-	go func() {
-		defer wg.Done()
-		mutex.Lock()
-		globalDetection.ProcFile = runners.DetectProcFile(ctx, path, globalPlugin)
-		mutex.Unlock()
-	}()
-	go func() {
-		defer wg.Done()
-		mutex.Lock()
-		globalDetection.Makefile = runners.DetectMakeFile(ctx, path, globalPlugin)
+		commands = runners.DetectAndRunCommands(ctx, path, globalPlugin)
 		mutex.Unlock()
 	}()
 	go func() {

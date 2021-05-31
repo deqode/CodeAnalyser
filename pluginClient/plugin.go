@@ -80,7 +80,7 @@ var HandshakeConfig = plugin.HandshakeConfig{
 var logger = hclog.New(&hclog.LoggerOptions{
 	Name:   "plugin",
 	Output: os.Stdout,
-	Level:  hclog.Error,
+	Level:  hclog.Debug,
 })
 
 func makeClient(cmd *exec.Cmd, pluginDispenser string) (interface{}, *plugin.Client) {
