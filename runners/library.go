@@ -7,7 +7,6 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
-	"os/exec"
 )
 
 func ParseLibraryFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
@@ -40,7 +39,7 @@ func LibraryRunner(libraryList map[string]DependencyDetail, runtimeVersion, root
 
 //LibraryDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtimeVersion, root string) *languageSpecificPB.LibraryOutput {
-	libraryResponse, client := pluginClient.LibraryPluginCall(exec.Command("sh", "-c", libraryDetails.Command))
+	libraryResponse, client := pluginClient.LibraryPluginCall(utils.CallPluginCommand(libraryDetails.Command))
 	for client.Exited() {
 		client.Kill()
 	}

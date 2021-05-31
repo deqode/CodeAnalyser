@@ -7,7 +7,6 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
-	"os/exec"
 )
 
 //ParseFrameworkFromDependencies It will filter out frameworks from dependency list
@@ -45,7 +44,7 @@ func FrameworkRunner(frameworkList map[string]DependencyDetail, runtimeVersion, 
 
 //FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runtimeVersion, root string) *languageSpecificPB.FrameworkOutput {
-	frameworkResponse, client := pluginClient.FrameworkPluginCall(exec.Command("sh", "-c", framworkDetails.Command))
+	frameworkResponse, client := pluginClient.FrameworkPluginCall(utils.CallPluginCommand(framworkDetails.Command))
 	for client.Exited() {
 		client.Kill()
 	}

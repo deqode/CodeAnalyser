@@ -6,6 +6,7 @@ import (
 	"code-analyser/protos/pb/output/global"
 	pb "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
+	"log"
 	"os"
 )
 
@@ -29,18 +30,20 @@ func (d DockerFile) DetectDockerFiles(path *pb.ServiceInputString) (*pb.ServiceO
 
 func (d DockerFile) DetectDockerComposeFiles(path *pb.ServiceInputString) (*pb.ServiceOutputDockerComposeFile, error) {
 	dockerComposeOutput := &pb.ServiceOutputDockerComposeFile{
-		Error:             nil,
+		Error: nil,
 	}
-	if _, err := os.Stat(path.Value + "/docker-compose.yml"); !os.IsNotExist(err) {
+	var err error
+	if _, err = os.Stat(path.Value + "/docker-compose.yml"); !os.IsNotExist(err) {
 		dockerComposeOutput.DockerComposeFile = &global.DockerComposeFileOutput{
 			FilePath: path.Value + "/docker-compose.yml",
-			Used: true,
+			Used:     true,
 		}
 	}
+	log.Println(err, "+++++++++++++++++++++++++++++++")
 	if _, err := os.Stat(path.Value + "/docker-compose.yaml"); !os.IsNotExist(err) {
 		dockerComposeOutput.DockerComposeFile = &global.DockerComposeFileOutput{
 			FilePath: path.Value + "/docker-compose.yaml",
-			Used: true,
+			Used:     true,
 		}
 	}
 	return dockerComposeOutput, nil

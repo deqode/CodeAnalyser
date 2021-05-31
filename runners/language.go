@@ -10,7 +10,6 @@ import (
 	"code-analyser/utils"
 	"context"
 	"log"
-	"os/exec"
 )
 
 //todo: think good name
@@ -56,7 +55,7 @@ func DetectRuntime(ctx context.Context, path string, pluginDetails *versionsPB.L
 }
 
 func DetectAndRunBuildDirectory(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) map[string]string {
-	res, client := pluginClient.BuildDirectoryPluginCall(exec.Command("sh", "-c", pluginDetails.BuildDirectoryCommand))
+	res, client := pluginClient.BuildDirectoryPluginCall(utils.CallPluginCommand(pluginDetails.BuildDirectoryCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -73,7 +72,7 @@ func DetectAndRunBuildDirectory(ctx context.Context, input *pluginPb.ServiceInpu
 }
 
 func DetectTestCasesCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.TestCasesCommandOutput {
-	res, client := pluginClient.TestCaseCommandPluginCall(exec.Command("sh", "-c", pluginDetails.DetectTestCasesCommand))
+	res, client := pluginClient.TestCaseCommandPluginCall(utils.CallPluginCommand(pluginDetails.DetectTestCasesCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -96,7 +95,7 @@ func DetectTestCasesCommand(ctx context.Context, input *pluginPb.ServiceInput, p
 }
 
 func RunStaticAssetsCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.StaticAssetsOutput {
-	res, client := pluginClient.StaticAssetsPluginCall(exec.Command("sh", "-c", pluginDetails.StaticAssetsCommand))
+	res, client := pluginClient.StaticAssetsPluginCall(utils.CallPluginCommand(pluginDetails.StaticAssetsCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -119,7 +118,7 @@ func RunStaticAssetsCommand(ctx context.Context, input *pluginPb.ServiceInput, p
 }
 
 func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *pb.Commands {
-	response, client := pluginClient.CommandsPluginCall(exec.Command("sh", "-c", pluginDetails.Commands))
+	response, client := pluginClient.CommandsPluginCall(utils.CallPluginCommand(pluginDetails.Commands))
 	defer func() {
 		for client.Exited() {
 			client.Kill()
@@ -174,9 +173,10 @@ func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetail
 
 	return &commands
 }
+
 // RunPreDetectCommand this will run before detection for formatting, filtration, cleanup and all such similar commands
 func RunPreDetectCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) {
-	runtimeResponse, client := pluginClient.PreDetectCommandPluginCall(exec.Command("sh", "-c", pluginDetails.PreDetectCommand))
+	runtimeResponse, client := pluginClient.PreDetectCommandPluginCall(utils.CallPluginCommand(pluginDetails.PreDetectCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -203,7 +203,7 @@ func GetParsedDependencies(ctx context.Context, languageVersion, path string, pl
 		}
 	}
 	if dependenciesCommand != nil {
-		dependenciesResponse, client := pluginClient.DependenciesPluginCall(exec.Command("sh", "-c", dependenciesCommand.Plugincommand))
+		dependenciesResponse, client := pluginClient.DependenciesPluginCall(utils.CallPluginCommand(dependenciesCommand.Plugincommand))
 		defer func() {
 			for client.Exited() {
 				client.Kill()

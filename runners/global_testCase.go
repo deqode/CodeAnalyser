@@ -4,23 +4,19 @@ import (
 	"code-analyser/protos/pb/output/global"
 	versionsPB "code-analyser/protos/pb/versions"
 	commonUtils "code-analyser/utils"
+	"code-analyser/utils/testing"
 	"golang.org/x/net/context"
 )
 
 type DockerCase struct {
 	Input  GlobalRunnerInput
-	Output DockerCaseOutput
+	Output testing.DockerCaseOutput
 }
 
 type GlobalRunnerInput struct {
 	Ctx          context.Context
 	Path         string
 	GlobalPlugin *versionsPB.GlobalPlugin
-}
-
-type DockerCaseOutput struct {
-	DockerFile        *global.DockerFileOutput
-	DockerComposeFile *global.DockerComposeFileOutput
 }
 
 type ProcFileCase struct {
@@ -40,7 +36,7 @@ var DockerCases = []DockerCase{
 			Path:         commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
-		Output: DockerCaseOutput{
+		Output: testing.DockerCaseOutput{
 			DockerFile: &global.DockerFileOutput{
 				Used:     true,
 				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1/Dockerfile",
@@ -57,7 +53,7 @@ var DockerCases = []DockerCase{
 			Path:         commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo2",
 			GlobalPlugin: &GlobalPluginPath,
 		},
-		Output: DockerCaseOutput{
+		Output: testing.DockerCaseOutput{
 			DockerFile: nil,
 			DockerComposeFile: &global.DockerComposeFileOutput{
 				Used:     true,
@@ -71,7 +67,7 @@ var DockerCases = []DockerCase{
 			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
 		},
-		Output: DockerCaseOutput{},
+		Output: testing.DockerCaseOutput{},
 	},
 }
 

@@ -14,7 +14,7 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	decisionMakerInput := Scrape("/home/deqode/Desktop/basicRepo")
+	decisionMakerInput := Scrape("/home/deqode/Desktop/project/go/code-analyser/testingRepos/detectDockerFile/repo1")
 	log.Println(decisionMakerInput.LanguageSpecificDetection)
 	//res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
 	//if err != nil {
@@ -36,7 +36,7 @@ func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 
 	globalPlugins := LoadGlobalFilesPluginInfo("./plugin/globalDetectors")
 	globalDetections := decisionmakerPB.GlobalDetections{}
-	RunAllGlobalPlugins(&globalDetections, globalPlugins, ctx, path)
+	RunAllGlobalPlugins(&decisionmakerPB.GlobalDetections{}, globalPlugins, ctx, path)
 	decisionMakerInput.GloabalDetections = &globalDetections
 
 	var mxLang = 0.0
