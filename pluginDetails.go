@@ -13,11 +13,14 @@ import (
 	"sync"
 )
 
-//ReadPluginYamlFile It wil read yaml file of specific plugin
-func ReadPluginYamlFile(filePath struct {
+// PluginDetailsFile stores path of pluginDetails.yaml and dir of pluginDetails.yaml
+type PluginDetailsFile struct {
 	path string
 	dir  string
-}) (*utilsPB.Plugin, error) {
+}
+
+//ReadPluginYamlFile It wil read yaml file of specific plugin
+func ReadPluginYamlFile(filePath PluginDetailsFile) (*utilsPB.Plugin, error) {
 	filename, _ := filepath.Abs(filePath.path)
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -37,11 +40,9 @@ func ReadPluginYamlFile(filePath struct {
 	return &lang, nil
 }
 
-func ParseGlobalPluginYaml(globalPath string) *versionsPB.GlobalPlugin {
-	var pluginDetailsFileLst []struct {
-		path string
-		dir  string
-	}
+//LoadGlobalFilesPluginInfo It will read pluginDetails.yaml files in plugin/globalDetectors directory
+func LoadGlobalFilesPluginInfo(globalPath string) *versionsPB.GlobalPlugin {
+	var pluginDetailsFiles []PluginDetailsFile
 	err := filepath.Walk(globalPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -49,10 +50,7 @@ func ParseGlobalPluginYaml(globalPath string) *versionsPB.GlobalPlugin {
 			}
 			if info.Name() == "pluginDetails.yaml" {
 				dir := strings.Split(path, info.Name())[0]
-				pluginDetailsFileLst = append(pluginDetailsFileLst, struct {
-					path string
-					dir  string
-				}{path: path, dir: dir})
+				pluginDetailsFiles = append(pluginDetailsFiles, PluginDetailsFile{path: path, dir: dir})
 			}
 			return nil
 		})
@@ -60,8 +58,9 @@ func ParseGlobalPluginYaml(globalPath string) *versionsPB.GlobalPlugin {
 		utils.Logger(err)
 	}
 	var wg sync.WaitGroup
+	//TODO: discuss with Atul better ways to implement concurrency
 	globalPlugin := &versionsPB.GlobalPlugin{}
-	for _, pluginFile := range pluginDetailsFileLst {
+	for _, pluginFile := range pluginDetailsFiles {
 		wg.Add(1)
 		pluginFile := pluginFile
 		go func() {
@@ -88,151 +87,153 @@ func ParseGlobalPluginYaml(globalPath string) *versionsPB.GlobalPlugin {
 	return globalPlugin
 }
 
-/*ParsePluginYamlFile it will fetch paths of all plugins using walk function and
-parse all dependencies to their categories for example postgres is a Db
-*/
-func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
-	var pluginDetailsFileLst []struct {
-		path string
-		dir  string
-	}
-	err := filepath.Walk(rootPath,
+//LoadLanguageSpecificPluginInfo It will read pluginDetails.yaml files in plugin directory of given languagePath
+func LoadLanguageSpecificPluginInfo(languagePath string) *versionsPB.LanguageVersion {
+	var pluginDetailsFiles []PluginDetailsFile
+	err := filepath.Walk(languagePath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
 			if info.Name() == "pluginDetails.yaml" {
 				dir := strings.Split(path, info.Name())[0]
-				pluginDetailsFileLst = append(pluginDetailsFileLst, struct {
-					path string
-					dir  string
-				}{path: path, dir: dir})
+				pluginDetailsFiles = append(
+					pluginDetailsFiles,
+					PluginDetailsFile{
+						path: path,
+						dir:  dir,
+					},
+				)
 			}
 			return nil
 		})
 	if err != nil {
 		utils.Logger(err)
 	}
-	languageVersion := &versionsPB.LanguageVersion{}
+	languagePluginInfo := &versionsPB.LanguageVersion{
+		Detectruntimecommand: "",
+		Runtimeversions:      nil,
+		Framework:            map[string]*versionsPB.DependencyDetails{},
+		Databases:            map[string]*versionsPB.DependencyDetails{},
+		Orms:                 map[string]*versionsPB.DependencyDetails{},
+		Libraries:            map[string]*versionsPB.DependencyDetails{},
+		//TODO:Not implemented yet
+		Dependencies:           nil,
+		DetectEnvCommand:       "",
+		PreDetectCommand:       "",
+		StaticAssetsCommand:    "",
+		BuildDirectoryCommand:  "",
+		DetectTestCasesCommand: "",
+		Commands:               "",
+	}
 	var wg sync.WaitGroup
-
-	for _, pluginFile := range pluginDetailsFileLst {
+	//TODO: discuss with Atul better ways to implement concurrency
+	for _, pluginFile := range pluginDetailsFiles {
 		wg.Add(1)
 		pluginFile := pluginFile
 		go func() {
 			defer wg.Done()
-
 			parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
 			if parsedRawFile != nil {
 				parsedFile := parsedRawFile.PluginDetails
 				switch parsedFile.Type {
 				case "framework":
-					if val, ok := languageVersion.Framework[parsedFile.Name]; ok {
+					if val, ok := languagePluginInfo.Framework[parsedFile.Name]; ok {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
 							Libraries:     parsedFile.Libraries,
 						}
 					} else {
-						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
-						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-							Libraries:     parsedFile.Libraries,
-						}
-						if languageVersion.Framework == nil {
-							languageVersion.Framework = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
-						} else {
-							languageVersion.Framework[parsedFile.Name] = &dependencyDetails
+						languagePluginInfo.Framework[parsedFile.Name] = &versionsPB.DependencyDetails{
+							Version: map[string]*versionsPB.DependencyVersionDetails{
+								parsedFile.Version: {
+									Semver:        parsedFile.Semver,
+									Plugincommand: parsedFile.Command,
+									Libraries:     parsedFile.Libraries,
+								},
+							},
 						}
 					}
 				case "detectRuntime":
-					languageVersion.Detectruntimecommand = parsedFile.Command
+					languagePluginInfo.Detectruntimecommand = parsedFile.Command
 				case "commands":
-					languageVersion.Commands = parsedFile.Command
+					languagePluginInfo.Commands = parsedFile.Command
 				case "env":
-					languageVersion.DetectEnvCommand = parsedFile.Command
+					languagePluginInfo.DetectEnvCommand = parsedFile.Command
 				case "preDetectCommand":
-					languageVersion.PreDetectCommand = parsedFile.Command
+					languagePluginInfo.PreDetectCommand = parsedFile.Command
 				case "staticAssets":
-					languageVersion.StaticAssetsCommand = parsedFile.Command
+					languagePluginInfo.StaticAssetsCommand = parsedFile.Command
 				case "buildDirectory":
-					languageVersion.BuildDirectoryCommand = parsedFile.Command
+					languagePluginInfo.BuildDirectoryCommand = parsedFile.Command
 				case "testCasesCommands":
-					languageVersion.DetectTestCasesCommand = parsedFile.Command
+					languagePluginInfo.DetectTestCasesCommand = parsedFile.Command
 				case "orm":
-					if val, ok := languageVersion.Orms[parsedFile.Name]; ok {
+					if val, ok := languagePluginInfo.Orms[parsedFile.Name]; ok {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
 							Libraries:     parsedFile.Libraries,
 						}
 					} else {
-						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
-						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-							Libraries:     parsedFile.Libraries,
+						languagePluginInfo.Orms[parsedFile.Name] = &versionsPB.DependencyDetails{
+							Version: map[string]*versionsPB.DependencyVersionDetails{
+								parsedFile.Version: {Semver: parsedFile.Semver,
+									Plugincommand: parsedFile.Command,
+									Libraries:     parsedFile.Libraries,
+								},
+							},
 						}
-
-						if languageVersion.Orms == nil {
-							languageVersion.Orms = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
-						} else {
-							languageVersion.Orms[parsedFile.Name] = &dependencyDetails
-						}
-
 					}
 				case "library":
-					if val, ok := languageVersion.Libraries[parsedFile.Name]; ok {
+					if val, ok := languagePluginInfo.Libraries[parsedFile.Name]; ok {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
 							Libraries:     parsedFile.Libraries,
 						}
 					} else {
-						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
-						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-							Libraries:     parsedFile.Libraries,
-						}
-						if languageVersion.Libraries == nil {
-							languageVersion.Libraries = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
-						} else {
-							languageVersion.Libraries[parsedFile.Name] = &dependencyDetails
+						languagePluginInfo.Libraries[parsedFile.Name] = &versionsPB.DependencyDetails{
+							Version: map[string]*versionsPB.DependencyVersionDetails{
+								parsedFile.Version: {
+									Semver:        parsedFile.Semver,
+									Plugincommand: parsedFile.Command,
+									Libraries:     parsedFile.Libraries,
+								},
+							},
 						}
 					}
 				case "database":
-					if val, ok := languageVersion.Databases[parsedFile.Name]; ok {
+					if val, ok := languagePluginInfo.Databases[parsedFile.Name]; ok {
 						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
 							Libraries:     parsedFile.Libraries,
 						}
 					} else {
-						dependencyDetails := versionsPB.DependencyDetails{Version: map[string]*versionsPB.DependencyVersionDetails{}}
-						dependencyDetails.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-							Libraries:     parsedFile.Libraries,
-						}
-						if languageVersion.Databases == nil {
-							languageVersion.Databases = map[string]*versionsPB.DependencyDetails{parsedFile.Name: &dependencyDetails}
-						} else {
-							languageVersion.Databases[parsedFile.Name] = &dependencyDetails
+						languagePluginInfo.Databases[parsedFile.Name] = &versionsPB.DependencyDetails{
+							Version: map[string]*versionsPB.DependencyVersionDetails{
+								parsedFile.Version: {Semver: parsedFile.Semver,
+									Plugincommand: parsedFile.Command,
+									Libraries:     parsedFile.Libraries,
+								},
+							},
 						}
 					}
 				case "getDependencies":
-					if languageVersion.Runtimeversions != nil {
-						languageVersion.Runtimeversions[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
+					if languagePluginInfo.Runtimeversions != nil {
+						languagePluginInfo.Runtimeversions[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
 							Semver:        parsedFile.Semver,
 							Plugincommand: parsedFile.Command,
 						}
 					} else {
-						languageVersion.Runtimeversions = map[string]*versionsPB.DependencyVersionDetails{parsedFile.Version: {
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-						}}
+						languagePluginInfo.Runtimeversions = map[string]*versionsPB.DependencyVersionDetails{
+							parsedFile.Version: {
+								Semver:        parsedFile.Semver,
+								Plugincommand: parsedFile.Command,
+							},
+						}
 					}
 				}
 			}
@@ -240,13 +241,14 @@ func ParsePluginYamlFile(rootPath string) *versionsPB.LanguageVersion {
 
 	}
 	wg.Wait()
-
-	return languageVersion
+	return languagePluginInfo
 }
 
-//SupportedLanguagedParser it reads yaml file and fetch out supported languges by our system
-func SupportedLanguagedParser() (*versionsPB.SupportedLanguages, error) {
-	filename, _ := filepath.Abs("./static/supportedLanguages.yaml")
+const SupportedLanguages = "./static/supportedLanguages.yaml"
+
+//SupportedLanguagesParser it reads yaml file and fetch out supported languages by our system (like go or js )
+func SupportedLanguagesParser() (*versionsPB.SupportedLanguages, error) {
+	filename, _ := filepath.Abs(SupportedLanguages)
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err

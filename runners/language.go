@@ -35,12 +35,10 @@ const (
 	Library = "library"
 )
 
-//DetectRuntime It will detect language and its version
-func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.LanguageVersion) string {
-	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Detectruntimecommand))
-	for client.Exited() {
-		client.Kill()
-	}
+//DetectRuntime It will detect app's runtime version
+func DetectRuntime(ctx context.Context, path string, pluginDetails *versionsPB.LanguageVersion) string {
+	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(utils.CallPluginCommand(pluginDetails.Detectruntimecommand))
+
 	runtimeVersion, err := runtimeResponse.DetectRuntime(&pluginPb.ServiceInputString{Value: path})
 	if err != nil {
 		utils.Logger(err)
@@ -49,6 +47,10 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.
 	if runtimeVersion.Error != nil {
 		utils.Logger(runtimeVersion.Error)
 		return ""
+	}
+
+	for client.Exited() {
+		client.Kill()
 	}
 	return runtimeVersion.Value
 }
@@ -172,7 +174,7 @@ func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetail
 
 	return &commands
 }
-
+// RunPreDetectCommand this will run before detection for formatting, filtration, cleanup and all such similar commands
 func RunPreDetectCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) {
 	runtimeResponse, client := pluginClient.PreDetectCommandPluginCall(exec.Command("sh", "-c", pluginDetails.PreDetectCommand))
 	for client.Exited() {
