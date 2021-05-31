@@ -10,7 +10,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"sync"
 )
 
 // PluginDetailsFile stores path of pluginDetails.yaml and dir of pluginDetails.yaml
@@ -57,14 +56,11 @@ func LoadGlobalFilesPluginInfo(globalPath string) *versionsPB.GlobalPlugin {
 	if err != nil {
 		utils.Logger(err)
 	}
-	var wg sync.WaitGroup
 	//TODO: discuss with Atul better ways to implement concurrency
 	globalPlugin := &versionsPB.GlobalPlugin{}
 	for _, pluginFile := range pluginDetailsFiles {
-		wg.Add(1)
 		pluginFile := pluginFile
-		go func() {
-			defer wg.Done()
+
 
 			parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
 			if parsedRawFile != nil {
@@ -80,10 +76,7 @@ func LoadGlobalFilesPluginInfo(globalPath string) *versionsPB.GlobalPlugin {
 					globalPlugin.Commands = parsedFile.Command
 				}
 			}
-		}()
-
 	}
-	wg.Wait()
 	return globalPlugin
 }
 
@@ -126,13 +119,10 @@ func LoadLanguageSpecificPluginInfo(languagePath string) *versionsPB.LanguageVer
 		DetectTestCasesCommand: "",
 		Commands:               "",
 	}
-	var wg sync.WaitGroup
 	//TODO: discuss with Atul better ways to implement concurrency
 	for _, pluginFile := range pluginDetailsFiles {
-		wg.Add(1)
 		pluginFile := pluginFile
-		go func() {
-			defer wg.Done()
+
 			parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
 			if parsedRawFile != nil {
 				parsedFile := parsedRawFile.PluginDetails
@@ -237,10 +227,8 @@ func LoadLanguageSpecificPluginInfo(languagePath string) *versionsPB.LanguageVer
 					}
 				}
 			}
-		}()
 
 	}
-	wg.Wait()
 	return languagePluginInfo
 }
 
