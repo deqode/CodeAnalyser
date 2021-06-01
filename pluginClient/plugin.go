@@ -181,3 +181,5 @@ func CommandsPluginCall(cmd *exec.Cmd) (GlobalFiles.Commands, *plugin.Client) {
 	raw, client := makeClient(cmd, PluginDispenserCommand)
 	return raw.(GlobalFiles.Commands), client
 }
+
+

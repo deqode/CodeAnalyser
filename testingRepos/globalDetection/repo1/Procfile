@@ -1,0 +1,3 @@
+web: bundle exec rackup
+
+worker: rake resque:work

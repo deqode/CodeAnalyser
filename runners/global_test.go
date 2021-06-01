@@ -1,6 +1,7 @@
 package runners
 
 import (
+	utilTesting "code-analyser/utils/testing"
 	"reflect"
 	"strconv"
 	"testing"
@@ -12,7 +13,7 @@ func TestDetectDockerAndComposeFile(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := DockerCaseOutput{}
+			got := utilTesting.DockerCaseOutput{}
 			got.DockerFile, got.DockerComposeFile = DetectDockerAndComposeFile(input.Ctx, input.Path, input.GlobalPlugin)
 			if !reflect.DeepEqual(got, output) {
 				t.Error("expected this ", output, "\n got this ", got)
@@ -28,9 +29,7 @@ func TestProcfile(t *testing.T) {
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
 			got := DetectProcFile(input.Ctx, input.Path, input.GlobalPlugin)
-			if !reflect.DeepEqual(got, output) {
-				t.Error("expected this ", output, "\n got this ", got)
-			}
+			utilTesting.CheckProcfileEquality(got, output, t)
 		})
 	}
 }

@@ -6,12 +6,11 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
-	"os/exec"
 )
 
 //EnvDetectAndRunner will run to find Frameworks & returns its detectors.
 func EnvDetectAndRunner(pluginDetails *versionsPB.LanguageVersion, runtimeVersion, root string) *languageSpecific.EnvOutput {
-	res, client := pluginClient.EnvPluginCall(exec.Command("sh", "-c", pluginDetails.DetectEnvCommand))
+	res, client := pluginClient.EnvPluginCall(utils.CallPluginCommand(pluginDetails.DetectEnvCommand))
 
 	for client.Exited() {
 		client.Kill()

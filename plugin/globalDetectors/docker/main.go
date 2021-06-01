@@ -29,18 +29,19 @@ func (d DockerFile) DetectDockerFiles(path *pb.ServiceInputString) (*pb.ServiceO
 
 func (d DockerFile) DetectDockerComposeFiles(path *pb.ServiceInputString) (*pb.ServiceOutputDockerComposeFile, error) {
 	dockerComposeOutput := &pb.ServiceOutputDockerComposeFile{
-		Error:             nil,
+		Error: nil,
 	}
-	if _, err := os.Stat(path.Value + "/docker-compose.yml"); !os.IsNotExist(err) {
+	var err error
+	if _, err = os.Stat(path.Value + "/docker-compose.yml"); !os.IsNotExist(err) {
 		dockerComposeOutput.DockerComposeFile = &global.DockerComposeFileOutput{
 			FilePath: path.Value + "/docker-compose.yml",
-			Used: true,
+			Used:     true,
 		}
 	}
 	if _, err := os.Stat(path.Value + "/docker-compose.yaml"); !os.IsNotExist(err) {
 		dockerComposeOutput.DockerComposeFile = &global.DockerComposeFileOutput{
 			FilePath: path.Value + "/docker-compose.yaml",
-			Used: true,
+			Used:     true,
 		}
 	}
 	return dockerComposeOutput, nil
