@@ -8,11 +8,10 @@ import (
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
-	"os/exec"
 )
 
 func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.DockerFileOutput, *global.DockerComposeFileOutput) {
-	runtimeResponse, client := pluginClient.DockerFilePluginCall(exec.Command("sh", "-c", globalPlugin.DockerFile))
+	runtimeResponse, client := pluginClient.DockerFilePluginCall(utils.CallPluginCommand(globalPlugin.DockerFile))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -38,7 +37,7 @@ func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *
 }
 
 func DetectProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFileOutput {
-	runtimeResponse, client := pluginClient.ProcFilePluginCall(exec.Command("sh", "-c", globalPlugin.ProcFile))
+	runtimeResponse, client := pluginClient.ProcFilePluginCall(utils.CallPluginCommand(globalPlugin.ProcFile))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -57,7 +56,7 @@ func DetectProcFile(ctx context.Context, path string, globalPlugin *versionsPB.G
 }
 
 func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakefileOutput {
-	runtimeResponse, client := pluginClient.MakeFilePluginCall(exec.Command("sh", "-c", globalPlugin.MakeFile))
+	runtimeResponse, client := pluginClient.MakeFilePluginCall(utils.CallPluginCommand(globalPlugin.MakeFile))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -76,7 +75,7 @@ func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.G
 }
 
 func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *pbGlobal.Commands {
-	response, client := pluginClient.CommandsPluginCall(exec.Command("sh", "-c", globalPlugin.Commands))
+	response, client := pluginClient.CommandsPluginCall(utils.CallPluginCommand(globalPlugin.Commands))
 	defer func() {
 		for client.Exited() {
 			client.Kill()

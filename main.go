@@ -14,7 +14,7 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	decisionMakerInput := Scrape("/home/deqode/Documents/docker/docker-hello")
+	decisionMakerInput := Scrape("/home/deqode/Desktop/project/go/code-analyser/testingRepos/detectDockerFile/repo1")
 	log.Println(decisionMakerInput.LanguageSpecificDetection)
 	//res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
 	//if err != nil {
