@@ -7,10 +7,13 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
-	"os/exec"
 )
 
-//ParseDbFromDependencies It will filter out frameworks from dependencies list
+/*
+ParseDbFromDependencies It will filter out frameworks from dependencies list where
+dependenciesList : list of dependencies of any project ,
+langYamlObject : dependencies supported by us
+*/
 func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
 	db := map[string]DependencyDetail{}
 	for key, supportedDb := range langYamlObject.Databases {
@@ -51,7 +54,7 @@ func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *
 
 //DbDetectorRunner It will execute plugin from command fetched from yaml file of same plugin
 func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *languageSpecificPB.DB {
-	dbResponse, client := pluginClient.DbPluginCall(exec.Command("sh", "-c", dbDetails.Command))
+	dbResponse, client := pluginClient.DbPluginCall(utils.CallPluginCommand(dbDetails.Command))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -59,8 +62,8 @@ func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, r
 		RuntimeVersion: runTimeVersion,
 		Root:           root,
 	})
-	if err != nil {
-		utils.Logger(err)
+	if err != nil || isUsed.Error != nil {
+		utils.Logger(err, isUsed.Error)
 		return nil
 	}
 
@@ -69,8 +72,8 @@ func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, r
 			RuntimeVersion: runTimeVersion,
 			Root:           root,
 		})
-		if err != nil {
-			utils.Logger(err)
+		if err != nil || detection.Error != nil {
+			utils.Logger(err, detection.Error)
 			return nil
 		}
 		if detection.Value {

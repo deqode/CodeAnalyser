@@ -4,11 +4,10 @@ const healthCheck = require("./healthCheck");
 const getPort = require("get-port");
 const methods = require("./methods");
 
-let absPath = "";
 const protoPath = [
-  absPath + "protos/plugin/test_case_commands.proto",
-  absPath + "protos/plugin/common.proto",
-  absPath + "protos/output/global/command.proto"
+  __dirname + "../../../../protos/plugin/test_case_commands.proto",
+  __dirname + "../../../../protos/plugin/common.proto",
+  __dirname + "../../../../protos/output/global/command.proto"
 ];
 
 //load proto file

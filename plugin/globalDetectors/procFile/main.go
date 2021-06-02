@@ -5,32 +5,45 @@ import (
 	"code-analyser/pluginClient/procFile"
 	"code-analyser/protos/pb/output/global"
 	pb "code-analyser/protos/pb/plugin"
+	"github.com/chrismytton/procfile"
 	"github.com/hashicorp/go-plugin"
+	"io/ioutil"
+	"os"
 )
 
 //ProcFile is a plugin
 type ProcFile struct {
 }
 
-// Detect it returns all procfile
-func (m ProcFile) Detect(inputString *pb.ServiceInputString) (*pb.ServiceOutputProcFile, error) {
+//TODO add path of procfile and detection logic
 
-	return &pb.ServiceOutputProcFile{
+// Detect it returns all procfile
+func (m ProcFile) Detect(path *pb.ServiceInputString) (*pb.ServiceOutputProcFile, error) {
+	procFileOutput := &pb.ServiceOutputProcFile{
 		Error: nil,
-		ProcFile: &global.ProcFileOutput{
-			Used: true,
-			ProcFiles: []*global.ProcFile{
-				{
-					FileName: "MakeFile",
-					ProcCommands: []*global.Command{
-						{
-							Command: "run",
-							Args:    []string{"run", "make"},
-						},
-					},
-				},
-			}},
-	}, nil
+	}
+	if _, err := os.Stat(path.Value + "/Procfile"); !os.IsNotExist(err) {
+		fileData, err := ioutil.ReadFile(path.Value + "/Procfile") // just pass the file name
+		if err != nil {
+			procFileOutput.Error = &pb.ServiceError{
+				Message: "not able to parse procfile",
+				Cause:   path.Value + "/Procfile",
+			}
+		}
+		procFileOutput.ProcFile = &global.ProcFileOutput{
+			Used:     true,
+			FilePath: path.Value + "/Procfile",
+			Commands: map[string]*global.Command{},
+		}
+		procList := procfile.Parse(string(fileData)) // convert content to a 'string'
+		for name, command := range procList {
+			procFileOutput.ProcFile.Commands[name] = &global.Command{
+				Command: command.Command,
+				Args:    command.Arguments,
+			}
+		}
+	}
+	return procFileOutput, nil
 }
 
 func main() {

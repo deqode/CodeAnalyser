@@ -14,8 +14,8 @@ type GRPCPlugin struct {
 }
 
 func (g *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterTestCaseCommandsServer(server,&GRPCServer{Impl: g.Impl})
-   return nil
+	pb.RegisterTestCaseCommandsServer(server, &GRPCServer{Impl: g.Impl})
+	return nil
 }
 
 func (g *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {

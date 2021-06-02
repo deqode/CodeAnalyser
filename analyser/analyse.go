@@ -1,10 +1,9 @@
 package analyser
 
 import (
+	"github.com/go-cmd/cmd"
 	"strconv"
 	"strings"
-
-	"github.com/go-cmd/cmd"
 )
 
 // File is a struct of language name and percentage used
@@ -12,13 +11,16 @@ type File struct {
 	Name    string
 	Percent float64
 }
-
+//must be correct path of enry binary
 var enryLoc = "./static/"
 
-//Analyse returns Files , slice of error, string, error
-func Analyse(path string) ([]File, []string, error) {
+//GetLanguagesWithPercent analyse any projects with given path
+// returns languages like(go,js etc ... ) with their percentages (Go:50%, JS:30%)
+// on error returns slice of error(string),error
+func GetLanguagesWithPercent(path string) ([]File, []string, error) {
 	files := []File{}
 	err := []string{}
+	//must be correct name of enry binary
 	detectCmd := cmd.NewCmd(enryLoc+"enry", path)
 	finalStatus := <-detectCmd.Start()
 

@@ -3,23 +3,22 @@ const common = require("../common");
 
 function detectBuildCommands(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
-    let command;
+    let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("build") != -1) command = element;
+        if (element.search("build") != -1) command.push(element);
       });
     }
     callback(null, {
       buildCommands: {
-        used: command ? true : false,
-        buildCommands: [
-          {
-            command: command ? "npm run " : "",
-            args: command ? [command] : [],
-          },
-        ],
+        used: command.length ? true : false,
+        buildCommands: command.length ? command.map(element => ({
+          command: "npm run ",
+          args: element.split(' '),
+        })
+        ) : []
       },
       error: null,
     });
@@ -28,7 +27,7 @@ function detectBuildCommands(input, callback) {
 
 function detectStartUpCommands(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
     let command = jsonFile.scripts
       ? jsonFile.scripts.start
@@ -36,15 +35,19 @@ function detectStartUpCommands(input, callback) {
         : false
       : false;
     callback(null, {
-      startUpCommands: {
-        used: command,
-        startUpCommands: [
-          {
-            command: command ? "npm" : "",
-            args: command ? [" start"] : [],
-          },
-        ],
-      },
+      startUpCommands:
+        command ? {
+          used: true,
+          startUpCommands: [
+            {
+              command: "npm ",
+              args: ["start"],
+            },
+          ],
+        } : {
+          used: false,
+          startUpCommands: []
+        },
       error: null,
     });
   }
@@ -52,73 +55,80 @@ function detectStartUpCommands(input, callback) {
 
 function detectSeedCommands(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
-    let command;
+    let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("seed") != -1) command = element;
+        if (element.search("seed") != -1) command.push(element);
       });
     }
     callback(null, {
-      seedCommands: {
-        used: command ? true : false,
-        seedCommands: [
-          {
-            command: command ? "npm run " : "",
-            args: command ? [command] : [],
-          },
-        ],
+      seedCommands: command.length ? {
+        used: true,
+        seedCommands: command.map(
+          element => ({
+            command: "npm run ",
+            args: element.split(' '),
+          })
+        )
+      } : {
+        used: false,
+        seedCommands: []
       },
       error: null,
     });
   }
 }
 
+//TODO implement logic in this method
 function detectMigrationCommands(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
-    let command;
+    let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("build") != -1) command = element;
+        if (element.search("migrat") != -1) command.push(element);
       });
     }
     callback(null, {
-      migrationCommands: {
-        used: command ? true : false,
-        migrationCommand: [
-          {
-            command: command ? "npm run " : "",
-            args: command ? [command] : [],
-          },
-        ],
+      migrationCommands: command.length ? {
+        used: true,
+        migrationCommands: command.map(
+          element => ({
+            command: "npm run ",
+            args: element.split(' '),
+          })
+        )
+      } : {
+        used: false,
+        migrationCommands: []
       },
       error: null,
     });
   }
 }
 
+//TODO implement logic in this method
 function detectAdHocScripts(input, callback) {
   let path = input.request.root;
-  let jsonFile = common.requirePathCheck(path + "/package.json", callback);
+  let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
-    let command;
+    let command = [];
     if (jsonFile.scripts) {
       Object.keys(jsonFile.scripts).some((element) => {
-        if (element.search("build") != -1) command = element;
+        if (element.search("adhoc") != -1) command.push(element);
       });
     }
     callback(null, {
       adHocScripts: {
-        used: command ? true : false,
-        adHocScripts: [
-          {
-            command: command ? "npm run " : "",
-            args: command ? [command] : [],
-          },
-        ],
+        used: command.length ? true : false,
+        adHocScripts: command.length ? command.map(element => ({
+          command: "npm run ",
+          args: element.split(' '),
+        })
+        ) : []
       },
       error: null,
     });

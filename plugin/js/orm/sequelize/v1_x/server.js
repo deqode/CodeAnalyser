@@ -6,8 +6,8 @@ const methods = require("./methods");
 
 let absPath = "";
 const protoPath = [
-  absPath + "protos/plugin/orm.proto",
-  absPath + "protos/plugin/common.proto",
+  __dirname + "../../../../../../protos/plugin/orm.proto",
+  __dirname + "../../../../../../protos/plugin/common.proto",
 ];
 
 //load proto file

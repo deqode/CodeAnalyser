@@ -7,7 +7,6 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
-	"os/exec"
 )
 
 //ParseOrmFromDependencies It takes dependenciesList and filter out orms in map format
@@ -46,7 +45,7 @@ func OrmRunner(ormList map[string]DependencyDetail, runtimeVersion, root string)
 
 //OrmDetectorRunner it run plugin file of ORM
 func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion, root string) *languageSpecificPB.ORM {
-	ormResponse, client := pluginClient.OrmPluginCall(exec.Command("sh", "-c", ormDetails.Command))
+	ormResponse, client := pluginClient.OrmPluginCall(utils.CallPluginCommand(ormDetails.Command))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -54,8 +53,8 @@ func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion,
 		RuntimeVersion: runTimeVersion,
 		Root:           root,
 	})
-	if err != nil {
-		utils.Logger(err)
+	if err != nil || isUsed.Error != nil {
+		utils.Logger(err, isUsed.Error)
 		return nil
 	}
 
@@ -64,8 +63,8 @@ func OrmDetectorRunner(name string, ormDetails DependencyDetail, runTimeVersion,
 			RuntimeVersion: runTimeVersion,
 			Root:           root,
 		})
-		if err != nil {
-			utils.Logger(err)
+		if err != nil || detection.Error != nil {
+			utils.Logger(err, detection.Error)
 			return nil
 		}
 		if detection.Used {

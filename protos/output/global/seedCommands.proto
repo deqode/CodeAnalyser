@@ -7,7 +7,7 @@ message SeedCommandsOutput{
   // check SeedCommand
   bool used = 1;
   // list of all SeedCommand
-  repeated Command SeedCommands = 2;
+  repeated Command seedCommands = 2;
 }
 
 

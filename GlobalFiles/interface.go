@@ -28,7 +28,6 @@ type ProcFile interface {
 	Detect(inputString *plugin.ServiceInputString) (*plugin.ServiceOutputProcFile, error)
 }
 
-
 type Makefiles interface {
 	Detect(inputString *plugin.ServiceInputString) (*plugin.ServiceOutputMakeFile, error)
 }

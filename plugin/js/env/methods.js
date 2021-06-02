@@ -1,9 +1,15 @@
 const fs = require("fs");
 const path = require("path");
 const dotenv = require("dotenv");
+const common = require("../common");
 
 function detect(input, callback) {
   let dirPath = input.request.root;
+  common.requirePathCheck(
+    dirPath,
+    callback,
+    "directory path not found" + dirPath.toString()
+  );
   let envKeyValues = {};
 
   walkDir(dirPath, function (name, filePath) {

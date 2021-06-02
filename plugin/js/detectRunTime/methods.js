@@ -2,7 +2,7 @@ const common = require("../common");
 
 function detectRuntime(input, callback) {
   let path = input.request.value;
-  let parsedFile = common.requirePathCheck(
+  let parsedFile = common.requireJsonFile(
     path + "/package.json",
     callback,
     "package.json file not found"

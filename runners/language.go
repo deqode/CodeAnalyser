@@ -3,14 +3,13 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
-	"code-analyser/protos/pb/output/global"
+	"code-analyser/protos/pb"
 	"code-analyser/protos/pb/output/languageSpecific"
 	pluginPb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"context"
 	"log"
-	"os/exec"
 )
 
 //todo: think good name
@@ -35,12 +34,10 @@ const (
 	Library = "library"
 )
 
-//DetectRuntime It will detect language and its version
-func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.LanguageVersion) string {
-	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(exec.Command("sh", "-c", yamlLangObject.Detectruntimecommand))
-	for client.Exited() {
-		client.Kill()
-	}
+//DetectRuntime It will detect app's runtime version
+func DetectRuntime(ctx context.Context, path string, pluginDetails *versionsPB.LanguageVersion) string {
+	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(utils.CallPluginCommand(pluginDetails.Detectruntimecommand))
+
 	runtimeVersion, err := runtimeResponse.DetectRuntime(&pluginPb.ServiceInputString{Value: path})
 	if err != nil {
 		utils.Logger(err)
@@ -50,11 +47,15 @@ func DetectRuntime(ctx context.Context, path string, yamlLangObject *versionsPB.
 		utils.Logger(runtimeVersion.Error)
 		return ""
 	}
+
+	for client.Exited() {
+		client.Kill()
+	}
 	return runtimeVersion.Value
 }
 
 func DetectAndRunBuildDirectory(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) map[string]string {
-	res, client := pluginClient.BuildDirectoryPluginCall(exec.Command("sh", "-c", pluginDetails.BuildDirectoryCommand))
+	res, client := pluginClient.BuildDirectoryPluginCall(utils.CallPluginCommand(pluginDetails.BuildDirectoryCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -71,7 +72,7 @@ func DetectAndRunBuildDirectory(ctx context.Context, input *pluginPb.ServiceInpu
 }
 
 func DetectTestCasesCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.TestCasesCommandOutput {
-	res, client := pluginClient.TestCaseCommandPluginCall(exec.Command("sh", "-c", pluginDetails.DetectTestCasesCommand))
+	res, client := pluginClient.TestCaseCommandPluginCall(utils.CallPluginCommand(pluginDetails.DetectTestCasesCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -94,7 +95,7 @@ func DetectTestCasesCommand(ctx context.Context, input *pluginPb.ServiceInput, p
 }
 
 func RunStaticAssetsCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.StaticAssetsOutput {
-	res, client := pluginClient.StaticAssetsPluginCall(exec.Command("sh", "-c", pluginDetails.StaticAssetsCommand))
+	res, client := pluginClient.StaticAssetsPluginCall(utils.CallPluginCommand(pluginDetails.StaticAssetsCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -116,12 +117,11 @@ func RunStaticAssetsCommand(ctx context.Context, input *pluginPb.ServiceInput, p
 	return &staticAssetsOutput
 }
 
-func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) (*global.SeedCommandsOutput, *global.BuildCommandsOutput, *global.MigrationCommandsOutput, *global.StartUpCommandsOutput, *global.AdHocScriptsOutput) {
-	response, client := pluginClient.CommandsPluginCall(exec.Command("sh", "-c", pluginDetails.Commands))
+func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *pb.Commands {
+	response, client := pluginClient.CommandsPluginCall(utils.CallPluginCommand(pluginDetails.Commands))
 	defer func() {
 		for client.Exited() {
 			client.Kill()
-			log.Println("client kill")
 		}
 	}()
 	var err error
@@ -129,57 +129,54 @@ func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetail
 		Root:     input.Root,
 		Language: input.RuntimeVersion,
 	}
+	commands := pb.Commands{
+		BuildCommands:      nil,
+		StartUpCommands:    nil,
+		SeedCommands:       nil,
+		MigrationCommands:  nil,
+		AdHocScriptsOutput: nil,
+	}
 	detectAdHocScript, err := response.DetectAdHocScripts(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return nil, nil, nil, nil, nil
+	if err != nil || detectAdHocScript.Error != nil {
+		utils.Logger(err, detectAdHocScript.Error)
+		return &commands
 	}
-	if detectAdHocScript.Error != nil {
-		utils.Logger(detectAdHocScript.Error)
-		detectAdHocScript.AdHocScripts = nil
-	}
+	commands.AdHocScriptsOutput = detectAdHocScript.AdHocScripts
+
 	detectSeedCommand, err := response.DetectSeedCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return nil, nil, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectSeedCommand.Error != nil {
+		utils.Logger(err, detectSeedCommand.Error)
+		return &commands
 	}
-	if detectSeedCommand.Error != nil {
-		utils.Logger(detectSeedCommand.Error)
-		detectSeedCommand.SeedCommands = nil
-	}
+	commands.SeedCommands = detectSeedCommand.SeedCommands
+
 	detectBuildCommands, err := response.DetectBuildCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, nil, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectBuildCommands.Error != nil {
+		utils.Logger(err, detectBuildCommands.Error)
+		return &commands
 	}
-	if detectBuildCommands.Error != nil {
-		utils.Logger(detectBuildCommands.Error)
-		detectBuildCommands.BuildCommands = nil
-	}
+	commands.BuildCommands = detectBuildCommands.BuildCommands
+
 	detectMigrationCommands, err := response.DetectMigrationCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectMigrationCommands.Error != nil {
+		utils.Logger(err, detectMigrationCommands.Error)
+		return &commands
 	}
-	if detectMigrationCommands.Error != nil {
-		utils.Logger(detectMigrationCommands.Error)
-		detectMigrationCommands.MigrationCommands = nil
-	}
+	commands.MigrationCommands = detectMigrationCommands.MigrationCommands
+
 	detectStartUpCommands, err := response.DetectStartUpCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		detectStartUpCommands.StartUpCommands = nil
+	if err != nil || detectStartUpCommands.Error != nil {
+		utils.Logger(err, detectStartUpCommands.Error)
+		return &commands
 	}
-	if detectStartUpCommands.Error != nil {
-		utils.Logger(detectStartUpCommands.Error)
-		detectStartUpCommands.StartUpCommands = nil
-	}
-	return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, detectMigrationCommands.MigrationCommands, detectStartUpCommands.StartUpCommands, detectAdHocScript.AdHocScripts
+	commands.StartUpCommands = detectStartUpCommands.StartUpCommands
+
+	return &commands
 }
 
+// RunPreDetectCommand this will run before detection for formatting, filtration, cleanup and all such similar commands
 func RunPreDetectCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) {
-    log.Println(pluginDetails.PreDetectCommand,"--------##############")
-	runtimeResponse, client := pluginClient.PreDetectCommandPluginCall(exec.Command("sh", "-c", pluginDetails.PreDetectCommand))
+	runtimeResponse, client := pluginClient.PreDetectCommandPluginCall(utils.CallPluginCommand(pluginDetails.PreDetectCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -193,8 +190,8 @@ func RunPreDetectCommand(ctx context.Context, input *pluginPb.ServiceInput, plug
 	log.Println("pre detect commands found and executed successfully ")
 }
 
-//GetParsedDependencis get map of parsed dependencies for example beego is a framework
-func GetParsedDependencis(ctx context.Context, languageVersion, path string, pluginDetails *versionsPB.LanguageVersion) map[string]map[string]DependencyDetail {
+//GetParsedDependencies get map of parsed dependencies for example beego is a framework
+func GetParsedDependencies(ctx context.Context, languageVersion, path string, pluginDetails *versionsPB.LanguageVersion) map[string]map[string]DependencyDetail {
 	AllDependencies := map[string]map[string]DependencyDetail{}
 	var dependenciesCommand *versionsPB.DependencyVersionDetails
 	var runtimeVersion string
@@ -206,7 +203,7 @@ func GetParsedDependencis(ctx context.Context, languageVersion, path string, plu
 		}
 	}
 	if dependenciesCommand != nil {
-		dependenciesResponse, client := pluginClient.DependenciesPluginCall(exec.Command("sh", "-c", dependenciesCommand.Plugincommand))
+		dependenciesResponse, client := pluginClient.DependenciesPluginCall(utils.CallPluginCommand(dependenciesCommand.Plugincommand))
 		defer func() {
 			for client.Exited() {
 				client.Kill()

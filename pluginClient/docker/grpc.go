@@ -19,7 +19,6 @@ func (g *GRPCClient) DetectDockerComposeFiles(input *pb.ServiceInputString) (*pb
 	return res, err
 }
 
-
 type GRPCServer struct {
 	Impl GlobalFiles.DockerFile
 }
@@ -32,4 +31,3 @@ func (g *GRPCServer) DetectDockerComposeFiles(ctx context.Context, input *pb.Ser
 	res, err := g.Impl.DetectDockerComposeFiles(input)
 	return res, err
 }
-

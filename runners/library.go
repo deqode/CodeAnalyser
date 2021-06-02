@@ -7,7 +7,6 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
-	"os/exec"
 )
 
 func ParseLibraryFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
@@ -38,9 +37,9 @@ func LibraryRunner(libraryList map[string]DependencyDetail, runtimeVersion, root
 	return libraryOutputs
 }
 
-//FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
+//LibraryDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtimeVersion, root string) *languageSpecificPB.LibraryOutput {
-	libraryResponse, client := pluginClient.LibraryPluginCall(exec.Command("sh", "-c", libraryDetails.Command))
+	libraryResponse, client := pluginClient.LibraryPluginCall(utils.CallPluginCommand(libraryDetails.Command))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -48,8 +47,8 @@ func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtime
 		RuntimeVersion: runtimeVersion,
 		Root:           root,
 	})
-	if err != nil {
-		utils.Logger(err)
+	if err != nil || isUsed.Error != nil {
+		utils.Logger(err, isUsed.Error)
 		return nil
 	}
 	if isUsed.Value {
@@ -57,8 +56,8 @@ func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtime
 			RuntimeVersion: runtimeVersion,
 			Root:           root,
 		})
-		if err != nil {
-			utils.Logger(err)
+		if err != nil || detection.Error != nil {
+			utils.Logger(err, detection.Error)
 			return nil
 		}
 		if detection.Value {
@@ -66,8 +65,8 @@ func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtime
 				RuntimeVersion: runtimeVersion,
 				Root:           root,
 			})
-			if err != nil {
-				utils.Logger(err)
+			if err != nil || percentUsed.Error != nil {
+				utils.Logger(err, percentUsed.Error)
 				return nil
 			}
 			return &languageSpecificPB.LibraryOutput{

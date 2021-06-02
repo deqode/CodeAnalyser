@@ -2,16 +2,16 @@ package runners
 
 import (
 	"code-analyser/pluginClient"
+	pbGlobal "code-analyser/protos/pb"
 	"code-analyser/protos/pb/output/global"
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
-	"os/exec"
 )
 
 func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.DockerFileOutput, *global.DockerComposeFileOutput) {
-	runtimeResponse, client := pluginClient.DockerFilePluginCall(exec.Command("sh", "-c", globalPlugin.DockerFile))
+	runtimeResponse, client := pluginClient.DockerFilePluginCall(utils.CallPluginCommand(globalPlugin.DockerFile))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -36,94 +36,97 @@ func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *
 	return detectDockerFile.DockerFile, detectDockerComposeFile.DockerComposeFile
 }
 
-func DetectAndRunProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFileOutput {
-	runtimeResponse, client := pluginClient.ProcFilePluginCall(exec.Command("sh", "-c", globalPlugin.ProcFile))
+func DetectProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFileOutput {
+	runtimeResponse, client := pluginClient.ProcFilePluginCall(utils.CallPluginCommand(globalPlugin.ProcFile))
 	for client.Exited() {
 		client.Kill()
 	}
+	procFileOutput := &global.ProcFileOutput{}
 	detectProcFile, err := runtimeResponse.Detect(&pb.ServiceInputString{Value: path})
 	if err != nil {
 		utils.Logger(err)
-		return nil
+		return procFileOutput
 	}
 	if detectProcFile.Error != nil {
 		utils.Logger(detectProcFile.Error)
-		return nil
+		return procFileOutput
 	}
-	return detectProcFile.ProcFile
+	procFileOutput = detectProcFile.ProcFile
+	return procFileOutput
 }
 
-func DetectAndRunMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakefileOutput {
-	runtimeResponse, client := pluginClient.MakeFilePluginCall(exec.Command("sh", "-c", globalPlugin.MakeFile))
+func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakefileOutput {
+	runtimeResponse, client := pluginClient.MakeFilePluginCall(utils.CallPluginCommand(globalPlugin.MakeFile))
 	for client.Exited() {
 		client.Kill()
 	}
 	detectMakeFile, err := runtimeResponse.Detect(&pb.ServiceInputString{Value: path})
+	makeFileOutput := &global.MakefileOutput{}
 	if err != nil {
 		utils.Logger(err)
-		return nil
+		return makeFileOutput
 	}
 	if detectMakeFile.Error != nil {
 		utils.Logger(detectMakeFile.Error)
-		return nil
+		return makeFileOutput
 	}
-	return detectMakeFile.MakeFile
+	makeFileOutput = detectMakeFile.MakeFile
+	return makeFileOutput
 }
 
-func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.SeedCommandsOutput, *global.BuildCommandsOutput, *global.MigrationCommandsOutput, *global.StartUpCommandsOutput, *global.AdHocScriptsOutput) {
-	response, client := pluginClient.CommandsPluginCall(exec.Command("sh", "-c", globalPlugin.Commands))
-	for client.Exited() {
-		client.Kill()
-	}
+func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *pbGlobal.Commands {
+	response, client := pluginClient.CommandsPluginCall(utils.CallPluginCommand(globalPlugin.Commands))
+	defer func() {
+		for client.Exited() {
+			client.Kill()
+		}
+	}()
 	var err error
 	serviceCommandsInput := &pb.ServiceCommandsInput{
 		Root:     path,
 		Language: "",
 	}
+	commands := pbGlobal.Commands{
+		BuildCommands:      nil,
+		StartUpCommands:    nil,
+		SeedCommands:       nil,
+		MigrationCommands:  nil,
+		AdHocScriptsOutput: nil,
+	}
 	detectAdHocScript, err := response.DetectAdHocScripts(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return nil, nil, nil, nil, nil
+	if err != nil || detectAdHocScript.Error != nil {
+		utils.Logger(err, detectAdHocScript.Error)
+		return &commands
 	}
-	if detectAdHocScript.Error != nil {
-		utils.Logger(detectAdHocScript.Error)
-		detectAdHocScript.AdHocScripts = nil
-	}
+	commands.AdHocScriptsOutput = detectAdHocScript.AdHocScripts
+
 	detectSeedCommand, err := response.DetectSeedCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return nil, nil, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectSeedCommand.Error != nil {
+		utils.Logger(err, detectSeedCommand.Error)
+		return &commands
 	}
-	if detectSeedCommand.Error != nil {
-		utils.Logger(detectSeedCommand.Error)
-		detectSeedCommand.SeedCommands = nil
-	}
+	commands.SeedCommands = detectSeedCommand.SeedCommands
+
 	detectBuildCommands, err := response.DetectBuildCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, nil, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectBuildCommands.Error != nil {
+		utils.Logger(err, detectBuildCommands.Error)
+		return &commands
 	}
-	if detectBuildCommands.Error != nil {
-		utils.Logger(detectBuildCommands.Error)
-		detectBuildCommands.BuildCommands = nil
-	}
+	commands.BuildCommands = detectBuildCommands.BuildCommands
+
 	detectMigrationCommands, err := response.DetectMigrationCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, nil, nil, detectAdHocScript.AdHocScripts
+	if err != nil || detectMigrationCommands.Error != nil {
+		utils.Logger(err, detectMigrationCommands.Error)
+		return &commands
 	}
-	if detectMigrationCommands.Error != nil {
-		utils.Logger(detectMigrationCommands.Error)
-		detectMigrationCommands.MigrationCommands = nil
-	}
+	commands.MigrationCommands = detectMigrationCommands.MigrationCommands
+
 	detectStartUpCommands, err := response.DetectStartUpCommands(serviceCommandsInput)
-	if err != nil {
-		utils.Logger(err)
-		detectStartUpCommands.StartUpCommands = nil
+	if err != nil || detectStartUpCommands.Error != nil {
+		utils.Logger(err, detectStartUpCommands.Error)
+		return &commands
 	}
-	if detectStartUpCommands.Error != nil {
-		utils.Logger(detectStartUpCommands.Error)
-		detectStartUpCommands.StartUpCommands = nil
-	}
-	return detectSeedCommand.SeedCommands, detectBuildCommands.BuildCommands, detectMigrationCommands.MigrationCommands, detectStartUpCommands.StartUpCommands, detectAdHocScript.AdHocScripts
+	commands.StartUpCommands = detectStartUpCommands.StartUpCommands
+
+	return &commands
 }
