@@ -2,9 +2,11 @@ package main
 
 import (
 	"code-analyser/analyser"
+	"code-analyser/pluginClient"
 	decisionmakerPB "code-analyser/protos/pb"
 	pb "code-analyser/protos/pb/plugin"
 	"code-analyser/runners"
+	"code-analyser/utils"
 	"golang.org/x/net/context"
 	"log"
 	"math"
@@ -14,14 +16,23 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	decisionMakerInput := Scrape("/home/deqode/Desktop/project/go/code-analyser/testingRepos/detectDockerFile/repo1")
-	log.Println(decisionMakerInput.LanguageSpecificDetection)
-	//res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
-	//if err != nil {
-	//	log.Println("error:", err)
-	//}
-	//fmt.Print(string(res))
-	log.Println(decisionMakerInput.GloabalDetections)
+	//decisionMakerInput := Scrape("/home/deqode/Desktop/project/go/code-analyser/testingRepos/detectDockerFile/repo1")
+	//log.Println(decisionMakerInput.LanguageSpecificDetection)
+	////res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
+	////if err != nil {
+	////	log.Println("error:", err)
+	////}
+	////fmt.Print(string(res))
+	//log.Println(decisionMakerInput.GloabalDetections)
+
+	dbResponse, client := pluginClient.LibraryPluginCall(utils.CallPluginCommand("python3 plugin/python/libraries/numpy/v1_x/server.py"))
+	for client.Exited() {
+		client.Kill()
+	}
+	log.Println(dbResponse.PercentOfUsed(&pb.ServiceInput{
+		RuntimeVersion: "",
+		Root:           "",
+	}))
 }
 
 //Scrape it scrape language, framework, orm etc .....

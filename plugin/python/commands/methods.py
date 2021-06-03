@@ -1,5 +1,7 @@
 from protos.plugin import commands_pb2_grpc, common_pb2, commands_pb2, buildCommands_pb2, command_pb2
 
+from protos.output.
+
 
 class Methods(commands_pb2_grpc.CommandsServiceServicer):
     def DetectBuildCommands(self, request, context):

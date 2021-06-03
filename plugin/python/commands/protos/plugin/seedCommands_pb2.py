@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'Z%code-analyser/protos/pb/output/global',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\'protos/output/global/seedCommands.proto\x12\x14protos.output.global\x1a\"protos/output/global/command.proto\"W\n\x12SeedCommandsOutput\x12\x0c\n\x04used\x18\x01 \x01(\x08\x12\x33\n\x0cSeedCommands\x18\x02 \x03(\x0b\x32\x1d.protos.output.global.CommandB\'Z%code-analyser/protos/pb/output/globalb\x06proto3'
+  serialized_pb=b'\n\'protos/output/global/seedCommands.proto\x12\x14protos.output.global\x1a\"protos/output/global/command.proto\"W\n\x12SeedCommandsOutput\x12\x0c\n\x04used\x18\x01 \x01(\x08\x12\x33\n\x0cseedCommands\x18\x02 \x03(\x0b\x32\x1d.protos.output.global.CommandB\'Z%code-analyser/protos/pb/output/globalb\x06proto3'
   ,
   dependencies=[protos_dot_output_dot_global_dot_command__pb2.DESCRIPTOR,])
 
@@ -44,7 +44,7 @@ _SEEDCOMMANDSOUTPUT = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='SeedCommands', full_name='protos.output.global.SeedCommandsOutput.SeedCommands', index=1,
+      name='seedCommands', full_name='protos.output.global.SeedCommandsOutput.seedCommands', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -66,7 +66,7 @@ _SEEDCOMMANDSOUTPUT = _descriptor.Descriptor(
   serialized_end=188,
 )
 
-_SEEDCOMMANDSOUTPUT.fields_by_name['SeedCommands'].message_type = protos_dot_output_dot_global_dot_command__pb2._COMMAND
+_SEEDCOMMANDSOUTPUT.fields_by_name['seedCommands'].message_type = protos_dot_output_dot_global_dot_command__pb2._COMMAND
 DESCRIPTOR.message_types_by_name['SeedCommandsOutput'] = _SEEDCOMMANDSOUTPUT
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 

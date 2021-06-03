@@ -1,0 +1,11 @@
+new env generation and activation
+
+python3 -m venv env
+source env/bin/activate
+
+pip3 install -r requirements.txt
+
+
+proto generation
+
+ python3 -m grpc_tools.protoc -I ../../../  --python_out=.  --grpc_python_out=. ../../../protos/plugin/common.proto  ../../../protos/plugin/env.proto                                input path should be at project level
