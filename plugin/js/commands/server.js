@@ -7,11 +7,6 @@ const methods = require("./methods");
 const protoPath = [
   __dirname + "../../../../protos/plugin/commands.proto",
   __dirname + "../../../../protos/plugin/common.proto",
-  __dirname + "../../../../protos/output/global/startUpCommands.proto",
-  __dirname + "../../../../protos/output/global/buildCommands.proto",
-  __dirname + "../../../../protos/output/global/adHocScripts.proto",
-  __dirname + "../../../../protos/output/global/migrationCommands.proto",
-  __dirname + "../../../../protos/output/global/seedCommands.proto",
   __dirname + "../../../../protos/output/global/command.proto",
 ];
 
@@ -27,7 +22,7 @@ const protoFile = grpc.loadPackageDefinition(packageDefinition);
 const server = new grpc.Server();
 
 server.addService(healthCheck.healthe.service, healthCheck.healthImpl);
-server.addService(protoFile.proto.CommandsService.service, methods);
+server.addService(protoFile.proto.Commands.service, methods);
 
 // server creation
 (async () => {

@@ -12,14 +12,12 @@ function detectBuildCommands(input, callback) {
       });
     }
     callback(null, {
-      buildCommands: {
-        used: command.length ? true : false,
-        buildCommands: command.length ? command.map(element => ({
-          command: "npm run ",
-          args: element.split(' '),
-        })
-        ) : []
-      },
+      commands: command.length ? command.map(element => ({
+        command: "npm run ",
+        args: element.split(' '),
+      })
+      ) : [],
+      used: command.length ? true : false,
       error: null,
     });
   }
@@ -35,19 +33,14 @@ function detectStartUpCommands(input, callback) {
         : false
       : false;
     callback(null, {
-      startUpCommands:
-        command ? {
-          used: true,
-          startUpCommands: [
-            {
-              command: "npm ",
-              args: ["start"],
-            },
-          ],
-        } : {
-          used: false,
-          startUpCommands: []
-        },
+      commands: command ?
+        [
+          {
+            command: "npm ",
+            args: ["start"],
+          },
+        ] : [],
+      used: command ? true : false,
       error: null,
     });
   }
@@ -64,18 +57,12 @@ function detectSeedCommands(input, callback) {
       });
     }
     callback(null, {
-      seedCommands: command.length ? {
-        used: true,
-        seedCommands: command.map(
-          element => ({
-            command: "npm run ",
-            args: element.split(' '),
-          })
-        )
-      } : {
-        used: false,
-        seedCommands: []
-      },
+      commands: command.length ? command.map(element => ({
+        command: "npm run ",
+        args: element.split(' '),
+      })
+      ) : [],
+      used: command.length ? true : false,
       error: null,
     });
   }
@@ -93,18 +80,12 @@ function detectMigrationCommands(input, callback) {
       });
     }
     callback(null, {
-      migrationCommands: command.length ? {
-        used: true,
-        migrationCommands: command.map(
-          element => ({
-            command: "npm run ",
-            args: element.split(' '),
-          })
-        )
-      } : {
-        used: false,
-        migrationCommands: []
-      },
+      commands: command.length ? command.map(element => ({
+        command: "npm run ",
+        args: element.split(' '),
+      })
+      ) : [],
+      used: command.length ? true : false,
       error: null,
     });
   }
@@ -122,14 +103,12 @@ function detectAdHocScripts(input, callback) {
       });
     }
     callback(null, {
-      adHocScripts: {
-        used: command.length ? true : false,
-        adHocScripts: command.length ? command.map(element => ({
-          command: "npm run ",
-          args: element.split(' '),
-        })
-        ) : []
-      },
+      commands: command.length ? command.map(element => ({
+        command: "npm run ",
+        args: element.split(' '),
+      })
+      ) : [],
+      used: command.length ? true : false,
       error: null,
     });
   }
