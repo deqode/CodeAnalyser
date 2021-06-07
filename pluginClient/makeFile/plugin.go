@@ -10,7 +10,7 @@ import (
 
 type GRPCPlugin struct {
 	plugin.Plugin
-	Impl GlobalFiles.Makefiles
+	Impl GlobalFiles.Makefile
 }
 
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {

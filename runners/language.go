@@ -36,9 +36,9 @@ const (
 
 //DetectRuntime It will detect app's runtime version
 func DetectRuntime(ctx context.Context, path string, pluginDetails *versionsPB.LanguageVersion) string {
-	runtimeResponse, client := pluginClient.DetectRuntimePluginCall(utils.CallPluginCommand(pluginDetails.Detectruntimecommand))
+	runtimeResponse, client := pluginClient.CreateDetectRuntimeClient(utils.CallPluginCommand(pluginDetails.Detectruntimecommand))
 
-	runtimeVersion, err := runtimeResponse.DetectRuntime(&pluginPb.ServiceInputString{Value: path})
+	runtimeVersion, err := runtimeResponse.Detect(&pluginPb.ServiceInputString{Value: path})
 	if err != nil {
 		utils.Logger(err)
 		return ""
@@ -55,7 +55,7 @@ func DetectRuntime(ctx context.Context, path string, pluginDetails *versionsPB.L
 }
 
 func DetectAndRunBuildDirectory(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) map[string]string {
-	res, client := pluginClient.BuildDirectoryPluginCall(utils.CallPluginCommand(pluginDetails.BuildDirectoryCommand))
+	res, client := pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(pluginDetails.BuildDirectoryCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -72,7 +72,7 @@ func DetectAndRunBuildDirectory(ctx context.Context, input *pluginPb.ServiceInpu
 }
 
 func DetectTestCasesCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.TestCasesCommandOutput {
-	res, client := pluginClient.TestCaseCommandPluginCall(utils.CallPluginCommand(pluginDetails.DetectTestCasesCommand))
+	res, client := pluginClient.CreateTestCaseCommandClient(utils.CallPluginCommand(pluginDetails.DetectTestCasesCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -95,7 +95,7 @@ func DetectTestCasesCommand(ctx context.Context, input *pluginPb.ServiceInput, p
 }
 
 func RunStaticAssetsCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *languageSpecific.StaticAssetsOutput {
-	res, client := pluginClient.StaticAssetsPluginCall(utils.CallPluginCommand(pluginDetails.StaticAssetsCommand))
+	res, client := pluginClient.CreateStaticAssetsClient(utils.CallPluginCommand(pluginDetails.StaticAssetsCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -118,7 +118,7 @@ func RunStaticAssetsCommand(ctx context.Context, input *pluginPb.ServiceInput, p
 }
 
 func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) *pb.Commands {
-	response, client := pluginClient.CommandsPluginCall(utils.CallPluginCommand(pluginDetails.Commands))
+	response, client := pluginClient.CreateCommandsClient(utils.CallPluginCommand(pluginDetails.Commands))
 	defer func() {
 		for client.Exited() {
 			client.Kill()
@@ -176,7 +176,7 @@ func GetCommands(ctx context.Context, input *pluginPb.ServiceInput, pluginDetail
 
 // RunPreDetectCommand this will run before detection for formatting, filtration, cleanup and all such similar commands
 func RunPreDetectCommand(ctx context.Context, input *pluginPb.ServiceInput, pluginDetails *versionsPB.LanguageVersion) {
-	runtimeResponse, client := pluginClient.PreDetectCommandPluginCall(utils.CallPluginCommand(pluginDetails.PreDetectCommand))
+	runtimeResponse, client := pluginClient.CreatePreDetectCommandClient(utils.CallPluginCommand(pluginDetails.PreDetectCommand))
 	for client.Exited() {
 		client.Kill()
 	}
@@ -203,7 +203,7 @@ func GetParsedDependencies(ctx context.Context, languageVersion, path string, pl
 		}
 	}
 	if dependenciesCommand != nil {
-		dependenciesResponse, client := pluginClient.DependenciesPluginCall(utils.CallPluginCommand(dependenciesCommand.Plugincommand))
+		dependenciesResponse, client := pluginClient.CreateDependenciesClient(utils.CallPluginCommand(dependenciesCommand.Plugincommand))
 		defer func() {
 			for client.Exited() {
 				client.Kill()

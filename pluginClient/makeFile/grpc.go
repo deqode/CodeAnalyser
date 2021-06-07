@@ -16,7 +16,7 @@ func (g *GRPCClient) Detect(input *pb.ServiceInputString) (*pb.ServiceOutputMake
 }
 
 type GRPCServer struct {
-	Impl GlobalFiles.Makefiles
+	Impl GlobalFiles.Makefile
 }
 
 func (g *GRPCServer) Detect(ctx context.Context, input *pb.ServiceInputString) (*pb.ServiceOutputMakeFile, error) {

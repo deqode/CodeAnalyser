@@ -9,23 +9,23 @@ import (
 
 type KafkaV1x struct{}
 
-func (k *KafkaV1x) Detect(input *pb.ServiceInput) (*pb.ServiceOutputLibraryType, error) {
-	return &pb.ServiceOutputLibraryType{
+func (k *KafkaV1x) Detect(input *pb.Input) (*pb.LibraryType, error) {
+	return &pb.LibraryType{
 		Value: true,
 		Error: nil,
-		Type:  pb.ServiceOutputLibraryType_EXTERNAL,
+		Type:  pb.LibraryType_EXTERNAL,
 	}, nil
 }
 
-func (k *KafkaV1x) IsUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
+func (k *KafkaV1x) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
+	return &pb.BoolOutput{
 		Value: true,
 		Error: nil,
 	}, nil
 }
 
-func (k *KafkaV1x) PercentOfUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
-	return &pb.ServiceOutputFloat{
+func (k *KafkaV1x) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
+	return &pb.FloatOutput{
 		Value: 70,
 		Error: nil,
 	}, nil
@@ -35,7 +35,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserLibrary: &library.GRPCPlugin{Impl: &KafkaV1x{}},
+			pluginClient.Library: &library.GRPCPlugin{Impl: &KafkaV1x{}},
 		},
 
 		// A non-nil value here enables gRPC serving for this plugin...

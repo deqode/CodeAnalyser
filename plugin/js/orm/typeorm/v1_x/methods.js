@@ -13,7 +13,7 @@ function detect(input, callback) {
   });
 }
 
-function isOrmUsed(input, callback) {
+function isUsed(input, callback) {
   let path = input.request.root;
   common.requirePathCheck(
     path,
@@ -26,7 +26,7 @@ function isOrmUsed(input, callback) {
   });
 }
 
-function percentOfORMUsed(input, callback) {
+function percentOfUsed(input, callback) {
   let path = input.request.root;
   common.requirePathCheck(
     path,
@@ -39,6 +39,6 @@ function percentOfORMUsed(input, callback) {
 }
 module.exports = {
   detect: detect,
-  isOrmUsed: isOrmUsed,
-  percentOfORMUsed: percentOfORMUsed
+  isUsed: isUsed,
+  percentOfUsed: percentOfUsed
 };

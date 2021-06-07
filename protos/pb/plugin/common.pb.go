@@ -20,57 +20,57 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ServiceError_ErrorCode int32
+type Error_ErrorCode int32
 
 const (
-	ServiceError_Error ServiceError_ErrorCode = 0 //TODO discuss error codes and types
+	Error_Error Error_ErrorCode = 0 //TODO discuss error codes and types
 )
 
-// Enum value maps for ServiceError_ErrorCode.
+// Enum value maps for Error_ErrorCode.
 var (
-	ServiceError_ErrorCode_name = map[int32]string{
+	Error_ErrorCode_name = map[int32]string{
 		0: "Error",
 	}
-	ServiceError_ErrorCode_value = map[string]int32{
+	Error_ErrorCode_value = map[string]int32{
 		"Error": 0,
 	}
 )
 
-func (x ServiceError_ErrorCode) Enum() *ServiceError_ErrorCode {
-	p := new(ServiceError_ErrorCode)
+func (x Error_ErrorCode) Enum() *Error_ErrorCode {
+	p := new(Error_ErrorCode)
 	*p = x
 	return p
 }
 
-func (x ServiceError_ErrorCode) String() string {
+func (x Error_ErrorCode) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (ServiceError_ErrorCode) Descriptor() protoreflect.EnumDescriptor {
+func (Error_ErrorCode) Descriptor() protoreflect.EnumDescriptor {
 	return file_protos_plugin_common_proto_enumTypes[0].Descriptor()
 }
 
-func (ServiceError_ErrorCode) Type() protoreflect.EnumType {
+func (Error_ErrorCode) Type() protoreflect.EnumType {
 	return &file_protos_plugin_common_proto_enumTypes[0]
 }
 
-func (x ServiceError_ErrorCode) Number() protoreflect.EnumNumber {
+func (x Error_ErrorCode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ServiceError_ErrorCode.Descriptor instead.
-func (ServiceError_ErrorCode) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use Error_ErrorCode.Descriptor instead.
+func (Error_ErrorCode) EnumDescriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{9, 0}
 }
 
-type ServiceEmpty struct {
+type Empty struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *ServiceEmpty) Reset() {
-	*x = ServiceEmpty{}
+func (x *Empty) Reset() {
+	*x = Empty{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -78,13 +78,13 @@ func (x *ServiceEmpty) Reset() {
 	}
 }
 
-func (x *ServiceEmpty) String() string {
+func (x *Empty) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceEmpty) ProtoMessage() {}
+func (*Empty) ProtoMessage() {}
 
-func (x *ServiceEmpty) ProtoReflect() protoreflect.Message {
+func (x *Empty) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -96,22 +96,22 @@ func (x *ServiceEmpty) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceEmpty.ProtoReflect.Descriptor instead.
-func (*ServiceEmpty) Descriptor() ([]byte, []int) {
+// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
+func (*Empty) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{0}
 }
 
-type ServiceOutputString struct {
+type StringOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Value string        `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
-	Error *ServiceError `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Value string `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
+	Error *Error `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ServiceOutputString) Reset() {
-	*x = ServiceOutputString{}
+func (x *StringOutput) Reset() {
+	*x = StringOutput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -119,13 +119,13 @@ func (x *ServiceOutputString) Reset() {
 	}
 }
 
-func (x *ServiceOutputString) String() string {
+func (x *StringOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceOutputString) ProtoMessage() {}
+func (*StringOutput) ProtoMessage() {}
 
-func (x *ServiceOutputString) ProtoReflect() protoreflect.Message {
+func (x *StringOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -137,26 +137,26 @@ func (x *ServiceOutputString) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceOutputString.ProtoReflect.Descriptor instead.
-func (*ServiceOutputString) Descriptor() ([]byte, []int) {
+// Deprecated: Use StringOutput.ProtoReflect.Descriptor instead.
+func (*StringOutput) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ServiceOutputString) GetValue() string {
+func (x *StringOutput) GetValue() string {
 	if x != nil {
 		return x.Value
 	}
 	return ""
 }
 
-func (x *ServiceOutputString) GetError() *ServiceError {
+func (x *StringOutput) GetError() *Error {
 	if x != nil {
 		return x.Error
 	}
 	return nil
 }
 
-type ServiceInputString struct {
+type StringInput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -164,8 +164,8 @@ type ServiceInputString struct {
 	Value string `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
 }
 
-func (x *ServiceInputString) Reset() {
-	*x = ServiceInputString{}
+func (x *StringInput) Reset() {
+	*x = StringInput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -173,13 +173,13 @@ func (x *ServiceInputString) Reset() {
 	}
 }
 
-func (x *ServiceInputString) String() string {
+func (x *StringInput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceInputString) ProtoMessage() {}
+func (*StringInput) ProtoMessage() {}
 
-func (x *ServiceInputString) ProtoReflect() protoreflect.Message {
+func (x *StringInput) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -191,29 +191,29 @@ func (x *ServiceInputString) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceInputString.ProtoReflect.Descriptor instead.
-func (*ServiceInputString) Descriptor() ([]byte, []int) {
+// Deprecated: Use StringInput.ProtoReflect.Descriptor instead.
+func (*StringInput) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ServiceInputString) GetValue() string {
+func (x *StringInput) GetValue() string {
 	if x != nil {
 		return x.Value
 	}
 	return ""
 }
 
-type ServiceOutputInt struct {
+type IntOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Value int64         `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
-	Error *ServiceError `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Value int64  `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Error *Error `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ServiceOutputInt) Reset() {
-	*x = ServiceOutputInt{}
+func (x *IntOutput) Reset() {
+	*x = IntOutput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -221,13 +221,13 @@ func (x *ServiceOutputInt) Reset() {
 	}
 }
 
-func (x *ServiceOutputInt) String() string {
+func (x *IntOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceOutputInt) ProtoMessage() {}
+func (*IntOutput) ProtoMessage() {}
 
-func (x *ServiceOutputInt) ProtoReflect() protoreflect.Message {
+func (x *IntOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -239,35 +239,35 @@ func (x *ServiceOutputInt) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceOutputInt.ProtoReflect.Descriptor instead.
-func (*ServiceOutputInt) Descriptor() ([]byte, []int) {
+// Deprecated: Use IntOutput.ProtoReflect.Descriptor instead.
+func (*IntOutput) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ServiceOutputInt) GetValue() int64 {
+func (x *IntOutput) GetValue() int64 {
 	if x != nil {
 		return x.Value
 	}
 	return 0
 }
 
-func (x *ServiceOutputInt) GetError() *ServiceError {
+func (x *IntOutput) GetError() *Error {
 	if x != nil {
 		return x.Error
 	}
 	return nil
 }
 
-type ServiceEmptyOutput struct {
+type EmptyOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Error *ServiceError `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
+	Error *Error `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ServiceEmptyOutput) Reset() {
-	*x = ServiceEmptyOutput{}
+func (x *EmptyOutput) Reset() {
+	*x = EmptyOutput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -275,13 +275,13 @@ func (x *ServiceEmptyOutput) Reset() {
 	}
 }
 
-func (x *ServiceEmptyOutput) String() string {
+func (x *EmptyOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceEmptyOutput) ProtoMessage() {}
+func (*EmptyOutput) ProtoMessage() {}
 
-func (x *ServiceEmptyOutput) ProtoReflect() protoreflect.Message {
+func (x *EmptyOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -293,29 +293,29 @@ func (x *ServiceEmptyOutput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceEmptyOutput.ProtoReflect.Descriptor instead.
-func (*ServiceEmptyOutput) Descriptor() ([]byte, []int) {
+// Deprecated: Use EmptyOutput.ProtoReflect.Descriptor instead.
+func (*EmptyOutput) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *ServiceEmptyOutput) GetError() *ServiceError {
+func (x *EmptyOutput) GetError() *Error {
 	if x != nil {
 		return x.Error
 	}
 	return nil
 }
 
-type ServiceOutputFloat struct {
+type FloatOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Value float32       `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
-	Error *ServiceError `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Value float32 `protobuf:"fixed32,1,opt,name=value,proto3" json:"value,omitempty"`
+	Error *Error  `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ServiceOutputFloat) Reset() {
-	*x = ServiceOutputFloat{}
+func (x *FloatOutput) Reset() {
+	*x = FloatOutput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -323,13 +323,13 @@ func (x *ServiceOutputFloat) Reset() {
 	}
 }
 
-func (x *ServiceOutputFloat) String() string {
+func (x *FloatOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceOutputFloat) ProtoMessage() {}
+func (*FloatOutput) ProtoMessage() {}
 
-func (x *ServiceOutputFloat) ProtoReflect() protoreflect.Message {
+func (x *FloatOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -341,36 +341,36 @@ func (x *ServiceOutputFloat) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceOutputFloat.ProtoReflect.Descriptor instead.
-func (*ServiceOutputFloat) Descriptor() ([]byte, []int) {
+// Deprecated: Use FloatOutput.ProtoReflect.Descriptor instead.
+func (*FloatOutput) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *ServiceOutputFloat) GetValue() float32 {
+func (x *FloatOutput) GetValue() float32 {
 	if x != nil {
 		return x.Value
 	}
 	return 0
 }
 
-func (x *ServiceOutputFloat) GetError() *ServiceError {
+func (x *FloatOutput) GetError() *Error {
 	if x != nil {
 		return x.Error
 	}
 	return nil
 }
 
-type ServiceOutputBool struct {
+type BoolOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Value bool          `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
-	Error *ServiceError `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Value bool   `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	Error *Error `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ServiceOutputBool) Reset() {
-	*x = ServiceOutputBool{}
+func (x *BoolOutput) Reset() {
+	*x = BoolOutput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -378,13 +378,13 @@ func (x *ServiceOutputBool) Reset() {
 	}
 }
 
-func (x *ServiceOutputBool) String() string {
+func (x *BoolOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceOutputBool) ProtoMessage() {}
+func (*BoolOutput) ProtoMessage() {}
 
-func (x *ServiceOutputBool) ProtoReflect() protoreflect.Message {
+func (x *BoolOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -396,36 +396,36 @@ func (x *ServiceOutputBool) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceOutputBool.ProtoReflect.Descriptor instead.
-func (*ServiceOutputBool) Descriptor() ([]byte, []int) {
+// Deprecated: Use BoolOutput.ProtoReflect.Descriptor instead.
+func (*BoolOutput) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *ServiceOutputBool) GetValue() bool {
+func (x *BoolOutput) GetValue() bool {
 	if x != nil {
 		return x.Value
 	}
 	return false
 }
 
-func (x *ServiceOutputBool) GetError() *ServiceError {
+func (x *BoolOutput) GetError() *Error {
 	if x != nil {
 		return x.Error
 	}
 	return nil
 }
 
-type ServiceInput struct {
+type Input struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	RuntimeVersion string `protobuf:"bytes,1,opt,name=runtimeVersion,proto3" json:"runtimeVersion,omitempty"`
-	Root           string `protobuf:"bytes,2,opt,name=root,proto3" json:"root,omitempty"`
+	RootPath       string `protobuf:"bytes,2,opt,name=rootPath,proto3" json:"rootPath,omitempty"`
 }
 
-func (x *ServiceInput) Reset() {
-	*x = ServiceInput{}
+func (x *Input) Reset() {
+	*x = Input{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -433,13 +433,13 @@ func (x *ServiceInput) Reset() {
 	}
 }
 
-func (x *ServiceInput) String() string {
+func (x *Input) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceInput) ProtoMessage() {}
+func (*Input) ProtoMessage() {}
 
-func (x *ServiceInput) ProtoReflect() protoreflect.Message {
+func (x *Input) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -451,36 +451,36 @@ func (x *ServiceInput) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceInput.ProtoReflect.Descriptor instead.
-func (*ServiceInput) Descriptor() ([]byte, []int) {
+// Deprecated: Use Input.ProtoReflect.Descriptor instead.
+func (*Input) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *ServiceInput) GetRuntimeVersion() string {
+func (x *Input) GetRuntimeVersion() string {
 	if x != nil {
 		return x.RuntimeVersion
 	}
 	return ""
 }
 
-func (x *ServiceInput) GetRoot() string {
+func (x *Input) GetRootPath() string {
 	if x != nil {
-		return x.Root
+		return x.RootPath
 	}
 	return ""
 }
 
-type ServiceOutputStringMap struct {
+type StringMapOutput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	Value map[string]string `protobuf:"bytes,1,rep,name=value,proto3" json:"value,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Error *ServiceError     `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	Error *Error            `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *ServiceOutputStringMap) Reset() {
-	*x = ServiceOutputStringMap{}
+func (x *StringMapOutput) Reset() {
+	*x = StringMapOutput{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -488,13 +488,13 @@ func (x *ServiceOutputStringMap) Reset() {
 	}
 }
 
-func (x *ServiceOutputStringMap) String() string {
+func (x *StringMapOutput) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceOutputStringMap) ProtoMessage() {}
+func (*StringMapOutput) ProtoMessage() {}
 
-func (x *ServiceOutputStringMap) ProtoReflect() protoreflect.Message {
+func (x *StringMapOutput) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -506,37 +506,37 @@ func (x *ServiceOutputStringMap) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceOutputStringMap.ProtoReflect.Descriptor instead.
-func (*ServiceOutputStringMap) Descriptor() ([]byte, []int) {
+// Deprecated: Use StringMapOutput.ProtoReflect.Descriptor instead.
+func (*StringMapOutput) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *ServiceOutputStringMap) GetValue() map[string]string {
+func (x *StringMapOutput) GetValue() map[string]string {
 	if x != nil {
 		return x.Value
 	}
 	return nil
 }
 
-func (x *ServiceOutputStringMap) GetError() *ServiceError {
+func (x *StringMapOutput) GetError() *Error {
 	if x != nil {
 		return x.Error
 	}
 	return nil
 }
 
-type ServiceError struct {
+type Error struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message   string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	ErrorType ServiceError_ErrorCode `protobuf:"varint,2,opt,name=errorType,proto3,enum=proto.ServiceError_ErrorCode" json:"errorType,omitempty"`
-	Cause     string                 `protobuf:"bytes,3,opt,name=cause,proto3" json:"cause,omitempty"`
+	Message   string          `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	ErrorType Error_ErrorCode `protobuf:"varint,2,opt,name=errorType,proto3,enum=proto.Error_ErrorCode" json:"errorType,omitempty"`
+	Cause     string          `protobuf:"bytes,3,opt,name=cause,proto3" json:"cause,omitempty"`
 }
 
-func (x *ServiceError) Reset() {
-	*x = ServiceError{}
+func (x *Error) Reset() {
+	*x = Error{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_protos_plugin_common_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -544,13 +544,13 @@ func (x *ServiceError) Reset() {
 	}
 }
 
-func (x *ServiceError) String() string {
+func (x *Error) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ServiceError) ProtoMessage() {}
+func (*Error) ProtoMessage() {}
 
-func (x *ServiceError) ProtoReflect() protoreflect.Message {
+func (x *Error) ProtoReflect() protoreflect.Message {
 	mi := &file_protos_plugin_common_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -562,26 +562,26 @@ func (x *ServiceError) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServiceError.ProtoReflect.Descriptor instead.
-func (*ServiceError) Descriptor() ([]byte, []int) {
+// Deprecated: Use Error.ProtoReflect.Descriptor instead.
+func (*Error) Descriptor() ([]byte, []int) {
 	return file_protos_plugin_common_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ServiceError) GetMessage() string {
+func (x *Error) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
 	return ""
 }
 
-func (x *ServiceError) GetErrorType() ServiceError_ErrorCode {
+func (x *Error) GetErrorType() Error_ErrorCode {
 	if x != nil {
 		return x.ErrorType
 	}
-	return ServiceError_Error
+	return Error_Error
 }
 
-func (x *ServiceError) GetCause() string {
+func (x *Error) GetCause() string {
 	if x != nil {
 		return x.Cause
 	}
@@ -593,65 +593,57 @@ var File_protos_plugin_common_proto protoreflect.FileDescriptor
 var file_protos_plugin_common_proto_rawDesc = []byte{
 	0x0a, 0x1a, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x73, 0x2f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x2f,
 	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x22, 0x0e, 0x0a, 0x0c, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x45, 0x6d,
-	0x70, 0x74, 0x79, 0x22, 0x56, 0x0a, 0x13, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x75,
-	0x74, 0x70, 0x75, 0x74, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
-	0x12, 0x29, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x45,
-	0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x2a, 0x0a, 0x12, 0x53,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x53, 0x74, 0x72, 0x69, 0x6e,
-	0x67, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x53, 0x0a, 0x10, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x49, 0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x12, 0x29, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x3f, 0x0a, 0x12,
-	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x4f, 0x75, 0x74, 0x70,
-	0x75, 0x74, 0x12, 0x29, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x55, 0x0a,
-	0x12, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x46, 0x6c,
-	0x6f, 0x61, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x02, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x29, 0x0a, 0x05, 0x65, 0x72, 0x72,
-	0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65,
-	0x72, 0x72, 0x6f, 0x72, 0x22, 0x54, 0x0a, 0x11, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4f,
-	0x75, 0x74, 0x70, 0x75, 0x74, 0x42, 0x6f, 0x6f, 0x6c, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c,
-	0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x12,
-	0x29, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x45, 0x72,
-	0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x4a, 0x0a, 0x0c, 0x53, 0x65,
-	0x72, 0x76, 0x69, 0x63, 0x65, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x26, 0x0a, 0x0e, 0x72, 0x75,
-	0x6e, 0x74, 0x69, 0x6d, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0e, 0x72, 0x75, 0x6e, 0x74, 0x69, 0x6d, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69,
-	0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x72, 0x6f, 0x6f, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x04, 0x72, 0x6f, 0x6f, 0x74, 0x22, 0xbd, 0x01, 0x0a, 0x16, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x4d, 0x61,
-	0x70, 0x12, 0x3e, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x28, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x4d, 0x61, 0x70, 0x2e,
-	0x56, 0x61, 0x6c, 0x75, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x12, 0x29, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x13, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x1a, 0x38, 0x0a, 0x0a,
-	0x56, 0x61, 0x6c, 0x75, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65,
-	0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05,
-	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c,
-	0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x93, 0x01, 0x0a, 0x0c, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67,
-	0x65, 0x12, 0x3b, 0x0a, 0x09, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x54, 0x79, 0x70, 0x65, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x43,
-	0x6f, 0x64, 0x65, 0x52, 0x09, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x54, 0x79, 0x70, 0x65, 0x12, 0x14,
-	0x0a, 0x05, 0x63, 0x61, 0x75, 0x73, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63,
-	0x61, 0x75, 0x73, 0x65, 0x22, 0x16, 0x0a, 0x09, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x43, 0x6f, 0x64,
-	0x65, 0x12, 0x09, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x10, 0x00, 0x42, 0x20, 0x5a, 0x1e,
-	0x63, 0x6f, 0x64, 0x65, 0x2d, 0x61, 0x6e, 0x61, 0x6c, 0x79, 0x73, 0x65, 0x72, 0x2f, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x73, 0x2f, 0x70, 0x62, 0x2f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x74, 0x6f, 0x22, 0x07, 0x0a, 0x05, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x22, 0x48, 0x0a, 0x0c,
+	0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x14, 0x0a, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x12, 0x22, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x0c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52,
+	0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x23, 0x0a, 0x0b, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
+	0x49, 0x6e, 0x70, 0x75, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x22, 0x45, 0x0a, 0x09, 0x49,
+	0x6e, 0x74, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x22,
+	0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72,
+	0x6f, 0x72, 0x22, 0x31, 0x0a, 0x0b, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x4f, 0x75, 0x74, 0x70, 0x75,
+	0x74, 0x12, 0x22, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x0c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05,
+	0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x47, 0x0a, 0x0b, 0x46, 0x6c, 0x6f, 0x61, 0x74, 0x4f, 0x75,
+	0x74, 0x70, 0x75, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x02, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x12, 0x22, 0x0a, 0x05, 0x65, 0x72,
+	0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x46,
+	0x0a, 0x0a, 0x42, 0x6f, 0x6f, 0x6c, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x14, 0x0a, 0x05,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x12, 0x22, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x0c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52,
+	0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x4b, 0x0a, 0x05, 0x49, 0x6e, 0x70, 0x75, 0x74, 0x12,
+	0x26, 0x0a, 0x0e, 0x72, 0x75, 0x6e, 0x74, 0x69, 0x6d, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
+	0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x72, 0x75, 0x6e, 0x74, 0x69, 0x6d, 0x65,
+	0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x6f, 0x6f, 0x74, 0x50,
+	0x61, 0x74, 0x68, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x6f, 0x6f, 0x74, 0x50,
+	0x61, 0x74, 0x68, 0x22, 0xa8, 0x01, 0x0a, 0x0f, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x4d, 0x61,
+	0x70, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x37, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x53,
+	0x74, 0x72, 0x69, 0x6e, 0x67, 0x4d, 0x61, 0x70, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x2e, 0x56,
+	0x61, 0x6c, 0x75, 0x65, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
+	0x12, 0x22, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x0c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65,
+	0x72, 0x72, 0x6f, 0x72, 0x1a, 0x38, 0x0a, 0x0a, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x45, 0x6e, 0x74,
+	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x85,
+	0x01, 0x0a, 0x05, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x12, 0x34, 0x0a, 0x09, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x54, 0x79, 0x70, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x16, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x45, 0x72,
+	0x72, 0x6f, 0x72, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x43, 0x6f, 0x64, 0x65, 0x52, 0x09, 0x65,
+	0x72, 0x72, 0x6f, 0x72, 0x54, 0x79, 0x70, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x61, 0x75, 0x73,
+	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63, 0x61, 0x75, 0x73, 0x65, 0x22, 0x16,
+	0x0a, 0x09, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x09, 0x0a, 0x05, 0x45,
+	0x72, 0x72, 0x6f, 0x72, 0x10, 0x00, 0x42, 0x20, 0x5a, 0x1e, 0x63, 0x6f, 0x64, 0x65, 0x2d, 0x61,
+	0x6e, 0x61, 0x6c, 0x79, 0x73, 0x65, 0x72, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x73, 0x2f, 0x70,
+	0x62, 0x2f, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -669,28 +661,28 @@ func file_protos_plugin_common_proto_rawDescGZIP() []byte {
 var file_protos_plugin_common_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_protos_plugin_common_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_protos_plugin_common_proto_goTypes = []interface{}{
-	(ServiceError_ErrorCode)(0),    // 0: proto.ServiceError.ErrorCode
-	(*ServiceEmpty)(nil),           // 1: proto.ServiceEmpty
-	(*ServiceOutputString)(nil),    // 2: proto.ServiceOutputString
-	(*ServiceInputString)(nil),     // 3: proto.ServiceInputString
-	(*ServiceOutputInt)(nil),       // 4: proto.ServiceOutputInt
-	(*ServiceEmptyOutput)(nil),     // 5: proto.ServiceEmptyOutput
-	(*ServiceOutputFloat)(nil),     // 6: proto.ServiceOutputFloat
-	(*ServiceOutputBool)(nil),      // 7: proto.ServiceOutputBool
-	(*ServiceInput)(nil),           // 8: proto.ServiceInput
-	(*ServiceOutputStringMap)(nil), // 9: proto.ServiceOutputStringMap
-	(*ServiceError)(nil),           // 10: proto.ServiceError
-	nil,                            // 11: proto.ServiceOutputStringMap.ValueEntry
+	(Error_ErrorCode)(0),    // 0: proto.Error.ErrorCode
+	(*Empty)(nil),           // 1: proto.Empty
+	(*StringOutput)(nil),    // 2: proto.StringOutput
+	(*StringInput)(nil),     // 3: proto.StringInput
+	(*IntOutput)(nil),       // 4: proto.IntOutput
+	(*EmptyOutput)(nil),     // 5: proto.EmptyOutput
+	(*FloatOutput)(nil),     // 6: proto.FloatOutput
+	(*BoolOutput)(nil),      // 7: proto.BoolOutput
+	(*Input)(nil),           // 8: proto.Input
+	(*StringMapOutput)(nil), // 9: proto.StringMapOutput
+	(*Error)(nil),           // 10: proto.Error
+	nil,                     // 11: proto.StringMapOutput.ValueEntry
 }
 var file_protos_plugin_common_proto_depIdxs = []int32{
-	10, // 0: proto.ServiceOutputString.error:type_name -> proto.ServiceError
-	10, // 1: proto.ServiceOutputInt.error:type_name -> proto.ServiceError
-	10, // 2: proto.ServiceEmptyOutput.error:type_name -> proto.ServiceError
-	10, // 3: proto.ServiceOutputFloat.error:type_name -> proto.ServiceError
-	10, // 4: proto.ServiceOutputBool.error:type_name -> proto.ServiceError
-	11, // 5: proto.ServiceOutputStringMap.value:type_name -> proto.ServiceOutputStringMap.ValueEntry
-	10, // 6: proto.ServiceOutputStringMap.error:type_name -> proto.ServiceError
-	0,  // 7: proto.ServiceError.errorType:type_name -> proto.ServiceError.ErrorCode
+	10, // 0: proto.StringOutput.error:type_name -> proto.Error
+	10, // 1: proto.IntOutput.error:type_name -> proto.Error
+	10, // 2: proto.EmptyOutput.error:type_name -> proto.Error
+	10, // 3: proto.FloatOutput.error:type_name -> proto.Error
+	10, // 4: proto.BoolOutput.error:type_name -> proto.Error
+	11, // 5: proto.StringMapOutput.value:type_name -> proto.StringMapOutput.ValueEntry
+	10, // 6: proto.StringMapOutput.error:type_name -> proto.Error
+	0,  // 7: proto.Error.errorType:type_name -> proto.Error.ErrorCode
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -705,7 +697,7 @@ func file_protos_plugin_common_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_protos_plugin_common_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceEmpty); i {
+			switch v := v.(*Empty); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -717,7 +709,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceOutputString); i {
+			switch v := v.(*StringOutput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -729,7 +721,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceInputString); i {
+			switch v := v.(*StringInput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -741,7 +733,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceOutputInt); i {
+			switch v := v.(*IntOutput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -753,7 +745,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceEmptyOutput); i {
+			switch v := v.(*EmptyOutput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -765,7 +757,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceOutputFloat); i {
+			switch v := v.(*FloatOutput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -777,7 +769,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceOutputBool); i {
+			switch v := v.(*BoolOutput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -789,7 +781,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceInput); i {
+			switch v := v.(*Input); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -801,7 +793,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceOutputStringMap); i {
+			switch v := v.(*StringMapOutput); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -813,7 +805,7 @@ func file_protos_plugin_common_proto_init() {
 			}
 		}
 		file_protos_plugin_common_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ServiceError); i {
+			switch v := v.(*Error); i {
 			case 0:
 				return &v.state
 			case 1:

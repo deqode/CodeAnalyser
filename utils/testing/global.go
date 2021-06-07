@@ -12,7 +12,7 @@ type DockerCaseOutput struct {
 	DockerComposeFile *global.DockerComposeFileOutput
 }
 
-func CheckProcfileEquality(got, output *global.ProcFileOutput, t *testing.T) {
+func CheckProcfileEquality(got, output *global.ProcFile, t *testing.T) {
 	if got == nil && output == nil {
 		return
 	}

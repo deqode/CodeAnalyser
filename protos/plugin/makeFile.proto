@@ -5,11 +5,11 @@ option go_package = "code-analyser/protos/pb/plugin";
 import "protos/plugin/common.proto";
 import "protos/output/global/makefile.proto";
 
-service MakeFileService {
-  rpc Detect(ServiceInputString) returns (ServiceOutputMakeFile);
+service MakeFile {
+  rpc Detect(StringInput) returns (MakeFileOutput);
 }
 
-message ServiceOutputMakeFile{
-  ServiceError error = 1;
-  protos.output.global.MakefileOutput makeFile = 2;
+message MakeFileOutput {
+  Error error = 1;
+  protos.output.global.MakeFile makefile = 2;
 }

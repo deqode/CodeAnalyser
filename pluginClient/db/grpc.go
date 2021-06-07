@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/context"
 )
 
-// GRPCClient is an implementation of FrameworkVersions that talks over RPC.
+// GRPCClient is an implementation of Framework that talks over RPC.
 type GRPCClient struct {
 	Client pb.DbServiceClient
 }
@@ -23,7 +23,7 @@ func (G *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBoolInt, e
 }
 
 //IsDbUsed will return true if DB used
-func (G *GRPCClient) IsDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+func (G *GRPCClient) IsUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	res, err := G.Client.IsDbUsed(context.Background(), &pb.ServiceInput{
 		RuntimeVersion: input.RuntimeVersion,
 		Root:           input.Root,
@@ -32,7 +32,7 @@ func (G *GRPCClient) IsDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, er
 }
 
 //PercentOfDbUsed will return % of  db used
-func (G *GRPCClient) PercentOfDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
+func (G *GRPCClient) PercentOfUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	res, err := G.Client.PercentOfDbUsed(context.Background(), &pb.ServiceInput{
 		RuntimeVersion: input.RuntimeVersion,
 		Root:           input.Root,
@@ -42,7 +42,7 @@ func (G *GRPCClient) PercentOfDbUsed(input *pb.ServiceInput) (*pb.ServiceOutputF
 
 //GRPCServer  is the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
-	Impl interfaces.DbVersion
+	Impl interfaces.Db
 }
 
 //Detect will Detect if DB used
@@ -57,7 +57,7 @@ func (m *GRPCServer) Detect(ctx context.Context, input *pb.ServiceInput) (*pb.Se
 
 //IsDbUsed will return true if DB used
 func (m *GRPCServer) IsDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	res, err := m.Impl.IsDbUsed(input)
+	res, err := m.Impl.IsUsed(input)
 	return &pb.ServiceOutputBool{
 		Value: res.Value,
 		Error: res.Error,
@@ -66,7 +66,7 @@ func (m *GRPCServer) IsDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.
 
 //PercentOfDbUsed will return % of  db used
 func (m *GRPCServer) PercentOfDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
-	res, err := m.Impl.PercentOfDbUsed(input)
+	res, err := m.Impl.PercentOfUsed(input)
 	return &pb.ServiceOutputFloat{
 		Value: res.Value,
 		Error: res.Error,

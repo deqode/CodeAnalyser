@@ -14,7 +14,7 @@ type GRPCPlugin struct {
 	plugin.Plugin
 	// Concrete implementation, written in Go. This is only used for plugins
 	// that are written in Go.
-	Impl interfaces.FrameworkVersions
+	Impl interfaces.Framework
 }
 
 //GRPCServer plugin.GRPCPlugin Implementation

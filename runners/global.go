@@ -2,7 +2,6 @@ package runners
 
 import (
 	"code-analyser/pluginClient"
-	pbGlobal "code-analyser/protos/pb"
 	"code-analyser/protos/pb/output/global"
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
@@ -10,12 +9,12 @@ import (
 	"golang.org/x/net/context"
 )
 
-func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.DockerFileOutput, *global.DockerComposeFileOutput) {
-	runtimeResponse, client := pluginClient.DockerFilePluginCall(utils.CallPluginCommand(globalPlugin.DockerFile))
+func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.DockerFile, *global.DockerCompose) {
+	runtimeResponse, client := pluginClient.CreateDockerFileClient(utils.CallPluginCommand(globalPlugin.DockerFile))
 	for client.Exited() {
 		client.Kill()
 	}
-	detectDockerFile, err := runtimeResponse.DetectDockerFiles(&pb.ServiceInputString{Value: path})
+	detectDockerFile, err := runtimeResponse.DetectDockerFile(&pb.StringInput{Value: path})
 	if err != nil {
 		utils.Logger(err)
 		return nil, nil
@@ -24,7 +23,7 @@ func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *
 		utils.Logger(detectDockerFile.Error)
 		return nil, nil
 	}
-	detectDockerComposeFile, err := runtimeResponse.DetectDockerComposeFiles(&pb.ServiceInputString{Value: path})
+	detectDockerComposeFile, err := runtimeResponse.DetectDockerComposeFile(&pb.StringInput{Value: path})
 	if err != nil {
 		utils.Logger(err)
 		return nil, nil
@@ -36,13 +35,13 @@ func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *
 	return detectDockerFile.DockerFile, detectDockerComposeFile.DockerComposeFile
 }
 
-func DetectProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFileOutput {
-	runtimeResponse, client := pluginClient.ProcFilePluginCall(utils.CallPluginCommand(globalPlugin.ProcFile))
+func DetectProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFile {
+	runtimeResponse, client := pluginClient.CreateProcFileClient(utils.CallPluginCommand(globalPlugin.ProcFile))
 	for client.Exited() {
 		client.Kill()
 	}
-	procFileOutput := &global.ProcFileOutput{}
-	detectProcFile, err := runtimeResponse.Detect(&pb.ServiceInputString{Value: path})
+	procFileOutput := &global.ProcFile{}
+	detectProcFile, err := runtimeResponse.Detect(&pb.StringInput{Value: path})
 	if err != nil {
 		utils.Logger(err)
 		return procFileOutput
@@ -55,13 +54,13 @@ func DetectProcFile(ctx context.Context, path string, globalPlugin *versionsPB.G
 	return procFileOutput
 }
 
-func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakefileOutput {
-	runtimeResponse, client := pluginClient.MakeFilePluginCall(utils.CallPluginCommand(globalPlugin.MakeFile))
+func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakeFile {
+	runtimeResponse, client := pluginClient.CreateMakeFileClient(utils.CallPluginCommand(globalPlugin.MakeFile))
 	for client.Exited() {
 		client.Kill()
 	}
-	detectMakeFile, err := runtimeResponse.Detect(&pb.ServiceInputString{Value: path})
-	makeFileOutput := &global.MakefileOutput{}
+	detectMakeFile, err := runtimeResponse.Detect(&pb.StringInput{Value: path})
+	makeFileOutput := &global.MakeFile{}
 	if err != nil {
 		utils.Logger(err)
 		return makeFileOutput
@@ -70,63 +69,6 @@ func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.G
 		utils.Logger(detectMakeFile.Error)
 		return makeFileOutput
 	}
-	makeFileOutput = detectMakeFile.MakeFile
+	makeFileOutput = detectMakeFile.Makefile
 	return makeFileOutput
-}
-
-func DetectAndRunCommands(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *pbGlobal.Commands {
-	response, client := pluginClient.CommandsPluginCall(utils.CallPluginCommand(globalPlugin.Commands))
-	defer func() {
-		for client.Exited() {
-			client.Kill()
-		}
-	}()
-	var err error
-	serviceCommandsInput := &pb.ServiceCommandsInput{
-		Root:     path,
-		Language: "",
-	}
-	commands := pbGlobal.Commands{
-		BuildCommands:      nil,
-		StartUpCommands:    nil,
-		SeedCommands:       nil,
-		MigrationCommands:  nil,
-		AdHocScriptsOutput: nil,
-	}
-	detectAdHocScript, err := response.DetectAdHocScripts(serviceCommandsInput)
-	if err != nil || detectAdHocScript.Error != nil {
-		utils.Logger(err, detectAdHocScript.Error)
-		return &commands
-	}
-	commands.AdHocScriptsOutput = detectAdHocScript.AdHocScripts
-
-	detectSeedCommand, err := response.DetectSeedCommands(serviceCommandsInput)
-	if err != nil || detectSeedCommand.Error != nil {
-		utils.Logger(err, detectSeedCommand.Error)
-		return &commands
-	}
-	commands.SeedCommands = detectSeedCommand.SeedCommands
-
-	detectBuildCommands, err := response.DetectBuildCommands(serviceCommandsInput)
-	if err != nil || detectBuildCommands.Error != nil {
-		utils.Logger(err, detectBuildCommands.Error)
-		return &commands
-	}
-	commands.BuildCommands = detectBuildCommands.BuildCommands
-
-	detectMigrationCommands, err := response.DetectMigrationCommands(serviceCommandsInput)
-	if err != nil || detectMigrationCommands.Error != nil {
-		utils.Logger(err, detectMigrationCommands.Error)
-		return &commands
-	}
-	commands.MigrationCommands = detectMigrationCommands.MigrationCommands
-
-	detectStartUpCommands, err := response.DetectStartUpCommands(serviceCommandsInput)
-	if err != nil || detectStartUpCommands.Error != nil {
-		utils.Logger(err, detectStartUpCommands.Error)
-		return &commands
-	}
-	commands.StartUpCommands = detectStartUpCommands.StartUpCommands
-
-	return &commands
 }

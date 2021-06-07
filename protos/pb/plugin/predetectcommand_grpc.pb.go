@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PreDetectCommandClient interface {
-	RunPreDetect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceEmptyOutput, error)
+	RunPreDetect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*EmptyOutput, error)
 }
 
 type preDetectCommandClient struct {
@@ -29,8 +29,8 @@ func NewPreDetectCommandClient(cc grpc.ClientConnInterface) PreDetectCommandClie
 	return &preDetectCommandClient{cc}
 }
 
-func (c *preDetectCommandClient) RunPreDetect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceEmptyOutput, error) {
-	out := new(ServiceEmptyOutput)
+func (c *preDetectCommandClient) RunPreDetect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*EmptyOutput, error) {
+	out := new(EmptyOutput)
 	err := c.cc.Invoke(ctx, "/proto.PreDetectCommand/RunPreDetect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +42,14 @@ func (c *preDetectCommandClient) RunPreDetect(ctx context.Context, in *ServiceIn
 // All implementations should embed UnimplementedPreDetectCommandServer
 // for forward compatibility
 type PreDetectCommandServer interface {
-	RunPreDetect(context.Context, *ServiceInput) (*ServiceEmptyOutput, error)
+	RunPreDetect(context.Context, *Input) (*EmptyOutput, error)
 }
 
 // UnimplementedPreDetectCommandServer should be embedded to have forward compatible implementations.
 type UnimplementedPreDetectCommandServer struct {
 }
 
-func (UnimplementedPreDetectCommandServer) RunPreDetect(context.Context, *ServiceInput) (*ServiceEmptyOutput, error) {
+func (UnimplementedPreDetectCommandServer) RunPreDetect(context.Context, *Input) (*EmptyOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RunPreDetect not implemented")
 }
 
@@ -65,7 +65,7 @@ func RegisterPreDetectCommandServer(s grpc.ServiceRegistrar, srv PreDetectComman
 }
 
 func _PreDetectCommand_RunPreDetect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func _PreDetectCommand_RunPreDetect_Handler(srv interface{}, ctx context.Context
 		FullMethod: "/proto.PreDetectCommand/RunPreDetect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PreDetectCommandServer).RunPreDetect(ctx, req.(*ServiceInput))
+		return srv.(PreDetectCommandServer).RunPreDetect(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

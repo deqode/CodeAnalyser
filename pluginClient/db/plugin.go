@@ -12,7 +12,7 @@ import (
 type GRPCPlugin struct {
 	plugin.Plugin
 
-	Impl interfaces.DbVersion
+	Impl interfaces.Db
 }
 
 //GRPCServer plugin.GRPCPlugin Implementation

@@ -14,84 +14,84 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// ProcFileServiceClient is the client API for ProcFileService service.
+// ProcFileClient is the client API for ProcFile service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ProcFileServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputProcFile, error)
+type ProcFileClient interface {
+	Detect(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*ProcFileOutput, error)
 }
 
-type procFileServiceClient struct {
+type procFileClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewProcFileServiceClient(cc grpc.ClientConnInterface) ProcFileServiceClient {
-	return &procFileServiceClient{cc}
+func NewProcFileClient(cc grpc.ClientConnInterface) ProcFileClient {
+	return &procFileClient{cc}
 }
 
-func (c *procFileServiceClient) Detect(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputProcFile, error) {
-	out := new(ServiceOutputProcFile)
-	err := c.cc.Invoke(ctx, "/proto.ProcFileService/Detect", in, out, opts...)
+func (c *procFileClient) Detect(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*ProcFileOutput, error) {
+	out := new(ProcFileOutput)
+	err := c.cc.Invoke(ctx, "/proto.ProcFile/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ProcFileServiceServer is the server API for ProcFileService service.
-// All implementations should embed UnimplementedProcFileServiceServer
+// ProcFileServer is the server API for ProcFile service.
+// All implementations should embed UnimplementedProcFileServer
 // for forward compatibility
-type ProcFileServiceServer interface {
-	Detect(context.Context, *ServiceInputString) (*ServiceOutputProcFile, error)
+type ProcFileServer interface {
+	Detect(context.Context, *StringInput) (*ProcFileOutput, error)
 }
 
-// UnimplementedProcFileServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedProcFileServiceServer struct {
+// UnimplementedProcFileServer should be embedded to have forward compatible implementations.
+type UnimplementedProcFileServer struct {
 }
 
-func (UnimplementedProcFileServiceServer) Detect(context.Context, *ServiceInputString) (*ServiceOutputProcFile, error) {
+func (UnimplementedProcFileServer) Detect(context.Context, *StringInput) (*ProcFileOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
-// UnsafeProcFileServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ProcFileServiceServer will
+// UnsafeProcFileServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ProcFileServer will
 // result in compilation errors.
-type UnsafeProcFileServiceServer interface {
-	mustEmbedUnimplementedProcFileServiceServer()
+type UnsafeProcFileServer interface {
+	mustEmbedUnimplementedProcFileServer()
 }
 
-func RegisterProcFileServiceServer(s grpc.ServiceRegistrar, srv ProcFileServiceServer) {
-	s.RegisterService(&ProcFileService_ServiceDesc, srv)
+func RegisterProcFileServer(s grpc.ServiceRegistrar, srv ProcFileServer) {
+	s.RegisterService(&ProcFile_ServiceDesc, srv)
 }
 
-func _ProcFileService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInputString)
+func _ProcFile_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ProcFileServiceServer).Detect(ctx, in)
+		return srv.(ProcFileServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.ProcFileService/Detect",
+		FullMethod: "/proto.ProcFile/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProcFileServiceServer).Detect(ctx, req.(*ServiceInputString))
+		return srv.(ProcFileServer).Detect(ctx, req.(*StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ProcFileService_ServiceDesc is the grpc.ServiceDesc for ProcFileService service.
+// ProcFile_ServiceDesc is the grpc.ServiceDesc for ProcFile service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ProcFileService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.ProcFileService",
-	HandlerType: (*ProcFileServiceServer)(nil),
+var ProcFile_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.ProcFile",
+	HandlerType: (*ProcFileServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Detect",
-			Handler:    _ProcFileService_Detect_Handler,
+			Handler:    _ProcFile_Detect_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

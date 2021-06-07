@@ -6,7 +6,7 @@ import (
 	"context"
 )
 
-// GRPCClient is an implementation of FrameworkVersions that talks over RPC.
+// GRPCClient is an implementation of Framework that talks over RPC.
 type GRPCClient struct {
 	Client pb.OrmServiceClient
 }
@@ -18,13 +18,13 @@ func (G *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputDetectOrm,
 }
 
 //IsORMUsed will  check if ORM used or not
-func (G *GRPCClient) IsORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+func (G *GRPCClient) IsUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	res, err := G.Client.IsORMUsed(context.Background(), input)
 	return res, err
 }
 
 //PercentOfORMUsed will check % of orm used
-func (G *GRPCClient) PercentOfORMUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
+func (G *GRPCClient) PercentOfUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	res, err := G.Client.PercentOfORMUsed(context.Background(), input)
 	return res, err
 }
@@ -42,12 +42,12 @@ func (G *GRPCServer) Detect(ctx context.Context, input *pb.ServiceInput) (*pb.Se
 
 //IsORMUsed will  check if ORM used or not
 func (G *GRPCServer) IsORMUsed(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	res, err := G.Impl.IsORMUsed(input)
+	res, err := G.Impl.IsUsed(input)
 	return res, err
 }
 
 //PercentOfORMUsed will check % of orm used
 func (G *GRPCServer) PercentOfORMUsed(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
-	res, err := G.Impl.PercentOfORMUsed(input)
+	res, err := G.Impl.PercentOfUsed(input)
 	return res, err
 }

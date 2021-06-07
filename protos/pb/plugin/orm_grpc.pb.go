@@ -14,156 +14,156 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// OrmServiceClient is the client API for OrmService service.
+// OrmClient is the client API for Orm service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type OrmServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputDetectOrm, error)
-	IsORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	PercentOfORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error)
+type OrmClient interface {
+	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*OrmOutput, error)
+	IsORMUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error)
+	PercentOfORMUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error)
 }
 
-type ormServiceClient struct {
+type ormClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewOrmServiceClient(cc grpc.ClientConnInterface) OrmServiceClient {
-	return &ormServiceClient{cc}
+func NewOrmClient(cc grpc.ClientConnInterface) OrmClient {
+	return &ormClient{cc}
 }
 
-func (c *ormServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputDetectOrm, error) {
-	out := new(ServiceOutputDetectOrm)
-	err := c.cc.Invoke(ctx, "/proto.OrmService/Detect", in, out, opts...)
+func (c *ormClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*OrmOutput, error) {
+	out := new(OrmOutput)
+	err := c.cc.Invoke(ctx, "/proto.Orm/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *ormServiceClient) IsORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
-	err := c.cc.Invoke(ctx, "/proto.OrmService/IsORMUsed", in, out, opts...)
+func (c *ormClient) IsORMUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error) {
+	out := new(BoolOutput)
+	err := c.cc.Invoke(ctx, "/proto.Orm/IsORMUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *ormServiceClient) PercentOfORMUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error) {
-	out := new(ServiceOutputFloat)
-	err := c.cc.Invoke(ctx, "/proto.OrmService/PercentOfORMUsed", in, out, opts...)
+func (c *ormClient) PercentOfORMUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error) {
+	out := new(FloatOutput)
+	err := c.cc.Invoke(ctx, "/proto.Orm/PercentOfORMUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// OrmServiceServer is the server API for OrmService service.
-// All implementations should embed UnimplementedOrmServiceServer
+// OrmServer is the server API for Orm service.
+// All implementations should embed UnimplementedOrmServer
 // for forward compatibility
-type OrmServiceServer interface {
-	Detect(context.Context, *ServiceInput) (*ServiceOutputDetectOrm, error)
-	IsORMUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	PercentOfORMUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
+type OrmServer interface {
+	Detect(context.Context, *Input) (*OrmOutput, error)
+	IsORMUsed(context.Context, *Input) (*BoolOutput, error)
+	PercentOfORMUsed(context.Context, *Input) (*FloatOutput, error)
 }
 
-// UnimplementedOrmServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedOrmServiceServer struct {
+// UnimplementedOrmServer should be embedded to have forward compatible implementations.
+type UnimplementedOrmServer struct {
 }
 
-func (UnimplementedOrmServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputDetectOrm, error) {
+func (UnimplementedOrmServer) Detect(context.Context, *Input) (*OrmOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedOrmServiceServer) IsORMUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
+func (UnimplementedOrmServer) IsORMUsed(context.Context, *Input) (*BoolOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsORMUsed not implemented")
 }
-func (UnimplementedOrmServiceServer) PercentOfORMUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error) {
+func (UnimplementedOrmServer) PercentOfORMUsed(context.Context, *Input) (*FloatOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfORMUsed not implemented")
 }
 
-// UnsafeOrmServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to OrmServiceServer will
+// UnsafeOrmServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OrmServer will
 // result in compilation errors.
-type UnsafeOrmServiceServer interface {
-	mustEmbedUnimplementedOrmServiceServer()
+type UnsafeOrmServer interface {
+	mustEmbedUnimplementedOrmServer()
 }
 
-func RegisterOrmServiceServer(s grpc.ServiceRegistrar, srv OrmServiceServer) {
-	s.RegisterService(&OrmService_ServiceDesc, srv)
+func RegisterOrmServer(s grpc.ServiceRegistrar, srv OrmServer) {
+	s.RegisterService(&Orm_ServiceDesc, srv)
 }
 
-func _OrmService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Orm_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrmServiceServer).Detect(ctx, in)
+		return srv.(OrmServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.OrmService/Detect",
+		FullMethod: "/proto.Orm/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServiceServer).Detect(ctx, req.(*ServiceInput))
+		return srv.(OrmServer).Detect(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrmService_IsORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Orm_IsORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrmServiceServer).IsORMUsed(ctx, in)
+		return srv.(OrmServer).IsORMUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.OrmService/IsORMUsed",
+		FullMethod: "/proto.Orm/IsORMUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServiceServer).IsORMUsed(ctx, req.(*ServiceInput))
+		return srv.(OrmServer).IsORMUsed(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrmService_PercentOfORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Orm_PercentOfORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrmServiceServer).PercentOfORMUsed(ctx, in)
+		return srv.(OrmServer).PercentOfORMUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.OrmService/PercentOfORMUsed",
+		FullMethod: "/proto.Orm/PercentOfORMUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServiceServer).PercentOfORMUsed(ctx, req.(*ServiceInput))
+		return srv.(OrmServer).PercentOfORMUsed(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// OrmService_ServiceDesc is the grpc.ServiceDesc for OrmService service.
+// Orm_ServiceDesc is the grpc.ServiceDesc for Orm service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var OrmService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.OrmService",
-	HandlerType: (*OrmServiceServer)(nil),
+var Orm_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.Orm",
+	HandlerType: (*OrmServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Detect",
-			Handler:    _OrmService_Detect_Handler,
+			Handler:    _Orm_Detect_Handler,
 		},
 		{
 			MethodName: "IsORMUsed",
-			Handler:    _OrmService_IsORMUsed_Handler,
+			Handler:    _Orm_IsORMUsed_Handler,
 		},
 		{
 			MethodName: "PercentOfORMUsed",
-			Handler:    _OrmService_PercentOfORMUsed_Handler,
+			Handler:    _Orm_PercentOfORMUsed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

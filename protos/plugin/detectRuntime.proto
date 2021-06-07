@@ -4,6 +4,6 @@ option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
 
-service DetectRuntimeService {
-  rpc DetectRuntime(ServiceInputString) returns (ServiceOutputString);
+service DetectRuntime {
+  rpc Detect(StringInput) returns (StringOutput);
 }

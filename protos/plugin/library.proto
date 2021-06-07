@@ -4,19 +4,19 @@ option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
 
-service LibraryService {
-  rpc   Detect(ServiceInput) returns (ServiceOutputLibraryType);
-  rpc   IsUsed(ServiceInput) returns (ServiceOutputBool);
-  rpc   PercentOfUsed(ServiceInput) returns (ServiceOutputFloat);
+service Library {
+  rpc   Detect(Input) returns (LibraryType);
+  rpc   IsUsed(Input) returns (BoolOutput);
+  rpc   PercentOfUsed(Input) returns (FloatOutput);
 }
 
-message  ServiceOutputLibraryType{
+message  LibraryType{
   bool value = 1;
   enum Type {
     REPLACED = 0;
     EXTERNAL = 1;
   }
   Type type = 3;
-  ServiceError error = 2;
+  Error error = 2;
 }
 

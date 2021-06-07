@@ -5,7 +5,7 @@ import (
 )
 
 type Library interface {
-	Detect(*plugin.ServiceInput) (*plugin.ServiceOutputLibraryType, error) //todo:
-	IsUsed(*plugin.ServiceInput) (*plugin.ServiceOutputBool, error)
-	PercentOfUsed(*plugin.ServiceInput) (*plugin.ServiceOutputFloat, error)
+	Detect(input *plugin.Input) (*plugin.LibraryType, error) //todo:
+	IsUsed(*plugin.Input) (*plugin.BoolOutput, error)
+	PercentOfUsed(*plugin.Input) (*plugin.FloatOutput, error)
 }

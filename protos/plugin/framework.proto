@@ -5,11 +5,10 @@ option go_package = "code-analyser/protos/pb/plugin";
 import "protos/plugin/common.proto";
 
 
-service FrameworkService {
-
-  rpc   Detect(ServiceInput) returns (ServiceOutputBool);
-  rpc   IsFrameworkUsed(ServiceInput) returns (ServiceOutputBool);
-  rpc   PercentOfFrameworkUsed(ServiceInput) returns (ServiceOutputFloat);
+service Framework {
+  rpc   Detect(Input) returns (BoolOutput);
+  rpc   IsFrameworkUsed(Input) returns (BoolOutput);
+  rpc   PercentOfFrameworkUsed(Input) returns (FloatOutput);
 }
 
 //    protoc -I .  --proto_path=./proto    --go_out=./pb   --go-grpc_out=./pb ./proto/*.proto

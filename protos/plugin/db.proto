@@ -4,14 +4,14 @@ option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
 
-message ServiceOutputBoolInt{
+message BoolIntOutput{
   bool value = 1;
   int64 intValue = 2;
-  ServiceError error = 3;
+  Error error = 3;
 }
 
-service DbService {
-  rpc Detect(ServiceInput)  returns (ServiceOutputBoolInt);  // boolint stand for bool-detect , int-port number of db
-  rpc IsDbUsed(ServiceInput) returns (ServiceOutputBool);
-  rpc PercentOfDbUsed(ServiceInput) returns (ServiceOutputFloat);
+service Db {
+  rpc Detect(Input)  returns (BoolIntOutput);  // boolint stand for bool-detect , int-port number of db
+  rpc IsUsed(Input) returns (BoolOutput);
+  rpc PercentOfUsed(Input) returns (FloatOutput);
 }

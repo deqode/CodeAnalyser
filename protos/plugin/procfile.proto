@@ -3,13 +3,13 @@ package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
-import "protos/output/global/proc.proto";
+import "protos/output/global/procfile.proto";
 
-service ProcFileService {
-  rpc Detect(ServiceInputString) returns (ServiceOutputProcFile);
+service ProcFile {
+  rpc Detect(StringInput) returns (ProcFileOutput);
 }
 
-message ServiceOutputProcFile{
-  ServiceError error = 1;
-  protos.output.global.ProcFileOutput procFile = 2;
+message ProcFileOutput {
+ Error error = 1;
+ protos.output.global.ProcFile procFile = 2;
 }

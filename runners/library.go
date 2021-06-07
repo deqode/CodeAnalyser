@@ -39,7 +39,7 @@ func LibraryRunner(libraryList map[string]DependencyDetail, runtimeVersion, root
 
 //LibraryDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtimeVersion, root string) *languageSpecificPB.LibraryOutput {
-	libraryResponse, client := pluginClient.LibraryPluginCall(utils.CallPluginCommand(libraryDetails.Command))
+	libraryResponse, client := pluginClient.CreateLibraryClient(utils.CallPluginCommand(libraryDetails.Command))
 	for client.Exited() {
 		client.Kill()
 	}

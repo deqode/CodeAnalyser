@@ -5,5 +5,5 @@ option go_package = "code-analyser/protos/pb/plugin";
 import "protos/plugin/common.proto";
 
 service BuildDirectory {
-  rpc Detect(ServiceInput) returns (ServiceOutputStringMap);
+  rpc Detect(Input) returns (StringMapOutput);
 }

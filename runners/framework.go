@@ -44,31 +44,31 @@ func FrameworkRunner(frameworkList map[string]DependencyDetail, runtimeVersion, 
 
 //FrameworkDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
 func FrameworkDetectorRunner(name string, framworkDetails DependencyDetail, runtimeVersion, root string) *languageSpecificPB.FrameworkOutput {
-	frameworkResponse, client := pluginClient.FrameworkPluginCall(utils.CallPluginCommand(framworkDetails.Command))
+	frameworkResponse, client := pluginClient.CreateFrameworkClient(utils.CallPluginCommand(framworkDetails.Command))
 	for client.Exited() {
 		client.Kill()
 	}
-	isUsed, err := frameworkResponse.IsFrameworkUsed(&pb.ServiceInput{
+	isUsed, err := frameworkResponse.IsUsed(&pb.Input{
 		RuntimeVersion: runtimeVersion,
-		Root:           root,
+		RootPath:           root,
 	})
 	if err != nil || isUsed.Error != nil {
 		utils.Logger(err, isUsed.Error)
 		return nil
 	}
 	if isUsed.Value {
-		detection, err := frameworkResponse.Detect(&pb.ServiceInput{
+		detection, err := frameworkResponse.Detect(&pb.Input{
 			RuntimeVersion: runtimeVersion,
-			Root:           root,
+			RootPath:           root,
 		})
 		if err != nil || detection.Error != nil {
 			utils.Logger(err, detection.Error)
 			return nil
 		}
 		if detection.Value {
-			percentageUsed, err := frameworkResponse.PercentOfFrameworkUsed(&pb.ServiceInput{
+			percentageUsed, err := frameworkResponse.PercentOfUsed(&pb.Input{
 				RuntimeVersion: runtimeVersion,
-				Root:           root,
+				RootPath:           root,
 			})
 			if err != nil || detection.Error != nil {
 				utils.Logger(err, detection.Error)

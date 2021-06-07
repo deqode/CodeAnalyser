@@ -4,15 +4,15 @@ option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
 
-message ServiceOutputDetectOrm{
+message OrmOutput{
   bool used = 1;
-  string supportedDbName = 2;
-  string supportedDbVersion = 3;
-  ServiceError error = 4;
+  string DbName = 2;
+  string DbVersion = 3;
+  Error error = 4;
 }
 
-service OrmService {
-  rpc Detect(ServiceInput) returns (ServiceOutputDetectOrm);  // deep level detection
-  rpc IsORMUsed(ServiceInput) returns (ServiceOutputBool);
-  rpc PercentOfORMUsed(ServiceInput) returns (ServiceOutputFloat);
+service Orm {
+  rpc Detect(Input) returns (OrmOutput);  // deep level detection
+  rpc IsORMUsed(Input) returns (BoolOutput);
+  rpc PercentOfORMUsed(Input) returns (FloatOutput);
 }

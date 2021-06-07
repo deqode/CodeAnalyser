@@ -5,11 +5,11 @@ option go_package = "code-analyser/protos/pb/plugin";
 import "protos/plugin/common.proto";
 import "protos/output/language_specific/staticAssets.proto";
 
-service StaticAssetsService {
-  rpc Detect(ServiceInput) returns (ServiceOutputStaticAssets);
+service StaticAssets {
+  rpc Detect(Input) returns (StaticAssetsOutput);
 }
 
-message ServiceOutputStaticAssets{
-  ServiceError error = 1;
+message StaticAssetsOutput{
+  Error error = 1;
   repeated protos.output.language_specific.StaticAsset staticAsset = 2;
 }

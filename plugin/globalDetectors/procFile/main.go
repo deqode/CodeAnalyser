@@ -18,19 +18,19 @@ type ProcFile struct {
 //TODO add path of procfile and detection logic
 
 // Detect it returns all procfile
-func (m ProcFile) Detect(path *pb.ServiceInputString) (*pb.ServiceOutputProcFile, error) {
-	procFileOutput := &pb.ServiceOutputProcFile{
+func (m ProcFile) Detect(path *pb.StringInput) (*pb.ProcFileOutput, error) {
+	procFileOutput := &pb.ProcFileOutput{
 		Error: nil,
 	}
 	if _, err := os.Stat(path.Value + "/Procfile"); !os.IsNotExist(err) {
 		fileData, err := ioutil.ReadFile(path.Value + "/Procfile") // just pass the file name
 		if err != nil {
-			procFileOutput.Error = &pb.ServiceError{
+			procFileOutput.Error = &pb.Error{
 				Message: "not able to parse procfile",
 				Cause:   path.Value + "/Procfile",
 			}
 		}
-		procFileOutput.ProcFile = &global.ProcFileOutput{
+		procFileOutput.ProcFile = &global.ProcFile{
 			Used:     true,
 			FilePath: path.Value + "/Procfile",
 			Commands: map[string]*global.Command{},
@@ -50,7 +50,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserProcFile: &procFile.GRPCPlugin{
+			pluginClient.ProcFile: &procFile.GRPCPlugin{
 				Impl: &ProcFile{},
 			}},
 		GRPCServer: plugin.DefaultGRPCServer,

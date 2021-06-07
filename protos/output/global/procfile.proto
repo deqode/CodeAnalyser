@@ -4,7 +4,7 @@ package protos.output.global;
 option go_package = "code-analyser/protos/pb/output/global";
 import "protos/output/global/command.proto";
 
-message ProcFileOutput {
+message ProcFile {
   // check ProcCommands
   bool used = 1;
   // list of all ProcCommands

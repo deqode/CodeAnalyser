@@ -3,7 +3,7 @@ package protos . output. global;
 import "protos/output/global/command.proto";
 
 option go_package = "code-analyser/protos/pb/output/global";
-message DockerComposeFileOutput {
+message DockerCompose {
   bool used = 1;
   string filePath = 2;
   repeated Command commands = 3;

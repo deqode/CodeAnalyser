@@ -1,15 +1,10 @@
 syntax = "proto3";
 option go_package = "code-analyser/protos/pb";
 
-import "protos/output/global/buildCommands.proto";
 import "protos/output/global/dockercompose.proto";
 import "protos/output/global/dockerfile.proto";
 import "protos/output/global/makefile.proto";
-import "protos/output/global/migrationCommands.proto";
-import "protos/output/global/proc.proto";
-import "protos/output/global/seedCommands.proto";
-import "protos/output/global/startUpCommands.proto";
-import "protos/output/global/adHocScripts.proto";
+import "protos/output/global/procfile.proto";
 
 import  "protos/output/language_specific/appserver.proto";
 import "protos/output/language_specific/db.proto";
@@ -21,11 +16,12 @@ import "protos/output/language_specific/orm.proto";
 import "protos/output/language_specific/stack.proto";
 import "protos/output/language_specific/staticAssets.proto";
 import "protos/output/language_specific/testCasesCommand.proto";
+import "protos/output/language_specific/commands.proto";
 
 message LanguageSpecificDetections {
   string name = 1;
   string runtimeVersion = 2;
-  protos.output.language_specific.EnvOutput env = 3;
+  protos.output.language_specific.Envs env = 3;
   repeated protos.output.language_specific.FrameworkOutput framework = 4;
   protos.output.language_specific.DBOutput db = 5;
   protos.output.language_specific.OrmOutput orm = 6;
@@ -36,28 +32,18 @@ message LanguageSpecificDetections {
   repeated protos.output.language_specific.AppserverOutput appserver = 11;
   map<string, string> buildDirectory = 12;
   protos.output.language_specific.TestCasesCommandOutput testCases = 13;
-  Commands commands = 14;
+  protos.output.language_specific.Commands commands = 14;
   // todo: DetectTestCasesRunCommands
 }
 
 message GlobalDetections {
-  protos.output.global.ProcFileOutput procFile = 1;
-  protos.output.global.MakefileOutput makefile = 2;
-  protos.output.global.DockerFileOutput dockerFile = 3;
-  protos.output.global.DockerComposeFileOutput dockerComposeFile = 4;
-}
-
-
-message Commands {
-   protos.output.global.BuildCommandsOutput buildCommands = 1;
-   protos.output.global.StartUpCommandsOutput startUpCommands = 2;
-   protos.output.global.SeedCommandsOutput seedCommands = 3;
-   protos.output.global.MigrationCommandsOutput MigrationCommands = 4;
-   protos.output.global.AdHocScriptsOutput adHocScriptsOutput = 5;
+  protos.output.global.ProcFile procFile = 1;
+  protos.output.global.MakeFile makefile = 2;
+  protos.output.global.DockerFile dockerFile = 3;
+  protos.output.global.DockerCompose dockerComposeFile = 4;
 }
 
 message DecisionMakerInput {
   repeated LanguageSpecificDetections languageSpecificDetection = 1;
   GlobalDetections gloabalDetections = 2;
-  Commands commands = 3;
 }

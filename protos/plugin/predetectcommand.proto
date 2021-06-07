@@ -4,5 +4,5 @@ option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
 service PreDetectCommand {
-  rpc RunPreDetect(ServiceInput) returns (ServiceEmptyOutput);
+  rpc RunPreDetect(Input) returns (EmptyOutput);
 }

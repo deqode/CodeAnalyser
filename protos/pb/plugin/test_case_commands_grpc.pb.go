@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TestCaseCommandsClient interface {
-	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputTestCommand, error)
+	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*TestCommandOutput, error)
 }
 
 type testCaseCommandsClient struct {
@@ -29,8 +29,8 @@ func NewTestCaseCommandsClient(cc grpc.ClientConnInterface) TestCaseCommandsClie
 	return &testCaseCommandsClient{cc}
 }
 
-func (c *testCaseCommandsClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputTestCommand, error) {
-	out := new(ServiceOutputTestCommand)
+func (c *testCaseCommandsClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*TestCommandOutput, error) {
+	out := new(TestCommandOutput)
 	err := c.cc.Invoke(ctx, "/proto.TestCaseCommands/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +42,14 @@ func (c *testCaseCommandsClient) Detect(ctx context.Context, in *ServiceInput, o
 // All implementations should embed UnimplementedTestCaseCommandsServer
 // for forward compatibility
 type TestCaseCommandsServer interface {
-	Detect(context.Context, *ServiceInput) (*ServiceOutputTestCommand, error)
+	Detect(context.Context, *Input) (*TestCommandOutput, error)
 }
 
 // UnimplementedTestCaseCommandsServer should be embedded to have forward compatible implementations.
 type UnimplementedTestCaseCommandsServer struct {
 }
 
-func (UnimplementedTestCaseCommandsServer) Detect(context.Context, *ServiceInput) (*ServiceOutputTestCommand, error) {
+func (UnimplementedTestCaseCommandsServer) Detect(context.Context, *Input) (*TestCommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
@@ -65,7 +65,7 @@ func RegisterTestCaseCommandsServer(s grpc.ServiceRegistrar, srv TestCaseCommand
 }
 
 func _TestCaseCommands_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +77,7 @@ func _TestCaseCommands_Detect_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: "/proto.TestCaseCommands/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TestCaseCommandsServer).Detect(ctx, req.(*ServiceInput))
+		return srv.(TestCaseCommandsServer).Detect(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

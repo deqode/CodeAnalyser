@@ -14,12 +14,13 @@ type DockerFile struct {
 }
 
 //TODO add file path instead of file name  for docker and docker compose
-func (d DockerFile) DetectDockerFiles(path *pb.ServiceInputString) (*pb.ServiceOutputDockerFile, error) {
-	dockerFileOutput := &pb.ServiceOutputDockerFile{
+
+func (d DockerFile) DetectDockerFile(path *pb.StringInput) (*pb.DockerFileOutput, error) {
+	dockerFileOutput := &pb.DockerFileOutput{
 		Error: nil,
 	}
 	if _, err := os.Stat(path.Value + "/Dockerfile"); !os.IsNotExist(err) {
-		dockerFileOutput.DockerFile = &global.DockerFileOutput{
+		dockerFileOutput.DockerFile = &global.DockerFile{
 			Used:     true,
 			FilePath: path.Value + "/Dockerfile",
 		}
@@ -27,19 +28,19 @@ func (d DockerFile) DetectDockerFiles(path *pb.ServiceInputString) (*pb.ServiceO
 	return dockerFileOutput, nil
 }
 
-func (d DockerFile) DetectDockerComposeFiles(path *pb.ServiceInputString) (*pb.ServiceOutputDockerComposeFile, error) {
-	dockerComposeOutput := &pb.ServiceOutputDockerComposeFile{
+func (d DockerFile) DetectDockerComposeFile(path *pb.StringInput) (*pb.DockerComposeFileOutput, error) {
+	dockerComposeOutput := &pb.DockerComposeFileOutput{
 		Error: nil,
 	}
 	var err error
 	if _, err = os.Stat(path.Value + "/docker-compose.yml"); !os.IsNotExist(err) {
-		dockerComposeOutput.DockerComposeFile = &global.DockerComposeFileOutput{
+		dockerComposeOutput.DockerComposeFile = &global.DockerCompose{
 			FilePath: path.Value + "/docker-compose.yml",
 			Used:     true,
 		}
 	}
 	if _, err := os.Stat(path.Value + "/docker-compose.yaml"); !os.IsNotExist(err) {
-		dockerComposeOutput.DockerComposeFile = &global.DockerComposeFileOutput{
+		dockerComposeOutput.DockerComposeFile = &global.DockerCompose{
 			FilePath: path.Value + "/docker-compose.yaml",
 			Used:     true,
 		}
@@ -51,7 +52,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserDockerFile: &dockerFile.GRPCPlugin{
+			pluginClient.DockerFile: &dockerFile.GRPCPlugin{
 				Impl: &DockerFile{},
 			}},
 		GRPCServer: plugin.DefaultGRPCServer,

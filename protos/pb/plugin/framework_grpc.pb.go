@@ -14,156 +14,156 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// FrameworkServiceClient is the client API for FrameworkService service.
+// FrameworkClient is the client API for Framework service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type FrameworkServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	IsFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	PercentOfFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error)
+type FrameworkClient interface {
+	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error)
+	IsFrameworkUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error)
+	PercentOfFrameworkUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error)
 }
 
-type frameworkServiceClient struct {
+type frameworkClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewFrameworkServiceClient(cc grpc.ClientConnInterface) FrameworkServiceClient {
-	return &frameworkServiceClient{cc}
+func NewFrameworkClient(cc grpc.ClientConnInterface) FrameworkClient {
+	return &frameworkClient{cc}
 }
 
-func (c *frameworkServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
-	err := c.cc.Invoke(ctx, "/proto.FrameworkService/Detect", in, out, opts...)
+func (c *frameworkClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error) {
+	out := new(BoolOutput)
+	err := c.cc.Invoke(ctx, "/proto.Framework/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *frameworkServiceClient) IsFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
-	err := c.cc.Invoke(ctx, "/proto.FrameworkService/IsFrameworkUsed", in, out, opts...)
+func (c *frameworkClient) IsFrameworkUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error) {
+	out := new(BoolOutput)
+	err := c.cc.Invoke(ctx, "/proto.Framework/IsFrameworkUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *frameworkServiceClient) PercentOfFrameworkUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error) {
-	out := new(ServiceOutputFloat)
-	err := c.cc.Invoke(ctx, "/proto.FrameworkService/PercentOfFrameworkUsed", in, out, opts...)
+func (c *frameworkClient) PercentOfFrameworkUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error) {
+	out := new(FloatOutput)
+	err := c.cc.Invoke(ctx, "/proto.Framework/PercentOfFrameworkUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// FrameworkServiceServer is the server API for FrameworkService service.
-// All implementations should embed UnimplementedFrameworkServiceServer
+// FrameworkServer is the server API for Framework service.
+// All implementations should embed UnimplementedFrameworkServer
 // for forward compatibility
-type FrameworkServiceServer interface {
-	Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	IsFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
+type FrameworkServer interface {
+	Detect(context.Context, *Input) (*BoolOutput, error)
+	IsFrameworkUsed(context.Context, *Input) (*BoolOutput, error)
+	PercentOfFrameworkUsed(context.Context, *Input) (*FloatOutput, error)
 }
 
-// UnimplementedFrameworkServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedFrameworkServiceServer struct {
+// UnimplementedFrameworkServer should be embedded to have forward compatible implementations.
+type UnimplementedFrameworkServer struct {
 }
 
-func (UnimplementedFrameworkServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
+func (UnimplementedFrameworkServer) Detect(context.Context, *Input) (*BoolOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedFrameworkServiceServer) IsFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
+func (UnimplementedFrameworkServer) IsFrameworkUsed(context.Context, *Input) (*BoolOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsFrameworkUsed not implemented")
 }
-func (UnimplementedFrameworkServiceServer) PercentOfFrameworkUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error) {
+func (UnimplementedFrameworkServer) PercentOfFrameworkUsed(context.Context, *Input) (*FloatOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfFrameworkUsed not implemented")
 }
 
-// UnsafeFrameworkServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to FrameworkServiceServer will
+// UnsafeFrameworkServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FrameworkServer will
 // result in compilation errors.
-type UnsafeFrameworkServiceServer interface {
-	mustEmbedUnimplementedFrameworkServiceServer()
+type UnsafeFrameworkServer interface {
+	mustEmbedUnimplementedFrameworkServer()
 }
 
-func RegisterFrameworkServiceServer(s grpc.ServiceRegistrar, srv FrameworkServiceServer) {
-	s.RegisterService(&FrameworkService_ServiceDesc, srv)
+func RegisterFrameworkServer(s grpc.ServiceRegistrar, srv FrameworkServer) {
+	s.RegisterService(&Framework_ServiceDesc, srv)
 }
 
-func _FrameworkService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Framework_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FrameworkServiceServer).Detect(ctx, in)
+		return srv.(FrameworkServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.FrameworkService/Detect",
+		FullMethod: "/proto.Framework/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).Detect(ctx, req.(*ServiceInput))
+		return srv.(FrameworkServer).Detect(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FrameworkService_IsFrameworkUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Framework_IsFrameworkUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FrameworkServiceServer).IsFrameworkUsed(ctx, in)
+		return srv.(FrameworkServer).IsFrameworkUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.FrameworkService/IsFrameworkUsed",
+		FullMethod: "/proto.Framework/IsFrameworkUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).IsFrameworkUsed(ctx, req.(*ServiceInput))
+		return srv.(FrameworkServer).IsFrameworkUsed(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FrameworkService_PercentOfFrameworkUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Framework_PercentOfFrameworkUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FrameworkServiceServer).PercentOfFrameworkUsed(ctx, in)
+		return srv.(FrameworkServer).PercentOfFrameworkUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.FrameworkService/PercentOfFrameworkUsed",
+		FullMethod: "/proto.Framework/PercentOfFrameworkUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServiceServer).PercentOfFrameworkUsed(ctx, req.(*ServiceInput))
+		return srv.(FrameworkServer).PercentOfFrameworkUsed(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// FrameworkService_ServiceDesc is the grpc.ServiceDesc for FrameworkService service.
+// Framework_ServiceDesc is the grpc.ServiceDesc for Framework service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var FrameworkService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.FrameworkService",
-	HandlerType: (*FrameworkServiceServer)(nil),
+var Framework_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.Framework",
+	HandlerType: (*FrameworkServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Detect",
-			Handler:    _FrameworkService_Detect_Handler,
+			Handler:    _Framework_Detect_Handler,
 		},
 		{
 			MethodName: "IsFrameworkUsed",
-			Handler:    _FrameworkService_IsFrameworkUsed_Handler,
+			Handler:    _Framework_IsFrameworkUsed_Handler,
 		},
 		{
 			MethodName: "PercentOfFrameworkUsed",
-			Handler:    _FrameworkService_PercentOfFrameworkUsed_Handler,
+			Handler:    _Framework_PercentOfFrameworkUsed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -10,8 +10,8 @@ import (
 
 type GetStaticAssets struct{}
 
-func (g *GetStaticAssets) Detect(input *pb.ServiceInput) (*pb.ServiceOutputStaticAssets, error) {
-	return &pb.ServiceOutputStaticAssets{
+func (g *GetStaticAssets) Detect(input *pb.Input) (*pb.StaticAssetsOutput, error) {
+	return &pb.StaticAssetsOutput{
 		Error: nil,
 		StaticAsset: []*languageSpecific.StaticAsset{
 			{
@@ -28,7 +28,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserStaticAssets: &staticAssets.GRPCPlugin{Impl: &GetStaticAssets{}},
+			pluginClient.StaticAssets: &staticAssets.GRPCPlugin{Impl: &GetStaticAssets{}},
 		},
 		GRPCServer: plugin.DefaultGRPCServer,
 	})

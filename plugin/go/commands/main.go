@@ -12,76 +12,66 @@ import (
 type Commands struct {
 }
 
-func (d Commands) DetectBuildCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceOutputDetectBuildCommands, error) {
-	return &pb.ServiceOutputDetectBuildCommands{
+func (d Commands) DetectBuildCommands(path *pb.StringInput) (*pb.CommandsOutput, error) {
+	return &pb.CommandsOutput{
 		Error: nil,
-		BuildCommands: &global.BuildCommandsOutput{
-			Used: true,
-			BuildCommands: []*global.Command{
-				{
-					Command: "go",
-					Args:    []string{"build one"},
-				},
+		Used:  true,
+		Commands: []*global.Command{
+			{
+				Command: "go",
+				Args:    []string{"build one"},
 			},
 		},
 	}, nil
 }
 
-func (d Commands) DetectStartUpCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceOutputStartUpCommands, error) {
-	return &pb.ServiceOutputStartUpCommands{
+func (d Commands) DetectStartUpCommands(path *pb.StringInput) (*pb.CommandsOutput, error) {
+	return &pb.CommandsOutput{
 		Error: nil,
-		StartUpCommands: &global.StartUpCommandsOutput{
-			Used: true,
-			StartUpCommands: []*global.Command{
-				{
-					Command: "go",
-					Args:    []string{"build one"},
-				},
+		Used:  true,
+		Commands: []*global.Command{
+			{
+				Command: "go",
+				Args:    []string{"start up"},
 			},
 		},
 	}, nil
 }
 
-func (d Commands) DetectSeedCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceOutputSeedCommands, error) {
-	return &pb.ServiceOutputSeedCommands{
+func (d Commands) DetectSeedCommands(path *pb.StringInput) (*pb.CommandsOutput, error) {
+	return &pb.CommandsOutput{
 		Error: nil,
-		SeedCommands: &global.SeedCommandsOutput{
-			Used: true,
-			SeedCommands: []*global.Command{
-				{
-					Command: "go",
-					Args:    []string{"build one"},
-				},
+		Used:  true,
+		Commands: []*global.Command{
+			{
+				Command: "go",
+				Args:    []string{"seed "},
 			},
 		},
 	}, nil
 }
 
-func (d Commands) DetectMigrationCommands(inputString *pb.ServiceCommandsInput) (*pb.ServiceMigrationCommands, error) {
-	return &pb.ServiceMigrationCommands{
+func (d Commands) DetectMigrationCommands(path *pb.StringInput) (*pb.CommandsOutput, error) {
+	return &pb.CommandsOutput{
 		Error: nil,
-		MigrationCommands: &global.MigrationCommandsOutput{
-			Used: true,
-			MigrationCommands: []*global.Command{
-				{
-					Command: "go",
-					Args:    []string{"build one"},
-				},
+		Used:  true,
+		Commands: []*global.Command{
+			{
+				Command: "go",
+				Args:    []string{"migration "},
 			},
 		},
 	}, nil
 }
 
-func (d Commands) DetectAdHocScripts(inputString *pb.ServiceCommandsInput) (*pb.ServiceAdHocScripts, error) {
-	return &pb.ServiceAdHocScripts{
+func (d Commands) DetectAdHocScripts(path *pb.StringInput) (*pb.CommandsOutput, error) {
+	return &pb.CommandsOutput{
 		Error: nil,
-		AdHocScripts: &global.AdHocScriptsOutput{
-			Used: true,
-			AdHocScripts: []*global.Command{
-				{
-					Command: "go",
-					Args:    []string{"build one"},
-				},
+		Used:  true,
+		Commands: []*global.Command{
+			{
+				Command: "go",
+				Args:    []string{"adhoc "},
 			},
 		},
 	}, nil
@@ -91,7 +81,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserCommand: &commands.GRPCPlugin{
+			pluginClient.Command: &commands.GRPCPlugin{
 				Impl: &Commands{},
 			}},
 		GRPCServer: plugin.DefaultGRPCServer,

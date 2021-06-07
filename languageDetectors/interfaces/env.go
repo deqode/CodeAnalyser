@@ -6,5 +6,5 @@ import (
 
 // Env will be implemented for plugin
 type Env interface {
-	Detect(*plugin.ServiceInput) (*plugin.ServiceOutputEnv, error)
+	Detect(input *plugin.Input) (*plugin.EnvsOutput, error)
 }

@@ -10,7 +10,7 @@ import (
 
 //EnvDetectAndRunner will run to find Frameworks & returns its detectors.
 func EnvDetectAndRunner(pluginDetails *versionsPB.LanguageVersion, runtimeVersion, root string) *languageSpecific.EnvOutput {
-	res, client := pluginClient.EnvPluginCall(utils.CallPluginCommand(pluginDetails.DetectEnvCommand))
+	res, client := pluginClient.CreateEnvClient(utils.CallPluginCommand(pluginDetails.DetectEnvCommand))
 
 	for client.Exited() {
 		client.Kill()

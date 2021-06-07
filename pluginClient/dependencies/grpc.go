@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/context"
 )
 
-// GRPCClient is an implementation of FrameworkVersions that talks over RPC.
+// GRPCClient is an implementation of Framework that talks over RPC.
 type GRPCClient struct {
 	Client pb.DependenciesServiceClient
 }

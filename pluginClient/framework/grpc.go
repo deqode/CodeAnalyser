@@ -8,7 +8,7 @@ import (
 	"golang.org/x/net/context"
 )
 
-// GRPCClient is an implementation of FrameworkVersions that talks over RPC.
+// GRPCClient is an implementation of Framework that talks over RPC.
 type GRPCClient struct{ Client pb.FrameworkServiceClient }
 
 //TODO add nil check in service input variables
@@ -21,13 +21,13 @@ func (m *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, erro
 		})
 		return ret, err
 	}
-	utils.Logger("service input nil found in Detect method")
+	utils.Logger("service input nil found in DetectDockerFile method")
 	return nil, errors.New("service input nil found")
 
 }
 
 //IsFrameworkUsed returns true if that framework used
-func (m *GRPCClient) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+func (m *GRPCClient) IsUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
 	ret, err := m.Client.IsFrameworkUsed(context.Background(), &pb.ServiceInput{
 		RuntimeVersion: input.RuntimeVersion,
 		Root:           input.Root,
@@ -36,7 +36,7 @@ func (m *GRPCClient) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputB
 }
 
 //PercentOfFrameworkUsed returns percentage of framework used
-func (m *GRPCClient) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
+func (m *GRPCClient) PercentOfUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
 	ret, err := m.Client.PercentOfFrameworkUsed(context.Background(), &pb.ServiceInput{})
 	return ret, err
 }
@@ -44,7 +44,7 @@ func (m *GRPCClient) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.Service
 //GRPCServer  is the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
 	// This is the real implementation
-	Impl interfaces.FrameworkVersions
+	Impl interfaces.Framework
 }
 
 //Detect will detect the usage of framework
@@ -55,12 +55,12 @@ func (m *GRPCServer) Detect(ctx context.Context, req *pb.ServiceInput) (*pb.Serv
 
 //IsFrameworkUsed returns true if that framework used
 func (m *GRPCServer) IsFrameworkUsed(ctx context.Context, req *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	v, err := m.Impl.IsFrameworkUsed(req)
+	v, err := m.Impl.IsUsed(req)
 	return &pb.ServiceOutputBool{Value: v.Value, Error: v.Error}, err
 }
 
 //PercentOfFrameworkUsed returns percentage of framework used
 func (m *GRPCServer) PercentOfFrameworkUsed(ctx context.Context, req *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
-	v, err := m.Impl.PercentOfFrameworkUsed(req)
+	v, err := m.Impl.PercentOfUsed(req)
 	return &pb.ServiceOutputFloat{Value: v.Value, Error: v.Error}, err
 }

@@ -4,7 +4,7 @@ option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/plugin/common.proto";
 
-service DependenciesService {
-    rpc GetDependencies(ServiceInput) returns (ServiceOutputStringMap);
+service Dependencies {
+    rpc GetDependencies(Input) returns (StringMapOutput);
 }
 

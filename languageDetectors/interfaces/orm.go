@@ -6,7 +6,7 @@ import (
 
 //ORMVersion It contains methods to get details of ORM
 type ORMVersion interface {
-	Detect(*plugin.ServiceInput) (*plugin.ServiceOutputDetectOrm, error) // deep level detection
-	IsORMUsed(*plugin.ServiceInput) (*plugin.ServiceOutputBool, error)
-	PercentOfORMUsed(*plugin.ServiceInput) (*plugin.ServiceOutputFloat, error)
+	Detect(input *plugin.Input) (*plugin.OrmOutput, error) // deep level detection
+	IsUsed(input *plugin.Input) (*plugin.BoolOutput, error)
+	PercentOfUsed(input *plugin.Input) (*plugin.FloatOutput, error)
 }

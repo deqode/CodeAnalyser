@@ -9,8 +9,8 @@ import (
 
 type BuildDirectpryPlugin struct{}
 
-func (b *BuildDirectpryPlugin) Detect(input *pb.ServiceInput) (*pb.ServiceOutputStringMap, error) {
-	return &pb.ServiceOutputStringMap{
+func (b *BuildDirectpryPlugin) Detect(input *pb.Input) (*pb.StringMapOutput, error) {
+	return &pb.StringMapOutput{
 		Value: map[string]string{
 			"build":   "/project/name/bin",
 			"publish": "npm run build:lib && publish",
@@ -23,7 +23,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserBuildDirectory: &buildDirectory.GRPCPlugin{Impl: &BuildDirectpryPlugin{}},
+			pluginClient.BuildDirectory: &buildDirectory.GRPCPlugin{Impl: &BuildDirectpryPlugin{}},
 		},
 
 		// A non-nil value here enables gRPC serving for this plugin...

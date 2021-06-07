@@ -25,13 +25,13 @@ func main() {
 	////fmt.Print(string(res))
 	//log.Println(decisionMakerInput.GloabalDetections)
 
-	dbResponse, client := pluginClient.LibraryPluginCall(utils.CallPluginCommand("python3 plugin/python/libraries/numpy/v1_x/server.py"))
+	dbResponse, client := pluginClient.CreateLibraryClient(utils.CallPluginCommand("python3 plugin/python/libraries/numpy/v1_x/server.py"))
 	for client.Exited() {
 		client.Kill()
 	}
-	log.Println(dbResponse.PercentOfUsed(&pb.ServiceInput{
+	log.Println(dbResponse.PercentOfUsed(&pb.Input{
 		RuntimeVersion: "",
-		Root:           "",
+		RootPath:       "",
 	}))
 }
 
@@ -73,9 +73,9 @@ func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 			pluginDetails := LoadLanguageSpecificPluginInfo(languagePath)
 			runtimeVersion := runners.DetectRuntime(ctx, path, pluginDetails)
 			//TODO: change name after dicuss
-			runners.RunPreDetectCommand(ctx, &pb.ServiceInput{
+			runners.RunPreDetectCommand(ctx, &pb.Input{
 				RuntimeVersion: runtimeVersion,
-				Root:           path,
+				RootPath:           path,
 			}, pluginDetails)
 
 			//if no app runtime found =>skip
@@ -87,10 +87,8 @@ func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 				Name:           language.Name,
 				RuntimeVersion: runtimeVersion,
 			}
-			commands := decisionmakerPB.Commands{}
-			RunAllLanguageSpecificPlugins(ctx, &languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path, globalPlugins, &commands)
+			RunAllLanguageSpecificPlugins(ctx, &languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
 			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
-			decisionMakerInput.Commands = &commands
 		}
 
 	}

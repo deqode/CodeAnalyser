@@ -14,84 +14,84 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// StaticAssetsServiceClient is the client API for StaticAssetsService service.
+// StaticAssetsClient is the client API for StaticAssets service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type StaticAssetsServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputStaticAssets, error)
+type StaticAssetsClient interface {
+	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*StaticAssetsOutput, error)
 }
 
-type staticAssetsServiceClient struct {
+type staticAssetsClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewStaticAssetsServiceClient(cc grpc.ClientConnInterface) StaticAssetsServiceClient {
-	return &staticAssetsServiceClient{cc}
+func NewStaticAssetsClient(cc grpc.ClientConnInterface) StaticAssetsClient {
+	return &staticAssetsClient{cc}
 }
 
-func (c *staticAssetsServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputStaticAssets, error) {
-	out := new(ServiceOutputStaticAssets)
-	err := c.cc.Invoke(ctx, "/proto.StaticAssetsService/Detect", in, out, opts...)
+func (c *staticAssetsClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*StaticAssetsOutput, error) {
+	out := new(StaticAssetsOutput)
+	err := c.cc.Invoke(ctx, "/proto.StaticAssets/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// StaticAssetsServiceServer is the server API for StaticAssetsService service.
-// All implementations should embed UnimplementedStaticAssetsServiceServer
+// StaticAssetsServer is the server API for StaticAssets service.
+// All implementations should embed UnimplementedStaticAssetsServer
 // for forward compatibility
-type StaticAssetsServiceServer interface {
-	Detect(context.Context, *ServiceInput) (*ServiceOutputStaticAssets, error)
+type StaticAssetsServer interface {
+	Detect(context.Context, *Input) (*StaticAssetsOutput, error)
 }
 
-// UnimplementedStaticAssetsServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedStaticAssetsServiceServer struct {
+// UnimplementedStaticAssetsServer should be embedded to have forward compatible implementations.
+type UnimplementedStaticAssetsServer struct {
 }
 
-func (UnimplementedStaticAssetsServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputStaticAssets, error) {
+func (UnimplementedStaticAssetsServer) Detect(context.Context, *Input) (*StaticAssetsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
-// UnsafeStaticAssetsServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to StaticAssetsServiceServer will
+// UnsafeStaticAssetsServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to StaticAssetsServer will
 // result in compilation errors.
-type UnsafeStaticAssetsServiceServer interface {
-	mustEmbedUnimplementedStaticAssetsServiceServer()
+type UnsafeStaticAssetsServer interface {
+	mustEmbedUnimplementedStaticAssetsServer()
 }
 
-func RegisterStaticAssetsServiceServer(s grpc.ServiceRegistrar, srv StaticAssetsServiceServer) {
-	s.RegisterService(&StaticAssetsService_ServiceDesc, srv)
+func RegisterStaticAssetsServer(s grpc.ServiceRegistrar, srv StaticAssetsServer) {
+	s.RegisterService(&StaticAssets_ServiceDesc, srv)
 }
 
-func _StaticAssetsService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _StaticAssets_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(StaticAssetsServiceServer).Detect(ctx, in)
+		return srv.(StaticAssetsServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.StaticAssetsService/Detect",
+		FullMethod: "/proto.StaticAssets/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StaticAssetsServiceServer).Detect(ctx, req.(*ServiceInput))
+		return srv.(StaticAssetsServer).Detect(ctx, req.(*Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// StaticAssetsService_ServiceDesc is the grpc.ServiceDesc for StaticAssetsService service.
+// StaticAssets_ServiceDesc is the grpc.ServiceDesc for StaticAssets service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var StaticAssetsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.StaticAssetsService",
-	HandlerType: (*StaticAssetsServiceServer)(nil),
+var StaticAssets_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.StaticAssets",
+	HandlerType: (*StaticAssetsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Detect",
-			Handler:    _StaticAssetsService_Detect_Handler,
+			Handler:    _StaticAssets_Detect_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -27,46 +27,46 @@ import (
 )
 
 const (
-	//PluginDispenserFramework is a string framework
-	PluginDispenserFramework = "framework"
-	//PluginDispenserDB is a string db
-	PluginDispenserDB = "db"
-	//PluginDispenserOrm is a string orm
-	PluginDispenserOrm = "orm"
-	//PluginDispenserDetectRuntime  is a detectRuntime
-	PluginDispenserDetectRuntime = "detectRuntime"
-	//PluginDispenserDependencies  is a getDependencies
-	PluginDispenserDependencies = "getDependencies"
-	PluginDispenserLibrary      = "library"
-	//PluginDispenserEnv is a string env
-	PluginDispenserEnv              = "env"
-	PluginDispenserPreDetectCommand = "preDetectCommand"
-	PluginDispenserStaticAssets     = "staticAssets"
-	PluginDispenserBuildDirectory   = "buildDirectory"
-	PluginDispenserTestCaseCommand  = "testCaseCommand"
-	PluginDispenserProcFile         = "procFile"
-	PluginDispenserMakeFile         = "makeFile"
-	PluginDispenserDockerFile       = "dockerFile"
-	PluginDispenserCommand          = "command"
+	//Framework is a string framework
+	Framework = "framework"
+	//DB is a string db
+	DB = "db"
+	//Orm is a string orm
+	Orm = "orm"
+	//DetectRuntime  is a detectRuntime
+	DetectRuntime = "detectRuntime"
+	//Dependencies  is a getDependencies
+	Dependencies = "getDependencies"
+	Library      = "library"
+	//Env is a string env
+	Env              = "env"
+	PreDetectCommand = "preDetectCommand"
+	StaticAssets     = "staticAssets"
+	BuildDirectory   = "buildDirectory"
+	TestCaseCommand  = "testCaseCommand"
+	ProcFile         = "procFile"
+	MakeFile         = "makeFile"
+	DockerFile       = "dockerFile"
+	Command          = "command"
 )
 
 //PluginMap is a map of dispenser string and plugin
 var PluginMap = map[string]plugin.Plugin{
-	PluginDispenserLibrary:          &library.GRPCPlugin{},
-	PluginDispenserFramework:        &framework.GRPCPlugin{},
-	PluginDispenserDB:               &db.GRPCPlugin{},
-	PluginDispenserDetectRuntime:    &detectRuntime.GRPCPlugin{},
-	PluginDispenserDependencies:     &dependencies.GRPCPlugin{},
-	PluginDispenserOrm:              &orm.GRPCPlugin{},
-	PluginDispenserEnv:              &env.GRPCPlugin{},
-	PluginDispenserPreDetectCommand: &preDetectCommand.GRPCPlugin{},
-	PluginDispenserStaticAssets:     &staticAssets.GRPCPlugin{},
-	PluginDispenserBuildDirectory:   &buildDirectory.GRPCPlugin{},
-	PluginDispenserTestCaseCommand:  &testCasesCommands.GRPCPlugin{},
-	PluginDispenserProcFile:         &procFile.GRPCPlugin{},
-	PluginDispenserMakeFile:         &makeFile.GRPCPlugin{},
-	PluginDispenserDockerFile:       &dockerFile.GRPCPlugin{},
-	PluginDispenserCommand:          &commands.GRPCPlugin{},
+	Library:          &library.GRPCPlugin{},
+	Framework:        &framework.GRPCPlugin{},
+	DB:               &db.GRPCPlugin{},
+	DetectRuntime:    &detectRuntime.GRPCPlugin{},
+	Dependencies:     &dependencies.GRPCPlugin{},
+	Orm:              &orm.GRPCPlugin{},
+	Env:              &env.GRPCPlugin{},
+	PreDetectCommand: &preDetectCommand.GRPCPlugin{},
+	StaticAssets:     &staticAssets.GRPCPlugin{},
+	BuildDirectory:   &buildDirectory.GRPCPlugin{},
+	TestCaseCommand:  &testCasesCommands.GRPCPlugin{},
+	ProcFile:         &procFile.GRPCPlugin{},
+	MakeFile:         &makeFile.GRPCPlugin{},
+	DockerFile:       &dockerFile.GRPCPlugin{},
+	Command:          &commands.GRPCPlugin{},
 }
 
 //HandshakeConfig stores the config for plugin
@@ -102,84 +102,92 @@ func makeClient(cmd *exec.Cmd, pluginDispenser string) (interface{}, *plugin.Cli
 	return raw, client
 }
 
-//FrameworkPluginCall call th plugin related to DetectRuntime framework
-func FrameworkPluginCall(cmd *exec.Cmd) (interfaces.FrameworkVersions, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserFramework)
-	return raw.(interfaces.FrameworkVersions), client
+//CreateFrameworkClient generate client for framework plugin calls
+func CreateFrameworkClient(cmd *exec.Cmd) (interfaces.Framework, *plugin.Client) {
+	raw, client := makeClient(cmd, Framework)
+	return raw.(interfaces.Framework), client
 }
 
-//OrmPluginCall call th plugin related to DetectRuntime ORM
-func OrmPluginCall(cmd *exec.Cmd) (interfaces.ORMVersion, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserOrm)
+//CreateOrmClient generate client for orm plugin calls
+func CreateOrmClient(cmd *exec.Cmd) (interfaces.ORMVersion, *plugin.Client) {
+	raw, client := makeClient(cmd, Orm)
 	return raw.(interfaces.ORMVersion), client
 }
 
-//DetectRuntimePluginCall call th plugin related to DetectRuntime
-func DetectRuntimePluginCall(cmd *exec.Cmd) (interfaces.DetectRunTime, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserDetectRuntime)
+//CreateDetectRuntimeClient generate client for runtime detection plugin calls
+func CreateDetectRuntimeClient(cmd *exec.Cmd) (interfaces.DetectRunTime, *plugin.Client) {
+	raw, client := makeClient(cmd, DetectRuntime)
 	return raw.(interfaces.DetectRunTime), client
 }
 
-//DependenciesPluginCall call th plugin related to Dependencies
-func DependenciesPluginCall(cmd *exec.Cmd) (interfaces.Dependencies, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserDependencies)
+//CreateDependenciesClient generate client for dependencies plugin calls
+func CreateDependenciesClient(cmd *exec.Cmd) (interfaces.Dependencies, *plugin.Client) {
+	raw, client := makeClient(cmd, Dependencies)
 	return raw.(interfaces.Dependencies), client
 }
 
-//DbPluginCall call th plugin related to DB
-func DbPluginCall(cmd *exec.Cmd) (interfaces.DbVersion, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserDB)
-	return raw.(interfaces.DbVersion), client
+//CreateDbClient generate client for db plugin calls
+func CreateDbClient(cmd *exec.Cmd) (interfaces.Db, *plugin.Client) {
+	raw, client := makeClient(cmd, DB)
+	return raw.(interfaces.Db), client
 }
 
-//EnvPluginCall call th plugin related to DB
-func EnvPluginCall(cmd *exec.Cmd) (interfaces.Env, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserEnv)
+//CreateEnvClient generate client for env variables plugin calls
+func CreateEnvClient(cmd *exec.Cmd) (interfaces.Env, *plugin.Client) {
+	raw, client := makeClient(cmd, Env)
 	return raw.(interfaces.Env), client
 }
 
-func LibraryPluginCall(cmd *exec.Cmd) (interfaces.Library, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserLibrary)
+//CreateLibraryClient generate client for library plugin calls
+func CreateLibraryClient(cmd *exec.Cmd) (interfaces.Library, *plugin.Client) {
+	raw, client := makeClient(cmd, Library)
 	return raw.(interfaces.Library), client
 }
 
-func PreDetectCommandPluginCall(cmd *exec.Cmd) (interfaces.PreDetectCommands, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserPreDetectCommand)
+//CreatePreDetectCommandClient generate client for framework plugin calls
+func CreatePreDetectCommandClient(cmd *exec.Cmd) (interfaces.PreDetectCommands, *plugin.Client) {
+	raw, client := makeClient(cmd, PreDetectCommand)
 	return raw.(interfaces.PreDetectCommands), client
 }
 
-func StaticAssetsPluginCall(cmd *exec.Cmd) (interfaces.StaticAssets, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserStaticAssets)
+//CreateStaticAssetsClient generate client for static assets plugin calls
+func CreateStaticAssetsClient(cmd *exec.Cmd) (interfaces.StaticAssets, *plugin.Client) {
+	raw, client := makeClient(cmd, StaticAssets)
 	return raw.(interfaces.StaticAssets), client
 }
 
-func BuildDirectoryPluginCall(cmd *exec.Cmd) (interfaces.BuildDirectory, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserBuildDirectory)
+//CreateBuildDirectoryClient generate client for build directory plugin calls
+func CreateBuildDirectoryClient(cmd *exec.Cmd) (interfaces.BuildDirectory, *plugin.Client) {
+	raw, client := makeClient(cmd, BuildDirectory)
 	return raw.(interfaces.BuildDirectory), client
 }
 
-func TestCaseCommandPluginCall(cmd *exec.Cmd) (interfaces.TestCasesRunCommands, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserTestCaseCommand)
+//CreateTestCaseCommandClient generate client for test commands plugin calls
+func CreateTestCaseCommandClient(cmd *exec.Cmd) (interfaces.TestCasesRunCommands, *plugin.Client) {
+	raw, client := makeClient(cmd, TestCaseCommand)
 	return raw.(interfaces.TestCasesRunCommands), client
 }
-func ProcFilePluginCall(cmd *exec.Cmd) (GlobalFiles.ProcFile, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserProcFile)
+
+//CreateProcFileClient generate client for procfile plugin calls
+func CreateProcFileClient(cmd *exec.Cmd) (GlobalFiles.ProcFile, *plugin.Client) {
+	raw, client := makeClient(cmd, ProcFile)
 	return raw.(GlobalFiles.ProcFile), client
 }
 
-func MakeFilePluginCall(cmd *exec.Cmd) (GlobalFiles.Makefiles, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserMakeFile)
-	return raw.(GlobalFiles.Makefiles), client
+//CreateMakeFileClient generate client for makefile plugin calls
+func CreateMakeFileClient(cmd *exec.Cmd) (GlobalFiles.Makefile, *plugin.Client) {
+	raw, client := makeClient(cmd, MakeFile)
+	return raw.(GlobalFiles.Makefile), client
 }
 
-func DockerFilePluginCall(cmd *exec.Cmd) (GlobalFiles.DockerFile, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserDockerFile)
+//CreateDockerFileClient generate client for dockerfile plugin calls
+func CreateDockerFileClient(cmd *exec.Cmd) (GlobalFiles.DockerFile, *plugin.Client) {
+	raw, client := makeClient(cmd, DockerFile)
 	return raw.(GlobalFiles.DockerFile), client
 }
 
-func CommandsPluginCall(cmd *exec.Cmd) (GlobalFiles.Commands, *plugin.Client) {
-	raw, client := makeClient(cmd, PluginDispenserCommand)
+//CreateCommandsClient generate client for commands plugin calls
+func CreateCommandsClient(cmd *exec.Cmd) (GlobalFiles.Commands, *plugin.Client) {
+	raw, client := makeClient(cmd, Command)
 	return raw.(GlobalFiles.Commands), client
 }
-
-

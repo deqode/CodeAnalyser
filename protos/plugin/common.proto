@@ -2,49 +2,47 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-message ServiceEmpty {}
-message  ServiceOutputString {
-  string value = 1;
-  ServiceError error = 2;
+message Empty {}
 
+message  StringOutput {
+  string value = 1;
+  Error error = 2;
 }
 
-message  ServiceInputString {
-  string value = 1;
+message  StringInput {
+  string   value = 1;
 }
 
-message  ServiceOutputInt {
+message  IntOutput {
   int64 value = 1;
-  ServiceError error = 2;
-
+  Error error = 2;
 }
 
-message ServiceEmptyOutput {
-  ServiceError error = 1;
+message EmptyOutput {
+  Error error = 1;
 }
 
-message  ServiceOutputFloat {
+message  FloatOutput {
   float value = 1;
-  ServiceError error = 2;
+  Error error = 2;
 }
 
-message  ServiceOutputBool {
+message  BoolOutput {
   bool value = 1;
-  ServiceError error = 2;
-
+  Error error = 2;
 }
 
-message ServiceInput {
+message Input {
   string runtimeVersion = 1;
-  string root = 2;
+  string rootPath = 2;
 }
 
-message ServiceOutputStringMap{
+message StringMapOutput{
   map<string, string> value = 1;
-  ServiceError error = 2;
+  Error error = 2;
 }
 
-message ServiceError{
+message Error{
   string message = 1;
   enum ErrorCode{
     Error = 0;

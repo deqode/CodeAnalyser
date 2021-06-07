@@ -6,17 +6,17 @@ import "protos/plugin/common.proto";
 import "protos/output/global/dockerfile.proto";
 import "protos/output/global/dockercompose.proto";
 
-service DockerFileService {
-  rpc DetectDockerFiles(ServiceInputString) returns (ServiceOutputDockerFile);
-  rpc DetectDockerComposeFiles(ServiceInputString) returns (ServiceOutputDockerComposeFile);
+service DockerFile {
+  rpc DetectDockerFiles(StringInput) returns (DockerFileOutput);
+  rpc DetectDockerComposeFiles(StringInput) returns (DockerComposeFileOutput);
 }
 
-message ServiceOutputDockerFile{
-  ServiceError error = 1;
-  protos.output.global.DockerFileOutput dockerFile = 2;
+message DockerFileOutput{
+  Error error = 1;
+  protos.output.global.DockerFile dockerFile = 2;
 }
 
-message ServiceOutputDockerComposeFile{
-  ServiceError error = 1;
-  protos.output.global.DockerComposeFileOutput dockerComposeFile = 2;
+message DockerComposeFileOutput{
+  Error error = 1;
+  protos.output.global.DockerCompose dockerComposeFile = 2;
 }

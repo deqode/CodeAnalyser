@@ -21,12 +21,12 @@ type GlobalRunnerInput struct {
 
 type ProcFileCase struct {
 	Input  GlobalRunnerInput
-	Output *global.ProcFileOutput
+	Output *global.ProcFile
 }
 
 type MakeFileCase struct {
 	Input  GlobalRunnerInput
-	Output *global.MakefileOutput
+	Output *global.MakeFile
 }
 
 var DockerCases = []DockerCase{
@@ -37,11 +37,11 @@ var DockerCases = []DockerCase{
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: testing.DockerCaseOutput{
-			DockerFile: &global.DockerFileOutput{
+			DockerFile: &global.DockerFile{
 				Used:     true,
 				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1/Dockerfile",
 			},
-			DockerComposeFile: &global.DockerComposeFileOutput{
+			DockerComposeFile: &global.DockerCompose{
 				Used:     true,
 				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1/docker-compose.yml",
 			},
@@ -55,7 +55,7 @@ var DockerCases = []DockerCase{
 		},
 		Output: testing.DockerCaseOutput{
 			DockerFile: nil,
-			DockerComposeFile: &global.DockerComposeFileOutput{
+			DockerComposeFile: &global.DockerCompose{
 				Used:     true,
 				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo2/docker-compose.yaml",
 			},
@@ -86,7 +86,7 @@ var ProcFileCases = []ProcFileCase{
 			Path:         commonUtils.ProjectPath() + "/testingRepos/detectProcfile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
-		Output: &global.ProcFileOutput{
+		Output: &global.ProcFile{
 			Used:     true,
 			FilePath: commonUtils.ProjectPath() + "/testingRepos/detectProcfile/repo1/Procfile",
 			Commands: map[string]*global.Command{
@@ -118,7 +118,7 @@ var MakeFileCases = []MakeFileCase{
 			Path:         commonUtils.ProjectPath() + "/testingRepos/detectMakefile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
-		Output: &global.MakefileOutput{
+		Output: &global.MakeFile{
 			Used: true,
 			FilePath: commonUtils.ProjectPath() + "/testingRepos/detectMakefile/repo1/Makefile",
 		},

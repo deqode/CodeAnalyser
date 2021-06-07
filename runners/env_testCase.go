@@ -8,7 +8,7 @@ import (
 
 type EnvCase struct {
 	Input  EnvInput
-	Output *languageSpecific.EnvOutput
+	Output *languageSpecific.Envs
 }
 
 type EnvInput struct {
@@ -24,7 +24,7 @@ var EnvCases = []EnvCase{
 			Root:           utils.ProjectPath() + "/testingRepos/env/repo1",
 			RuntimeVersion: "sfs",
 		},
-		Output: &languageSpecific.EnvOutput{
+		Output: &languageSpecific.Envs{
 			EnvUsed: true,
 			EnvKeyValues: map[string]string{
 				"jk":       "7",
@@ -41,7 +41,7 @@ var EnvCases = []EnvCase{
 			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
 			RuntimeVersion: "sfs",
 		},
-		Output: &languageSpecific.EnvOutput{
+		Output: &languageSpecific.Envs{
 			EnvUsed: false,
 		},
 	},
@@ -59,7 +59,7 @@ var EnvCases = []EnvCase{
 			Root:           utils.ProjectPath() + "/testingRepos/env/repo2",
 			RuntimeVersion: "sfs",
 		},
-		Output: &languageSpecific.EnvOutput{
+		Output: &languageSpecific.Envs{
 			EnvUsed: true,
 			EnvKeyValues: map[string]string{
 				"joss":      "1",

@@ -14,120 +14,120 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// DockerFileServiceClient is the client API for DockerFileService service.
+// DockerFileClient is the client API for DockerFile service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DockerFileServiceClient interface {
-	DetectDockerFiles(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputDockerFile, error)
-	DetectDockerComposeFiles(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputDockerComposeFile, error)
+type DockerFileClient interface {
+	DetectDockerFiles(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*DockerFileOutput, error)
+	DetectDockerComposeFiles(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*DockerComposeFileOutput, error)
 }
 
-type dockerFileServiceClient struct {
+type dockerFileClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewDockerFileServiceClient(cc grpc.ClientConnInterface) DockerFileServiceClient {
-	return &dockerFileServiceClient{cc}
+func NewDockerFileClient(cc grpc.ClientConnInterface) DockerFileClient {
+	return &dockerFileClient{cc}
 }
 
-func (c *dockerFileServiceClient) DetectDockerFiles(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputDockerFile, error) {
-	out := new(ServiceOutputDockerFile)
-	err := c.cc.Invoke(ctx, "/proto.DockerFileService/DetectDockerFiles", in, out, opts...)
+func (c *dockerFileClient) DetectDockerFiles(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*DockerFileOutput, error) {
+	out := new(DockerFileOutput)
+	err := c.cc.Invoke(ctx, "/proto.DockerFile/DetectDockerFiles", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dockerFileServiceClient) DetectDockerComposeFiles(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputDockerComposeFile, error) {
-	out := new(ServiceOutputDockerComposeFile)
-	err := c.cc.Invoke(ctx, "/proto.DockerFileService/DetectDockerComposeFiles", in, out, opts...)
+func (c *dockerFileClient) DetectDockerComposeFiles(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*DockerComposeFileOutput, error) {
+	out := new(DockerComposeFileOutput)
+	err := c.cc.Invoke(ctx, "/proto.DockerFile/DetectDockerComposeFiles", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// DockerFileServiceServer is the server API for DockerFileService service.
-// All implementations should embed UnimplementedDockerFileServiceServer
+// DockerFileServer is the server API for DockerFile service.
+// All implementations should embed UnimplementedDockerFileServer
 // for forward compatibility
-type DockerFileServiceServer interface {
-	DetectDockerFiles(context.Context, *ServiceInputString) (*ServiceOutputDockerFile, error)
-	DetectDockerComposeFiles(context.Context, *ServiceInputString) (*ServiceOutputDockerComposeFile, error)
+type DockerFileServer interface {
+	DetectDockerFiles(context.Context, *StringInput) (*DockerFileOutput, error)
+	DetectDockerComposeFiles(context.Context, *StringInput) (*DockerComposeFileOutput, error)
 }
 
-// UnimplementedDockerFileServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedDockerFileServiceServer struct {
+// UnimplementedDockerFileServer should be embedded to have forward compatible implementations.
+type UnimplementedDockerFileServer struct {
 }
 
-func (UnimplementedDockerFileServiceServer) DetectDockerFiles(context.Context, *ServiceInputString) (*ServiceOutputDockerFile, error) {
+func (UnimplementedDockerFileServer) DetectDockerFiles(context.Context, *StringInput) (*DockerFileOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectDockerFiles not implemented")
 }
-func (UnimplementedDockerFileServiceServer) DetectDockerComposeFiles(context.Context, *ServiceInputString) (*ServiceOutputDockerComposeFile, error) {
+func (UnimplementedDockerFileServer) DetectDockerComposeFiles(context.Context, *StringInput) (*DockerComposeFileOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectDockerComposeFiles not implemented")
 }
 
-// UnsafeDockerFileServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DockerFileServiceServer will
+// UnsafeDockerFileServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DockerFileServer will
 // result in compilation errors.
-type UnsafeDockerFileServiceServer interface {
-	mustEmbedUnimplementedDockerFileServiceServer()
+type UnsafeDockerFileServer interface {
+	mustEmbedUnimplementedDockerFileServer()
 }
 
-func RegisterDockerFileServiceServer(s grpc.ServiceRegistrar, srv DockerFileServiceServer) {
-	s.RegisterService(&DockerFileService_ServiceDesc, srv)
+func RegisterDockerFileServer(s grpc.ServiceRegistrar, srv DockerFileServer) {
+	s.RegisterService(&DockerFile_ServiceDesc, srv)
 }
 
-func _DockerFileService_DetectDockerFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInputString)
+func _DockerFile_DetectDockerFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DockerFileServiceServer).DetectDockerFiles(ctx, in)
+		return srv.(DockerFileServer).DetectDockerFiles(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.DockerFileService/DetectDockerFiles",
+		FullMethod: "/proto.DockerFile/DetectDockerFiles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DockerFileServiceServer).DetectDockerFiles(ctx, req.(*ServiceInputString))
+		return srv.(DockerFileServer).DetectDockerFiles(ctx, req.(*StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DockerFileService_DetectDockerComposeFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInputString)
+func _DockerFile_DetectDockerComposeFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DockerFileServiceServer).DetectDockerComposeFiles(ctx, in)
+		return srv.(DockerFileServer).DetectDockerComposeFiles(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.DockerFileService/DetectDockerComposeFiles",
+		FullMethod: "/proto.DockerFile/DetectDockerComposeFiles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DockerFileServiceServer).DetectDockerComposeFiles(ctx, req.(*ServiceInputString))
+		return srv.(DockerFileServer).DetectDockerComposeFiles(ctx, req.(*StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// DockerFileService_ServiceDesc is the grpc.ServiceDesc for DockerFileService service.
+// DockerFile_ServiceDesc is the grpc.ServiceDesc for DockerFile service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var DockerFileService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.DockerFileService",
-	HandlerType: (*DockerFileServiceServer)(nil),
+var DockerFile_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.DockerFile",
+	HandlerType: (*DockerFileServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "DetectDockerFiles",
-			Handler:    _DockerFileService_DetectDockerFiles_Handler,
+			Handler:    _DockerFile_DetectDockerFiles_Handler,
 		},
 		{
 			MethodName: "DetectDockerComposeFiles",
-			Handler:    _DockerFileService_DetectDockerComposeFiles_Handler,
+			Handler:    _DockerFile_DetectDockerComposeFiles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

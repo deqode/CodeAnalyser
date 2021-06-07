@@ -1,4 +1,5 @@
 var common= require("../../../common");
+
 function detect(input, callback) {
   let path = input.request.root;
   common.requirePathCheck(
@@ -10,7 +11,7 @@ function detect(input, callback) {
   // callback(reject, { value: null, error: reject })
 }
 
-function isDbUsed(input, callback) {
+function isUsed(input, callback) {
   let path = input.request.root;
   common.requirePathCheck(
     path,
@@ -21,7 +22,7 @@ function isDbUsed(input, callback) {
   // callback(reject, { value: null, error: reject })
 }
 
-function percentOfDbUsed(input, callback) {
+function percentOfUsed(input, callback) {
   let path = input.request.root;
   common.requirePathCheck(
     path,
@@ -34,6 +35,6 @@ function percentOfDbUsed(input, callback) {
 
 module.exports = {
   detect: detect,
-  isDbUsed: isDbUsed,
-  percentOfDbUsed: percentOfDbUsed,
+  isUsed: isUsed,
+  percentOfUsed: percentOfUsed,
 };
