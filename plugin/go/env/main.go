@@ -20,6 +20,7 @@ func (e EnvPlugin) Detect(input *pb.Input) (*pb.EnvsOutput, error) {
 				"password": "aag_laga_denge_aag",
 			},
 			Keys:  []string{"345"},
+			Used: true,
 		} ,
 		Error: nil,
 	}, nil

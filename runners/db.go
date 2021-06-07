@@ -7,44 +7,44 @@ import (
 	pb "code-analyser/protos/pb/plugin"
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
+	"golang.org/x/net/context"
 )
 
 /*
-ParseDbFromDependencies It will filter out frameworks from dependencies list where
+ExtractDbsFromProjectDependencies It will filter out frameworks from dependencies list where
 dependenciesList : list of dependencies of any project ,
 langYamlObject : dependencies supported by us
 */
-func ParseDbFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
+func ExtractDbsFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, dbPlugins map[string]*versionsPB.DependencyDetails) map[string]DependencyDetail {
 	db := map[string]DependencyDetail{}
-	for key, supportedDb := range langYamlObject.Databases {
-		for dbVersion, dependencyVersionDetails := range supportedDb.Version {
-			for _, library := range dependencyVersionDetails.Libraries {
-				if libraryUsedVersion, ok := dependenciesList[library.Name]; ok {
-					if helpers.SemverValidateFromArray(library.Semver, libraryUsedVersion) {
-						db[key] = DependencyDetail{
+	for name, details := range dbPlugins {
+		for dbVersion, versionDetails := range details.Version {
+			for _, library := range versionDetails.Libraries {
+				if usedLibraryVersion, ok := projectDependencies[library.Name]; ok {
+					if helpers.SemverValidateFromArray(library.Semver, usedLibraryVersion) {
+						db[name] = DependencyDetail{
 							Version: dbVersion,
-							Command: dependencyVersionDetails.Plugincommand,
+							Command: versionDetails.PluginPath,
 						}
 					}
 				}
 			}
 		}
 	}
-
 	return db
 }
 
-//DbRunner will run to detect its dbs and return its detectors
-func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *languageSpecificPB.DBOutput {
+//ExecuteDbPlugins will run to detect its dbs and return its detectors
+func ExecuteDbPlugins(ctx context.Context,dbPlugins map[string]DependencyDetail, runtimeVersion, projectRootPath string) *languageSpecificPB.DBOutput {
 	dbOutput := languageSpecificPB.DBOutput{
 		Used:      false,
 		Databases: []*languageSpecificPB.DB{},
 	}
-	for dbUsed, dbDetails := range dbList {
-		isUsed := DbDetectorRunner(dbUsed, dbDetails, runtimeVersion, root)
-		if isUsed != nil {
+	for name, details := range dbPlugins {
+		dbPluginResponse := ExecuteDbPlugin(ctx,name, details, runtimeVersion, projectRootPath)
+		if dbPluginResponse != nil {
 			dbOutput.Used = true
-			dbOutput.Databases = append(dbOutput.Databases, isUsed)
+			dbOutput.Databases = append(dbOutput.Databases, dbPluginResponse)
 		}
 	}
 	return &dbOutput
@@ -52,36 +52,37 @@ func DbRunner(dbList map[string]DependencyDetail, runtimeVersion, root string) *
 
 //TODO handle errors on every method calls
 
-//DbDetectorRunner It will execute plugin from command fetched from yaml file of same plugin
-func DbDetectorRunner(name string, dbDetails DependencyDetail, runTimeVersion, root string) *languageSpecificPB.DB {
-	dbResponse, client := pluginClient.CreateDbClient(utils.CallPluginCommand(dbDetails.Command))
-	for client.Exited() {
-		client.Kill()
-	}
-	isUsed, err := dbResponse.IsUsed(&pb.Input{
+
+//ExecuteDbPlugin It will execute db plugin which is located at dbPluginDetail.Command ,
+//name :- db name,
+//dbPluginDetail :- db plugin info for e.g. version path
+func ExecuteDbPlugin(ctx context.Context,name string, dbPluginDetail DependencyDetail, runTimeVersion, projectRootPath string) *languageSpecificPB.DB {
+	pluginCall, _ := pluginClient.CreateDbClient(utils.CallPluginCommand(dbPluginDetail.Command))
+
+	pluginInput := &pb.Input{
 		RuntimeVersion: runTimeVersion,
-		RootPath:           root,
-	})
+		RootPath:       projectRootPath,
+	}
+
+	isUsed, err := pluginCall.IsUsed(pluginInput)
 	if err != nil || isUsed.Error != nil {
-		utils.Logger(err, isUsed.Error)
+		utils.Logger(err, isUsed)
+		return nil
+	}
+	if isUsed.Value == false {
 		return nil
 	}
 
-	if isUsed.Value {
-		detection, err := dbResponse.Detect(&pb.Input{
-			RuntimeVersion: runTimeVersion,
-			RootPath:           root,
-		})
-		if err != nil || detection.Error != nil {
-			utils.Logger(err, detection.Error)
-			return nil
-		}
-		if detection.Value {
-			return &languageSpecificPB.DB{
-				Name:    name,
-				Version: dbDetails.Version,
-				Port:    detection.IntValue,
-			}
+	response, err := pluginCall.Detect(pluginInput)
+	if err != nil || response.Error != nil {
+		utils.Logger(err, response)
+		return nil
+	}
+	if response.Value {
+		return &languageSpecificPB.DB{
+			Name:    name,
+			Version: dbPluginDetail.Version,
+			Port:    response.IntValue,
 		}
 	}
 	return nil

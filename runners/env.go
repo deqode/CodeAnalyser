@@ -4,34 +4,30 @@ import (
 	"code-analyser/pluginClient"
 	"code-analyser/protos/pb/output/languageSpecific"
 	pb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
+	"golang.org/x/net/context"
 )
 
-//EnvDetectAndRunner will run to find Frameworks & returns its detectors.
-func EnvDetectAndRunner(pluginDetails *versionsPB.LanguageVersion, runtimeVersion, root string) *languageSpecific.EnvOutput {
-	res, client := pluginClient.CreateEnvClient(utils.CallPluginCommand(pluginDetails.DetectEnvCommand))
+//ExecuteEnvsDetectionPlugin will run to find Frameworks & returns its detectors.
+func ExecuteEnvsDetectionPlugin(ctx context.Context, envPluginPath, runtimeVersion, projectRootPath string) *languageSpecific.Envs {
+	pluginCall, _ := pluginClient.CreateEnvClient(utils.CallPluginCommand(envPluginPath))
 
-	for client.Exited() {
-		client.Kill()
-	}
-
-	detection, err := res.Detect(&pb.ServiceInput{
+	response, err := pluginCall.Detect(&pb.Input{
 		RuntimeVersion: runtimeVersion,
-		Root:           root,
+		RootPath:       projectRootPath,
 	})
-	if err != nil || detection.Error != nil {
-		utils.Logger(err, detection.Error)
+	if err != nil || response.Error != nil {
+		utils.Logger(err, response)
 		return nil
 	}
 
-	envOutput := languageSpecific.EnvOutput{
-		EnvUsed: false,
+	envOutput := languageSpecific.Envs{
+		Used: false,
 	}
-	if detection.EnvKeyValues != nil || detection.Keys != nil {
-		envOutput.EnvUsed = true
-		envOutput.EnvKeyValues = detection.EnvKeyValues
-		envOutput.Variables = detection.Keys
+	if response.Envs.EnvKeyValues != nil || response.Envs.Keys != nil {
+		envOutput.Used = true
+		envOutput.EnvKeyValues = response.Envs.EnvKeyValues
+		envOutput.Keys = response.Envs.Keys
 	}
 	return &envOutput
 }

@@ -27,13 +27,13 @@ func RunAllLanguageSpecificPlugins(ctx context.Context, languageSpecificDetectio
 		}, pluginDetails)
 	}
 
-	languageSpecificDetections.Orm = runners.OrmRunner(allDependencies[runners.ORM], runtimeVersion, path)
+	languageSpecificDetections.Orm = runners.ExecuteOrmPlugins(allDependencies[runners.ORM], runtimeVersion, path)
 
-	languageSpecificDetections.Db = runners.DbRunner(allDependencies[runners.DB], runtimeVersion, path)
+	languageSpecificDetections.Db = runners.ExecuteDbPlugins(allDependencies[runners.DB], runtimeVersion, path)
 
-	languageSpecificDetections.Framework = runners.FrameworkRunner(allDependencies[runners.Framework], runtimeVersion, path)
+	languageSpecificDetections.Framework = runners.ExecuteFrameworkPlugins(allDependencies[runners.Framework], runtimeVersion, path)
 	if pluginDetails.DetectEnvCommand != "" {
-		languageSpecificDetections.Env = runners.EnvDetectAndRunner(pluginDetails, runtimeVersion, path)
+		languageSpecificDetections.Env = runners.ExecuteEnvsDetectionPlugin(pluginDetails, runtimeVersion, path)
 	}
 
 	if pluginDetails.StaticAssetsCommand != "" {
@@ -43,7 +43,7 @@ func RunAllLanguageSpecificPlugins(ctx context.Context, languageSpecificDetectio
 		}, pluginDetails)
 	}
 
-	languageSpecificDetections.Libraries = runners.LibraryRunner(allDependencies[runners.Library], runtimeVersion, path)
+	languageSpecificDetections.Libraries = runners.ExecuteLibraryPlugins(allDependencies[runners.Library], runtimeVersion, path)
 
 	if pluginDetails.BuildDirectoryCommand != "" {
 		languageSpecificDetections.BuildDirectory = runners.DetectAndRunBuildDirectory(ctx, &pb.Input{

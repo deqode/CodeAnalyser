@@ -187,7 +187,7 @@ func CreateDockerFileClient(cmd *exec.Cmd) (GlobalFiles.DockerFile, *plugin.Clie
 }
 
 //CreateCommandsClient generate client for commands plugin calls
-func CreateCommandsClient(cmd *exec.Cmd) (GlobalFiles.Commands, *plugin.Client) {
+func CreateCommandsClient(cmd *exec.Cmd) (interfaces.Commands, *plugin.Client) {
 	raw, client := makeClient(cmd, Command)
-	return raw.(GlobalFiles.Commands), client
+	return raw.(interfaces.Commands), client
 }

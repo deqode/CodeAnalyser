@@ -10,5 +10,5 @@ message Commands {
     proto.CommandsOutput startUpCommands = 2;
     proto.CommandsOutput seedCommands = 3;
     proto.CommandsOutput MigrationCommands = 4;
-    proto.CommandsOutput adHocScriptsOutput = 5;
+    proto.CommandsOutput adHocScripts = 5;
 }
