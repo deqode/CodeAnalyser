@@ -13,7 +13,7 @@ type GetStaticAssets struct{}
 func (g *GetStaticAssets) Detect(input *pb.Input) (*pb.StaticAssetsOutput, error) {
 	return &pb.StaticAssetsOutput{
 		Error: nil,
-		StaticAsset: []*languageSpecific.StaticAsset{
+		Value: []*languageSpecific.StaticAsset{
 			{
 				Name:   "static",
 				Path:   "hghkjg",

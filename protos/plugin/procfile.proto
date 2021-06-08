@@ -11,5 +11,5 @@ service ProcFile {
 
 message ProcFileOutput {
  Error error = 1;
- protos.output.global.ProcFile procFile = 2;
+ protos.output.global.ProcFile value = 2;
 }

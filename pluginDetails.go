@@ -5,8 +5,10 @@ import (
 	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"errors"
+	"golang.org/x/net/context"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -19,7 +21,7 @@ type PluginDetailsFile struct {
 }
 
 //ReadPluginYamlFile It wil read yaml file of specific plugin
-func ReadPluginYamlFile(filePath PluginDetailsFile) (*utilsPB.Plugin, error) {
+func ReadPluginYamlFile(ctx context.Context, filePath PluginDetailsFile) (*utilsPB.Plugin, error) {
 	filename, _ := filepath.Abs(filePath.path)
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -39,197 +41,161 @@ func ReadPluginYamlFile(filePath PluginDetailsFile) (*utilsPB.Plugin, error) {
 	return &lang, nil
 }
 
-//LoadGlobalFilesPluginInfo It will read pluginDetails.yaml files in plugin/globalDetectors directory
-func LoadGlobalFilesPluginInfo(globalPath string) *versionsPB.GlobalPlugin {
-	var pluginDetailsFiles []PluginDetailsFile
-	err := filepath.Walk(globalPath,
+//SearchFileInDirectory search specific file in directory , it will return path of files
+func SearchFileInDirectory(fileName, dirPath string) ([]PluginDetailsFile, error) {
+	var pluginYamlFiles []PluginDetailsFile
+	err := filepath.Walk(dirPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
-			if info.Name() == "pluginDetails.yaml" {
+			if info.Name() == fileName {
 				dir := strings.Split(path, info.Name())[0]
-				pluginDetailsFiles = append(pluginDetailsFiles, PluginDetailsFile{path: path, dir: dir})
+				pluginYamlFiles = append(pluginYamlFiles, PluginDetailsFile{path: path, dir: dir})
 			}
 			return nil
 		})
 	if err != nil {
-		utils.Logger(err)
+		return nil, err
 	}
+	return pluginYamlFiles, err
+}
+
+//GetGlobalPluginsPath It will read pluginDetails.yaml files in plugin/globalDetectors directory
+func GetGlobalPluginsPath(ctx context.Context, globalPluginRootPath string) *versionsPB.GlobalPlugin {
+	pluginYamlFiles, err := SearchFileInDirectory("pluginDetails.yaml", globalPluginRootPath)
+	if err != nil {
+		utils.Logger(err)
+		return nil
+	}
+
 	//TODO: discuss with Atul better ways to implement concurrency
 	globalPlugin := &versionsPB.GlobalPlugin{}
-	for _, pluginFile := range pluginDetailsFiles {
-		pluginFile := pluginFile
 
+	for _, pluginFile := range pluginYamlFiles {
 
-			parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
-			if parsedRawFile != nil {
-				parsedFile := parsedRawFile.PluginDetails
-				switch parsedFile.Type {
-				case "dockerFile":
-					globalPlugin.DockerFile = parsedFile.Command
-				case "procFile":
-					globalPlugin.ProcFile = parsedFile.Command
-				case "makeFile":
-					globalPlugin.MakeFile = parsedFile.Command
-				case "commands":
-					globalPlugin.Commands = parsedFile.Command
-				}
-			}
+		parsedRawFile, err := ReadPluginYamlFile(ctx, pluginFile)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
+		parsedFile := parsedRawFile.PluginDetails
+		switch parsedFile.Type {
+		case "dockerFile":
+			globalPlugin.DockerFile = parsedFile.Command
+		case "procFile":
+			globalPlugin.ProcFile = parsedFile.Command
+		case "makeFile":
+			globalPlugin.MakeFile = parsedFile.Command
+		case "commands":
+			globalPlugin.Commands = parsedFile.Command
+		}
 	}
 	return globalPlugin
 }
 
-//LoadLanguageSpecificPluginInfo It will read pluginDetails.yaml files in plugin directory of given languagePath
-func LoadLanguageSpecificPluginInfo(languagePath string) *versionsPB.LanguageVersion {
-	var pluginDetailsFiles []PluginDetailsFile
-	err := filepath.Walk(languagePath,
-		func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			if info.Name() == "pluginDetails.yaml" {
-				dir := strings.Split(path, info.Name())[0]
-				pluginDetailsFiles = append(
-					pluginDetailsFiles,
-					PluginDetailsFile{
-						path: path,
-						dir:  dir,
-					},
-				)
-			}
-			return nil
-		})
+//GetLanguagePluginspath It will read pluginDetails.yaml files in plugin directory of given languagePath
+func GetLanguagePluginspath(ctx context.Context, languagePluginsRootPath string) *versionsPB.LanguageVersion {
+
+	pluginYamlFiles, err := SearchFileInDirectory("pluginDetails.yaml", languagePluginsRootPath)
 	if err != nil {
 		utils.Logger(err)
+		return nil
 	}
-	languagePluginInfo := &versionsPB.LanguageVersion{
-		Detectruntimecommand: "",
-		Runtimeversions:      nil,
-		Framework:            map[string]*versionsPB.DependencyDetails{},
-		Databases:            map[string]*versionsPB.DependencyDetails{},
-		Orms:                 map[string]*versionsPB.DependencyDetails{},
-		Libraries:            map[string]*versionsPB.DependencyDetails{},
-		//TODO:Not implemented yet
-		Dependencies:           nil,
-		DetectEnvCommand:       "",
-		PreDetectCommand:       "",
-		StaticAssetsCommand:    "",
-		BuildDirectoryCommand:  "",
-		DetectTestCasesCommand: "",
-		Commands:               "",
-	}
-	//TODO: discuss with Atul better ways to implement concurrency
-	for _, pluginFile := range pluginDetailsFiles {
-		pluginFile := pluginFile
 
-			parsedRawFile, _ := ReadPluginYamlFile(pluginFile)
-			if parsedRawFile != nil {
-				parsedFile := parsedRawFile.PluginDetails
-				switch parsedFile.Type {
-				case "framework":
-					if val, ok := languagePluginInfo.Framework[parsedFile.Name]; ok {
-						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-							Libraries:     parsedFile.Libraries,
-						}
-					} else {
-						languagePluginInfo.Framework[parsedFile.Name] = &versionsPB.DependencyDetails{
-							Version: map[string]*versionsPB.DependencyVersionDetails{
-								parsedFile.Version: {
-									Semver:        parsedFile.Semver,
-									Plugincommand: parsedFile.Command,
-									Libraries:     parsedFile.Libraries,
-								},
-							},
-						}
-					}
-				case "detectRuntime":
-					languagePluginInfo.Detectruntimecommand = parsedFile.Command
-				case "commands":
-					languagePluginInfo.Commands = parsedFile.Command
-				case "env":
-					languagePluginInfo.DetectEnvCommand = parsedFile.Command
-				case "preDetectCommand":
-					languagePluginInfo.PreDetectCommand = parsedFile.Command
-				case "staticAssets":
-					languagePluginInfo.StaticAssetsCommand = parsedFile.Command
-				case "buildDirectory":
-					languagePluginInfo.BuildDirectoryCommand = parsedFile.Command
-				case "testCasesCommands":
-					languagePluginInfo.DetectTestCasesCommand = parsedFile.Command
-				case "orm":
-					if val, ok := languagePluginInfo.Orms[parsedFile.Name]; ok {
-						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-							Libraries:     parsedFile.Libraries,
-						}
-					} else {
-						languagePluginInfo.Orms[parsedFile.Name] = &versionsPB.DependencyDetails{
-							Version: map[string]*versionsPB.DependencyVersionDetails{
-								parsedFile.Version: {Semver: parsedFile.Semver,
-									Plugincommand: parsedFile.Command,
-									Libraries:     parsedFile.Libraries,
-								},
-							},
-						}
-					}
-				case "library":
-					if val, ok := languagePluginInfo.Libraries[parsedFile.Name]; ok {
-						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-							Libraries:     parsedFile.Libraries,
-						}
-					} else {
-						languagePluginInfo.Libraries[parsedFile.Name] = &versionsPB.DependencyDetails{
-							Version: map[string]*versionsPB.DependencyVersionDetails{
-								parsedFile.Version: {
-									Semver:        parsedFile.Semver,
-									Plugincommand: parsedFile.Command,
-									Libraries:     parsedFile.Libraries,
-								},
-							},
-						}
-					}
-				case "database":
-					if val, ok := languagePluginInfo.Databases[parsedFile.Name]; ok {
-						val.Version[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-							Libraries:     parsedFile.Libraries,
-						}
-					} else {
-						languagePluginInfo.Databases[parsedFile.Name] = &versionsPB.DependencyDetails{
-							Version: map[string]*versionsPB.DependencyVersionDetails{
-								parsedFile.Version: {Semver: parsedFile.Semver,
-									Plugincommand: parsedFile.Command,
-									Libraries:     parsedFile.Libraries,
-								},
-							},
-						}
-					}
-				case "getDependencies":
-					if languagePluginInfo.Runtimeversions != nil {
-						languagePluginInfo.Runtimeversions[parsedFile.Version] = &versionsPB.DependencyVersionDetails{
-							Semver:        parsedFile.Semver,
-							Plugincommand: parsedFile.Command,
-						}
-					} else {
-						languagePluginInfo.Runtimeversions = map[string]*versionsPB.DependencyVersionDetails{
-							parsedFile.Version: {
-								Semver:        parsedFile.Semver,
-								Plugincommand: parsedFile.Command,
-							},
-						}
-					}
-				}
+	languagePlugins := &versionsPB.LanguageVersion{
+		Frameworks:      map[string]*versionsPB.DependencyDetails{},
+		Databases:       map[string]*versionsPB.DependencyDetails{},
+		Orms:            map[string]*versionsPB.DependencyDetails{},
+		Libraries:       map[string]*versionsPB.DependencyDetails{},
+		RuntimeVersions: map[string]*versionsPB.DependencyVersionDetails{},
+	}
+
+	//TODO: discuss with Atul better ways to implement concurrency
+	for _, pluginFile := range pluginYamlFiles {
+
+		parsedRawFile, err := ReadPluginYamlFile(ctx, pluginFile)
+		if err != nil {
+			log.Println(err)
+			continue
+		}
+
+		pluginYamlFile := parsedRawFile.PluginDetails
+
+		switch pluginYamlFile.Type {
+		case "detectRuntime":
+			languagePlugins.DetectRuntimePluginPath = pluginYamlFile.Command
+		case "commands":
+			languagePlugins.CommandsPluginPath = pluginYamlFile.Command
+		case "env":
+			languagePlugins.EnvPluginPath = pluginYamlFile.Command
+		case "preDetectCommand":
+			languagePlugins.PreDetectCommandPluginPath = pluginYamlFile.Command
+		case "staticAssets":
+			languagePlugins.StaticAssetsPluginPath = pluginYamlFile.Command
+		case "buildDirectory":
+			languagePlugins.BuildDirectoryPluginPath = pluginYamlFile.Command
+		case "testCasesCommands":
+			languagePlugins.TestCasesCommandPluginPath = pluginYamlFile.Command
+
+		case "framework":
+			if framework, ok := languagePlugins.Frameworks[pluginYamlFile.Name]; ok {
+				AddPluginVersionDetails(framework, pluginYamlFile)
+			} else {
+				languagePlugins.Frameworks[pluginYamlFile.Name] = CreatePluginVersionMap(pluginYamlFile)
 			}
 
+		case "orm":
+			if orm, ok := languagePlugins.Orms[pluginYamlFile.Name]; ok {
+				AddPluginVersionDetails(orm, pluginYamlFile)
+			} else {
+				languagePlugins.Orms[pluginYamlFile.Name] = CreatePluginVersionMap(pluginYamlFile)
+			}
+
+		case "library":
+			if library, ok := languagePlugins.Libraries[pluginYamlFile.Name]; ok {
+				AddPluginVersionDetails(library, pluginYamlFile)
+			} else {
+				languagePlugins.Libraries[pluginYamlFile.Name] = CreatePluginVersionMap(pluginYamlFile)
+			}
+
+		case "database":
+			if database, ok := languagePlugins.Databases[pluginYamlFile.Name]; ok {
+				AddPluginVersionDetails(database, pluginYamlFile)
+			} else {
+				languagePlugins.Databases[pluginYamlFile.Name] = CreatePluginVersionMap(pluginYamlFile)
+			}
+
+		case "getDependencies":
+			languagePlugins.RuntimeVersions[pluginYamlFile.Version] = &versionsPB.DependencyVersionDetails{
+				Semver:     pluginYamlFile.Semver,
+				PluginPath: pluginYamlFile.Command,
+			}
+		}
+
 	}
-	return languagePluginInfo
+	return languagePlugins
+}
+
+func AddPluginVersionDetails(dependencyMap *versionsPB.DependencyDetails, pluginYamlFile *utilsPB.Details) {
+	dependencyMap.Version[pluginYamlFile.Version] = &versionsPB.DependencyVersionDetails{
+		Semver:     pluginYamlFile.Semver,
+		PluginPath: pluginYamlFile.Command,
+		Libraries:  pluginYamlFile.Libraries,
+	}
+}
+
+func CreatePluginVersionMap(pluginYamlFile *utilsPB.Details) *versionsPB.DependencyDetails {
+	return &versionsPB.DependencyDetails{
+		Version: map[string]*versionsPB.DependencyVersionDetails{
+			pluginYamlFile.Version: {
+				Semver:     pluginYamlFile.Semver,
+				PluginPath: pluginYamlFile.Command,
+				Libraries:  pluginYamlFile.Libraries,
+			},
+		},
+	}
 }
 
 const SupportedLanguages = "./static/supportedLanguages.yaml"

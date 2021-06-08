@@ -20,7 +20,7 @@ func (g GormV1X) Detect(input *pb.Input) (*pb.OrmOutput, error) {
 	}, nil
 }
 
-//IsORMUsed will return % usage of ORM
+//IsUsed will return % usage of ORM
 func (g GormV1X) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	return &pb.BoolOutput{
 		Value: true,
@@ -28,7 +28,7 @@ func (g GormV1X) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	}, nil
 }
 
-//PercentOfORMUsed will return % usage of ORM
+//PercentOfUsed will return % usage of ORM
 func (g GormV1X) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
 	return &pb.FloatOutput{
 		Value: 89.5,

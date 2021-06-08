@@ -4,71 +4,48 @@ import (
 	"code-analyser/pluginClient"
 	"code-analyser/protos/pb/output/global"
 	pb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 )
 
-func DetectDockerAndComposeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) (*global.DockerFile, *global.DockerCompose) {
-	runtimeResponse, client := pluginClient.CreateDockerFileClient(utils.CallPluginCommand(globalPlugin.DockerFile))
-	for client.Exited() {
-		client.Kill()
-	}
-	detectDockerFile, err := runtimeResponse.DetectDockerFile(&pb.StringInput{Value: path})
-	if err != nil {
-		utils.Logger(err)
+func ExecuteDockerAndComposePlugin(ctx context.Context, projectRootPath, pluginPath string) (*global.DockerFile, *global.DockerCompose) {
+	pluginCall, _ := pluginClient.CreateDockerFileClient(utils.CallPluginCommand(pluginPath))
+
+	dockerFile, err := pluginCall.DetectDockerFile(&pb.StringInput{Value: projectRootPath})
+	if err != nil || dockerFile.Error != nil {
+		utils.Logger(err, dockerFile)
 		return nil, nil
 	}
-	if detectDockerFile.Error != nil {
-		utils.Logger(detectDockerFile.Error)
-		return nil, nil
+
+	dockerCompose, err := pluginCall.DetectDockerComposeFile(&pb.StringInput{Value: projectRootPath})
+	if err != nil || dockerCompose.Error != nil {
+		utils.Logger(err, dockerCompose)
+		return dockerFile.Value, nil
 	}
-	detectDockerComposeFile, err := runtimeResponse.DetectDockerComposeFile(&pb.StringInput{Value: path})
-	if err != nil {
-		utils.Logger(err)
-		return nil, nil
-	}
-	if detectDockerComposeFile.Error != nil {
-		utils.Logger(detectDockerComposeFile.Error)
-		return nil, nil
-	}
-	return detectDockerFile.DockerFile, detectDockerComposeFile.DockerComposeFile
+
+	return dockerFile.Value, dockerCompose.Value
 }
 
-func DetectProcFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.ProcFile {
-	runtimeResponse, client := pluginClient.CreateProcFileClient(utils.CallPluginCommand(globalPlugin.ProcFile))
-	for client.Exited() {
-		client.Kill()
+func ExecuteProcFileDetectionPlugin(ctx context.Context, projectRootPath, pluginPath string) *global.ProcFile {
+	pluginCall, _ := pluginClient.CreateProcFileClient(utils.CallPluginCommand(pluginPath))
+
+	procFile, err := pluginCall.Detect(&pb.StringInput{Value: projectRootPath})
+	if err != nil || procFile.Error != nil {
+		utils.Logger(err, procFile)
+		return nil
 	}
-	procFileOutput := &global.ProcFile{}
-	detectProcFile, err := runtimeResponse.Detect(&pb.StringInput{Value: path})
-	if err != nil {
-		utils.Logger(err)
-		return procFileOutput
-	}
-	if detectProcFile.Error != nil {
-		utils.Logger(detectProcFile.Error)
-		return procFileOutput
-	}
-	procFileOutput = detectProcFile.ProcFile
-	return procFileOutput
+
+	return procFile.Value
 }
 
-func DetectMakeFile(ctx context.Context, path string, globalPlugin *versionsPB.GlobalPlugin) *global.MakeFile {
-	runtimeResponse, client := pluginClient.CreateMakeFileClient(utils.CallPluginCommand(globalPlugin.MakeFile))
-	for client.Exited() {
-		client.Kill()
+func ExecuteMakeFileDetectionPlugin(ctx context.Context, projectRootPath, pluginPath string) *global.MakeFile {
+	pluginCall, _ := pluginClient.CreateMakeFileClient(utils.CallPluginCommand(pluginPath))
+
+	makeFile, err := pluginCall.Detect(&pb.StringInput{Value: projectRootPath})
+	if err != nil ||makeFile.Error != nil{
+		utils.Logger(err,makeFile)
+		return nil
 	}
-	detectMakeFile, err := runtimeResponse.Detect(&pb.StringInput{Value: path})
-	makeFileOutput := &global.MakeFile{}
-	if err != nil {
-		utils.Logger(err)
-		return makeFileOutput
-	}
-	if detectMakeFile.Error != nil {
-		utils.Logger(detectMakeFile.Error)
-		return makeFileOutput
-	}
-	makeFileOutput = detectMakeFile.Makefile
-	return makeFileOutput
+
+	return makeFile.Value
 }

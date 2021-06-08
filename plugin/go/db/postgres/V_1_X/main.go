@@ -11,7 +11,7 @@ import (
 type PostgresV1X struct {
 }
 
-//IsDbUsed if DB used in repo
+//IsUsed if DB used in repo
 func (receiver *PostgresV1X) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	return &pb.BoolOutput{
 		Value: true,
@@ -19,7 +19,7 @@ func (receiver *PostgresV1X) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	}, nil
 }
 
-//PercentOfDbUsed % of DB used
+//PercentOfUsed % of DB used
 func (receiver *PostgresV1X) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
 	return &pb.FloatOutput{
 		Error: nil,

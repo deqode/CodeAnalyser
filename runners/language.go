@@ -33,105 +33,106 @@ const (
 	Library = "library"
 )
 
-//DetectRuntime It will detect app's runtime version
-func DetectRuntime(ctx context.Context, projectRootPath, pluginPath string) string {
+//ExecuteRuntimeDetectionPlugin It will detect app's runtime version
+func ExecuteRuntimeDetectionPlugin(ctx context.Context, projectRootPath, pluginPath string) string {
 	pluginCall, _ := pluginClient.CreateDetectRuntimeClient(utils.CallPluginCommand(pluginPath))
 
 	languageVersion, err := pluginCall.Detect(&pluginPb.StringInput{Value: projectRootPath})
 	if err != nil || languageVersion.Error != nil {
-		utils.Logger(err, languageVersion.Error)
+		utils.Logger(err, languageVersion)
 		return ""
 	}
+
 	return languageVersion.Value
 }
 
-func DetectAndRunBuildDirectory(ctx context.Context, input *pluginPb.Input, pluginPath string) map[string]string {
+func ExecuteBuildDirectoryPlugin(ctx context.Context, input *pluginPb.Input, pluginPath string) map[string]string {
 	pluginCall, _ := pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(pluginPath))
+
 	buildDirectory, err := pluginCall.Detect(input)
 	if err != nil || buildDirectory.Error != nil {
-		utils.Logger(err, buildDirectory.Error)
+		utils.Logger(err, buildDirectory)
 		return nil
 	}
+
 	return buildDirectory.Value
 }
 
-func DetectTestCasesCommand(ctx context.Context, input *pluginPb.Input, pluginPath string) *languageSpecific.TestCasesCommandOutput {
+func ExecuteTestCommandDetectionPlugin(ctx context.Context, input *pluginPb.Input, pluginPath string) *languageSpecific.TestCasesCommandOutput {
 	pluginCall, _ := pluginClient.CreateTestCaseCommandClient(utils.CallPluginCommand(pluginPath))
 
 	commands, err := pluginCall.Detect(input)
 	if err != nil || commands.Error != nil {
-		utils.Logger(err, commands.Error)
+		utils.Logger(err, commands)
 		return nil
 	}
+
 	testCasesCommand := &languageSpecific.TestCasesCommandOutput{}
 	if len(commands.Commands) > 0 {
 		testCasesCommand.Commands = commands.Commands
 		testCasesCommand.Used = true
 	}
+
 	return testCasesCommand
 }
 
-func RunStaticAssetsCommand(ctx context.Context, input *pluginPb.Input, pluginPath string) *languageSpecific.StaticAssetsOutput {
+func ExecuteStaticAssetsPlugin(ctx context.Context, input *pluginPb.Input, pluginPath string) *languageSpecific.StaticAssetsOutput {
 	pluginCall, _ := pluginClient.CreateStaticAssetsClient(utils.CallPluginCommand(pluginPath))
 
-	respose, err := pluginCall.Detect(input)
-	if err != nil || respose.Error != nil {
-		utils.Logger(err, respose.Error)
+	staticAsset, err := pluginCall.Detect(input)
+	if err != nil || staticAsset.Error != nil {
+		utils.Logger(err, staticAsset)
 		return nil
 	}
+
 	staticAssetsOutput := languageSpecific.StaticAssetsOutput{}
-	if len(respose.StaticAsset) > 0 {
+	if len(staticAsset.Value) > 0 {
 		staticAssetsOutput.Used = true
-		staticAssetsOutput.Assets = respose.StaticAsset
+		staticAssetsOutput.Assets = staticAsset.Value
 	}
+
 	return &staticAssetsOutput
 }
 
-func GetCommands(ctx context.Context, projectRootPath, pluginPath string) *languageSpecific.Commands {
+func ExecuteCommandsDetectionPlugin(ctx context.Context, projectRootPath, pluginPath string) *languageSpecific.Commands {
 	pluginCall, _ := pluginClient.CreateCommandsClient(utils.CallPluginCommand(pluginPath))
 
-	var err error
-	commands := languageSpecific.Commands{
-		BuildCommands:     nil,
-		StartUpCommands:   nil,
-		SeedCommands:      nil,
-		MigrationCommands: nil,
-		AdHocScripts:      nil,
-	}
+	commands := languageSpecific.Commands{}
 	rootPathInput := &pluginPb.StringInput{
 		Value: projectRootPath,
 	}
+
 	adHocScripts, err := pluginCall.DetectAdHocScripts(rootPathInput)
 	if err != nil || adHocScripts.Error != nil {
-		utils.Logger(err, adHocScripts.Error)
+		utils.Logger(err, adHocScripts)
 		return &commands
 	}
 	commands.AdHocScripts = adHocScripts
 
 	seedCommands, err := pluginCall.DetectSeedCommands(rootPathInput)
 	if err != nil || seedCommands.Error != nil {
-		utils.Logger(err, seedCommands.Error)
+		utils.Logger(err, seedCommands)
 		return &commands
 	}
 	commands.SeedCommands = seedCommands
 
 	buildCommands, err := pluginCall.DetectBuildCommands(rootPathInput)
 	if err != nil || buildCommands.Error != nil {
-		utils.Logger(err, buildCommands.Error)
+		utils.Logger(err, buildCommands)
 		return &commands
 	}
 	commands.BuildCommands = buildCommands
 
 	migrationCommands, err := pluginCall.DetectMigrationCommands(rootPathInput)
 	if err != nil || migrationCommands.Error != nil {
-		utils.Logger(err, migrationCommands.Error)
+		utils.Logger(err, migrationCommands)
 		return &commands
 	}
 	commands.MigrationCommands = migrationCommands
 
 	startUpCommands, err := pluginCall.DetectStartUpCommands(rootPathInput)
 	if err != nil || startUpCommands.Error != nil {
-		utils.Logger(err, startUpCommands.Error)
+		utils.Logger(err, startUpCommands)
 		return &commands
 	}
 	commands.StartUpCommands = startUpCommands
@@ -139,21 +140,22 @@ func GetCommands(ctx context.Context, projectRootPath, pluginPath string) *langu
 	return &commands
 }
 
-// RunPreDetectCommand this will run before detection for formatting, filtration, cleanup and all such similar commands
-func RunPreDetectCommand(ctx context.Context, input *pluginPb.Input, pluginPath string) {
+// ExecutePreDetectionPlugin this will run before detection for formatting, filtration, cleanup and all such similar commands
+func ExecutePreDetectionPlugin(ctx context.Context, input *pluginPb.Input, pluginPath string) {
 	pluginCall, _ := pluginClient.CreatePreDetectCommandClient(utils.CallPluginCommand(pluginPath))
 
 	response, err := pluginCall.RunPreDetect(input)
 	if err != nil || response.Error != nil {
-		utils.Logger(err, response.Error)
+		utils.Logger(err, response)
+	} else {
+		log.Println("pre detect commands found and executed successfully ")
 	}
-	log.Println("pre detect commands found and executed successfully ")
 }
 
 //TODO discuss with rajaram , rename variables
 
-//GetParsedDependencies get map of parsed dependencies for example beego is a framework
-func GetParsedDependencies(ctx context.Context, languageVersion, projectRootPath string, pluginDetails *versionsPB.LanguageVersion) *map[string]map[string]DependencyDetail {
+//GetDependenciesFromProject get map of parsed dependencies for example beego is a framework
+func GetDependenciesFromProject(ctx context.Context, languageVersion, projectRootPath string, pluginDetails *versionsPB.LanguageVersion) *map[string]map[string]DependencyDetail {
 	dependencies := map[string]map[string]DependencyDetail{}
 	var dependencyVersionDetails *versionsPB.DependencyVersionDetails
 	var runtimeVersion string
@@ -179,9 +181,10 @@ func GetParsedDependencies(ctx context.Context, languageVersion, projectRootPath
 		return nil
 	}
 	dependencyList := response.Value
-	dependencies[Framework] = ExtractFrameworksFromProjectDependencies(dependencyList, pluginDetails)
-	dependencies[DB] = ExtractDbsFromProjectDependencies(dependencyList, pluginDetails.Databases)
-	dependencies[ORM] = ExtractOrmsFromProjectDependencies(dependencyList, pluginDetails)
-	dependencies[Library] = ExtractLibraryFromProjectDependencies(dependencyList, pluginDetails)
+	dependencies[Framework] = ExtractFrameworksFromProjectDependencies(ctx,dependencyList, pluginDetails.Frameworks)
+	dependencies[DB] = ExtractDbsFromProjectDependencies(ctx,dependencyList, pluginDetails.Databases)
+	dependencies[ORM] = ExtractOrmsFromProjectDependencies(ctx,dependencyList, pluginDetails.Orms)
+	dependencies[Library] = ExtractLibraryFromProjectDependencies(ctx,dependencyList, pluginDetails.Libraries)
+
 	return &dependencies
 }

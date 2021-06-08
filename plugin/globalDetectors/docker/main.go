@@ -20,7 +20,7 @@ func (d DockerFile) DetectDockerFile(path *pb.StringInput) (*pb.DockerFileOutput
 		Error: nil,
 	}
 	if _, err := os.Stat(path.Value + "/Dockerfile"); !os.IsNotExist(err) {
-		dockerFileOutput.DockerFile = &global.DockerFile{
+		dockerFileOutput.Value = &global.DockerFile{
 			Used:     true,
 			FilePath: path.Value + "/Dockerfile",
 		}
@@ -34,13 +34,13 @@ func (d DockerFile) DetectDockerComposeFile(path *pb.StringInput) (*pb.DockerCom
 	}
 	var err error
 	if _, err = os.Stat(path.Value + "/docker-compose.yml"); !os.IsNotExist(err) {
-		dockerComposeOutput.DockerComposeFile = &global.DockerCompose{
+		dockerComposeOutput.Value = &global.DockerCompose{
 			FilePath: path.Value + "/docker-compose.yml",
 			Used:     true,
 		}
 	}
 	if _, err := os.Stat(path.Value + "/docker-compose.yaml"); !os.IsNotExist(err) {
-		dockerComposeOutput.DockerComposeFile = &global.DockerCompose{
+		dockerComposeOutput.Value = &global.DockerCompose{
 			FilePath: path.Value + "/docker-compose.yaml",
 			Used:     true,
 		}

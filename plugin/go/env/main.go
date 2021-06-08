@@ -14,7 +14,7 @@ type EnvPlugin struct{}
 //Detect function for envs keyvalues and keys implemented from Env interface
 func (e EnvPlugin) Detect(input *pb.Input) (*pb.EnvsOutput, error) {
 	return &pb.EnvsOutput{
-		Envs:&languageSpecific.Envs{
+		Value:&languageSpecific.Envs{
 			EnvKeyValues: map[string]string{
 				"username": "boss",
 				"password": "aag_laga_denge_aag",

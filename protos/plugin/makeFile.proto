@@ -11,5 +11,5 @@ service MakeFile {
 
 message MakeFileOutput {
   Error error = 1;
-  protos.output.global.MakeFile makefile = 2;
+  protos.output.global.MakeFile value = 2;
 }

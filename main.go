@@ -36,18 +36,18 @@ func main() {
 }
 
 //Scrape it scrape language, framework, orm etc .....
-func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
+func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInput {
 	languages, _, _ := analyser.GetLanguagesWithPercent(path)
 	supportedLanguages, _ := SupportedLanguagesParser()
+
 	decisionMakerInput := &decisionmakerPB.DecisionMakerInput{
 		LanguageSpecificDetection: []*decisionmakerPB.LanguageSpecificDetections{},
 		GloabalDetections:         &decisionmakerPB.GlobalDetections{},
 	}
-	var ctx context.Context = nil
 
-	globalPlugins := LoadGlobalFilesPluginInfo("./plugin/globalDetectors")
+	globalPlugins := GetGlobalPluginsPath(ctx, "./plugin/globalDetectors")
 	globalDetections := decisionmakerPB.GlobalDetections{}
-	RunAllGlobalPlugins(&globalDetections, globalPlugins, ctx, path)
+	LoadGlobalPlugins(ctx, &globalDetections, globalPlugins, path)
 	decisionMakerInput.GloabalDetections = &globalDetections
 
 	var mxLang = 0.0
@@ -70,24 +70,24 @@ func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
 				continue
 			}
 
-			pluginDetails := LoadLanguageSpecificPluginInfo(languagePath)
-			runtimeVersion := runners.DetectRuntime(ctx, path, pluginDetails)
+			pluginDetails := GetLanguagePluginspath(ctx,languagePath)
+			runtimeVersion := runners.ExecuteRuntimeDetectionPlugin(ctx, path, pluginDetails.DetectRuntimePluginPath)
 			//TODO: change name after dicuss
-			runners.RunPreDetectCommand(ctx, &pb.Input{
+			runners.ExecutePreDetectionPlugin(ctx, &pb.Input{
 				RuntimeVersion: runtimeVersion,
-				RootPath:           path,
-			}, pluginDetails)
+				RootPath:       path,
+			}, pluginDetails.PreDetectCommandPluginPath)
 
 			//if no app runtime found =>skip
 			if runtimeVersion == "" {
 				continue
 			}
-			allDependencies := runners.GetParsedDependencies(ctx, runtimeVersion, path, pluginDetails)
+			allDependencies := runners.GetDependenciesFromProject(ctx, runtimeVersion, path, pluginDetails)
 			languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
 				Name:           language.Name,
 				RuntimeVersion: runtimeVersion,
 			}
-			RunAllLanguageSpecificPlugins(ctx, &languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path)
+			LoadLanguagePlugins(ctx, &languageSpecificDetections, *allDependencies, pluginDetails, runtimeVersion, path)
 			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
 		}
 

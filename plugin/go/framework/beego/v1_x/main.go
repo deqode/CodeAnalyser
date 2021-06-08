@@ -18,7 +18,7 @@ func (b BeegoV1x) Detect(input *pb.Input) (*pb.BoolOutput, error) {
 	}, nil
 }
 
-//IsFrameworkUsed is framework Used
+//IsUsed is framework Used
 func (b BeegoV1x) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	return &pb.BoolOutput{
 		Error: nil,
@@ -26,7 +26,7 @@ func (b BeegoV1x) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	}, nil
 }
 
-//PercentOfFrameworkUsed %  framework Used
+//PercentOfUsed %  framework Used
 func (b BeegoV1x) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
 	return &pb.FloatOutput{
 		Error: nil,

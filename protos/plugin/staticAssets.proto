@@ -11,5 +11,5 @@ service StaticAssets {
 
 message StaticAssetsOutput{
   Error error = 1;
-  repeated protos.output.language_specific.StaticAsset staticAsset = 2;
+  repeated protos.output.language_specific.StaticAsset value = 2;
 }

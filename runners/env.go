@@ -9,25 +9,25 @@ import (
 )
 
 //ExecuteEnvsDetectionPlugin will run to find Frameworks & returns its detectors.
-func ExecuteEnvsDetectionPlugin(ctx context.Context, envPluginPath, runtimeVersion, projectRootPath string) *languageSpecific.Envs {
-	pluginCall, _ := pluginClient.CreateEnvClient(utils.CallPluginCommand(envPluginPath))
+func ExecuteEnvsDetectionPlugin(ctx context.Context, pluginPath, runtimeVersion, projectRootPath string) *languageSpecific.Envs {
+	pluginCall, _ := pluginClient.CreateEnvClient(utils.CallPluginCommand(pluginPath))
 
-	response, err := pluginCall.Detect(&pb.Input{
+	envVariables, err := pluginCall.Detect(&pb.Input{
 		RuntimeVersion: runtimeVersion,
 		RootPath:       projectRootPath,
 	})
-	if err != nil || response.Error != nil {
-		utils.Logger(err, response)
+	if err != nil || envVariables.Error != nil {
+		utils.Logger(err, envVariables)
 		return nil
 	}
 
 	envOutput := languageSpecific.Envs{
 		Used: false,
 	}
-	if response.Envs.EnvKeyValues != nil || response.Envs.Keys != nil {
+	if envVariables.Value.EnvKeyValues != nil || envVariables.Value.Keys != nil {
 		envOutput.Used = true
-		envOutput.EnvKeyValues = response.Envs.EnvKeyValues
-		envOutput.Keys = response.Envs.Keys
+		envOutput.EnvKeyValues = envVariables.Value.EnvKeyValues
+		envOutput.Keys = envVariables.Value.Keys
 	}
 	return &envOutput
 }

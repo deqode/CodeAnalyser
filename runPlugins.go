@@ -8,55 +8,38 @@ import (
 	"context"
 )
 
-// RunAllGlobalPlugins executed all plugins related to global files (like docker-compose.yaml,DockerFile MakeFile etc)
-func RunAllGlobalPlugins(globalDetection *decisionmakerPB.GlobalDetections, globalPlugin *versionsPB.GlobalPlugin, ctx context.Context, path string) {
+// LoadGlobalPlugins executed all plugins related to global files (like docker-compose.yaml,DockerFile MakeFile etc)
+func LoadGlobalPlugins(ctx context.Context, globalDetection *decisionmakerPB.GlobalDetections, globalPlugin *versionsPB.GlobalPlugin, path string) {
 
-	globalDetection.DockerFile, globalDetection.DockerComposeFile = runners.DetectDockerAndComposeFile(ctx, path, globalPlugin)
+	globalDetection.DockerFile, globalDetection.DockerComposeFile = runners.ExecuteDockerAndComposePlugin(ctx, path, globalPlugin.DockerFile)
 
-	globalDetection.ProcFile = runners.DetectProcFile(ctx, path, globalPlugin)
+	globalDetection.ProcFile = runners.ExecuteProcFileDetectionPlugin(ctx, path, globalPlugin.ProcFile)
 
-	globalDetection.Makefile = runners.DetectMakeFile(ctx, path, globalPlugin)
+	globalDetection.Makefile = runners.ExecuteMakeFileDetectionPlugin(ctx, path, globalPlugin.MakeFile)
 }
 
-//RunAllLanguageSpecificPlugins it runs all detectors of dependencies ex. orm,framework etc ....
-func RunAllLanguageSpecificPlugins(ctx context.Context, languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, path string) {
-	if pluginDetails.Commands != "" {
-		languageSpecificDetections.Commands = runners.GetCommands(ctx, &pb.Input{
-			RuntimeVersion: runtimeVersion,
-			RootPath:           path,
-		}, pluginDetails)
+//LoadLanguagePlugins it runs all detectors of dependencies ex. orm,framework etc ....
+func LoadLanguagePlugins(ctx context.Context, languageSpecificDetections *decisionmakerPB.LanguageSpecificDetections, allDependencies map[string]map[string]runners.DependencyDetail, pluginDetails *versionsPB.LanguageVersion, runtimeVersion string, projectRootPath string) {
+	pluginInput := &pb.Input{
+		RuntimeVersion: runtimeVersion,
+		RootPath:       projectRootPath,
 	}
 
-	languageSpecificDetections.Orm = runners.ExecuteOrmPlugins(allDependencies[runners.ORM], runtimeVersion, path)
+	languageSpecificDetections.Commands = runners.ExecuteCommandsDetectionPlugin(ctx, projectRootPath, pluginDetails.CommandsPluginPath)
 
-	languageSpecificDetections.Db = runners.ExecuteDbPlugins(allDependencies[runners.DB], runtimeVersion, path)
+	languageSpecificDetections.Orm = runners.ExecuteOrmPlugins(ctx, allDependencies[runners.ORM], runtimeVersion, projectRootPath)
 
-	languageSpecificDetections.Framework = runners.ExecuteFrameworkPlugins(allDependencies[runners.Framework], runtimeVersion, path)
-	if pluginDetails.DetectEnvCommand != "" {
-		languageSpecificDetections.Env = runners.ExecuteEnvsDetectionPlugin(pluginDetails, runtimeVersion, path)
-	}
+	languageSpecificDetections.Db = runners.ExecuteDbPlugins(ctx, allDependencies[runners.DB], runtimeVersion, projectRootPath)
 
-	if pluginDetails.StaticAssetsCommand != "" {
-		languageSpecificDetections.StaticAssets = runners.RunStaticAssetsCommand(ctx, &pb.Input{
-			RuntimeVersion: runtimeVersion,
-			RootPath:           path,
-		}, pluginDetails)
-	}
+	languageSpecificDetections.Framework = runners.ExecuteFrameworkPlugins(ctx, allDependencies[runners.Framework], runtimeVersion, projectRootPath)
 
-	languageSpecificDetections.Libraries = runners.ExecuteLibraryPlugins(allDependencies[runners.Library], runtimeVersion, path)
+	languageSpecificDetections.Env = runners.ExecuteEnvsDetectionPlugin(ctx, pluginDetails.EnvPluginPath, runtimeVersion, projectRootPath)
 
-	if pluginDetails.BuildDirectoryCommand != "" {
-		languageSpecificDetections.BuildDirectory = runners.DetectAndRunBuildDirectory(ctx, &pb.Input{
-			RuntimeVersion: runtimeVersion,
-			RootPath:           path,
-		}, pluginDetails)
-	}
+	languageSpecificDetections.StaticAssets = runners.ExecuteStaticAssetsPlugin(ctx, pluginInput, pluginDetails.StaticAssetsPluginPath)
 
-	if pluginDetails.DetectTestCasesCommand != "" {
-		languageSpecificDetections.TestCases = runners.DetectTestCasesCommand(ctx, &pb.Input{
-			RuntimeVersion: runtimeVersion,
-			RootPath:           path,
-		}, pluginDetails)
-	}
+	languageSpecificDetections.Libraries = runners.ExecuteLibraryPlugins(ctx, allDependencies[runners.Library], runtimeVersion, projectRootPath)
+
+	languageSpecificDetections.BuildDirectory = runners.ExecuteBuildDirectoryPlugin(ctx, pluginInput, pluginDetails.BuildDirectoryPluginPath)
+
+	languageSpecificDetections.TestCases = runners.ExecuteTestCommandDetectionPlugin(ctx, pluginInput, pluginDetails.TestCasesCommandPluginPath)
 }
-

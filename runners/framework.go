@@ -32,10 +32,10 @@ func ExtractFrameworksFromProjectDependencies(ctx context.Context, projectDepend
 
 //ExecuteFrameworkPlugins will run to find Frameworks & returns its detectors.
 //Must be called in LanguageSpecificDetector.DetectFrameworks
-func ExecuteFrameworkPlugins(ctx context.Context, frameworkPlugins map[string]DependencyDetail, runtimeVersion, root string) []*languageSpecificPB.FrameworkOutput {
+func ExecuteFrameworkPlugins(ctx context.Context, frameworkPlugins map[string]DependencyDetail, runtimeVersion, projectRootPath string) []*languageSpecificPB.FrameworkOutput {
 	var frameworkOutput []*languageSpecificPB.FrameworkOutput
 	for name, details := range frameworkPlugins {
-		frameworkPluginResponse := ExecuteFrameworkPlugin(ctx, name, details, runtimeVersion, root)
+		frameworkPluginResponse := ExecuteFrameworkPlugin(ctx, name, details, runtimeVersion, projectRootPath)
 		if frameworkPluginResponse != nil {
 			frameworkOutput = append(frameworkOutput, frameworkPluginResponse)
 		}

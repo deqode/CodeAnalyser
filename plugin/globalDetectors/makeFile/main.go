@@ -21,7 +21,7 @@ func (m MakeFile) Detect(path *pb.StringInput) (*pb.MakeFileOutput, error) {
 		Error: nil,
 	}
 	if _, err := os.Stat(path.Value + "/Makefile"); !os.IsNotExist(err) {
-		makeFileOutput.Makefile = &global.MakeFile{
+		makeFileOutput.Value = &global.MakeFile{
 			Used:     true,
 			FilePath: path.Value + "/Makefile",
 		}

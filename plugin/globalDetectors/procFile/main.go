@@ -30,14 +30,14 @@ func (m ProcFile) Detect(path *pb.StringInput) (*pb.ProcFileOutput, error) {
 				Cause:   path.Value + "/Procfile",
 			}
 		}
-		procFileOutput.ProcFile = &global.ProcFile{
+		procFileOutput.Value = &global.ProcFile{
 			Used:     true,
 			FilePath: path.Value + "/Procfile",
 			Commands: map[string]*global.Command{},
 		}
 		procList := procfile.Parse(string(fileData)) // convert content to a 'string'
 		for name, command := range procList {
-			procFileOutput.ProcFile.Commands[name] = &global.Command{
+			procFileOutput.Value.Commands[name] = &global.Command{
 				Command: command.Command,
 				Args:    command.Arguments,
 			}

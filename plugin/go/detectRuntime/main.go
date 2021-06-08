@@ -10,7 +10,7 @@ import (
 //DetectGoRuntime to detect runtime version of language
 type DetectGoRuntime struct{}
 
-//DetectRuntime to detect runtime version of language
+//Detect to detect runtime version of language
 func (d DetectGoRuntime) Detect(path *pb.StringInput) (*pb.StringOutput, error) {
 	return &pb.StringOutput{
 		Value: "1.2",

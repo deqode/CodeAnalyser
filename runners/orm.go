@@ -58,16 +58,16 @@ func ExecuteOrmPlugin(ctx context.Context, name string, ormDetails DependencyDet
 		utils.Logger(err, isUsed)
 		return nil
 	}
-
 	if isUsed.Value == false {
 		return nil
 	}
-	response, err := pluginCall.Detect(pluginInput)
 
+	response, err := pluginCall.Detect(pluginInput)
 	if err != nil || response.Error != nil {
 		utils.Logger(err, response)
 		return nil
 	}
+
 	if response.Used {
 		return &languageSpecificPB.ORM{
 			Name:    name,

@@ -14,7 +14,7 @@ func TestDetectDockerAndComposeFile(t *testing.T) {
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
 			got := utilTesting.DockerCaseOutput{}
-			got.DockerFile, got.DockerComposeFile = DetectDockerAndComposeFile(input.Ctx, input.Path, input.GlobalPlugin)
+			got.DockerFile, got.DockerComposeFile = ExecuteDockerAndComposePlugin(input.Ctx, input.Path, input.GlobalPlugin)
 			if !reflect.DeepEqual(got, output) {
 				t.Error("expected this ", output, "\n got this ", got)
 			}
@@ -28,7 +28,7 @@ func TestProcfile(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := DetectProcFile(input.Ctx, input.Path, input.GlobalPlugin)
+			got := ExecuteProcFileDetectionPlugin(input.Ctx, input.Path, input.GlobalPlugin)
 			utilTesting.CheckProcfileEquality(got, output, t)
 		})
 	}
@@ -40,7 +40,7 @@ func TestMakefile(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := DetectMakeFile(input.Ctx, input.Path, input.GlobalPlugin)
+			got := ExecuteMakeFileDetectionPlugin(input.Ctx, input.Path, input.GlobalPlugin)
 			if !reflect.DeepEqual(got, output) {
 				t.Error("expected this ", output, "\n got this ", got)
 			}
