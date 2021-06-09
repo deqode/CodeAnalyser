@@ -10,7 +10,7 @@ const { remote } = require('electron');
 init();
 
 function init() {
-  // Expose a bridging API to by setting an global on `window`.
+  // Expose a bridging API to by setting an globalFiles on `window`.
   // We'll add methods to it here first, and when the remote web app loads,
   // it'll add some additional methods as well.
   //

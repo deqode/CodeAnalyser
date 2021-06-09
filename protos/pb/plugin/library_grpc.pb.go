@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,9 +19,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type LibraryClient interface {
-	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*LibraryType, error)
-	IsUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error)
-	PercentOfUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error)
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*LibraryType, error)
+	IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
+	PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error)
 }
 
 type libraryClient struct {
@@ -31,7 +32,7 @@ func NewLibraryClient(cc grpc.ClientConnInterface) LibraryClient {
 	return &libraryClient{cc}
 }
 
-func (c *libraryClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*LibraryType, error) {
+func (c *libraryClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*LibraryType, error) {
 	out := new(LibraryType)
 	err := c.cc.Invoke(ctx, "/proto.Library/Detect", in, out, opts...)
 	if err != nil {
@@ -40,8 +41,8 @@ func (c *libraryClient) Detect(ctx context.Context, in *Input, opts ...grpc.Call
 	return out, nil
 }
 
-func (c *libraryClient) IsUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error) {
-	out := new(BoolOutput)
+func (c *libraryClient) IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
+	out := new(helpers.BoolOutput)
 	err := c.cc.Invoke(ctx, "/proto.Library/IsUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -49,8 +50,8 @@ func (c *libraryClient) IsUsed(ctx context.Context, in *Input, opts ...grpc.Call
 	return out, nil
 }
 
-func (c *libraryClient) PercentOfUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error) {
-	out := new(FloatOutput)
+func (c *libraryClient) PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error) {
+	out := new(helpers.FloatOutput)
 	err := c.cc.Invoke(ctx, "/proto.Library/PercentOfUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,22 +63,22 @@ func (c *libraryClient) PercentOfUsed(ctx context.Context, in *Input, opts ...gr
 // All implementations should embed UnimplementedLibraryServer
 // for forward compatibility
 type LibraryServer interface {
-	Detect(context.Context, *Input) (*LibraryType, error)
-	IsUsed(context.Context, *Input) (*BoolOutput, error)
-	PercentOfUsed(context.Context, *Input) (*FloatOutput, error)
+	Detect(context.Context, *helpers.Input) (*LibraryType, error)
+	IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error)
 }
 
 // UnimplementedLibraryServer should be embedded to have forward compatible implementations.
 type UnimplementedLibraryServer struct {
 }
 
-func (UnimplementedLibraryServer) Detect(context.Context, *Input) (*LibraryType, error) {
+func (UnimplementedLibraryServer) Detect(context.Context, *helpers.Input) (*LibraryType, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedLibraryServer) IsUsed(context.Context, *Input) (*BoolOutput, error) {
+func (UnimplementedLibraryServer) IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsUsed not implemented")
 }
-func (UnimplementedLibraryServer) PercentOfUsed(context.Context, *Input) (*FloatOutput, error) {
+func (UnimplementedLibraryServer) PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfUsed not implemented")
 }
 
@@ -93,7 +94,7 @@ func RegisterLibraryServer(s grpc.ServiceRegistrar, srv LibraryServer) {
 }
 
 func _Library_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -105,13 +106,13 @@ func _Library_Detect_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/proto.Library/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LibraryServer).Detect(ctx, req.(*Input))
+		return srv.(LibraryServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Library_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -123,13 +124,13 @@ func _Library_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/proto.Library/IsUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LibraryServer).IsUsed(ctx, req.(*Input))
+		return srv.(LibraryServer).IsUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Library_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -141,7 +142,7 @@ func _Library_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: "/proto.Library/PercentOfUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LibraryServer).PercentOfUsed(ctx, req.(*Input))
+		return srv.(LibraryServer).PercentOfUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

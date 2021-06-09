@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	languageSpecific "code-analyser/protos/pb/output/languageSpecific"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,11 +20,11 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CommandsClient interface {
-	DetectBuildCommands(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error)
-	DetectStartUpCommands(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error)
-	DetectSeedCommands(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error)
-	DetectMigrationCommands(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error)
-	DetectAdHocScripts(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error)
+	DetectBuildCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
+	DetectStartUpCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
+	DetectSeedCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
+	DetectMigrationCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
+	DetectAdHocScripts(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
 }
 
 type commandsClient struct {
@@ -33,8 +35,8 @@ func NewCommandsClient(cc grpc.ClientConnInterface) CommandsClient {
 	return &commandsClient{cc}
 }
 
-func (c *commandsClient) DetectBuildCommands(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error) {
-	out := new(CommandsOutput)
+func (c *commandsClient) DetectBuildCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
 	err := c.cc.Invoke(ctx, "/proto.Commands/DetectBuildCommands", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,8 +44,8 @@ func (c *commandsClient) DetectBuildCommands(ctx context.Context, in *Input, opt
 	return out, nil
 }
 
-func (c *commandsClient) DetectStartUpCommands(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error) {
-	out := new(CommandsOutput)
+func (c *commandsClient) DetectStartUpCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
 	err := c.cc.Invoke(ctx, "/proto.Commands/DetectStartUpCommands", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -51,8 +53,8 @@ func (c *commandsClient) DetectStartUpCommands(ctx context.Context, in *Input, o
 	return out, nil
 }
 
-func (c *commandsClient) DetectSeedCommands(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error) {
-	out := new(CommandsOutput)
+func (c *commandsClient) DetectSeedCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
 	err := c.cc.Invoke(ctx, "/proto.Commands/DetectSeedCommands", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -60,8 +62,8 @@ func (c *commandsClient) DetectSeedCommands(ctx context.Context, in *Input, opts
 	return out, nil
 }
 
-func (c *commandsClient) DetectMigrationCommands(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error) {
-	out := new(CommandsOutput)
+func (c *commandsClient) DetectMigrationCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
 	err := c.cc.Invoke(ctx, "/proto.Commands/DetectMigrationCommands", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -69,8 +71,8 @@ func (c *commandsClient) DetectMigrationCommands(ctx context.Context, in *Input,
 	return out, nil
 }
 
-func (c *commandsClient) DetectAdHocScripts(ctx context.Context, in *Input, opts ...grpc.CallOption) (*CommandsOutput, error) {
-	out := new(CommandsOutput)
+func (c *commandsClient) DetectAdHocScripts(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
 	err := c.cc.Invoke(ctx, "/proto.Commands/DetectAdHocScripts", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -82,30 +84,30 @@ func (c *commandsClient) DetectAdHocScripts(ctx context.Context, in *Input, opts
 // All implementations should embed UnimplementedCommandsServer
 // for forward compatibility
 type CommandsServer interface {
-	DetectBuildCommands(context.Context, *Input) (*CommandsOutput, error)
-	DetectStartUpCommands(context.Context, *Input) (*CommandsOutput, error)
-	DetectSeedCommands(context.Context, *Input) (*CommandsOutput, error)
-	DetectMigrationCommands(context.Context, *Input) (*CommandsOutput, error)
-	DetectAdHocScripts(context.Context, *Input) (*CommandsOutput, error)
+	DetectBuildCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectStartUpCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectSeedCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectMigrationCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectAdHocScripts(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
 }
 
 // UnimplementedCommandsServer should be embedded to have forward compatible implementations.
 type UnimplementedCommandsServer struct {
 }
 
-func (UnimplementedCommandsServer) DetectBuildCommands(context.Context, *Input) (*CommandsOutput, error) {
+func (UnimplementedCommandsServer) DetectBuildCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectBuildCommands not implemented")
 }
-func (UnimplementedCommandsServer) DetectStartUpCommands(context.Context, *Input) (*CommandsOutput, error) {
+func (UnimplementedCommandsServer) DetectStartUpCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectStartUpCommands not implemented")
 }
-func (UnimplementedCommandsServer) DetectSeedCommands(context.Context, *Input) (*CommandsOutput, error) {
+func (UnimplementedCommandsServer) DetectSeedCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectSeedCommands not implemented")
 }
-func (UnimplementedCommandsServer) DetectMigrationCommands(context.Context, *Input) (*CommandsOutput, error) {
+func (UnimplementedCommandsServer) DetectMigrationCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectMigrationCommands not implemented")
 }
-func (UnimplementedCommandsServer) DetectAdHocScripts(context.Context, *Input) (*CommandsOutput, error) {
+func (UnimplementedCommandsServer) DetectAdHocScripts(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectAdHocScripts not implemented")
 }
 
@@ -121,7 +123,7 @@ func RegisterCommandsServer(s grpc.ServiceRegistrar, srv CommandsServer) {
 }
 
 func _Commands_DetectBuildCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -133,13 +135,13 @@ func _Commands_DetectBuildCommands_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/proto.Commands/DetectBuildCommands",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServer).DetectBuildCommands(ctx, req.(*Input))
+		return srv.(CommandsServer).DetectBuildCommands(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Commands_DetectStartUpCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -151,13 +153,13 @@ func _Commands_DetectStartUpCommands_Handler(srv interface{}, ctx context.Contex
 		FullMethod: "/proto.Commands/DetectStartUpCommands",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServer).DetectStartUpCommands(ctx, req.(*Input))
+		return srv.(CommandsServer).DetectStartUpCommands(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Commands_DetectSeedCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -169,13 +171,13 @@ func _Commands_DetectSeedCommands_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/proto.Commands/DetectSeedCommands",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServer).DetectSeedCommands(ctx, req.(*Input))
+		return srv.(CommandsServer).DetectSeedCommands(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Commands_DetectMigrationCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -187,13 +189,13 @@ func _Commands_DetectMigrationCommands_Handler(srv interface{}, ctx context.Cont
 		FullMethod: "/proto.Commands/DetectMigrationCommands",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServer).DetectMigrationCommands(ctx, req.(*Input))
+		return srv.(CommandsServer).DetectMigrationCommands(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Commands_DetectAdHocScripts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -205,7 +207,7 @@ func _Commands_DetectAdHocScripts_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/proto.Commands/DetectAdHocScripts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServer).DetectAdHocScripts(ctx, req.(*Input))
+		return srv.(CommandsServer).DetectAdHocScripts(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }

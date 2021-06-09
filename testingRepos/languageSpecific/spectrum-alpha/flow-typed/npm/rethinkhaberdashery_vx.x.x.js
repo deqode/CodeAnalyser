@@ -214,7 +214,7 @@ declare module 'rethinkhaberdashery/test/transformations' {
   declare module.exports: any;
 }
 
-declare module 'rethinkhaberdashery/test/util/common' {
+declare module 'rethinkhaberdashery/test/util/helpers' {
   declare module.exports: any;
 }
 
@@ -427,8 +427,8 @@ declare module 'rethinkhaberdashery/test/transform-stream.js' {
 declare module 'rethinkhaberdashery/test/transformations.js' {
   declare module.exports: $Exports<'rethinkhaberdashery/test/transformations'>;
 }
-declare module 'rethinkhaberdashery/test/util/common.js' {
-  declare module.exports: $Exports<'rethinkhaberdashery/test/util/common'>;
+declare module 'rethinkhaberdashery/test/util/helpers.js' {
+  declare module.exports: $Exports<'rethinkhaberdashery/test/util/helpers'>;
 }
 declare module 'rethinkhaberdashery/test/util/fake_server/database.js' {
   declare module.exports: $Exports<'rethinkhaberdashery/test/util/fake_server/database'>;

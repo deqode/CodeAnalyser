@@ -2,8 +2,8 @@ package runners
 
 import (
 	"code-analyser/pluginClient"
-	"code-analyser/protos/pb/output/global"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	global "code-analyser/protos/pb/output/globalFiles"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 )
@@ -20,10 +20,10 @@ func ExecuteDockerAndComposePlugin(ctx context.Context, projectRootPath, pluginP
 	dockerCompose, err := pluginCall.DetectDockerComposeFile(&pb.StringInput{Value: projectRootPath})
 	if err != nil || dockerCompose.Error != nil {
 		utils.Logger(err, dockerCompose)
-		return dockerFile.Value, nil
+		return dockerFile, nil
 	}
 
-	return dockerFile.Value, dockerCompose.Value
+	return dockerFile, dockerCompose
 }
 
 func ExecuteProcFileDetectionPlugin(ctx context.Context, projectRootPath, pluginPath string) *global.ProcFile {
@@ -35,7 +35,7 @@ func ExecuteProcFileDetectionPlugin(ctx context.Context, projectRootPath, plugin
 		return nil
 	}
 
-	return procFile.Value
+	return procFile
 }
 
 func ExecuteMakeFileDetectionPlugin(ctx context.Context, projectRootPath, pluginPath string) *global.MakeFile {
@@ -47,5 +47,5 @@ func ExecuteMakeFileDetectionPlugin(ctx context.Context, projectRootPath, plugin
 		return nil
 	}
 
-	return makeFile.Value
+	return makeFile
 }

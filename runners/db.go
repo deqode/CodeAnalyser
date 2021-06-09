@@ -3,9 +3,9 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
+	helpersPb "code-analyser/protos/pb/helpers"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	pb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 )
@@ -15,7 +15,7 @@ ExtractDbsFromProjectDependencies It will filter out frameworks from dependencie
 dependenciesList : list of dependencies of any project ,
 langYamlObject : dependencies supported by us
 */
-func ExtractDbsFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, dbPlugins map[string]*versionsPB.DependencyDetails) map[string]DependencyDetail {
+func ExtractDbsFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, dbPlugins map[string]*pluginDetails.DependencyDetails) map[string]DependencyDetail {
 	db := map[string]DependencyDetail{}
 	for name, details := range dbPlugins {
 		for dbVersion, versionDetails := range details.Version {
@@ -59,7 +59,7 @@ func ExecuteDbPlugins(ctx context.Context,dbPlugins map[string]DependencyDetail,
 func ExecuteDbPlugin(ctx context.Context,name string, dbPluginDetail DependencyDetail, runTimeVersion, projectRootPath string) *languageSpecificPB.DB {
 	pluginCall, _ := pluginClient.CreateDbClient(utils.CallPluginCommand(dbPluginDetail.Command))
 
-	pluginInput := &pb.Input{
+	pluginInput := &helpersPb.Input{
 		RuntimeVersion: runTimeVersion,
 		RootPath:       projectRootPath,
 	}
@@ -87,3 +87,5 @@ func ExecuteDbPlugin(ctx context.Context,name string, dbPluginDetail DependencyD
 	}
 	return nil
 }
+
+

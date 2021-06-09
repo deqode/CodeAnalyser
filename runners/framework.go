@@ -3,15 +3,15 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
+	pb "code-analyser/protos/pb/helpers"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	pb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 )
 
 //ExtractFrameworksFromProjectDependencies It will filter out frameworks from dependency list
-func ExtractFrameworksFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, frameworkPlugins map[string]*versionsPB.DependencyDetails) map[string]DependencyDetail {
+func ExtractFrameworksFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, frameworkPlugins map[string]*pluginDetails.DependencyDetails) map[string]DependencyDetail {
 	framework := map[string]DependencyDetail{}
 	for name, details := range frameworkPlugins {
 		for frameworkVersion, versionDetails := range details.Version {

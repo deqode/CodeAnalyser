@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,9 +19,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrmClient interface {
-	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*OrmOutput, error)
-	IsORMUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error)
-	PercentOfORMUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error)
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*OrmOutput, error)
+	IsORMUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
+	PercentOfORMUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error)
 }
 
 type ormClient struct {
@@ -31,7 +32,7 @@ func NewOrmClient(cc grpc.ClientConnInterface) OrmClient {
 	return &ormClient{cc}
 }
 
-func (c *ormClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*OrmOutput, error) {
+func (c *ormClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*OrmOutput, error) {
 	out := new(OrmOutput)
 	err := c.cc.Invoke(ctx, "/proto.Orm/Detect", in, out, opts...)
 	if err != nil {
@@ -40,8 +41,8 @@ func (c *ormClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOpti
 	return out, nil
 }
 
-func (c *ormClient) IsORMUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error) {
-	out := new(BoolOutput)
+func (c *ormClient) IsORMUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
+	out := new(helpers.BoolOutput)
 	err := c.cc.Invoke(ctx, "/proto.Orm/IsORMUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -49,8 +50,8 @@ func (c *ormClient) IsORMUsed(ctx context.Context, in *Input, opts ...grpc.CallO
 	return out, nil
 }
 
-func (c *ormClient) PercentOfORMUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error) {
-	out := new(FloatOutput)
+func (c *ormClient) PercentOfORMUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error) {
+	out := new(helpers.FloatOutput)
 	err := c.cc.Invoke(ctx, "/proto.Orm/PercentOfORMUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,22 +63,22 @@ func (c *ormClient) PercentOfORMUsed(ctx context.Context, in *Input, opts ...grp
 // All implementations should embed UnimplementedOrmServer
 // for forward compatibility
 type OrmServer interface {
-	Detect(context.Context, *Input) (*OrmOutput, error)
-	IsORMUsed(context.Context, *Input) (*BoolOutput, error)
-	PercentOfORMUsed(context.Context, *Input) (*FloatOutput, error)
+	Detect(context.Context, *helpers.Input) (*OrmOutput, error)
+	IsORMUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfORMUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error)
 }
 
 // UnimplementedOrmServer should be embedded to have forward compatible implementations.
 type UnimplementedOrmServer struct {
 }
 
-func (UnimplementedOrmServer) Detect(context.Context, *Input) (*OrmOutput, error) {
+func (UnimplementedOrmServer) Detect(context.Context, *helpers.Input) (*OrmOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedOrmServer) IsORMUsed(context.Context, *Input) (*BoolOutput, error) {
+func (UnimplementedOrmServer) IsORMUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsORMUsed not implemented")
 }
-func (UnimplementedOrmServer) PercentOfORMUsed(context.Context, *Input) (*FloatOutput, error) {
+func (UnimplementedOrmServer) PercentOfORMUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfORMUsed not implemented")
 }
 
@@ -93,7 +94,7 @@ func RegisterOrmServer(s grpc.ServiceRegistrar, srv OrmServer) {
 }
 
 func _Orm_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -105,13 +106,13 @@ func _Orm_Detect_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: "/proto.Orm/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServer).Detect(ctx, req.(*Input))
+		return srv.(OrmServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Orm_IsORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -123,13 +124,13 @@ func _Orm_IsORMUsed_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/proto.Orm/IsORMUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServer).IsORMUsed(ctx, req.(*Input))
+		return srv.(OrmServer).IsORMUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Orm_PercentOfORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -141,7 +142,7 @@ func _Orm_PercentOfORMUsed_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/proto.Orm/PercentOfORMUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServer).PercentOfORMUsed(ctx, req.(*Input))
+		return srv.(OrmServer).PercentOfORMUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

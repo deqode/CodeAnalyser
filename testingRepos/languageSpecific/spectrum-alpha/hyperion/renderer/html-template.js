@@ -1,7 +1,7 @@
 // @flow
 import fs from 'fs';
 import path from 'path';
-import { html } from 'common-tags';
+import { html } from 'helpers-tags';
 import serialize from 'serialize-javascript';
 
 // Match main.asdf123.js in production mode or bundle.js in dev mode

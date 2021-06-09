@@ -1,18 +1,19 @@
 package GlobalFiles
 
 import (
-	"code-analyser/protos/pb/plugin"
+	"code-analyser/protos/pb/helpers"
+	"code-analyser/protos/pb/output/globalFiles"
 )
 
 type ProcFile interface {
-	Detect(path *plugin.StringInput) (*plugin.ProcFileOutput, error)
+	Detect(path *helpers.StringInput) (*globalFiles.ProcFile, error)
 }
 
 type Makefile interface {
-	Detect(path *plugin.StringInput) (*plugin.MakeFileOutput, error)
+	Detect(path *helpers.StringInput) (*globalFiles.MakeFile, error)
 }
 
 type DockerFile interface {
-	DetectDockerFile(path *plugin.StringInput) (*plugin.DockerFileOutput, error)
-	DetectDockerComposeFile(path *plugin.StringInput) (*plugin.DockerComposeFileOutput, error)
+	DetectDockerFile(path *helpers.StringInput) (*globalFiles.DockerFile, error)
+	DetectDockerComposeFile(path *helpers.StringInput) (*globalFiles.DockerCompose, error)
 }

@@ -1,0 +1,21 @@
+syntax = "proto3";
+package protos.output.languageSpecific;
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+import "protos/helpers/command.proto";
+import "protos/helpers/common.proto";
+
+message Commands {
+    CommandOutput buildCommands = 1;
+    CommandOutput startUpCommands = 2;
+    CommandOutput seedCommands = 3;
+    CommandOutput MigrationCommands = 4;
+    CommandOutput adHocScripts = 5;
+}
+
+message CommandOutput {
+    protos.helpers.Error error = 1;
+    bool used = 2;
+    repeated protos.helpers.Command commands = 3;
+  }

@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,9 +19,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DbClient interface {
-	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolIntOutput, error)
-	IsUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error)
-	PercentOfUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error)
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*BoolIntOutput, error)
+	IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
+	PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error)
 }
 
 type dbClient struct {
@@ -31,7 +32,7 @@ func NewDbClient(cc grpc.ClientConnInterface) DbClient {
 	return &dbClient{cc}
 }
 
-func (c *dbClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolIntOutput, error) {
+func (c *dbClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*BoolIntOutput, error) {
 	out := new(BoolIntOutput)
 	err := c.cc.Invoke(ctx, "/proto.Db/Detect", in, out, opts...)
 	if err != nil {
@@ -40,8 +41,8 @@ func (c *dbClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOptio
 	return out, nil
 }
 
-func (c *dbClient) IsUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error) {
-	out := new(BoolOutput)
+func (c *dbClient) IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
+	out := new(helpers.BoolOutput)
 	err := c.cc.Invoke(ctx, "/proto.Db/IsUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -49,8 +50,8 @@ func (c *dbClient) IsUsed(ctx context.Context, in *Input, opts ...grpc.CallOptio
 	return out, nil
 }
 
-func (c *dbClient) PercentOfUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error) {
-	out := new(FloatOutput)
+func (c *dbClient) PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error) {
+	out := new(helpers.FloatOutput)
 	err := c.cc.Invoke(ctx, "/proto.Db/PercentOfUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -62,22 +63,22 @@ func (c *dbClient) PercentOfUsed(ctx context.Context, in *Input, opts ...grpc.Ca
 // All implementations should embed UnimplementedDbServer
 // for forward compatibility
 type DbServer interface {
-	Detect(context.Context, *Input) (*BoolIntOutput, error)
-	IsUsed(context.Context, *Input) (*BoolOutput, error)
-	PercentOfUsed(context.Context, *Input) (*FloatOutput, error)
+	Detect(context.Context, *helpers.Input) (*BoolIntOutput, error)
+	IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error)
 }
 
 // UnimplementedDbServer should be embedded to have forward compatible implementations.
 type UnimplementedDbServer struct {
 }
 
-func (UnimplementedDbServer) Detect(context.Context, *Input) (*BoolIntOutput, error) {
+func (UnimplementedDbServer) Detect(context.Context, *helpers.Input) (*BoolIntOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedDbServer) IsUsed(context.Context, *Input) (*BoolOutput, error) {
+func (UnimplementedDbServer) IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsUsed not implemented")
 }
-func (UnimplementedDbServer) PercentOfUsed(context.Context, *Input) (*FloatOutput, error) {
+func (UnimplementedDbServer) PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfUsed not implemented")
 }
 
@@ -93,7 +94,7 @@ func RegisterDbServer(s grpc.ServiceRegistrar, srv DbServer) {
 }
 
 func _Db_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -105,13 +106,13 @@ func _Db_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface
 		FullMethod: "/proto.Db/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServer).Detect(ctx, req.(*Input))
+		return srv.(DbServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Db_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -123,13 +124,13 @@ func _Db_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(interface
 		FullMethod: "/proto.Db/IsUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServer).IsUsed(ctx, req.(*Input))
+		return srv.(DbServer).IsUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Db_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -141,7 +142,7 @@ func _Db_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/proto.Db/PercentOfUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServer).PercentOfUsed(ctx, req.(*Input))
+		return srv.(DbServer).PercentOfUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

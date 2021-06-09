@@ -4,7 +4,7 @@ import (
 	"code-analyser/analyser"
 	"code-analyser/pluginClient"
 	decisionmakerPB "code-analyser/protos/pb"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
 	"code-analyser/runners"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
@@ -41,7 +41,7 @@ func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInpu
 	supportedLanguages, _ := SupportedLanguagesParser()
 
 	decisionMakerInput := &decisionmakerPB.DecisionMakerInput{
-		LanguageSpecificDetection: []*decisionmakerPB.LanguageSpecificDetections{},
+		LanguageSpecificDetections: []*decisionmakerPB.LanguageSpecificDetections{},
 		GloabalDetections:         &decisionmakerPB.GlobalDetections{},
 	}
 
@@ -70,7 +70,7 @@ func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInpu
 				continue
 			}
 
-			pluginDetails := GetLanguagePluginspath(ctx,languagePath)
+			pluginDetails := GetLanguagePluginsPath(ctx,languagePath)
 			runtimeVersion := runners.ExecuteRuntimeDetectionPlugin(ctx, path, pluginDetails.DetectRuntimePluginPath)
 			//TODO: change name after dicuss
 			runners.ExecutePreDetectionPlugin(ctx, &pb.Input{
@@ -88,7 +88,7 @@ func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInpu
 				RuntimeVersion: runtimeVersion,
 			}
 			LoadLanguagePlugins(ctx, &languageSpecificDetections, *allDependencies, pluginDetails, runtimeVersion, path)
-			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
+			decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, &languageSpecificDetections)
 		}
 
 	}

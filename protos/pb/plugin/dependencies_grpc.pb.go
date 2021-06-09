@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DependenciesClient interface {
-	GetDependencies(ctx context.Context, in *Input, opts ...grpc.CallOption) (*StringMapOutput, error)
+	GetDependencies(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.StringMapOutput, error)
 }
 
 type dependenciesClient struct {
@@ -29,8 +30,8 @@ func NewDependenciesClient(cc grpc.ClientConnInterface) DependenciesClient {
 	return &dependenciesClient{cc}
 }
 
-func (c *dependenciesClient) GetDependencies(ctx context.Context, in *Input, opts ...grpc.CallOption) (*StringMapOutput, error) {
-	out := new(StringMapOutput)
+func (c *dependenciesClient) GetDependencies(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.StringMapOutput, error) {
+	out := new(helpers.StringMapOutput)
 	err := c.cc.Invoke(ctx, "/proto.Dependencies/GetDependencies", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +43,14 @@ func (c *dependenciesClient) GetDependencies(ctx context.Context, in *Input, opt
 // All implementations should embed UnimplementedDependenciesServer
 // for forward compatibility
 type DependenciesServer interface {
-	GetDependencies(context.Context, *Input) (*StringMapOutput, error)
+	GetDependencies(context.Context, *helpers.Input) (*helpers.StringMapOutput, error)
 }
 
 // UnimplementedDependenciesServer should be embedded to have forward compatible implementations.
 type UnimplementedDependenciesServer struct {
 }
 
-func (UnimplementedDependenciesServer) GetDependencies(context.Context, *Input) (*StringMapOutput, error) {
+func (UnimplementedDependenciesServer) GetDependencies(context.Context, *helpers.Input) (*helpers.StringMapOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDependencies not implemented")
 }
 
@@ -65,7 +66,7 @@ func RegisterDependenciesServer(s grpc.ServiceRegistrar, srv DependenciesServer)
 }
 
 func _Dependencies_GetDependencies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +78,7 @@ func _Dependencies_GetDependencies_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/proto.Dependencies/GetDependencies",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DependenciesServer).GetDependencies(ctx, req.(*Input))
+		return srv.(DependenciesServer).GetDependencies(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

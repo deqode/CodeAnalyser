@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BuildDirectoryClient interface {
-	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*StringMapOutput, error)
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.StringMapOutput, error)
 }
 
 type buildDirectoryClient struct {
@@ -29,8 +30,8 @@ func NewBuildDirectoryClient(cc grpc.ClientConnInterface) BuildDirectoryClient {
 	return &buildDirectoryClient{cc}
 }
 
-func (c *buildDirectoryClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*StringMapOutput, error) {
-	out := new(StringMapOutput)
+func (c *buildDirectoryClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.StringMapOutput, error) {
+	out := new(helpers.StringMapOutput)
 	err := c.cc.Invoke(ctx, "/proto.BuildDirectory/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +43,14 @@ func (c *buildDirectoryClient) Detect(ctx context.Context, in *Input, opts ...gr
 // All implementations should embed UnimplementedBuildDirectoryServer
 // for forward compatibility
 type BuildDirectoryServer interface {
-	Detect(context.Context, *Input) (*StringMapOutput, error)
+	Detect(context.Context, *helpers.Input) (*helpers.StringMapOutput, error)
 }
 
 // UnimplementedBuildDirectoryServer should be embedded to have forward compatible implementations.
 type UnimplementedBuildDirectoryServer struct {
 }
 
-func (UnimplementedBuildDirectoryServer) Detect(context.Context, *Input) (*StringMapOutput, error) {
+func (UnimplementedBuildDirectoryServer) Detect(context.Context, *helpers.Input) (*helpers.StringMapOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
@@ -65,7 +66,7 @@ func RegisterBuildDirectoryServer(s grpc.ServiceRegistrar, srv BuildDirectorySer
 }
 
 func _BuildDirectory_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +78,7 @@ func _BuildDirectory_Detect_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: "/proto.BuildDirectory/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BuildDirectoryServer).Detect(ctx, req.(*Input))
+		return srv.(BuildDirectoryServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

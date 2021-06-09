@@ -10,7 +10,7 @@ import (
 //GetGoDependencies is a plugin of type get language dependencies
 type GetGoDependencies struct{}
 
-//GetDependencies will return map of dependencies and versions
+//GetDependencies will return map of dependencies and pluginDetails
 func (d *GetGoDependencies) GetDependencies(input *pb.Input) (*pb.StringMapOutput, error) {
 	return &pb.StringMapOutput{
 		Value: map[string]string{

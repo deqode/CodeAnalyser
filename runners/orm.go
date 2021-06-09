@@ -3,15 +3,15 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
+	pb "code-analyser/protos/pb/helpers"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	pb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
+	pluginDetailsPB "code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 )
 
 //ExtractOrmsFromProjectDependencies It takes dependenciesList and filter out orms in map format
-func ExtractOrmsFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, ormPlugins map[string]*versionsPB.DependencyDetails) map[string]DependencyDetail {
+func ExtractOrmsFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, ormPlugins map[string]*pluginDetailsPB.DependencyDetails) map[string]DependencyDetail {
 	orm := map[string]DependencyDetail{}
 	for name, details := range ormPlugins {
 		if usedLibraryVersion, ok := projectDependencies[name]; ok {

@@ -1,11 +1,12 @@
 package interfaces
 
 import (
+	"code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/plugin"
 )
 
 type Library interface {
-	Detect(input *plugin.Input) (*plugin.LibraryType, error) //todo:
-	IsUsed(*plugin.Input) (*plugin.BoolOutput, error)
-	PercentOfUsed(*plugin.Input) (*plugin.FloatOutput, error)
+	Detect(input *helpers.Input) (*plugin.LibraryType, error) //todo:
+	IsUsed(*helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(*helpers.Input) (*helpers.FloatOutput, error)
 }

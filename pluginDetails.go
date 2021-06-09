@@ -2,7 +2,7 @@ package main
 
 import (
 	utilsPB "code-analyser/protos/pb/output/utils"
-	versionsPB "code-analyser/protos/pb/versions"
+	pluginDetailsPB "code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 	"errors"
 	"golang.org/x/net/context"
@@ -61,8 +61,9 @@ func SearchFileInDirectory(fileName, dirPath string) ([]PluginDetailsFile, error
 	return pluginYamlFiles, err
 }
 
+//TODO error return karni hai sath me
 //GetGlobalPluginsPath It will read pluginDetails.yaml files in plugin/globalDetectors directory
-func GetGlobalPluginsPath(ctx context.Context, globalPluginRootPath string) *versionsPB.GlobalPlugin {
+func GetGlobalPluginsPath(ctx context.Context, globalPluginRootPath string) *pluginDetailsPB.GlobalPlugins {
 	pluginYamlFiles, err := SearchFileInDirectory("pluginDetails.yaml", globalPluginRootPath)
 	if err != nil {
 		utils.Logger(err)
@@ -70,33 +71,33 @@ func GetGlobalPluginsPath(ctx context.Context, globalPluginRootPath string) *ver
 	}
 
 	//TODO: discuss with Atul better ways to implement concurrency
-	globalPlugin := &versionsPB.GlobalPlugin{}
+	globalPlugin := &pluginDetailsPB.GlobalPlugins{}
 
 	for _, pluginFile := range pluginYamlFiles {
 
 		parsedRawFile, err := ReadPluginYamlFile(ctx, pluginFile)
 		if err != nil {
 			log.Println(err)
+			//TODO remove this continue and return error
 			continue
 		}
 
 		parsedFile := parsedRawFile.PluginDetails
 		switch parsedFile.Type {
 		case "dockerFile":
-			globalPlugin.DockerFile = parsedFile.Command
+			globalPlugin.DockerFilePluginPath = parsedFile.Command
 		case "procFile":
-			globalPlugin.ProcFile = parsedFile.Command
+			globalPlugin.ProcFilePluginPath = parsedFile.Command
 		case "makeFile":
-			globalPlugin.MakeFile = parsedFile.Command
-		case "commands":
-			globalPlugin.Commands = parsedFile.Command
+			globalPlugin.MakeFilePluginPath = parsedFile.Command
 		}
 	}
 	return globalPlugin
 }
 
-//GetLanguagePluginspath It will read pluginDetails.yaml files in plugin directory of given languagePath
-func GetLanguagePluginspath(ctx context.Context, languagePluginsRootPath string) *versionsPB.LanguageVersion {
+//TODO error bhi return karni hai
+//GetLanguagePluginsPath It will read pluginDetails.yaml files in plugin directory of given languagePath
+func GetLanguagePluginsPath(ctx context.Context, languagePluginsRootPath string) *pluginDetailsPB.LanguagePlugins {
 
 	pluginYamlFiles, err := SearchFileInDirectory("pluginDetails.yaml", languagePluginsRootPath)
 	if err != nil {
@@ -104,12 +105,12 @@ func GetLanguagePluginspath(ctx context.Context, languagePluginsRootPath string)
 		return nil
 	}
 
-	languagePlugins := &versionsPB.LanguageVersion{
-		Frameworks:      map[string]*versionsPB.DependencyDetails{},
-		Databases:       map[string]*versionsPB.DependencyDetails{},
-		Orms:            map[string]*versionsPB.DependencyDetails{},
-		Libraries:       map[string]*versionsPB.DependencyDetails{},
-		RuntimeVersions: map[string]*versionsPB.DependencyVersionDetails{},
+	languagePlugins := &pluginDetailsPB.LanguagePlugins{
+		Frameworks:      map[string]*pluginDetailsPB.DependencyDetails{},
+		Databases:       map[string]*pluginDetailsPB.DependencyDetails{},
+		Orms:            map[string]*pluginDetailsPB.DependencyDetails{},
+		Libraries:       map[string]*pluginDetailsPB.DependencyDetails{},
+		RuntimeVersions: map[string]*pluginDetailsPB.DependencyVersionDetails{},
 	}
 
 	//TODO: discuss with Atul better ways to implement concurrency
@@ -118,6 +119,7 @@ func GetLanguagePluginspath(ctx context.Context, languagePluginsRootPath string)
 		parsedRawFile, err := ReadPluginYamlFile(ctx, pluginFile)
 		if err != nil {
 			log.Println(err)
+			//TODO remove this continue , on error whole function should stop
 			continue
 		}
 
@@ -168,7 +170,7 @@ func GetLanguagePluginspath(ctx context.Context, languagePluginsRootPath string)
 			}
 
 		case "getDependencies":
-			languagePlugins.RuntimeVersions[pluginYamlFile.Version] = &versionsPB.DependencyVersionDetails{
+			languagePlugins.RuntimeVersions[pluginYamlFile.Version] = &pluginDetailsPB.DependencyVersionDetails{
 				Semver:     pluginYamlFile.Semver,
 				PluginPath: pluginYamlFile.Command,
 			}
@@ -178,17 +180,17 @@ func GetLanguagePluginspath(ctx context.Context, languagePluginsRootPath string)
 	return languagePlugins
 }
 
-func AddPluginVersionDetails(dependencyMap *versionsPB.DependencyDetails, pluginYamlFile *utilsPB.Details) {
-	dependencyMap.Version[pluginYamlFile.Version] = &versionsPB.DependencyVersionDetails{
+func AddPluginVersionDetails(dependencyMap *pluginDetailsPB.DependencyDetails, pluginYamlFile *utilsPB.Details) {
+	dependencyMap.Version[pluginYamlFile.Version] = &pluginDetailsPB.DependencyVersionDetails{
 		Semver:     pluginYamlFile.Semver,
 		PluginPath: pluginYamlFile.Command,
 		Libraries:  pluginYamlFile.Libraries,
 	}
 }
 
-func CreatePluginVersionMap(pluginYamlFile *utilsPB.Details) *versionsPB.DependencyDetails {
-	return &versionsPB.DependencyDetails{
-		Version: map[string]*versionsPB.DependencyVersionDetails{
+func CreatePluginVersionMap(pluginYamlFile *utilsPB.Details) *pluginDetailsPB.DependencyDetails {
+	return &pluginDetailsPB.DependencyDetails{
+		Version: map[string]*pluginDetailsPB.DependencyVersionDetails{
 			pluginYamlFile.Version: {
 				Semver:     pluginYamlFile.Semver,
 				PluginPath: pluginYamlFile.Command,
@@ -201,13 +203,13 @@ func CreatePluginVersionMap(pluginYamlFile *utilsPB.Details) *versionsPB.Depende
 const SupportedLanguages = "./static/supportedLanguages.yaml"
 
 //SupportedLanguagesParser it reads yaml file and fetch out supported languages by our system (like go or js )
-func SupportedLanguagesParser() (*versionsPB.SupportedLanguages, error) {
+func SupportedLanguagesParser() (*pluginDetailsPB.SupportedLanguages, error) {
 	filename, _ := filepath.Abs(SupportedLanguages)
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
-	var lang versionsPB.SupportedLanguages
+	var lang pluginDetailsPB.SupportedLanguages
 
 	err = yaml.Unmarshal(yamlFile, &lang)
 	if err != nil {

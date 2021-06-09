@@ -2,17 +2,17 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
+import "protos/helpers/common.proto";
 
 message OrmOutput{
   bool used = 1;
   string DbName = 2;
   string DbVersion = 3;
-  Error error = 4;
+  protos.helpers.Error error = 4;
 }
 
 service Orm {
-  rpc Detect(Input) returns (OrmOutput);  // deep level detection
-  rpc IsORMUsed(Input) returns (BoolOutput);
-  rpc PercentOfORMUsed(Input) returns (FloatOutput);
+  rpc Detect(protos.helpers.Input) returns (OrmOutput);  // deep level detection
+  rpc IsORMUsed(protos.helpers.Input) returns (protos.helpers.BoolOutput);
+  rpc PercentOfORMUsed(protos.helpers.Input) returns (protos.helpers.FloatOutput);
 }

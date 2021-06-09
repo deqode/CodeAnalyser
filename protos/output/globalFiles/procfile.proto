@@ -1,0 +1,19 @@
+syntax = "proto3";
+package protos.output.globalFiles;
+
+import "protos/helpers/command.proto";
+import "protos/helpers/common.proto";
+
+option go_package = "code-analyser/protos/pb/output/globalFiles";
+
+message ProcFile {
+  protos.helpers.Error error = 1;
+  bool used = 2;
+  // list of all ProcCommands
+  string filePath = 3;
+  map<string, protos.helpers.Command>  commands = 4;
+}
+
+
+
+

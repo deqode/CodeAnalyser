@@ -2,40 +2,41 @@ package db
 
 import (
 	"code-analyser/languageDetectors/interfaces"
+	"code-analyser/protos/pb/helpers"
 	pb "code-analyser/protos/pb/plugin"
 	"golang.org/x/net/context"
 )
 
 // GRPCClient is an implementation of Framework that talks over RPC.
 type GRPCClient struct {
-	Client pb.DbServiceClient
+	Client pb.DbClient
 }
 
 //TODO handle all errors
 
 //Detect will detect if DB used
-func (G *GRPCClient) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBoolInt, error) {
-	res, err := G.Client.Detect(context.Background(), &pb.ServiceInput{
+func (G *GRPCClient) Detect(input *helpers.Input) (*pb.BoolIntOutput, error) {
+	res, err := G.Client.Detect(context.Background(), &helpers.Input{
 		RuntimeVersion: input.RuntimeVersion,
-		Root:           input.Root,
+		RootPath:       input.RootPath,
 	})
 	return res, err
 }
 
-//IsDbUsed will return true if DB used
-func (G *GRPCClient) IsUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	res, err := G.Client.IsDbUsed(context.Background(), &pb.ServiceInput{
+//IsUsed will return true if DB used
+func (G *GRPCClient) IsUsed(input *helpers.Input) (*helpers.BoolOutput, error) {
+	res, err := G.Client.IsUsed(context.Background(), &helpers.Input{
 		RuntimeVersion: input.RuntimeVersion,
-		Root:           input.Root,
+		RootPath:       input.RootPath,
 	})
 	return res, err
 }
 
-//PercentOfDbUsed will return % of  db used
-func (G *GRPCClient) PercentOfUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
-	res, err := G.Client.PercentOfDbUsed(context.Background(), &pb.ServiceInput{
+//PercentOfUsed will return % of  db used
+func (G *GRPCClient) PercentOfUsed(input *helpers.Input) (*helpers.FloatOutput, error) {
+	res, err := G.Client.PercentOfUsed(context.Background(), &helpers.Input{
 		RuntimeVersion: input.RuntimeVersion,
-		Root:           input.Root,
+		RootPath:       input.RootPath,
 	})
 	return res, err
 }
@@ -46,28 +47,28 @@ type GRPCServer struct {
 }
 
 //Detect will Detect if DB used
-func (m *GRPCServer) Detect(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputBoolInt, error) {
+func (m *GRPCServer) Detect(ctx context.Context, input *helpers.Input) (*pb.BoolIntOutput, error) {
 	res, err := m.Impl.Detect(input)
-	return &pb.ServiceOutputBoolInt{
+	return &pb.BoolIntOutput{
 		Value:    res.Value,
 		IntValue: res.IntValue,
 		Error:    res.Error,
 	}, err
 }
 
-//IsDbUsed will return true if DB used
-func (m *GRPCServer) IsDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+//IsUsed will return true if DB used
+func (m *GRPCServer) IsUsed(ctx context.Context, input *helpers.Input) (*helpers.BoolOutput, error) {
 	res, err := m.Impl.IsUsed(input)
-	return &pb.ServiceOutputBool{
+	return &helpers.BoolOutput{
 		Value: res.Value,
 		Error: res.Error,
 	}, err
 }
 
-//PercentOfDbUsed will return % of  db used
-func (m *GRPCServer) PercentOfDbUsed(ctx context.Context, input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
+//PercentOfUsed will return % of  db used
+func (m *GRPCServer) PercentOfUsed(ctx context.Context, input *helpers.Input) (*helpers.FloatOutput, error) {
 	res, err := m.Impl.PercentOfUsed(input)
-	return &pb.ServiceOutputFloat{
+	return &helpers.FloatOutput{
 		Value: res.Value,
 		Error: res.Error,
 	}, err

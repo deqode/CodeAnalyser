@@ -3,14 +3,14 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
+	pb "code-analyser/protos/pb/helpers"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	pb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
+	pluginPb "code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 )
 
-func ExtractLibraryFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, libraryPlugins map[string]*versionsPB.DependencyDetails) map[string]DependencyDetail {
+func ExtractLibraryFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, libraryPlugins map[string]*pluginPb.DependencyDetails) map[string]DependencyDetail {
 	library := map[string]DependencyDetail{}
 	for name, details := range libraryPlugins {
 		if usedLibraryVersion, ok := projectDependencies[name]; ok {
@@ -72,7 +72,7 @@ func ExecuteLibraryPlugin(ctx context.Context, name string, libraryDetails Depen
 		}
 
 		return &languageSpecificPB.LibraryOutput{
-			Type:           languageSpecificPB.LibraryOutput_Type(response.Type),
+			Type:           response.Type,
 			Used:           isUsed.Value,
 			Name:           name,
 			Version:        libraryDetails.Version,

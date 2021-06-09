@@ -1,8 +1,8 @@
 package interfaces
 
 import (
+	"code-analyser/protos/pb/helpers"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	"code-analyser/protos/pb/plugin"
 	"context"
 )
 
@@ -38,26 +38,26 @@ type LanguageSpecificDetector interface {
 
 //DetectRunTime This is for DetectDockerFile version and its language
 type DetectRunTime interface {
-	Detect(inputString *plugin.StringInput) (*plugin.StringOutput, error)
+	Detect(inputString *helpers.StringInput) (*helpers.StringOutput, error)
 }
 
 //Dependencies It is for all dependencies for example beego,gin,postgres
 type Dependencies interface {
-	GetDependencies(inputString *plugin.Input) (*plugin.StringMapOutput, error)
+	GetDependencies(inputString *helpers.Input) (*helpers.StringMapOutput, error)
 }
 
 type PreDetectCommands interface {
-	RunPreDetect(input *plugin.Input) (*plugin.EmptyOutput, error)
+	RunPreDetect(input *helpers.Input) (*helpers.EmptyOutput, error)
 }
 
 type StaticAssets interface {
-	Detect(input *plugin.Input) (*plugin.StaticAssetsOutput, error)
+	Detect(input *helpers.Input) (*languageSpecificPB.StaticAssetsOutput, error)
 }
 
 type BuildDirectory interface {
-	Detect(input *plugin.Input) (*plugin.StringMapOutput, error)
+	Detect(input *helpers.Input) (*helpers.StringMapOutput, error)
 }
 
 type TestCasesRunCommands interface {
-	Detect(input *plugin.Input) (*plugin.TestCommandOutput, error)
+	Detect(input *helpers.Input) (*languageSpecificPB.TestCasesCommand, error)
 }

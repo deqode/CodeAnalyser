@@ -1,12 +1,12 @@
 package interfaces
 
 import (
-	"code-analyser/protos/pb/plugin"
+	"code-analyser/protos/pb/helpers"
 )
 
 //Framework It defines methods of framework
 type Framework interface {
-	Detect(input *plugin.Input) (*plugin.BoolOutput, error) //todo: can return FrameworkOutput ?
-	IsUsed(input *plugin.Input) (*plugin.BoolOutput, error)
-	PercentOfUsed(input *plugin.Input) (*plugin.FloatOutput, error)
+	Detect(input *helpers.Input) (*helpers.BoolOutput, error) //todo: can return FrameworkOutput ?
+	IsUsed(input *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(input *helpers.Input) (*helpers.FloatOutput, error)
 }

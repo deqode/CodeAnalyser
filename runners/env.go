@@ -2,8 +2,8 @@ package runners
 
 import (
 	"code-analyser/pluginClient"
+	pb "code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/output/languageSpecific"
-	pb "code-analyser/protos/pb/plugin"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 )
@@ -21,13 +21,5 @@ func ExecuteEnvsDetectionPlugin(ctx context.Context, pluginPath, runtimeVersion,
 		return nil
 	}
 
-	envOutput := languageSpecific.Envs{
-		Used: false,
-	}
-	if envVariables.Value.EnvKeyValues != nil || envVariables.Value.Keys != nil {
-		envOutput.Used = true
-		envOutput.EnvKeyValues = envVariables.Value.EnvKeyValues
-		envOutput.Keys = envVariables.Value.Keys
-	}
-	return &envOutput
+	return envVariables
 }

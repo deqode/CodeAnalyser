@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	languageSpecific "code-analyser/protos/pb/output/languageSpecific"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StaticAssetsClient interface {
-	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*StaticAssetsOutput, error)
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*languageSpecific.StaticAssetsOutput, error)
 }
 
 type staticAssetsClient struct {
@@ -29,8 +31,8 @@ func NewStaticAssetsClient(cc grpc.ClientConnInterface) StaticAssetsClient {
 	return &staticAssetsClient{cc}
 }
 
-func (c *staticAssetsClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*StaticAssetsOutput, error) {
-	out := new(StaticAssetsOutput)
+func (c *staticAssetsClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*languageSpecific.StaticAssetsOutput, error) {
+	out := new(languageSpecific.StaticAssetsOutput)
 	err := c.cc.Invoke(ctx, "/proto.StaticAssets/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +44,14 @@ func (c *staticAssetsClient) Detect(ctx context.Context, in *Input, opts ...grpc
 // All implementations should embed UnimplementedStaticAssetsServer
 // for forward compatibility
 type StaticAssetsServer interface {
-	Detect(context.Context, *Input) (*StaticAssetsOutput, error)
+	Detect(context.Context, *helpers.Input) (*languageSpecific.StaticAssetsOutput, error)
 }
 
 // UnimplementedStaticAssetsServer should be embedded to have forward compatible implementations.
 type UnimplementedStaticAssetsServer struct {
 }
 
-func (UnimplementedStaticAssetsServer) Detect(context.Context, *Input) (*StaticAssetsOutput, error) {
+func (UnimplementedStaticAssetsServer) Detect(context.Context, *helpers.Input) (*languageSpecific.StaticAssetsOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
@@ -65,7 +67,7 @@ func RegisterStaticAssetsServer(s grpc.ServiceRegistrar, srv StaticAssetsServer)
 }
 
 func _StaticAssets_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +79,7 @@ func _StaticAssets_Detect_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/proto.StaticAssets/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(StaticAssetsServer).Detect(ctx, req.(*Input))
+		return srv.(StaticAssetsServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DetectRuntimeClient interface {
-	Detect(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*StringOutput, error)
+	Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*helpers.StringOutput, error)
 }
 
 type detectRuntimeClient struct {
@@ -29,8 +30,8 @@ func NewDetectRuntimeClient(cc grpc.ClientConnInterface) DetectRuntimeClient {
 	return &detectRuntimeClient{cc}
 }
 
-func (c *detectRuntimeClient) Detect(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*StringOutput, error) {
-	out := new(StringOutput)
+func (c *detectRuntimeClient) Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*helpers.StringOutput, error) {
+	out := new(helpers.StringOutput)
 	err := c.cc.Invoke(ctx, "/proto.DetectRuntime/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +43,14 @@ func (c *detectRuntimeClient) Detect(ctx context.Context, in *StringInput, opts 
 // All implementations should embed UnimplementedDetectRuntimeServer
 // for forward compatibility
 type DetectRuntimeServer interface {
-	Detect(context.Context, *StringInput) (*StringOutput, error)
+	Detect(context.Context, *helpers.StringInput) (*helpers.StringOutput, error)
 }
 
 // UnimplementedDetectRuntimeServer should be embedded to have forward compatible implementations.
 type UnimplementedDetectRuntimeServer struct {
 }
 
-func (UnimplementedDetectRuntimeServer) Detect(context.Context, *StringInput) (*StringOutput, error) {
+func (UnimplementedDetectRuntimeServer) Detect(context.Context, *helpers.StringInput) (*helpers.StringOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
@@ -65,7 +66,7 @@ func RegisterDetectRuntimeServer(s grpc.ServiceRegistrar, srv DetectRuntimeServe
 }
 
 func _DetectRuntime_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StringInput)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +78,7 @@ func _DetectRuntime_Detect_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/proto.DetectRuntime/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DetectRuntimeServer).Detect(ctx, req.(*StringInput))
+		return srv.(DetectRuntimeServer).Detect(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }

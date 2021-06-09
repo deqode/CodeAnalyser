@@ -3,8 +3,8 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/makeFile"
-	"code-analyser/protos/pb/output/global"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	globalPB "code-analyser/protos/pb/output/globalFiles"
 	"github.com/hashicorp/go-plugin"
 	"os"
 )
@@ -16,16 +16,17 @@ type MakeFile struct {
 //TODO impolement logic for detection and path of makefile
 
 // Detect it returns all detectors
-func (m MakeFile) Detect(path *pb.StringInput) (*pb.MakeFileOutput, error) {
-	makeFileOutput := &pb.MakeFileOutput{
+func (m MakeFile) Detect(path *pb.StringInput) (*globalPB.MakeFile, error) {
+
+	makeFileOutput := &globalPB.MakeFile{
 		Error: nil,
 	}
+
 	if _, err := os.Stat(path.Value + "/Makefile"); !os.IsNotExist(err) {
-		makeFileOutput.Value = &global.MakeFile{
-			Used:     true,
-			FilePath: path.Value + "/Makefile",
-		}
+		makeFileOutput.Used = true
+		makeFileOutput.FilePath = path.Value + "/Makefile"
 	}
+
 	return makeFileOutput, nil
 }
 

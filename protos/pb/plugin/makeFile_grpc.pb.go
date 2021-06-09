@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	globalFiles "code-analyser/protos/pb/output/globalFiles"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MakeFileClient interface {
-	Detect(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*MakeFileOutput, error)
+	Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.MakeFile, error)
 }
 
 type makeFileClient struct {
@@ -29,8 +31,8 @@ func NewMakeFileClient(cc grpc.ClientConnInterface) MakeFileClient {
 	return &makeFileClient{cc}
 }
 
-func (c *makeFileClient) Detect(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*MakeFileOutput, error) {
-	out := new(MakeFileOutput)
+func (c *makeFileClient) Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.MakeFile, error) {
+	out := new(globalFiles.MakeFile)
 	err := c.cc.Invoke(ctx, "/proto.MakeFile/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +44,14 @@ func (c *makeFileClient) Detect(ctx context.Context, in *StringInput, opts ...gr
 // All implementations should embed UnimplementedMakeFileServer
 // for forward compatibility
 type MakeFileServer interface {
-	Detect(context.Context, *StringInput) (*MakeFileOutput, error)
+	Detect(context.Context, *helpers.StringInput) (*globalFiles.MakeFile, error)
 }
 
 // UnimplementedMakeFileServer should be embedded to have forward compatible implementations.
 type UnimplementedMakeFileServer struct {
 }
 
-func (UnimplementedMakeFileServer) Detect(context.Context, *StringInput) (*MakeFileOutput, error) {
+func (UnimplementedMakeFileServer) Detect(context.Context, *helpers.StringInput) (*globalFiles.MakeFile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
@@ -65,7 +67,7 @@ func RegisterMakeFileServer(s grpc.ServiceRegistrar, srv MakeFileServer) {
 }
 
 func _MakeFile_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StringInput)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +79,7 @@ func _MakeFile_Detect_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/proto.MakeFile/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MakeFileServer).Detect(ctx, req.(*StringInput))
+		return srv.(MakeFileServer).Detect(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }

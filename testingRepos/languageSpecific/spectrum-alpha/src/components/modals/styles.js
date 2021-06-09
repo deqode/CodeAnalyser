@@ -6,7 +6,7 @@ import { isMobile } from 'src/helpers/utils';
 import Icon from 'src/components/icon';
 
 /*
-  This is the global stylesheet for all modal components. Its styles will wrap
+  This is the globalFiles stylesheet for all modal components. Its styles will wrap
   all modal content, so we should be selective about what is included here
 */
 

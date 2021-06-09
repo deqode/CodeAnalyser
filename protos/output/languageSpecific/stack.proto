@@ -1,0 +1,9 @@
+syntax = "proto3";
+package protos.output.languageSpecific;
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+message StackOutput{
+
+}
+

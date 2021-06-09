@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	globalFiles "code-analyser/protos/pb/output/globalFiles"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,8 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DockerFileClient interface {
-	DetectDockerFiles(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*DockerFileOutput, error)
-	DetectDockerComposeFiles(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*DockerComposeFileOutput, error)
+	DetectDockerFiles(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.DockerFile, error)
+	DetectDockerComposeFiles(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.DockerCompose, error)
 }
 
 type dockerFileClient struct {
@@ -30,8 +32,8 @@ func NewDockerFileClient(cc grpc.ClientConnInterface) DockerFileClient {
 	return &dockerFileClient{cc}
 }
 
-func (c *dockerFileClient) DetectDockerFiles(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*DockerFileOutput, error) {
-	out := new(DockerFileOutput)
+func (c *dockerFileClient) DetectDockerFiles(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.DockerFile, error) {
+	out := new(globalFiles.DockerFile)
 	err := c.cc.Invoke(ctx, "/proto.DockerFile/DetectDockerFiles", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -39,8 +41,8 @@ func (c *dockerFileClient) DetectDockerFiles(ctx context.Context, in *StringInpu
 	return out, nil
 }
 
-func (c *dockerFileClient) DetectDockerComposeFiles(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*DockerComposeFileOutput, error) {
-	out := new(DockerComposeFileOutput)
+func (c *dockerFileClient) DetectDockerComposeFiles(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.DockerCompose, error) {
+	out := new(globalFiles.DockerCompose)
 	err := c.cc.Invoke(ctx, "/proto.DockerFile/DetectDockerComposeFiles", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -52,18 +54,18 @@ func (c *dockerFileClient) DetectDockerComposeFiles(ctx context.Context, in *Str
 // All implementations should embed UnimplementedDockerFileServer
 // for forward compatibility
 type DockerFileServer interface {
-	DetectDockerFiles(context.Context, *StringInput) (*DockerFileOutput, error)
-	DetectDockerComposeFiles(context.Context, *StringInput) (*DockerComposeFileOutput, error)
+	DetectDockerFiles(context.Context, *helpers.StringInput) (*globalFiles.DockerFile, error)
+	DetectDockerComposeFiles(context.Context, *helpers.StringInput) (*globalFiles.DockerCompose, error)
 }
 
 // UnimplementedDockerFileServer should be embedded to have forward compatible implementations.
 type UnimplementedDockerFileServer struct {
 }
 
-func (UnimplementedDockerFileServer) DetectDockerFiles(context.Context, *StringInput) (*DockerFileOutput, error) {
+func (UnimplementedDockerFileServer) DetectDockerFiles(context.Context, *helpers.StringInput) (*globalFiles.DockerFile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectDockerFiles not implemented")
 }
-func (UnimplementedDockerFileServer) DetectDockerComposeFiles(context.Context, *StringInput) (*DockerComposeFileOutput, error) {
+func (UnimplementedDockerFileServer) DetectDockerComposeFiles(context.Context, *helpers.StringInput) (*globalFiles.DockerCompose, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectDockerComposeFiles not implemented")
 }
 
@@ -79,7 +81,7 @@ func RegisterDockerFileServer(s grpc.ServiceRegistrar, srv DockerFileServer) {
 }
 
 func _DockerFile_DetectDockerFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StringInput)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -91,13 +93,13 @@ func _DockerFile_DetectDockerFiles_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/proto.DockerFile/DetectDockerFiles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DockerFileServer).DetectDockerFiles(ctx, req.(*StringInput))
+		return srv.(DockerFileServer).DetectDockerFiles(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _DockerFile_DetectDockerComposeFiles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StringInput)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -109,7 +111,7 @@ func _DockerFile_DetectDockerComposeFiles_Handler(srv interface{}, ctx context.C
 		FullMethod: "/proto.DockerFile/DetectDockerComposeFiles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DockerFileServer).DetectDockerComposeFiles(ctx, req.(*StringInput))
+		return srv.(DockerFileServer).DetectDockerComposeFiles(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }

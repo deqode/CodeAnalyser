@@ -3,8 +3,8 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/procFile"
-	"code-analyser/protos/pb/output/global"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	globalPB "code-analyser/protos/pb/output/globalFiles"
 	"github.com/chrismytton/procfile"
 	"github.com/hashicorp/go-plugin"
 	"io/ioutil"
@@ -18,8 +18,8 @@ type ProcFile struct {
 //TODO add path of procfile and detection logic
 
 // Detect it returns all procfile
-func (m ProcFile) Detect(path *pb.StringInput) (*pb.ProcFileOutput, error) {
-	procFileOutput := &pb.ProcFileOutput{
+func (m ProcFile) Detect(path *pb.StringInput) (*globalPB.ProcFile, error) {
+	procFileOutput := &globalPB.ProcFile{
 		Error: nil,
 	}
 	if _, err := os.Stat(path.Value + "/Procfile"); !os.IsNotExist(err) {
@@ -30,14 +30,14 @@ func (m ProcFile) Detect(path *pb.StringInput) (*pb.ProcFileOutput, error) {
 				Cause:   path.Value + "/Procfile",
 			}
 		}
-		procFileOutput.Value = &global.ProcFile{
-			Used:     true,
-			FilePath: path.Value + "/Procfile",
-			Commands: map[string]*global.Command{},
-		}
+
+		procFileOutput.Used = true
+		procFileOutput.FilePath = path.Value + "/Procfile"
+		procFileOutput.Commands = map[string]*pb.Command{}
+
 		procList := procfile.Parse(string(fileData)) // convert content to a 'string'
 		for name, command := range procList {
-			procFileOutput.Value.Commands[name] = &global.Command{
+			procFileOutput.Commands[name] = &pb.Command{
 				Command: command.Command,
 				Args:    command.Arguments,
 			}

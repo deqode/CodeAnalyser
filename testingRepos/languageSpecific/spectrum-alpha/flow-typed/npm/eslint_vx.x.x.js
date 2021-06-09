@@ -362,7 +362,7 @@ declare module 'eslint/lib/rules/getter-return' {
   declare module.exports: any;
 }
 
-declare module 'eslint/lib/rules/global-require' {
+declare module 'eslint/lib/rules/globalFiles-require' {
   declare module.exports: any;
 }
 
@@ -658,7 +658,7 @@ declare module 'eslint/lib/rules/no-func-assign' {
   declare module.exports: any;
 }
 
-declare module 'eslint/lib/rules/no-global-assign' {
+declare module 'eslint/lib/rules/no-globalFiles-assign' {
   declare module.exports: any;
 }
 
@@ -1642,8 +1642,8 @@ declare module 'eslint/lib/rules/generator-star-spacing.js' {
 declare module 'eslint/lib/rules/getter-return.js' {
   declare module.exports: $Exports<'eslint/lib/rules/getter-return'>;
 }
-declare module 'eslint/lib/rules/global-require.js' {
-  declare module.exports: $Exports<'eslint/lib/rules/global-require'>;
+declare module 'eslint/lib/rules/globalFiles-require.js' {
+  declare module.exports: $Exports<'eslint/lib/rules/globalFiles-require'>;
 }
 declare module 'eslint/lib/rules/guard-for-in.js' {
   declare module.exports: $Exports<'eslint/lib/rules/guard-for-in'>;
@@ -1864,8 +1864,8 @@ declare module 'eslint/lib/rules/no-floating-decimal.js' {
 declare module 'eslint/lib/rules/no-func-assign.js' {
   declare module.exports: $Exports<'eslint/lib/rules/no-func-assign'>;
 }
-declare module 'eslint/lib/rules/no-global-assign.js' {
-  declare module.exports: $Exports<'eslint/lib/rules/no-global-assign'>;
+declare module 'eslint/lib/rules/no-globalFiles-assign.js' {
+  declare module.exports: $Exports<'eslint/lib/rules/no-globalFiles-assign'>;
 }
 declare module 'eslint/lib/rules/no-implicit-coercion.js' {
   declare module.exports: $Exports<'eslint/lib/rules/no-implicit-coercion'>;

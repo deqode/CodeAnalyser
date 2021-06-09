@@ -1,0 +1,23 @@
+syntax = "proto3";
+package protos.output.languageSpecific;
+
+import "protos/helpers/common.proto";
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+message StaticAsset{
+  //  name of Asset
+  string name = 1;
+  //  path of Asset
+  string path = 2;
+  //
+  bool hashed=3;
+
+  bool public=4;
+}
+
+message StaticAssetsOutput{
+  protos.helpers.Error error = 1;
+  StaticAsset staticAssets = 2;
+  bool used = 3;
+}

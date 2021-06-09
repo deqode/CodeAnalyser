@@ -1,0 +1,13 @@
+syntax = "proto3";
+package protos.output.languageSpecific;
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+import "protos/helpers/common.proto";
+import "protos/helpers/command.proto";
+
+message TestCasesCommand {
+  bool used = 1;
+  repeated protos.helpers.Command commands = 2;
+  protos.helpers.Error error = 3;
+}

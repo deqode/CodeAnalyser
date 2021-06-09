@@ -19,11 +19,11 @@ type GRPCPlugin struct {
 
 //GRPCServer plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, s *grpc.Server) error {
-	pb.RegisterFrameworkServiceServer(s, &GRPCServer{Impl: p.Impl})
+	pb.RegisterFrameworkServer(s, &GRPCServer{Impl: p.Impl})
 	return nil
 }
 
 //GRPCClient plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, c *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewFrameworkServiceClient(c)}, nil
+	return &GRPCClient{Client: pb.NewFrameworkClient(c)}, nil
 }

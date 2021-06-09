@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,9 +19,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FrameworkClient interface {
-	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error)
-	IsFrameworkUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error)
-	PercentOfFrameworkUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error)
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
+	IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
+	PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error)
 }
 
 type frameworkClient struct {
@@ -31,8 +32,8 @@ func NewFrameworkClient(cc grpc.ClientConnInterface) FrameworkClient {
 	return &frameworkClient{cc}
 }
 
-func (c *frameworkClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error) {
-	out := new(BoolOutput)
+func (c *frameworkClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
+	out := new(helpers.BoolOutput)
 	err := c.cc.Invoke(ctx, "/proto.Framework/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -40,18 +41,18 @@ func (c *frameworkClient) Detect(ctx context.Context, in *Input, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *frameworkClient) IsFrameworkUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*BoolOutput, error) {
-	out := new(BoolOutput)
-	err := c.cc.Invoke(ctx, "/proto.Framework/IsFrameworkUsed", in, out, opts...)
+func (c *frameworkClient) IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
+	out := new(helpers.BoolOutput)
+	err := c.cc.Invoke(ctx, "/proto.Framework/IsUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *frameworkClient) PercentOfFrameworkUsed(ctx context.Context, in *Input, opts ...grpc.CallOption) (*FloatOutput, error) {
-	out := new(FloatOutput)
-	err := c.cc.Invoke(ctx, "/proto.Framework/PercentOfFrameworkUsed", in, out, opts...)
+func (c *frameworkClient) PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error) {
+	out := new(helpers.FloatOutput)
+	err := c.cc.Invoke(ctx, "/proto.Framework/PercentOfUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,23 +63,23 @@ func (c *frameworkClient) PercentOfFrameworkUsed(ctx context.Context, in *Input,
 // All implementations should embed UnimplementedFrameworkServer
 // for forward compatibility
 type FrameworkServer interface {
-	Detect(context.Context, *Input) (*BoolOutput, error)
-	IsFrameworkUsed(context.Context, *Input) (*BoolOutput, error)
-	PercentOfFrameworkUsed(context.Context, *Input) (*FloatOutput, error)
+	Detect(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
+	IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error)
 }
 
 // UnimplementedFrameworkServer should be embedded to have forward compatible implementations.
 type UnimplementedFrameworkServer struct {
 }
 
-func (UnimplementedFrameworkServer) Detect(context.Context, *Input) (*BoolOutput, error) {
+func (UnimplementedFrameworkServer) Detect(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedFrameworkServer) IsFrameworkUsed(context.Context, *Input) (*BoolOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IsFrameworkUsed not implemented")
+func (UnimplementedFrameworkServer) IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsUsed not implemented")
 }
-func (UnimplementedFrameworkServer) PercentOfFrameworkUsed(context.Context, *Input) (*FloatOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PercentOfFrameworkUsed not implemented")
+func (UnimplementedFrameworkServer) PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PercentOfUsed not implemented")
 }
 
 // UnsafeFrameworkServer may be embedded to opt out of forward compatibility for this service.
@@ -93,7 +94,7 @@ func RegisterFrameworkServer(s grpc.ServiceRegistrar, srv FrameworkServer) {
 }
 
 func _Framework_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -105,43 +106,43 @@ func _Framework_Detect_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/proto.Framework/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServer).Detect(ctx, req.(*Input))
+		return srv.(FrameworkServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Framework_IsFrameworkUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+func _Framework_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FrameworkServer).IsFrameworkUsed(ctx, in)
+		return srv.(FrameworkServer).IsUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.Framework/IsFrameworkUsed",
+		FullMethod: "/proto.Framework/IsUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServer).IsFrameworkUsed(ctx, req.(*Input))
+		return srv.(FrameworkServer).IsUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Framework_PercentOfFrameworkUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+func _Framework_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FrameworkServer).PercentOfFrameworkUsed(ctx, in)
+		return srv.(FrameworkServer).PercentOfUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.Framework/PercentOfFrameworkUsed",
+		FullMethod: "/proto.Framework/PercentOfUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FrameworkServer).PercentOfFrameworkUsed(ctx, req.(*Input))
+		return srv.(FrameworkServer).PercentOfUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -158,12 +159,12 @@ var Framework_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Framework_Detect_Handler,
 		},
 		{
-			MethodName: "IsFrameworkUsed",
-			Handler:    _Framework_IsFrameworkUsed_Handler,
+			MethodName: "IsUsed",
+			Handler:    _Framework_IsUsed_Handler,
 		},
 		{
-			MethodName: "PercentOfFrameworkUsed",
-			Handler:    _Framework_PercentOfFrameworkUsed_Handler,
+			MethodName: "PercentOfUsed",
+			Handler:    _Framework_PercentOfUsed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

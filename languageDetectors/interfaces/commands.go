@@ -1,11 +1,12 @@
 package interfaces
 
-import "code-analyser/protos/pb/plugin"
+import "code-analyser/protos/pb/helpers"
+import "code-analyser/protos/pb/output/languageSpecific"
 
 type Commands interface {
-	DetectBuildCommands(path *plugin.StringInput) (*plugin.CommandsOutput, error)
-	DetectStartUpCommands(path *plugin.StringInput) (*plugin.CommandsOutput, error)
-	DetectSeedCommands(path *plugin.StringInput) (*plugin.CommandsOutput, error)
-	DetectMigrationCommands(path *plugin.StringInput) (*plugin.CommandsOutput, error)
-	DetectAdHocScripts(path *plugin.StringInput) (*plugin.CommandsOutput, error) //Todo:DetectAdHocScripts output proto
+	DetectBuildCommands(path *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectStartUpCommands(path *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectSeedCommands(path *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectMigrationCommands(path *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectAdHocScripts(path *helpers.StringInput) (*languageSpecific.CommandOutput, error) //Todo:DetectAdHocScripts output proto
 }

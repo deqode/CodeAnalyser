@@ -214,7 +214,7 @@ declare module 'rethinkdbdash/test/transformations' {
   declare module.exports: any;
 }
 
-declare module 'rethinkdbdash/test/util/common' {
+declare module 'rethinkdbdash/test/util/helpers' {
   declare module.exports: any;
 }
 
@@ -427,8 +427,8 @@ declare module 'rethinkdbdash/test/transform-stream.js' {
 declare module 'rethinkdbdash/test/transformations.js' {
   declare module.exports: $Exports<'rethinkdbdash/test/transformations'>;
 }
-declare module 'rethinkdbdash/test/util/common.js' {
-  declare module.exports: $Exports<'rethinkdbdash/test/util/common'>;
+declare module 'rethinkdbdash/test/util/helpers.js' {
+  declare module.exports: $Exports<'rethinkdbdash/test/util/helpers'>;
 }
 declare module 'rethinkdbdash/test/util/fake_server/database.js' {
   declare module.exports: $Exports<'rethinkdbdash/test/util/fake_server/database'>;

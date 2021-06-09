@@ -3,9 +3,9 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
+	helpersPb "code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/output/languageSpecific"
-	pluginPb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
+	pluginInfo "code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 	"context"
 	"log"
@@ -37,7 +37,7 @@ const (
 func ExecuteRuntimeDetectionPlugin(ctx context.Context, projectRootPath, pluginPath string) string {
 	pluginCall, _ := pluginClient.CreateDetectRuntimeClient(utils.CallPluginCommand(pluginPath))
 
-	languageVersion, err := pluginCall.Detect(&pluginPb.StringInput{Value: projectRootPath})
+	languageVersion, err := pluginCall.Detect(&helpersPb.StringInput{Value: projectRootPath})
 	if err != nil || languageVersion.Error != nil {
 		utils.Logger(err, languageVersion)
 		return ""
@@ -46,7 +46,7 @@ func ExecuteRuntimeDetectionPlugin(ctx context.Context, projectRootPath, pluginP
 	return languageVersion.Value
 }
 
-func ExecuteBuildDirectoryPlugin(ctx context.Context, input *pluginPb.Input, pluginPath string) map[string]string {
+func ExecuteBuildDirectoryPlugin(ctx context.Context, input *helpersPb.Input, pluginPath string) map[string]string {
 	pluginCall, _ := pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(pluginPath))
 
 	buildDirectory, err := pluginCall.Detect(input)
@@ -58,7 +58,7 @@ func ExecuteBuildDirectoryPlugin(ctx context.Context, input *pluginPb.Input, plu
 	return buildDirectory.Value
 }
 
-func ExecuteTestCommandDetectionPlugin(ctx context.Context, input *pluginPb.Input, pluginPath string) *languageSpecific.TestCasesCommandOutput {
+func ExecuteTestCommandDetectionPlugin(ctx context.Context, input *helpersPb.Input, pluginPath string) *languageSpecific.TestCasesCommand {
 	pluginCall, _ := pluginClient.CreateTestCaseCommandClient(utils.CallPluginCommand(pluginPath))
 
 	commands, err := pluginCall.Detect(input)
@@ -67,7 +67,7 @@ func ExecuteTestCommandDetectionPlugin(ctx context.Context, input *pluginPb.Inpu
 		return nil
 	}
 
-	testCasesCommand := &languageSpecific.TestCasesCommandOutput{}
+	testCasesCommand := &languageSpecific.TestCasesCommand{}
 	if len(commands.Commands) > 0 {
 		testCasesCommand.Commands = commands.Commands
 		testCasesCommand.Used = true
@@ -76,7 +76,7 @@ func ExecuteTestCommandDetectionPlugin(ctx context.Context, input *pluginPb.Inpu
 	return testCasesCommand
 }
 
-func ExecuteStaticAssetsPlugin(ctx context.Context, input *pluginPb.Input, pluginPath string) *languageSpecific.StaticAssetsOutput {
+func ExecuteStaticAssetsPlugin(ctx context.Context, input *helpersPb.Input, pluginPath string) *languageSpecific.StaticAssetsOutput {
 	pluginCall, _ := pluginClient.CreateStaticAssetsClient(utils.CallPluginCommand(pluginPath))
 
 	staticAsset, err := pluginCall.Detect(input)
@@ -85,20 +85,14 @@ func ExecuteStaticAssetsPlugin(ctx context.Context, input *pluginPb.Input, plugi
 		return nil
 	}
 
-	staticAssetsOutput := languageSpecific.StaticAssetsOutput{}
-	if len(staticAsset.Value) > 0 {
-		staticAssetsOutput.Used = true
-		staticAssetsOutput.Assets = staticAsset.Value
-	}
-
-	return &staticAssetsOutput
+	return staticAsset
 }
 
 func ExecuteCommandsDetectionPlugin(ctx context.Context, projectRootPath, pluginPath string) *languageSpecific.Commands {
 	pluginCall, _ := pluginClient.CreateCommandsClient(utils.CallPluginCommand(pluginPath))
 
 	commands := languageSpecific.Commands{}
-	rootPathInput := &pluginPb.StringInput{
+	rootPathInput := &helpersPb.StringInput{
 		Value: projectRootPath,
 	}
 
@@ -141,7 +135,7 @@ func ExecuteCommandsDetectionPlugin(ctx context.Context, projectRootPath, plugin
 }
 
 // ExecutePreDetectionPlugin this will run before detection for formatting, filtration, cleanup and all such similar commands
-func ExecutePreDetectionPlugin(ctx context.Context, input *pluginPb.Input, pluginPath string) {
+func ExecutePreDetectionPlugin(ctx context.Context, input *helpersPb.Input, pluginPath string) {
 	pluginCall, _ := pluginClient.CreatePreDetectCommandClient(utils.CallPluginCommand(pluginPath))
 
 	response, err := pluginCall.RunPreDetect(input)
@@ -155,9 +149,9 @@ func ExecutePreDetectionPlugin(ctx context.Context, input *pluginPb.Input, plugi
 //TODO discuss with rajaram , rename variables
 
 //GetDependenciesFromProject get map of parsed dependencies for example beego is a framework
-func GetDependenciesFromProject(ctx context.Context, languageVersion, projectRootPath string, pluginDetails *versionsPB.LanguageVersion) *map[string]map[string]DependencyDetail {
+func GetDependenciesFromProject(ctx context.Context, languageVersion, projectRootPath string, pluginDetails *pluginInfo.LanguagePlugins) *map[string]map[string]DependencyDetail {
 	dependencies := map[string]map[string]DependencyDetail{}
-	var dependencyVersionDetails *versionsPB.DependencyVersionDetails
+	var dependencyVersionDetails *pluginInfo.DependencyVersionDetails
 	var runtimeVersion string
 
 	for rt, supportedRuntimeVersions := range pluginDetails.RuntimeVersions {
@@ -172,7 +166,7 @@ func GetDependenciesFromProject(ctx context.Context, languageVersion, projectRoo
 	}
 	pluginCall, _ := pluginClient.CreateDependenciesClient(utils.CallPluginCommand(dependencyVersionDetails.PluginPath))
 
-	response, err := pluginCall.GetDependencies(&pluginPb.Input{
+	response, err := pluginCall.GetDependencies(&helpersPb.Input{
 		RuntimeVersion: runtimeVersion,
 		RootPath:       projectRootPath,
 	})
@@ -181,10 +175,10 @@ func GetDependenciesFromProject(ctx context.Context, languageVersion, projectRoo
 		return nil
 	}
 	dependencyList := response.Value
-	dependencies[Framework] = ExtractFrameworksFromProjectDependencies(ctx,dependencyList, pluginDetails.Frameworks)
-	dependencies[DB] = ExtractDbsFromProjectDependencies(ctx,dependencyList, pluginDetails.Databases)
-	dependencies[ORM] = ExtractOrmsFromProjectDependencies(ctx,dependencyList, pluginDetails.Orms)
-	dependencies[Library] = ExtractLibraryFromProjectDependencies(ctx,dependencyList, pluginDetails.Libraries)
+	dependencies[Framework] = ExtractFrameworksFromProjectDependencies(ctx, dependencyList, pluginDetails.Frameworks)
+	dependencies[DB] = ExtractDbsFromProjectDependencies(ctx, dependencyList, pluginDetails.Databases)
+	dependencies[ORM] = ExtractOrmsFromProjectDependencies(ctx, dependencyList, pluginDetails.Orms)
+	dependencies[Library] = ExtractLibraryFromProjectDependencies(ctx, dependencyList, pluginDetails.Libraries)
 
 	return &dependencies
 }

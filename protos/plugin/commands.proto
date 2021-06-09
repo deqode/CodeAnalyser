@@ -2,19 +2,13 @@ syntax = "proto3";
 package proto ;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
-import "protos/output/global/command.proto";
+import "protos/helpers/common.proto";
+import "protos/output/languageSpecific/commands.proto";
 
 service Commands {
-  rpc DetectBuildCommands (Input) returns (CommandsOutput);
-  rpc DetectStartUpCommands (Input) returns (CommandsOutput);
-  rpc DetectSeedCommands (Input) returns (CommandsOutput);
-  rpc DetectMigrationCommands (Input) returns (CommandsOutput);
-  rpc DetectAdHocScripts (Input) returns (CommandsOutput);
-}
-
-message CommandsOutput {
-  Error error = 1;
-  bool used = 2;
-  repeated protos.output.global.Command commands = 3;
+  rpc DetectBuildCommands (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+  rpc DetectStartUpCommands (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+  rpc DetectSeedCommands (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+  rpc DetectMigrationCommands (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+  rpc DetectAdHocScripts (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
 }

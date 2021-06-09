@@ -1,0 +1,18 @@
+syntax = "proto3";
+package protos.output.languageSpecific;
+
+import "protos/helpers/common.proto";
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+message FrameworkOutput{
+  protos.helpers.Error error = 1;
+  // check framework
+  bool used = 2;
+  //  name of framework
+  string name = 3;
+  //  Version of framework
+  string version = 4;
+  float percentageUsed = 5;
+}
+

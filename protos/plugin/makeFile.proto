@@ -2,14 +2,10 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
-import "protos/output/global/makefile.proto";
+import "protos/helpers/common.proto";
+import "protos/output/globalFiles/makefile.proto";
 
 service MakeFile {
-  rpc Detect(StringInput) returns (MakeFileOutput);
+  rpc Detect(protos.helpers.StringInput) returns (protos.output.globalFiles.MakeFile);
 }
 
-message MakeFileOutput {
-  Error error = 1;
-  protos.output.global.MakeFile value = 2;
-}

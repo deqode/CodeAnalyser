@@ -2,14 +2,10 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
-import "protos/output/global/procfile.proto";
+import "protos/helpers/common.proto";
+import "protos/output/globalFiles/procfile.proto";
 
 service ProcFile {
-  rpc Detect(StringInput) returns (ProcFileOutput);
+  rpc Detect(protos.helpers.StringInput) returns (protos.output.globalFiles.ProcFile);
 }
 
-message ProcFileOutput {
- Error error = 1;
- protos.output.global.ProcFile value = 2;
-}

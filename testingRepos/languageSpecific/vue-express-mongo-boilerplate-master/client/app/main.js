@@ -20,9 +20,9 @@ Vue.use(Filters);
 Vue.use(VueFormGenerator);
 Vue.use(VueWebsocket);
 
-//Vue.http.headers.common['X-CSRF-TOKEN'] = $('input[name="csrf"]').val();
+//Vue.http.headers.helpers['X-CSRF-TOKEN'] = $('input[name="csrf"]').val();
 
-// Register i18next localization module. We need to 
+// Register i18next localization module. We need to
 // wait it before start the application!
 Vue.use(VueI18Next, (i18next) => {
 	let router = require("./core/router").default; // Load only after i18next initialized

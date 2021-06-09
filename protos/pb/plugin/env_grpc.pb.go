@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	languageSpecific "code-analyser/protos/pb/output/languageSpecific"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EnvClient interface {
-	Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*EnvsOutput, error)
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*languageSpecific.Envs, error)
 }
 
 type envClient struct {
@@ -29,8 +31,8 @@ func NewEnvClient(cc grpc.ClientConnInterface) EnvClient {
 	return &envClient{cc}
 }
 
-func (c *envClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOption) (*EnvsOutput, error) {
-	out := new(EnvsOutput)
+func (c *envClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*languageSpecific.Envs, error) {
+	out := new(languageSpecific.Envs)
 	err := c.cc.Invoke(ctx, "/proto.Env/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +44,14 @@ func (c *envClient) Detect(ctx context.Context, in *Input, opts ...grpc.CallOpti
 // All implementations should embed UnimplementedEnvServer
 // for forward compatibility
 type EnvServer interface {
-	Detect(context.Context, *Input) (*EnvsOutput, error)
+	Detect(context.Context, *helpers.Input) (*languageSpecific.Envs, error)
 }
 
 // UnimplementedEnvServer should be embedded to have forward compatible implementations.
 type UnimplementedEnvServer struct {
 }
 
-func (UnimplementedEnvServer) Detect(context.Context, *Input) (*EnvsOutput, error) {
+func (UnimplementedEnvServer) Detect(context.Context, *helpers.Input) (*languageSpecific.Envs, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
@@ -65,7 +67,7 @@ func RegisterEnvServer(s grpc.ServiceRegistrar, srv EnvServer) {
 }
 
 func _Env_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Input)
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +79,7 @@ func _Env_Detect_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: "/proto.Env/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EnvServer).Detect(ctx, req.(*Input))
+		return srv.(EnvServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }

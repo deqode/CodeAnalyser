@@ -1,0 +1,21 @@
+syntax = "proto3";
+package protos.output.languageSpecific;
+
+import "protos/helpers/common.proto";
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+message LibraryOutput{
+  // list of all library
+  Type type = 1;
+  bool used = 2;
+  string name = 3;
+  string version = 4;
+  float percentageUsed = 5;
+  protos.helpers.Error error = 6;
+}
+
+enum Type {
+  REPLACED = 0;
+  EXTERNAL = 1;
+}

@@ -16,11 +16,11 @@ type GRPCPlugin struct {
 
 //GRPCServer plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterDetectRuntimeServiceServer(server, &GRPCServer{Impl: p.Impl})
+	pb.RegisterDetectRuntimeServer(server, &GRPCServer{Impl: p.Impl})
 	return nil
 }
 
 //GRPCClient plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewDetectRuntimeServiceClient(conn)}, nil
+	return &GRPCClient{Client: pb.NewDetectRuntimeClient(conn)}, nil
 }

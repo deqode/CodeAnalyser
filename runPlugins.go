@@ -8,7 +8,7 @@ import (
 	"context"
 )
 
-// LoadGlobalPlugins executed all plugins related to global files (like docker-compose.yaml,DockerFile MakeFile etc)
+// LoadGlobalPlugins executed all plugins related to globalFiles files (like docker-compose.yaml,DockerFile MakeFile etc)
 func LoadGlobalPlugins(ctx context.Context, globalDetection *decisionmakerPB.GlobalDetections, globalPlugin *versionsPB.GlobalPlugin, path string) {
 
 	globalDetection.DockerFile, globalDetection.DockerComposeFile = runners.ExecuteDockerAndComposePlugin(ctx, path, globalPlugin.DockerFile)

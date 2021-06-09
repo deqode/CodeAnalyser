@@ -2,7 +2,8 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
+import "protos/helpers/common.proto";
+
 service PreDetectCommand {
-  rpc RunPreDetect(Input) returns (EmptyOutput);
+  rpc RunPreDetect(protos.helpers.Input) returns (protos.helpers.EmptyOutput);
 }

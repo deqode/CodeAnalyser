@@ -1,11 +1,11 @@
 // flow-typed signature: e60dc0f96d7d55734050073860bea369
-// flow-typed version: de4764766b/common-tags_v1.4.x/flow_>=v0.25.x
+// flow-typed version: de4764766b/helpers-tags_v1.4.x/flow_>=v0.25.x
 
 /**
  * @flow
  */
 
-declare module "common-tags" {
+declare module "helpers-tags" {
   declare type TaggedTemplate = (
     strings: Array<string>,
     ...interpolations: Array<any>

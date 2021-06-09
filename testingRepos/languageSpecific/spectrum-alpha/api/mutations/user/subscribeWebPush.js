@@ -27,7 +27,7 @@ export default requireAuth(async (_: any, args: Input, ctx: GraphQLContext) => {
         }
       ).catch(err => {
         return new UserError(
-          "It seems like we can't send you web push notifications. Please ping @mxstbr with your browser and OS versions and he'll take a look!"
+          "It seems like we can't send you web push notifications. Please ping @mxstbr with your browser and OS pluginDetails and he'll take a look!"
         );
       });
     })

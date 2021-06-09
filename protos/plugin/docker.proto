@@ -2,21 +2,11 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
-import "protos/output/global/dockerfile.proto";
-import "protos/output/global/dockercompose.proto";
+import "protos/helpers/common.proto";
+import "protos/output/globalFiles/dockerfile.proto";
+import "protos/output/globalFiles/dockercompose.proto";
 
 service DockerFile {
-  rpc DetectDockerFiles(StringInput) returns (DockerFileOutput);
-  rpc DetectDockerComposeFiles(StringInput) returns (DockerComposeFileOutput);
-}
-
-message DockerFileOutput{
-  Error error = 1;
-  protos.output.global.DockerFile value = 2;
-}
-
-message DockerComposeFileOutput{
-  Error error = 1;
-  protos.output.global.DockerCompose value = 2;
+  rpc DetectDockerFiles(protos.helpers.StringInput) returns (protos.output.globalFiles.DockerFile);
+  rpc DetectDockerComposeFiles(protos.helpers.StringInput) returns (protos.output.globalFiles.DockerCompose);
 }

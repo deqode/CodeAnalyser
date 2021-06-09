@@ -2,8 +2,8 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
+import "protos/helpers/common.proto";
 
 service BuildDirectory {
-  rpc Detect(Input) returns (StringMapOutput);
+  rpc Detect(protos.helpers.Input) returns (protos.helpers.StringMapOutput);
 }

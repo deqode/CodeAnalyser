@@ -257,7 +257,7 @@ class Routes extends React.Component<Props, State> {
               sending messages, and posting threads without having a user profile
               that people can report or link to.
 
-              this global component simply listens for users without a username
+              this globalFiles component simply listens for users without a username
               to be authenticated, and if so forces a redirect to /new/user 
               prompting them to set a username
             */}

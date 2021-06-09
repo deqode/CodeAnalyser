@@ -5,7 +5,7 @@ import {API_DOMAIN} from '../constants';
 import {useState, useEffect} from 'react';
 import {Helmet} from 'react-helmet';
 
-// TODO(slightlyoff): factor out common JSON parsing & caching of this file
+// TODO(slightlyoff): factor out helpers JSON parsing & caching of this file
 const DATA_URL = `${API_DOMAIN}/website_data.json`;
 
 function About() {

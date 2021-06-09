@@ -38,7 +38,7 @@ declare module 'slate-markdown/example/src/App' {
   declare module.exports: any;
 }
 
-declare module 'slate-markdown/example/src/global-styles' {
+declare module 'slate-markdown/example/src/globalFiles-styles' {
   declare module.exports: any;
 }
 
@@ -147,8 +147,8 @@ declare module 'slate-markdown/dist/index.js' {
 declare module 'slate-markdown/example/src/App.js' {
   declare module.exports: $Exports<'slate-markdown/example/src/App'>;
 }
-declare module 'slate-markdown/example/src/global-styles.js' {
-  declare module.exports: $Exports<'slate-markdown/example/src/global-styles'>;
+declare module 'slate-markdown/example/src/globalFiles-styles.js' {
+  declare module.exports: $Exports<'slate-markdown/example/src/globalFiles-styles'>;
 }
 declare module 'slate-markdown/example/src/Heading.js' {
   declare module.exports: $Exports<'slate-markdown/example/src/Heading'>;

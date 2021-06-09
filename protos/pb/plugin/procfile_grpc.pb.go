@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	globalFiles "code-analyser/protos/pb/output/globalFiles"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -18,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ProcFileClient interface {
-	Detect(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*ProcFileOutput, error)
+	Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.ProcFile, error)
 }
 
 type procFileClient struct {
@@ -29,8 +31,8 @@ func NewProcFileClient(cc grpc.ClientConnInterface) ProcFileClient {
 	return &procFileClient{cc}
 }
 
-func (c *procFileClient) Detect(ctx context.Context, in *StringInput, opts ...grpc.CallOption) (*ProcFileOutput, error) {
-	out := new(ProcFileOutput)
+func (c *procFileClient) Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.ProcFile, error) {
+	out := new(globalFiles.ProcFile)
 	err := c.cc.Invoke(ctx, "/proto.ProcFile/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,14 +44,14 @@ func (c *procFileClient) Detect(ctx context.Context, in *StringInput, opts ...gr
 // All implementations should embed UnimplementedProcFileServer
 // for forward compatibility
 type ProcFileServer interface {
-	Detect(context.Context, *StringInput) (*ProcFileOutput, error)
+	Detect(context.Context, *helpers.StringInput) (*globalFiles.ProcFile, error)
 }
 
 // UnimplementedProcFileServer should be embedded to have forward compatible implementations.
 type UnimplementedProcFileServer struct {
 }
 
-func (UnimplementedProcFileServer) Detect(context.Context, *StringInput) (*ProcFileOutput, error) {
+func (UnimplementedProcFileServer) Detect(context.Context, *helpers.StringInput) (*globalFiles.ProcFile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
@@ -65,7 +67,7 @@ func RegisterProcFileServer(s grpc.ServiceRegistrar, srv ProcFileServer) {
 }
 
 func _ProcFile_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StringInput)
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -77,7 +79,7 @@ func _ProcFile_Detect_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/proto.ProcFile/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProcFileServer).Detect(ctx, req.(*StringInput))
+		return srv.(ProcFileServer).Detect(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }

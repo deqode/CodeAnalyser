@@ -3,8 +3,8 @@ package main
 import (
 	"code-analyser/pluginClient"
 	dockerFile "code-analyser/pluginClient/docker"
-	"code-analyser/protos/pb/output/global"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	global "code-analyser/protos/pb/output/globalFiles"
 	"github.com/hashicorp/go-plugin"
 	"os"
 )
@@ -15,37 +15,32 @@ type DockerFile struct {
 
 //TODO add file path instead of file name  for docker and docker compose
 
-func (d DockerFile) DetectDockerFile(path *pb.StringInput) (*pb.DockerFileOutput, error) {
-	dockerFileOutput := &pb.DockerFileOutput{
+func (d DockerFile) DetectDockerFile(path *pb.StringInput) (*global.DockerFile, error) {
+	dockerFileOutput := &global.DockerFile{
 		Error: nil,
 	}
 	if _, err := os.Stat(path.Value + "/Dockerfile"); !os.IsNotExist(err) {
-		dockerFileOutput.Value = &global.DockerFile{
-			Used:     true,
-			FilePath: path.Value + "/Dockerfile",
-		}
+		dockerFileOutput.Used = true
+		dockerFileOutput.FilePath = path.Value + "/Dockerfile"
+
 	}
 	return dockerFileOutput, nil
 }
 
-func (d DockerFile) DetectDockerComposeFile(path *pb.StringInput) (*pb.DockerComposeFileOutput, error) {
-	dockerComposeOutput := &pb.DockerComposeFileOutput{
+func (d DockerFile) DetectDockerComposeFile(path *pb.StringInput) (*global.DockerCompose, error) {
+	dockerCompose := &global.DockerCompose{
 		Error: nil,
 	}
 	var err error
 	if _, err = os.Stat(path.Value + "/docker-compose.yml"); !os.IsNotExist(err) {
-		dockerComposeOutput.Value = &global.DockerCompose{
-			FilePath: path.Value + "/docker-compose.yml",
-			Used:     true,
-		}
+		dockerCompose.FilePath = path.Value + "/docker-compose.yml"
+		dockerCompose.Used = true
 	}
 	if _, err := os.Stat(path.Value + "/docker-compose.yaml"); !os.IsNotExist(err) {
-		dockerComposeOutput.Value = &global.DockerCompose{
-			FilePath: path.Value + "/docker-compose.yaml",
-			Used:     true,
-		}
+		dockerCompose.FilePath = path.Value + "/docker-compose.yaml"
+		dockerCompose.Used = true
 	}
-	return dockerComposeOutput, nil
+	return dockerCompose, nil
 }
 
 func main() {
