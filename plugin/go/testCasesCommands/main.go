@@ -3,16 +3,16 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/testCasesCommands"
-	"code-analyser/protos/pb/output/global"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	"code-analyser/protos/pb/output/languageSpecific"
 	"github.com/hashicorp/go-plugin"
 )
 
 type TestCasesCommands struct{}
 
-func (t *TestCasesCommands) Detect(input *pb.Input) (*pb.TestCommandOutput, error) {
-	return &pb.TestCommandOutput{
-		Commands: []*global.Command{
+func (t *TestCasesCommands) Detect(input *pb.Input) (*languageSpecific.TestCasesCommand, error) {
+	return &languageSpecific.TestCasesCommand{
+		Commands: []*pb.Command{
 			{
 				Command: "go",
 				Args:    []string{"run", "test"},

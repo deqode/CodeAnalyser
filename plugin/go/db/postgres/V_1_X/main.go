@@ -3,7 +3,8 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/db"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	pluginPB "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 
@@ -28,8 +29,8 @@ func (receiver *PostgresV1X) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, er
 }
 
 // Detect it returns port as well
-func (receiver *PostgresV1X) Detect(input *pb.Input) (*pb.BoolIntOutput, error) {
-	return &pb.BoolIntOutput{
+func (receiver *PostgresV1X) Detect(input *pb.Input) (*pluginPB.BoolIntOutput, error) {
+	return &pluginPB.BoolIntOutput{
 		Value:    true,
 		IntValue: 6588,
 	}, nil

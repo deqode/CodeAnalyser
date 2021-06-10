@@ -3,8 +3,8 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/commands"
-	"code-analyser/protos/pb/output/global"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	LanguagePB "code-analyser/protos/pb/output/languageSpecific"
 	"github.com/hashicorp/go-plugin"
 )
 
@@ -12,11 +12,11 @@ import (
 type Commands struct {
 }
 
-func (d Commands) DetectBuildCommands(path *pb.StringInput) (*pb.CommandsOutput, error) {
-	return &pb.CommandsOutput{
+func (d Commands) DetectBuildCommands(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
+	return &LanguagePB.CommandOutput{
 		Error: nil,
 		Used:  true,
-		Commands: []*global.Command{
+		Commands: []*pb.Command{
 			{
 				Command: "go",
 				Args:    []string{"build one"},
@@ -25,11 +25,11 @@ func (d Commands) DetectBuildCommands(path *pb.StringInput) (*pb.CommandsOutput,
 	}, nil
 }
 
-func (d Commands) DetectStartUpCommands(path *pb.StringInput) (*pb.CommandsOutput, error) {
-	return &pb.CommandsOutput{
+func (d Commands) DetectStartUpCommands(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
+	return &LanguagePB.CommandOutput{
 		Error: nil,
 		Used:  true,
-		Commands: []*global.Command{
+		Commands: []*pb.Command{
 			{
 				Command: "go",
 				Args:    []string{"start up"},
@@ -38,11 +38,11 @@ func (d Commands) DetectStartUpCommands(path *pb.StringInput) (*pb.CommandsOutpu
 	}, nil
 }
 
-func (d Commands) DetectSeedCommands(path *pb.StringInput) (*pb.CommandsOutput, error) {
-	return &pb.CommandsOutput{
+func (d Commands) DetectSeedCommands(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
+	return &LanguagePB.CommandOutput{
 		Error: nil,
 		Used:  true,
-		Commands: []*global.Command{
+		Commands: []*pb.Command{
 			{
 				Command: "go",
 				Args:    []string{"seed "},
@@ -51,11 +51,11 @@ func (d Commands) DetectSeedCommands(path *pb.StringInput) (*pb.CommandsOutput, 
 	}, nil
 }
 
-func (d Commands) DetectMigrationCommands(path *pb.StringInput) (*pb.CommandsOutput, error) {
-	return &pb.CommandsOutput{
+func (d Commands) DetectMigrationCommands(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
+	return &LanguagePB.CommandOutput{
 		Error: nil,
 		Used:  true,
-		Commands: []*global.Command{
+		Commands: []*pb.Command{
 			{
 				Command: "go",
 				Args:    []string{"migration "},
@@ -64,11 +64,11 @@ func (d Commands) DetectMigrationCommands(path *pb.StringInput) (*pb.CommandsOut
 	}, nil
 }
 
-func (d Commands) DetectAdHocScripts(path *pb.StringInput) (*pb.CommandsOutput, error) {
-	return &pb.CommandsOutput{
+func (d Commands) DetectAdHocScripts(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
+	return &LanguagePB.CommandOutput{
 		Error: nil,
 		Used:  true,
-		Commands: []*global.Command{
+		Commands: []*pb.Command{
 			{
 				Command: "go",
 				Args:    []string{"adhoc "},

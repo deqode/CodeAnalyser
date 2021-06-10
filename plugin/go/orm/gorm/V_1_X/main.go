@@ -3,7 +3,8 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/orm"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	pluginPB "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 
@@ -11,8 +12,8 @@ import (
 type GormV1X struct{}
 
 //Detect will return usage of ORM
-func (g GormV1X) Detect(input *pb.Input) (*pb.OrmOutput, error) {
-	return &pb.OrmOutput{
+func (g GormV1X) Detect(input *pb.Input) (*pluginPB.OrmOutput, error) {
+	return &pluginPB.OrmOutput{
 		Used:               true,
 		DbName:    "postgres",
 		DbVersion: "6.8",

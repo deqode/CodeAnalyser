@@ -3,17 +3,19 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/library"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	"code-analyser/protos/pb/output/languageSpecific"
+	pluginPB "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 
 type KafkaV1x struct{}
 
-func (k *KafkaV1x) Detect(input *pb.Input) (*pb.LibraryType, error) {
-	return &pb.LibraryType{
+func (k *KafkaV1x) Detect(input *pb.Input) (*pluginPB.LibraryType, error) {
+	return &pluginPB.LibraryType{
 		Value: true,
 		Error: nil,
-		Type:  pb.LibraryType_EXTERNAL,
+		Type:  languageSpecific.Type_EXTERNAL,
 	}, nil
 }
 

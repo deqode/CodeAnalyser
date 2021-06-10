@@ -18,6 +18,6 @@ message StaticAsset{
 
 message StaticAssetsOutput{
   protos.helpers.Error error = 1;
-  StaticAsset staticAssets = 2;
+  repeated StaticAsset staticAssets = 2;
   bool used = 3;
 }

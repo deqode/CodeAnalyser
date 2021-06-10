@@ -3,17 +3,18 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/staticAssets"
+	pb "code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/output/languageSpecific"
-	pb "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 
 type GetStaticAssets struct{}
 
-func (g *GetStaticAssets) Detect(input *pb.Input) (*pb.StaticAssetsOutput, error) {
-	return &pb.StaticAssetsOutput{
+func (g *GetStaticAssets) Detect(input *pb.Input) (*languageSpecific.StaticAssetsOutput, error) {
+	return &languageSpecific.StaticAssetsOutput{
 		Error: nil,
-		Value: []*languageSpecific.StaticAsset{
+		Used:  true,
+		StaticAssets: []*languageSpecific.StaticAsset{
 			{
 				Name:   "static",
 				Path:   "hghkjg",
