@@ -7,12 +7,12 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type BuildDirectoryClient struct {
+type BuildDirectoryPlugin struct {
 	Methods *interfaces.BuildDirectory
 	Client  *plugin.Client
 }
 
-func (receiver *BuildDirectoryClient) Load(pluginPath string) {
+func (receiver *BuildDirectoryPlugin) Load(pluginPath string) {
 	methods, client := pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(pluginPath))
 	receiver.Client = client
 	receiver.Methods = &methods

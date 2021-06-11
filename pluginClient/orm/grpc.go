@@ -32,7 +32,7 @@ func (G *GRPCClient) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
 
 //GRPCServer  is the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
-	Impl interfaces.ORMVersion
+	Impl interfaces.Orm
 }
 
 //Detect will detect orm used and supported DB

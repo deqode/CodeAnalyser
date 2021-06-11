@@ -82,12 +82,12 @@ func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInpu
 			if runtimeVersion == "" {
 				continue
 			}
-			allDependencies := runners.GetDependenciesFromProject(ctx, runtimeVersion, path, pluginDetails)
+			allDependency := runners.GetDependenciesFromProject(ctx, runtimeVersion, path, pluginDetails)
 			languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
 				Name:           language.Name,
 				RuntimeVersion: runtimeVersion,
 			}
-			LoadLanguagePlugins(ctx, &languageSpecificDetections, *allDependencies, pluginDetails, runtimeVersion, path)
+			LoadLanguagePlugins(ctx, &languageSpecificDetections, *allDependency, pluginDetails, runtimeVersion, path)
 			decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, &languageSpecificDetections)
 		}
 

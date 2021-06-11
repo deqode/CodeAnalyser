@@ -109,9 +109,9 @@ func CreateFrameworkClient(cmd *exec.Cmd) (interfaces.Framework, *plugin.Client)
 }
 
 //CreateOrmClient generate client for orm plugin calls
-func CreateOrmClient(cmd *exec.Cmd) (interfaces.ORMVersion, *plugin.Client) {
+func CreateOrmClient(cmd *exec.Cmd) (interfaces.Orm, *plugin.Client) {
 	raw, client := makeClient(cmd, Orm)
-	return raw.(interfaces.ORMVersion), client
+	return raw.(interfaces.Orm), client
 }
 
 //CreateDetectRuntimeClient generate client for runtime detection plugin calls

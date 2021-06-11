@@ -7,12 +7,12 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type CommandsClient struct {
+type CommandsPlugin struct {
 	Methods *interfaces.Commands
 	Client  *plugin.Client
 }
 
-func (receiver *CommandsClient) Load(pluginPath string) {
+func (receiver *CommandsPlugin) Load(pluginPath string) {
 	methods, client := pluginClient.CreateCommandsClient(utils.CallPluginCommand(pluginPath))
 	receiver.Client = client
 	receiver.Methods = &methods

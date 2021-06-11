@@ -8,11 +8,11 @@ import (
 )
 
 type LibraryPlugin struct {
-	libraries map[string]*LibraryVersion
+	Libraries map[string]*LibraryVersion
 }
 
 type LibraryVersion struct {
-	version map[string]*LibraryPluginDetails
+	Version map[string]*LibraryPluginDetails
 }
 
 type LibraryPluginDetails struct {
@@ -22,15 +22,15 @@ type LibraryPluginDetails struct {
 
 func (receiver *LibraryPlugin) Load(name, version, pluginPath string) {
 	methods, client := pluginClient.CreateLibraryClient(utils.CallPluginCommand(pluginPath))
-	if value, ok := receiver.libraries[name]; ok {
-		value.version[version] = &LibraryPluginDetails{
+	if value, ok := receiver.Libraries[name]; ok {
+		value.Version[version] = &LibraryPluginDetails{
 			Methods: &methods,
 			Client:  client,
 		}
 	} else {
-		receiver.libraries = map[string]*LibraryVersion{
+		receiver.Libraries = map[string]*LibraryVersion{
 			name: {
-				version: map[string]*LibraryPluginDetails{
+				Version: map[string]*LibraryPluginDetails{
 					version: {
 						Methods: &methods,
 						Client:  client,
