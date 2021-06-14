@@ -1,8 +1,9 @@
 package runners
 
 import (
-	"code-analyser/protos/pb/output/global"
-	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/helpers"
+	global "code-analyser/protos/pb/output/globalFiles"
+	"code-analyser/protos/pb/pluginDetails"
 	commonUtils "code-analyser/utils"
 	"code-analyser/utils/testing"
 	"golang.org/x/net/context"
@@ -16,7 +17,7 @@ type DockerCase struct {
 type GlobalRunnerInput struct {
 	Ctx          context.Context
 	Path         string
-	GlobalPlugin *versionsPB.GlobalPlugin
+	GlobalPlugin *pluginDetails.GlobalPlugins
 }
 
 type ProcFileCase struct {
@@ -89,7 +90,7 @@ var ProcFileCases = []ProcFileCase{
 		Output: &global.ProcFile{
 			Used:     true,
 			FilePath: commonUtils.ProjectPath() + "/testingRepos/detectProcfile/repo1/Procfile",
-			Commands: map[string]*global.Command{
+			Commands: map[string]*helpers.Command{
 				"web": {
 					Command: "bundle",
 					Args:    []string{"exec","rackup"},

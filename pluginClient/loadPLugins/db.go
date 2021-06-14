@@ -3,6 +3,7 @@ package loadPLugins
 import (
 	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient"
+	pbUtils "code-analyser/protos/pb/output/utils"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-plugin"
 )
@@ -20,18 +21,18 @@ type DbPluginDetails struct {
 	Client  *plugin.Client
 }
 
-func (receiver *DbPlugin) Load(name, version, pluginPath string) {
-	methods, client := pluginClient.CreateDbClient(utils.CallPluginCommand(pluginPath))
-	if value, ok := receiver.Dbs[name]; ok {
-		value.Version[version] = &DbPluginDetails{
+func (receiver *DbPlugin) Load(yamlFile *pbUtils.Details) {
+	methods, client := pluginClient.CreateDbClient(utils.CallPluginCommand(yamlFile.Command))
+	if value, ok := receiver.Dbs[yamlFile.Name]; ok {
+		value.Version[yamlFile.Version] = &DbPluginDetails{
 			Methods: &methods,
 			Client:  client,
 		}
 	} else {
 		receiver.Dbs = map[string]*DbVersion{
-			name: {
+			yamlFile.Name: {
 				Version: map[string]*DbPluginDetails{
-					version: {
+					yamlFile.Version: {
 						Methods: &methods,
 						Client:  client,
 					},

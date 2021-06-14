@@ -3,6 +3,7 @@ package loadPLugins
 import (
 	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient"
+	pbUtils "code-analyser/protos/pb/output/utils"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-plugin"
 )
@@ -20,18 +21,18 @@ type LibraryPluginDetails struct {
 	Client  *plugin.Client
 }
 
-func (receiver *LibraryPlugin) Load(name, version, pluginPath string) {
-	methods, client := pluginClient.CreateLibraryClient(utils.CallPluginCommand(pluginPath))
-	if value, ok := receiver.Libraries[name]; ok {
-		value.Version[version] = &LibraryPluginDetails{
+func (receiver *LibraryPlugin) Load(yamlFile *pbUtils.Details) {
+	methods, client := pluginClient.CreateLibraryClient(utils.CallPluginCommand(yamlFile.Command))
+	if value, ok := receiver.Libraries[yamlFile.Name]; ok {
+		value.Version[yamlFile.Version] = &LibraryPluginDetails{
 			Methods: &methods,
 			Client:  client,
 		}
 	} else {
 		receiver.Libraries = map[string]*LibraryVersion{
-			name: {
+			yamlFile.Name: {
 				Version: map[string]*LibraryPluginDetails{
-					version: {
+					yamlFile.Version: {
 						Methods: &methods,
 						Client:  client,
 					},

@@ -2,7 +2,7 @@ package main
 
 import (
 	"code-analyser/analyser"
-	"code-analyser/pluginClient"
+	"code-analyser/pluginClient/loadPLugins"
 	decisionmakerPB "code-analyser/protos/pb"
 	pb "code-analyser/protos/pb/helpers"
 	"code-analyser/runners"
@@ -16,23 +16,19 @@ func main() {
 	//path := os.Args[1]
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
-	//decisionMakerInput := Scrape("/home/deqode/Desktop/project/go/code-analyser/testingRepos/detectDockerFile/repo1")
-	//log.Println(decisionMakerInput.LanguageSpecificDetection)
-	////res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
-	////if err != nil {
-	////	log.Println("error:", err)
-	////}
-	////fmt.Print(string(res))
-	//log.Println(decisionMakerInput.GloabalDetections)
+	var ctx context.Context
 
-	dbResponse, client := pluginClient.CreateLibraryClient(utils.CallPluginCommand("python3 plugin/python/libraries/numpy/v1_x/server.py"))
-	for client.Exited() {
-		client.Kill()
+	globalPluginYamlsPath, err := utils.SearchFileInDirectory("pluginDetails.yaml", "./plugin/globalDetectors")
+	if err != nil {
+		log.Println("not able to get yaml file of plugin")
 	}
-	log.Println(dbResponse.PercentOfUsed(&pb.Input{
-		RuntimeVersion: "",
-		RootPath:       "",
-	}))
+
+	var globalPlugins loadPLugins.GlobalPlugin
+	err = globalPlugins.Load(ctx, globalPluginYamlsPath)
+	if err != nil {
+		log.Println("not able start global plugins")
+	}
+	log.Println(globalPlugins)
 }
 
 //Scrape it scrape language, framework, orm etc .....
@@ -42,13 +38,8 @@ func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInpu
 
 	decisionMakerInput := &decisionmakerPB.DecisionMakerInput{
 		LanguageSpecificDetections: []*decisionmakerPB.LanguageSpecificDetections{},
-		GloabalDetections:         &decisionmakerPB.GlobalDetections{},
+		GloabalDetections:          &decisionmakerPB.GlobalDetections{},
 	}
-
-	globalPlugins := GetGlobalPluginsPath(ctx, "./plugin/globalDetectors")
-	globalDetections := decisionmakerPB.GlobalDetections{}
-	LoadGlobalPlugins(ctx, &globalDetections, globalPlugins, path)
-	decisionMakerInput.GloabalDetections = &globalDetections
 
 	var mxLang = 0.0
 	//TODO:formula to get main language used priority wise
@@ -70,7 +61,7 @@ func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInpu
 				continue
 			}
 
-			pluginDetails := GetLanguagePluginsPath(ctx,languagePath)
+			pluginDetails := GetLanguagePluginsPath(ctx, languagePath)
 			runtimeVersion := runners.ExecuteRuntimeDetectionPlugin(ctx, path, pluginDetails.DetectRuntimePluginPath)
 			//TODO: change name after dicuss
 			runners.ExecutePreDetectionPlugin(ctx, &pb.Input{

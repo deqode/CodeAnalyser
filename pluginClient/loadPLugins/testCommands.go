@@ -8,13 +8,14 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type EnvPlugin struct {
-	Methods *interfaces.Env
+type TestCommandPlugin struct {
+	Methods *interfaces.TestCasesRunCommands
 	Client  *plugin.Client
 }
 
-func (receiver *EnvPlugin) Load(yamlFile *pbUtils.Details) {
-	methods, client := pluginClient.CreateEnvClient(utils.CallPluginCommand(yamlFile.Command))
+func (receiver *TestCommandPlugin) Load(yamlFile *pbUtils.Details) {
+	methods, client := pluginClient.CreateTestCaseCommandClient(utils.CallPluginCommand(yamlFile.Command))
 	receiver.Client = client
 	receiver.Methods = &methods
 }
+

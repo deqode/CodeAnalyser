@@ -8,13 +8,14 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type EnvPlugin struct {
-	Methods *interfaces.Env
+type StaticAssetsPlugin struct {
+	Methods *interfaces.StaticAssets
 	Client  *plugin.Client
 }
 
-func (receiver *EnvPlugin) Load(yamlFile *pbUtils.Details) {
-	methods, client := pluginClient.CreateEnvClient(utils.CallPluginCommand(yamlFile.Command))
+func (receiver *StaticAssetsPlugin) Load(yamlFile *pbUtils.Details) {
+	methods, client := pluginClient.CreateStaticAssetsClient(utils.CallPluginCommand(yamlFile.Command))
 	receiver.Client = client
 	receiver.Methods = &methods
 }
+

@@ -3,7 +3,6 @@ package main
 import (
 	decisionmakerPB "code-analyser/protos/pb"
 	pb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
 	"code-analyser/runners"
 	"context"
 )

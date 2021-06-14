@@ -3,6 +3,7 @@ package loadPLugins
 import (
 	"code-analyser/GlobalFiles"
 	"code-analyser/pluginClient"
+	pbUtils "code-analyser/protos/pb/output/utils"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-plugin"
 )
@@ -12,8 +13,8 @@ type MakeFileClient struct {
 	Client  *plugin.Client
 }
 
-func (receiver *MakeFileClient) Load(pluginPath string) {
-	methods, client := pluginClient.CreateMakeFileClient(utils.CallPluginCommand(pluginPath))
+func (receiver *MakeFileClient) Load(yamlFile *pbUtils.Details) {
+	methods, client := pluginClient.CreateMakeFileClient(utils.CallPluginCommand(yamlFile.Command))
 	receiver.Client = client
 	receiver.Methods = &methods
 }

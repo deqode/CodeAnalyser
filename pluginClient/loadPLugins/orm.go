@@ -3,6 +3,7 @@ package loadPLugins
 import (
 	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient"
+	pbUtils "code-analyser/protos/pb/output/utils"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-plugin"
 )
@@ -20,18 +21,18 @@ type OrmPluginDetails struct {
 	Client  *plugin.Client
 }
 
-func (receiver *OrmPlugin) Load(name, version, pluginPath string) {
-	methods, client := pluginClient.CreateOrmClient(utils.CallPluginCommand(pluginPath))
-	if value, ok := receiver.Orms[name]; ok {
-		value.Version[version] = &OrmPluginDetails{
+func (receiver *OrmPlugin) Load(yamlFile *pbUtils.Details) {
+	methods, client := pluginClient.CreateOrmClient(utils.CallPluginCommand(yamlFile.Command))
+	if value, ok := receiver.Orms[yamlFile.Name]; ok {
+		value.Version[yamlFile.Version] = &OrmPluginDetails{
 			Methods: &methods,
 			Client:  client,
 		}
 	} else {
 		receiver.Orms = map[string]*OrmVersion{
-			name: {
+			yamlFile.Name: {
 				Version: map[string]*OrmPluginDetails{
-					version: {
+					yamlFile.Version: {
 						Methods: &methods,
 						Client:  client,
 					},

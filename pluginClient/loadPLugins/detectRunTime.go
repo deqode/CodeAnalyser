@@ -8,13 +8,13 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type EnvPlugin struct {
-	Methods *interfaces.Env
+type DetectRunTimePlugin struct {
+	Methods *interfaces.DetectRunTime
 	Client  *plugin.Client
 }
 
-func (receiver *EnvPlugin) Load(yamlFile *pbUtils.Details) {
-	methods, client := pluginClient.CreateEnvClient(utils.CallPluginCommand(yamlFile.Command))
+func (receiver *DetectRunTimePlugin) Load(yamlFile *pbUtils.Details) {
+	methods, client := pluginClient.CreateDetectRuntimeClient(utils.CallPluginCommand(yamlFile.Command))
 	receiver.Client = client
 	receiver.Methods = &methods
 }
