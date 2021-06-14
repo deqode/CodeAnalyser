@@ -1,11 +1,9 @@
 package runners
 
 import (
-	"code-analyser/protos/pb"
-	"code-analyser/protos/pb/output/global"
+	"code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/output/languageSpecific"
-	pluginPb "code-analyser/protos/pb/plugin"
-	"code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/pluginDetails"
 	commonUtils "code-analyser/utils"
 	"golang.org/x/net/context"
 )
@@ -19,7 +17,7 @@ type DependencyInput struct {
 	Ctx             context.Context
 	LanguageVersion string
 	Path            string
-	PluginDetails   *versions.LanguageVersion
+	PluginDetails   *pluginDetails.LanguagePlugins
 }
 
 var DependencyCases = []DependencyCase{
@@ -106,7 +104,7 @@ type DetectRunTimeCase struct {
 type DetectRunTimeInput struct {
 	Ctx            context.Context
 	Path           string
-	YamlLangObject *versions.LanguageVersion
+	YamlLangObject *pluginDetails.LanguagePlugins
 }
 
 var DetectRunTimeCases = []DetectRunTimeCase{
@@ -122,28 +120,28 @@ var DetectRunTimeCases = []DetectRunTimeCase{
 
 type DetectTestCommandCase struct {
 	Input  DetectTestCommandInput
-	Output *languageSpecific.TestCasesCommandOutput
+	Output *languageSpecific.TestCasesCommand
 }
 
 type DetectTestCommandInput struct {
 	Ctx           context.Context
-	Input         *pluginPb.ServiceInput
-	PluginDetails *versions.LanguageVersion
+	Input         *helpers.Input
+	PluginDetails *pluginDetails.LanguagePlugins
 }
 
 var DetectTestCommandCases = []DetectTestCommandCase{
 	{
 		Input: DetectTestCommandInput{
 			Ctx: nil,
-			Input: &pluginPb.ServiceInput{
+			Input: &helpers.Input{
 				RuntimeVersion: "",
-				Root:           commonUtils.ProjectPath() + "/testingRepos/detectTestCase/repo1",
+				RootPath:       commonUtils.ProjectPath() + "/testingRepos/detectTestCase/repo1",
 			},
 			PluginDetails: &SupportedDependencies,
 		},
-		Output: &languageSpecific.TestCasesCommandOutput{
+		Output: &languageSpecific.TestCasesCommand{
 			Used: true,
-			Commands: []*global.Command{
+			Commands: []*helpers.Command{
 				{
 					Command: "npm",
 					Args:    []string{"test:map"},
@@ -158,42 +156,41 @@ var DetectTestCommandCases = []DetectTestCommandCase{
 	{
 		Input: DetectTestCommandInput{
 			Ctx: nil,
-			Input: &pluginPb.ServiceInput{
+			Input: &helpers.Input{
 				RuntimeVersion: "",
-				Root:           commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+				RootPath:       commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
 			},
 			PluginDetails: &SupportedDependencies,
 		},
-		Output: &languageSpecific.TestCasesCommandOutput{
-		},
+		Output: &languageSpecific.TestCasesCommand{},
 	},
 }
 
 type DetectCommandCase struct {
 	Input  DetectCommandInput
-	Output *pb.Commands
+	Output *languageSpecific.Commands
 }
 
 type DetectCommandInput struct {
 	Ctx           context.Context
-	Input         *pluginPb.ServiceInput
-	PluginDetails *versions.LanguageVersion
+	Input         *helpers.Input
+	PluginDetails *pluginDetails.LanguagePlugins
 }
 
 var DetectCommandCases = []DetectCommandCase{
 	{
 		Input: DetectCommandInput{
 			Ctx: nil,
-			Input: &pluginPb.ServiceInput{
+			Input: &helpers.Input{
 				RuntimeVersion: "",
-				Root:           commonUtils.ProjectPath() + "/testingRepos/commands/repo1",
+				RootPath:       commonUtils.ProjectPath() + "/testingRepos/commands/repo1",
 			},
 			PluginDetails: &SupportedDependencies,
 		},
-		Output: &pb.Commands{
-			SeedCommands: &global.SeedCommandsOutput{
+		Output: &languageSpecific.Commands{
+			SeedCommands: &languageSpecific.CommandOutput{
 				Used: true,
-				SeedCommands: []*global.Command{
+				Commands: []*helpers.Command{
 					{
 						Command: "npm run ",
 						Args:    []string{"seed:map"},
@@ -204,9 +201,9 @@ var DetectCommandCases = []DetectCommandCase{
 					},
 				},
 			},
-			BuildCommands: &global.BuildCommandsOutput{
+			BuildCommands: &languageSpecific.CommandOutput{
 				Used: true,
-				BuildCommands: []*global.Command{
+				Commands: []*helpers.Command{
 					{
 						Command: "npm run ",
 						Args:    []string{"build:sw"},
@@ -221,27 +218,27 @@ var DetectCommandCases = []DetectCommandCase{
 					},
 				},
 			},
-			MigrationCommands: &global.MigrationCommandsOutput{
+			MigrationCommands: &languageSpecific.CommandOutput{
 				Used: true,
-				MigrationCommands: []*global.Command{
+				Commands: []*helpers.Command{
 					{
 						Command: "npm run ",
 						Args:    []string{"migration:sw"},
 					},
 				},
 			},
-			StartUpCommands: &global.StartUpCommandsOutput{
+			StartUpCommands: &languageSpecific.CommandOutput{
 				Used: true,
-				StartUpCommands: []*global.Command{
+				Commands: []*helpers.Command{
 					{
 						Command: "npm ",
 						Args:    []string{"start"},
 					},
 				},
 			},
-			AdHocScriptsOutput: &global.AdHocScriptsOutput{
+			AdHocScripts: &languageSpecific.CommandOutput{
 				Used: true,
-				AdHocScripts: []*global.Command{
+				Commands: []*helpers.Command{
 					{
 						Command: "npm run ",
 						Args:    []string{"adhoc:so"},
@@ -253,32 +250,32 @@ var DetectCommandCases = []DetectCommandCase{
 	{
 		Input: DetectCommandInput{
 			Ctx: nil,
-			Input: &pluginPb.ServiceInput{
+			Input: &helpers.Input{
 				RuntimeVersion: "",
-				Root:           commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+				RootPath:       commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
 			},
 			PluginDetails: &SupportedDependencies,
 		},
-		Output: &pb.Commands{
-			SeedCommands: &global.SeedCommandsOutput{
-				Used:         false,
-				SeedCommands: []*global.Command{},
+		Output: &languageSpecific.Commands{
+			SeedCommands: &languageSpecific.CommandOutput{
+				Used:     false,
+				Commands: []*helpers.Command{},
 			},
-			BuildCommands: &global.BuildCommandsOutput{
-				Used:          false,
-				BuildCommands: []*global.Command{},
+			BuildCommands: &languageSpecific.CommandOutput{
+				Used:     false,
+				Commands: []*helpers.Command{},
 			},
-			MigrationCommands: &global.MigrationCommandsOutput{
-				Used:              false,
-				MigrationCommands: []*global.Command{},
+			MigrationCommands: &languageSpecific.CommandOutput{
+				Used:     false,
+				Commands: []*helpers.Command{},
 			},
-			StartUpCommands: &global.StartUpCommandsOutput{
-				Used:            false,
-				StartUpCommands: []*global.Command{},
+			StartUpCommands: &languageSpecific.CommandOutput{
+				Used:     false,
+				Commands: []*helpers.Command{},
 			},
-			AdHocScriptsOutput: &global.AdHocScriptsOutput{
-				Used:         false,
-				AdHocScripts: []*global.Command{},
+			AdHocScripts: &languageSpecific.CommandOutput{
+				Used:     false,
+				Commands: []*helpers.Command{},
 			},
 		},
 	},

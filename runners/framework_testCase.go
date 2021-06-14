@@ -2,7 +2,7 @@ package runners
 
 import (
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 )
 
@@ -13,7 +13,7 @@ type FrameworkParsingCase struct {
 
 type FrameworkParsingInput struct {
 	DependenciesList map[string]string
-	LangYamlObject   *versionsPB.LanguageVersion
+	LangYamlObject   *pluginDetails.LanguagePlugins
 }
 
 var FrameworkParsingCases = []FrameworkParsingCase{

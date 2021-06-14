@@ -17,23 +17,23 @@ type DbVersion struct {
 }
 
 type DbPluginDetails struct {
-	Methods *interfaces.Db
+	Methods interfaces.Db
 	Client  *plugin.Client
 }
 
-func (receiver *DbPlugin) Load(yamlFile *pbUtils.Details) {
+func (plugin *DbPlugin) Load(yamlFile *pbUtils.Details) {
 	methods, client := pluginClient.CreateDbClient(utils.CallPluginCommand(yamlFile.Command))
-	if value, ok := receiver.Dbs[yamlFile.Name]; ok {
+	if value, ok := plugin.Dbs[yamlFile.Name]; ok {
 		value.Version[yamlFile.Version] = &DbPluginDetails{
-			Methods: &methods,
+			Methods: methods,
 			Client:  client,
 		}
 	} else {
-		receiver.Dbs = map[string]*DbVersion{
+		plugin.Dbs = map[string]*DbVersion{
 			yamlFile.Name: {
 				Version: map[string]*DbPluginDetails{
 					yamlFile.Version: {
-						Methods: &methods,
+						Methods: methods,
 						Client:  client,
 					},
 				},
@@ -42,6 +42,6 @@ func (receiver *DbPlugin) Load(yamlFile *pbUtils.Details) {
 	}
 }
 
-func (receiver DbPlugin) Run(name, version string) {
+func (plugin DbPlugin) Run(name, version string) {
 
 }

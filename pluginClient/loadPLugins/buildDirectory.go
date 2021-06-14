@@ -9,12 +9,10 @@ import (
 )
 
 type BuildDirectoryPlugin struct {
-	Methods *interfaces.BuildDirectory
+	Methods interfaces.BuildDirectory
 	Client  *plugin.Client
 }
 
-func (receiver *BuildDirectoryPlugin) Load(yamlFile *pbUtils.Details) {
-	methods, client := pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(yamlFile.Command))
-	receiver.Client = client
-	receiver.Methods = &methods
+func (plugin *BuildDirectoryPlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Methods, plugin.Client = pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(yamlFile.Command))
 }

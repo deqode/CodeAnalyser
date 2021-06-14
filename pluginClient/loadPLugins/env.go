@@ -9,12 +9,11 @@ import (
 )
 
 type EnvPlugin struct {
-	Methods *interfaces.Env
+	Methods interfaces.Env
 	Client  *plugin.Client
 }
 
-func (receiver *EnvPlugin) Load(yamlFile *pbUtils.Details) {
-	methods, client := pluginClient.CreateEnvClient(utils.CallPluginCommand(yamlFile.Command))
-	receiver.Client = client
-	receiver.Methods = &methods
+func (plugin *EnvPlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Methods, plugin.Client = pluginClient.CreateEnvClient(utils.CallPluginCommand(yamlFile.Command))
+
 }

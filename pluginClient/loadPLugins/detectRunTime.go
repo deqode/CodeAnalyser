@@ -9,12 +9,10 @@ import (
 )
 
 type DetectRunTimePlugin struct {
-	Methods *interfaces.DetectRunTime
+	Methods interfaces.DetectRunTime
 	Client  *plugin.Client
 }
 
-func (receiver *DetectRunTimePlugin) Load(yamlFile *pbUtils.Details) {
-	methods, client := pluginClient.CreateDetectRuntimeClient(utils.CallPluginCommand(yamlFile.Command))
-	receiver.Client = client
-	receiver.Methods = &methods
+func (plugin *DetectRunTimePlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Methods, plugin.Client = pluginClient.CreateDetectRuntimeClient(utils.CallPluginCommand(yamlFile.Command))
 }

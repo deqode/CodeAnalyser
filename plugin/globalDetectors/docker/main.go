@@ -22,7 +22,6 @@ func (d DockerFile) DetectDockerFile(path *pb.StringInput) (*global.DockerFile, 
 	if _, err := os.Stat(path.Value + "/Dockerfile"); !os.IsNotExist(err) {
 		dockerFileOutput.Used = true
 		dockerFileOutput.FilePath = path.Value + "/Dockerfile"
-
 	}
 	return dockerFileOutput, nil
 }

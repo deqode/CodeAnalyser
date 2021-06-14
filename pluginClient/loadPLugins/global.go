@@ -7,8 +7,8 @@ import (
 )
 
 type GlobalPlugin struct {
-	ProcFile   *ProcFileClient
-	MakeFile   *MakeFileClient
+	ProcFile   *ProcFilePlugin
+	MakeFile   *MakeFilePlugin
 	DockerFile *DockerFilePlugin
 }
 
@@ -24,10 +24,13 @@ func (globalPlugin *GlobalPlugin) Load(ctx context.Context, pluginYamlFiles []ut
 		pluginYamlFile := parsedRawFile.PluginDetails
 		switch pluginYamlFile.Type {
 		case "dockerFile":
+			globalPlugin.DockerFile = &DockerFilePlugin{}
 			globalPlugin.DockerFile.Load(pluginYamlFile)
 		case "procFile":
+			globalPlugin.ProcFile = &ProcFilePlugin{}
 			globalPlugin.ProcFile.Load(pluginYamlFile)
 		case "makeFile":
+			globalPlugin.MakeFile = &MakeFilePlugin{}
 			globalPlugin.MakeFile.Load(pluginYamlFile)
 		}
 	}

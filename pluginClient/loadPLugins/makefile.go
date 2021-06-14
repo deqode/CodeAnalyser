@@ -8,12 +8,12 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type MakeFileClient struct {
+type MakeFilePlugin struct {
 	Methods *GlobalFiles.Makefile
 	Client  *plugin.Client
 }
 
-func (receiver *MakeFileClient) Load(yamlFile *pbUtils.Details) {
+func (receiver *MakeFilePlugin) Load(yamlFile *pbUtils.Details) {
 	methods, client := pluginClient.CreateMakeFileClient(utils.CallPluginCommand(yamlFile.Command))
 	receiver.Client = client
 	receiver.Methods = &methods

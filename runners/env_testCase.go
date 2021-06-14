@@ -2,7 +2,7 @@ package runners
 
 import (
 	"code-analyser/protos/pb/output/languageSpecific"
-	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 )
 
@@ -12,7 +12,7 @@ type EnvCase struct {
 }
 
 type EnvInput struct {
-	pluginDetails  *versionsPB.LanguageVersion
+	pluginDetails  *pluginDetails.LanguagePlugins
 	RuntimeVersion string
 	Root           string
 }
@@ -25,7 +25,7 @@ var EnvCases = []EnvCase{
 			RuntimeVersion: "sfs",
 		},
 		Output: &languageSpecific.Envs{
-			EnvUsed: true,
+			Used: true,
 			EnvKeyValues: map[string]string{
 				"jk":       "7",
 				"fto":      "hjk",
@@ -42,7 +42,7 @@ var EnvCases = []EnvCase{
 			RuntimeVersion: "sfs",
 		},
 		Output: &languageSpecific.Envs{
-			EnvUsed: false,
+			Used: false,
 		},
 	},
 	{
@@ -60,7 +60,7 @@ var EnvCases = []EnvCase{
 			RuntimeVersion: "sfs",
 		},
 		Output: &languageSpecific.Envs{
-			EnvUsed: true,
+			Used: true,
 			EnvKeyValues: map[string]string{
 				"joss":      "1",
 				"justhkjhk": "sdf",

@@ -74,7 +74,7 @@ var DockerCases = []DockerCase{
 
 var ProcFileCases = []ProcFileCase{
 	{
-		Input:  GlobalRunnerInput{
+		Input: GlobalRunnerInput{
 			Ctx:          nil,
 			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
@@ -82,7 +82,7 @@ var ProcFileCases = []ProcFileCase{
 		Output: nil,
 	},
 	{
-		Input:  GlobalRunnerInput{
+		Input: GlobalRunnerInput{
 			Ctx:          nil,
 			Path:         commonUtils.ProjectPath() + "/testingRepos/detectProcfile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
@@ -93,7 +93,7 @@ var ProcFileCases = []ProcFileCase{
 			Commands: map[string]*helpers.Command{
 				"web": {
 					Command: "bundle",
-					Args:    []string{"exec","rackup"},
+					Args:    []string{"exec", "rackup"},
 				},
 				"worker": {
 					Command: "rake",
@@ -106,7 +106,7 @@ var ProcFileCases = []ProcFileCase{
 
 var MakeFileCases = []MakeFileCase{
 	{
-		Input:  GlobalRunnerInput{
+		Input: GlobalRunnerInput{
 			Ctx:          nil,
 			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
@@ -114,13 +114,13 @@ var MakeFileCases = []MakeFileCase{
 		Output: nil,
 	},
 	{
-		Input:  GlobalRunnerInput{
+		Input: GlobalRunnerInput{
 			Ctx:          nil,
 			Path:         commonUtils.ProjectPath() + "/testingRepos/detectMakefile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: &global.MakeFile{
-			Used: true,
+			Used:     true,
 			FilePath: commonUtils.ProjectPath() + "/testingRepos/detectMakefile/repo1/Makefile",
 		},
 	},

@@ -8,12 +8,12 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type ProcFileClient struct {
+type ProcFilePlugin struct {
 	Methods *GlobalFiles.ProcFile
 	Client  *plugin.Client
 }
 
-func (receiver *ProcFileClient) Load(yamlFile *pbUtils.Details) {
+func (receiver *ProcFilePlugin) Load(yamlFile *pbUtils.Details) {
 	methods, client := pluginClient.CreateProcFileClient(utils.CallPluginCommand(yamlFile.Command))
 	receiver.Client = client
 	receiver.Methods = &methods

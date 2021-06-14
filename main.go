@@ -4,8 +4,6 @@ import (
 	"code-analyser/analyser"
 	"code-analyser/pluginClient/loadPLugins"
 	decisionmakerPB "code-analyser/protos/pb"
-	pb "code-analyser/protos/pb/helpers"
-	"code-analyser/runners"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 	"log"
@@ -24,11 +22,15 @@ func main() {
 	}
 
 	var globalPlugins loadPLugins.GlobalPlugin
+
+	log.Println(globalPlugins)
 	err = globalPlugins.Load(ctx, globalPluginYamlsPath)
 	if err != nil {
 		log.Println("not able start global plugins")
 	}
 	log.Println(globalPlugins)
+	dockerfile, _, err := globalPlugins.DockerFile.Run(nil, "./abc")
+	log.Println(dockerfile, err)
 }
 
 //Scrape it scrape language, framework, orm etc .....
@@ -61,25 +63,25 @@ func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInpu
 				continue
 			}
 
-			pluginDetails := GetLanguagePluginsPath(ctx, languagePath)
-			runtimeVersion := runners.ExecuteRuntimeDetectionPlugin(ctx, path, pluginDetails.DetectRuntimePluginPath)
-			//TODO: change name after dicuss
-			runners.ExecutePreDetectionPlugin(ctx, &pb.Input{
-				RuntimeVersion: runtimeVersion,
-				RootPath:       path,
-			}, pluginDetails.PreDetectCommandPluginPath)
-
-			//if no app runtime found =>skip
-			if runtimeVersion == "" {
-				continue
-			}
-			allDependency := runners.GetDependenciesFromProject(ctx, runtimeVersion, path, pluginDetails)
-			languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
-				Name:           language.Name,
-				RuntimeVersion: runtimeVersion,
-			}
-			LoadLanguagePlugins(ctx, &languageSpecificDetections, *allDependency, pluginDetails, runtimeVersion, path)
-			decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, &languageSpecificDetections)
+			//pluginDetails := GetLanguagePluginsPath(ctx, languagePath)
+			//runtimeVersion := runners.ExecuteRuntimeDetectionPlugin(ctx, path, pluginDetails.DetectRuntimePluginPath)
+			////TODO: change name after dicuss
+			//runners.ExecutePreDetectionPlugin(ctx, &pb.Input{
+			//	RuntimeVersion: runtimeVersion,
+			//	RootPath:       path,
+			//}, pluginDetails.PreDetectCommandPluginPath)
+			//
+			////if no app runtime found =>skip
+			//if runtimeVersion == "" {
+			//	continue
+			//}
+			//allDependency := runners.GetDependenciesFromProject(ctx, runtimeVersion, path, pluginDetails)
+			//languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
+			//	Name:           language.Name,
+			//	RuntimeVersion: runtimeVersion,
+			//}
+			//LoadLanguagePlugins(ctx, &languageSpecificDetections, *allDependency, pluginDetails, runtimeVersion, path)
+			//decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, &languageSpecificDetections)
 		}
 
 	}

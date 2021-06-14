@@ -10,7 +10,7 @@ type GetDependenciesPlugin struct {
 }
 
 type DependenciesVersion struct {
-	Methods *interfaces.Dependencies
+	Methods interfaces.Dependencies
 	Client  *plugin.Client
 }
 
