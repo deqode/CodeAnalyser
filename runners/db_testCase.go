@@ -155,11 +155,11 @@ var DbRunnerCases = []DbRunnerCase{
 			DbList: map[string]DependencyDetail{
 				"mongodb": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mongodb/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/db/mongodb/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/db/repo1",
+			Root:           utils.RootDirPath() + "/testingRepos/db/repo1",
 		},
 		Output: &languageSpecificPB.DBOutput{
 			Used: true,
@@ -175,7 +175,7 @@ var DbRunnerCases = []DbRunnerCase{
 		Input: DbRunnerInput{
 			DbList:         map[string]DependencyDetail{},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+			Root:           utils.RootDirPath() + "/testingRepos/emptyRepo",
 		},
 		Output: &languageSpecificPB.DBOutput{
 			Used:      false,
@@ -187,15 +187,15 @@ var DbRunnerCases = []DbRunnerCase{
 			DbList: map[string]DependencyDetail{
 				"mariadb": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/db/mariadb/v1_x/server.js",
 				},
 				"redis": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/db/redis/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/db/repo2",
+			Root:           utils.RootDirPath() + "/testingRepos/db/repo2",
 		},
 		Output: &languageSpecificPB.DBOutput{
 			Used: true,
@@ -216,15 +216,15 @@ var DbRunnerCases = []DbRunnerCase{
 			DbList: map[string]DependencyDetail{
 				"mariadb": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/mariadb/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/db/mariadb/v1_x/server.js",
 				},
 				"redis": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/db/redis/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/db/redis/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/dbfsdsf/repo2",
+			Root:           utils.RootDirPath() + "/testingRepos/dbfsdsf/repo2",
 		},
 		Output: &languageSpecificPB.DBOutput{
 			Used: false,

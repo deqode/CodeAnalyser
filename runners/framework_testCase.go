@@ -86,11 +86,11 @@ var FrameworkRunnerCases = []FrameworkRunnerCase{
 			FrameworkList: map[string]DependencyDetail{
 				"express": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/express/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/framework/express/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/framework/repo1",
+			Root:           utils.RootDirPath() + "/testingRepos/framework/repo1",
 		},
 		Output: []*languageSpecificPB.FrameworkOutput{
 			{
@@ -105,15 +105,15 @@ var FrameworkRunnerCases = []FrameworkRunnerCase{
 			FrameworkList: map[string]DependencyDetail{
 				"angular": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/angular/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/framework/angular/v1_x/server.js",
 				},
 				"gatsby": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/gatsby/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/framework/gatsby/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/framework/repo2",
+			Root:           utils.RootDirPath() + "/testingRepos/framework/repo2",
 		},
 		Output: []*languageSpecificPB.FrameworkOutput{
 			{
@@ -127,7 +127,7 @@ var FrameworkRunnerCases = []FrameworkRunnerCase{
 		Input: FrameworkRunnerInput{
 			FrameworkList:  map[string]DependencyDetail{},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+			Root:           utils.RootDirPath() + "/testingRepos/emptyRepo",
 		},
 		Output: []*languageSpecificPB.FrameworkOutput{},
 	},
@@ -136,15 +136,15 @@ var FrameworkRunnerCases = []FrameworkRunnerCase{
 			FrameworkList: map[string]DependencyDetail{
 				"angular": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/angular/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/framework/angular/v1_x/server.js",
 				},
 				"gatsby": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/framework/gatsby/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/framework/gatsby/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingfdsfsRepos/fsdfdsframework/repo2",
+			Root:           utils.RootDirPath() + "/testingfdsfsRepos/fsdfdsframework/repo2",
 		},
 		Output: []*languageSpecificPB.FrameworkOutput{},
 	},

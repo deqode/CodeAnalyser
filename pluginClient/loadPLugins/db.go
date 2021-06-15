@@ -42,6 +42,6 @@ func (plugin *DbPlugin) Load(yamlFile *pbUtils.Details) {
 	}
 }
 
-func (plugin DbPlugin) Run(name, version string) {
+func (plugin *DbPlugin) Run(name, version string) {
 
 }

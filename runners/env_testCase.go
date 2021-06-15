@@ -21,7 +21,7 @@ var EnvCases = []EnvCase{
 	{
 		Input: EnvInput{
 			pluginDetails: &SupportedDependencies,
-			Root:           utils.ProjectPath() + "/testingRepos/env/repo1",
+			Root:           utils.RootDirPath() + "/testingRepos/env/repo1",
 			RuntimeVersion: "sfs",
 		},
 		Output: &languageSpecific.Envs{
@@ -38,7 +38,7 @@ var EnvCases = []EnvCase{
 	{
 		Input: EnvInput{
 			pluginDetails: &SupportedDependencies,
-			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+			Root:           utils.RootDirPath() + "/testingRepos/emptyRepo",
 			RuntimeVersion: "sfs",
 		},
 		Output: &languageSpecific.Envs{
@@ -56,7 +56,7 @@ var EnvCases = []EnvCase{
 	{
 		Input: EnvInput{
 			pluginDetails: &SupportedDependencies,
-			Root:           utils.ProjectPath() + "/testingRepos/env/repo2",
+			Root:           utils.RootDirPath() + "/testingRepos/env/repo2",
 			RuntimeVersion: "sfs",
 		},
 		Output: &languageSpecific.Envs{

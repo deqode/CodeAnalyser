@@ -23,14 +23,13 @@ func main() {
 
 	var globalPlugins loadPLugins.GlobalPlugin
 
-	log.Println(globalPlugins)
 	err = globalPlugins.Load(ctx, globalPluginYamlsPath)
 	if err != nil {
 		log.Println("not able start global plugins")
 	}
-	log.Println(globalPlugins)
-	dockerfile, _, err := globalPlugins.DockerFile.Run(nil, "./abc")
-	log.Println(dockerfile, err)
+
+	dockerfile, dockerCompose, pluginError := globalPlugins.DockerFile.Run(nil, utils.RootDirPath())
+	log.Println(dockerfile, dockerCompose,pluginError)
 }
 
 //Scrape it scrape language, framework, orm etc .....

@@ -84,7 +84,7 @@ var OrmRunnerCases = []OrmRunnerCase{
 		Input: OrmRunnerInput{
 			OrmList:        map[string]DependencyDetail{},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+			Root:           utils.RootDirPath() + "/testingRepos/emptyRepo",
 		},
 		Output: &languageSpecificPB.OrmOutput{
 			Used: false,
@@ -96,11 +96,11 @@ var OrmRunnerCases = []OrmRunnerCase{
 			OrmList: map[string]DependencyDetail{
 				"typeorm": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/typeorm/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/orm/typeorm/v1_x/server.js",
 				},
 				"bookshelf": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/bookshelf/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/orm/bookshelf/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
@@ -116,15 +116,15 @@ var OrmRunnerCases = []OrmRunnerCase{
 			OrmList: map[string]DependencyDetail{
 				"sequelize": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/sequelize/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/orm/sequelize/v1_x/server.js",
 				},
 				"bookshelf": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/bookshelf/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/orm/bookshelf/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() +"/testingRepos/orm/repo1",
+			Root:           utils.RootDirPath() +"/testingRepos/orm/repo1",
 		},
 		Output: &languageSpecificPB.OrmOutput{
 			Used: true,
@@ -145,11 +145,11 @@ var OrmRunnerCases = []OrmRunnerCase{
 			OrmList: map[string]DependencyDetail{
 				"typeorm": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/orm/typeorm/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/orm/typeorm/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath() + "/testingRepos/orm/repo2",
+			Root:           utils.RootDirPath() + "/testingRepos/orm/repo2",
 		},
 		Output: &languageSpecificPB.OrmOutput{
 			Used: true,

@@ -20,8 +20,9 @@ func (plugin *DockerFilePlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Methods, plugin.Client = pluginClient.CreateDockerFileClient(utils.CallPluginCommand(yamlFile.Command))
 }
 
-func (plugin *DockerFilePlugin) Run(ctx context.Context,projectRootPath string) (*global.DockerFile, *global.DockerCompose, error) {
+func (plugin *DockerFilePlugin) Run(ctx context.Context, projectRootPath string) (*global.DockerFile, *global.DockerCompose, error) {
 	dockerFile, err := plugin.Methods.DetectDockerFile(&helpers.StringInput{Value: projectRootPath})
+
 	if err != nil {
 		return nil, nil, err
 	}

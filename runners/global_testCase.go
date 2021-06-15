@@ -34,38 +34,38 @@ var DockerCases = []DockerCase{
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: testing.DockerCaseOutput{
 			DockerFile: &global.DockerFile{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1/Dockerfile",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo1/Dockerfile",
 			},
 			DockerComposeFile: &global.DockerCompose{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1/docker-compose.yml",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo1/docker-compose.yml",
 			},
 		},
 	},
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo2",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo2",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: testing.DockerCaseOutput{
 			DockerFile: nil,
 			DockerComposeFile: &global.DockerCompose{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo2/docker-compose.yaml",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo2/docker-compose.yaml",
 			},
 		},
 	},
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: testing.DockerCaseOutput{},
@@ -76,7 +76,7 @@ var ProcFileCases = []ProcFileCase{
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: nil,
@@ -84,12 +84,12 @@ var ProcFileCases = []ProcFileCase{
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/detectProcfile/repo1",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/detectProcfile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: &global.ProcFile{
 			Used:     true,
-			FilePath: commonUtils.ProjectPath() + "/testingRepos/detectProcfile/repo1/Procfile",
+			FilePath: commonUtils.RootDirPath() + "/testingRepos/detectProcfile/repo1/Procfile",
 			Commands: map[string]*helpers.Command{
 				"web": {
 					Command: "bundle",
@@ -108,7 +108,7 @@ var MakeFileCases = []MakeFileCase{
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: nil,
@@ -116,12 +116,12 @@ var MakeFileCases = []MakeFileCase{
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/detectMakefile/repo1",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/detectMakefile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: &global.MakeFile{
 			Used:     true,
-			FilePath: commonUtils.ProjectPath() + "/testingRepos/detectMakefile/repo1/Makefile",
+			FilePath: commonUtils.RootDirPath() + "/testingRepos/detectMakefile/repo1/Makefile",
 		},
 	},
 }

@@ -25,7 +25,7 @@ var DependencyCases = []DependencyCase{
 		Input: DependencyInput{
 			Ctx:             nil,
 			LanguageVersion: "10.19.0",
-			Path:            commonUtils.ProjectPath() + "/testingRepos/parsedDependencies/testRepo1",
+			Path:            commonUtils.RootDirPath() + "/testingRepos/parsedDependencies/testRepo1",
 			PluginDetails:   &SupportedDependencies,
 		},
 		Output: map[string]map[string]DependencyDetail{
@@ -53,7 +53,7 @@ var DependencyCases = []DependencyCase{
 		Input: DependencyInput{
 			Ctx:             nil,
 			LanguageVersion: "10.19.0",
-			Path:            commonUtils.ProjectPath() + "/testingRepos/parsedDependencies/testRepo2",
+			Path:            commonUtils.RootDirPath() + "/testingRepos/parsedDependencies/testRepo2",
 			PluginDetails:   &SupportedDependencies,
 		},
 		Output: map[string]map[string]DependencyDetail{
@@ -84,7 +84,7 @@ var DependencyCases = []DependencyCase{
 		Input: DependencyInput{
 			Ctx:             nil,
 			LanguageVersion: "10.19.0",
-			Path:            commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			Path:            commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			PluginDetails:   &SupportedDependencies,
 		},
 		Output: map[string]map[string]DependencyDetail{
@@ -111,7 +111,7 @@ var DetectRunTimeCases = []DetectRunTimeCase{
 	{
 		Input: DetectRunTimeInput{
 			Ctx:            nil,
-			Path:           commonUtils.ProjectPath() + "/testingRepos/detectRunTime/repo1",
+			Path:           commonUtils.RootDirPath() + "/testingRepos/detectRunTime/repo1",
 			YamlLangObject: &SupportedDependencies,
 		},
 		Output: "12.3",
@@ -135,7 +135,7 @@ var DetectTestCommandCases = []DetectTestCommandCase{
 			Ctx: nil,
 			Input: &helpers.Input{
 				RuntimeVersion: "",
-				RootPath:       commonUtils.ProjectPath() + "/testingRepos/detectTestCase/repo1",
+				RootPath:       commonUtils.RootDirPath() + "/testingRepos/detectTestCase/repo1",
 			},
 			PluginDetails: &SupportedDependencies,
 		},
@@ -158,7 +158,7 @@ var DetectTestCommandCases = []DetectTestCommandCase{
 			Ctx: nil,
 			Input: &helpers.Input{
 				RuntimeVersion: "",
-				RootPath:       commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+				RootPath:       commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			},
 			PluginDetails: &SupportedDependencies,
 		},
@@ -183,7 +183,7 @@ var DetectCommandCases = []DetectCommandCase{
 			Ctx: nil,
 			Input: &helpers.Input{
 				RuntimeVersion: "",
-				RootPath:       commonUtils.ProjectPath() + "/testingRepos/commands/repo1",
+				RootPath:       commonUtils.RootDirPath() + "/testingRepos/commands/repo1",
 			},
 			PluginDetails: &SupportedDependencies,
 		},
@@ -252,7 +252,7 @@ var DetectCommandCases = []DetectCommandCase{
 			Ctx: nil,
 			Input: &helpers.Input{
 				RuntimeVersion: "",
-				RootPath:       commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+				RootPath:       commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			},
 			PluginDetails: &SupportedDependencies,
 		},

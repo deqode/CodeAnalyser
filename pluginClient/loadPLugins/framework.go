@@ -3,6 +3,8 @@ package loadPLugins
 import (
 	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient"
+	"code-analyser/protos/pb/helpers"
+	"code-analyser/protos/pb/output/languageSpecific"
 	pbUtils "code-analyser/protos/pb/output/utils"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-plugin"
@@ -17,23 +19,23 @@ type FrameworkVersion struct {
 }
 
 type FrameworkPluginDetails struct {
-	Methods *interfaces.Framework
+	Methods interfaces.Framework
 	Client  *plugin.Client
 }
 
-func (receiver *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
+func (plugin *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
 	methods, client := pluginClient.CreateFrameworkClient(utils.CallPluginCommand(yamlFile.Command))
-	if value, ok := receiver.Frameworks[yamlFile.Name]; ok {
+	if value, ok := plugin.Frameworks[yamlFile.Name]; ok {
 		value.Version[yamlFile.Version] = &FrameworkPluginDetails{
-			Methods: &methods,
+			Methods: methods,
 			Client:  client,
 		}
 	} else {
-		receiver.Frameworks = map[string]*FrameworkVersion{
+		plugin.Frameworks = map[string]*FrameworkVersion{
 			yamlFile.Name: {
 				Version: map[string]*FrameworkPluginDetails{
 					yamlFile.Version: {
-						Methods: &methods,
+						Methods: methods,
 						Client:  client,
 					},
 				},
@@ -42,6 +44,44 @@ func (receiver *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
 	}
 }
 
-func (receiver FrameworkPlugin) Run(name, version string) {
+func (plugin *FrameworkPluginDetails) Run(name, version, runTimeVersion, projectRootPath string) (*languageSpecific.FrameworkOutput, error) {
+	pluginInput := &helpers.Input{
+		RuntimeVersion: runTimeVersion,
+		RootPath:       projectRootPath,
+	}
+	output := &languageSpecific.FrameworkOutput{
+		Name:    name,
+		Version: version,
+	}
 
+	detect, err := plugin.Methods.Detect(pluginInput)
+	if err != nil {
+		return nil, err
+	}
+	if detect.Error != nil || detect.Value == false {
+		output.Error = detect.Error
+		return output, err
+	}
+
+	isUsed, err := plugin.Methods.IsUsed(pluginInput)
+	if err != nil {
+		return nil, err
+	}
+	if isUsed.Error != nil {
+		output.Error = isUsed.Error
+		return output, err
+	}
+	output.Used = isUsed.Value
+
+	percentageUsed, err := plugin.Methods.PercentOfUsed(pluginInput)
+	if err != nil {
+		return nil, err
+	}
+	if percentageUsed.Error != nil {
+		output.Error = percentageUsed.Error
+		return output, err
+	}
+	output.PercentageUsed = percentageUsed.Value
+
+	return output, nil
 }

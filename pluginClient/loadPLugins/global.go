@@ -13,8 +13,8 @@ type GlobalPlugin struct {
 }
 
 func (globalPlugin *GlobalPlugin) Load(ctx context.Context, pluginYamlFiles []utils.FileDetails) error {
-	for _, pluginFile := range pluginYamlFiles {
 
+	for _, pluginFile := range pluginYamlFiles {
 		parsedRawFile, err := utils.ReadPluginYamlFile(ctx, pluginFile)
 		if err != nil {
 			log.Println(err)
@@ -22,6 +22,7 @@ func (globalPlugin *GlobalPlugin) Load(ctx context.Context, pluginYamlFiles []ut
 		}
 
 		pluginYamlFile := parsedRawFile.PluginDetails
+
 		switch pluginYamlFile.Type {
 		case "dockerFile":
 			globalPlugin.DockerFile = &DockerFilePlugin{}
@@ -33,6 +34,7 @@ func (globalPlugin *GlobalPlugin) Load(ctx context.Context, pluginYamlFiles []ut
 			globalPlugin.MakeFile = &MakeFilePlugin{}
 			globalPlugin.MakeFile.Load(pluginYamlFile)
 		}
+
 	}
 
 	return nil

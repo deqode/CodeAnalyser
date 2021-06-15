@@ -7,10 +7,10 @@ import (
 )
 
 var SupportedDependencies = pluginDetails.LanguagePlugins{
-	DetectRuntimePluginPath: "node " + commonUtils.ProjectPath() + "/plugin/js/detectRunTime/server.js",
+	DetectRuntimePluginPath: "node " + commonUtils.RootDirPath() + "/plugin/js/detectRunTime/server.js",
 	RuntimeVersions: map[string]*pluginDetails.DependencyVersionDetails{"v1.x": {
 		Semver:        []string{">=1.x,<16.x"},
-		PluginPath: "node " + commonUtils.ProjectPath() + "/plugin/js/getDependencies/server.js",
+		PluginPath: "node " + commonUtils.RootDirPath() + "/plugin/js/getDependencies/server.js",
 	}},
 	Frameworks: map[string]*pluginDetails.DependencyDetails{
 		"Gatsby v3": {
@@ -320,16 +320,16 @@ var SupportedDependencies = pluginDetails.LanguagePlugins{
 		},
 	},
 	Dependencies:           nil,
-	EnvPluginPath:       "node " + commonUtils.ProjectPath() + "/plugin/js/env/server.js",
+	EnvPluginPath:       "node " + commonUtils.RootDirPath() + "/plugin/js/env/server.js",
 	PreDetectCommandPluginPath:       "",
 	StaticAssetsPluginPath:    "",
 	BuildDirectoryPluginPath:  "",
-	TestCasesCommandPluginPath: "node " + commonUtils.ProjectPath() + "/plugin/js/testCasesCommands/server.js",
-	CommandsPluginPath:               "node " + commonUtils.ProjectPath() + "/plugin/js/commands/server.js",
+	TestCasesCommandPluginPath: "node " + commonUtils.RootDirPath() + "/plugin/js/testCasesCommands/server.js",
+	CommandsPluginPath:               "node " + commonUtils.RootDirPath() + "/plugin/js/commands/server.js",
 }
 
 var GlobalPluginPath = pluginDetails.GlobalPlugins{
-	DockerFilePluginPath: commonUtils.ProjectPath() + "/plugin/globalDetectors/docker/plugin",
-	ProcFilePluginPath:   commonUtils.ProjectPath() + "/plugin/globalDetectors/procFile/plugin",
-	MakeFilePluginPath:   commonUtils.ProjectPath() + "/plugin/globalDetectors/makeFile/plugin",
+	DockerFilePluginPath: commonUtils.RootDirPath() + "/plugin/globalDetectors/docker/plugin",
+	ProcFilePluginPath:   commonUtils.RootDirPath() + "/plugin/globalDetectors/procFile/plugin",
+	MakeFilePluginPath:   commonUtils.RootDirPath() + "/plugin/globalDetectors/makeFile/plugin",
 }

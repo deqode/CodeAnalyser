@@ -17,23 +17,23 @@ type OrmVersion struct {
 }
 
 type OrmPluginDetails struct {
-	Methods *interfaces.Orm
+	Methods interfaces.Orm
 	Client  *plugin.Client
 }
 
-func (receiver *OrmPlugin) Load(yamlFile *pbUtils.Details) {
+func (plugin *OrmPlugin) Load(yamlFile *pbUtils.Details) {
 	methods, client := pluginClient.CreateOrmClient(utils.CallPluginCommand(yamlFile.Command))
-	if value, ok := receiver.Orms[yamlFile.Name]; ok {
+	if value, ok := plugin.Orms[yamlFile.Name]; ok {
 		value.Version[yamlFile.Version] = &OrmPluginDetails{
-			Methods: &methods,
+			Methods: methods,
 			Client:  client,
 		}
 	} else {
-		receiver.Orms = map[string]*OrmVersion{
+		plugin.Orms = map[string]*OrmVersion{
 			yamlFile.Name: {
 				Version: map[string]*OrmPluginDetails{
 					yamlFile.Version: {
-						Methods: &methods,
+						Methods: methods,
 						Client:  client,
 					},
 				},
@@ -42,6 +42,6 @@ func (receiver *OrmPlugin) Load(yamlFile *pbUtils.Details) {
 	}
 }
 
-func (receiver *OrmPlugin) Run(name, version string) {
+func (plugin *OrmPlugin) Run(name, version string) {
 
 }
