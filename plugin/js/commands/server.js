@@ -5,9 +5,10 @@ const getPort = require("get-port");
 const methods = require("./methods");
 
 const protoPath = [
+  __dirname + "../../../../protos/helpers/command.proto",
+  __dirname + "../../../../protos/helpers/common.proto",
+  __dirname + "../../../../protos/output/languageSpecific/commands.proto",
   __dirname + "../../../../protos/plugin/commands.proto",
-  __dirname + "../../../../protos/plugin/helpers.proto",
-  __dirname + "../../../../protos/output/globalFiles/command.proto",
 ];
 
 //load proto file
@@ -37,9 +38,6 @@ server.addService(protoFile.proto.Commands.service, methods);
       }
       server.start();
       console.log(`1|1|tcp|127.0.0.1:${port}|grpc`);
-      setTimeout(() => {
-        server.forceShutdown();
-      }, 1000 * 60);
     }
   );
 })();
