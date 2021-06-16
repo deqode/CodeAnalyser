@@ -16,20 +16,19 @@ func main() {
 	//log.Println("Scrapping on "+path)
 	var ctx context.Context
 
-	globalPluginYamlsPath, err := utils.SearchFileInDirectory("pluginDetails.yaml", "./plugin/globalDetectors")
+	langPluginYamls, err := utils.SearchFileInDirectory("pluginDetails.yaml", "./plugin/js")
 	if err != nil {
 		log.Println("not able to get yaml file of plugin")
 	}
 
-	var globalPlugins loadPLugins.GlobalPlugin
+	var languagePlugins loadPLugins.LanguagePlugin
 
-	err = globalPlugins.Load(ctx, globalPluginYamlsPath)
+	err = languagePlugins.Load(ctx, langPluginYamls)
 	if err != nil {
 		log.Println("not able start global plugins")
 	}
 
-	dockerfile, dockerCompose, pluginError := globalPlugins.DockerFile.Run(nil, utils.RootDirPath())
-	log.Println(dockerfile, dockerCompose,pluginError)
+	log.Println(languagePlugins.Commands.Run(nil,"/home/kishan/Desktop/code-analyser/testingRepos/commands/repo1"))
 }
 
 //Scrape it scrape language, framework, orm etc .....
