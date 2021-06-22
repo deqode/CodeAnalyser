@@ -35,12 +35,14 @@ func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles
 
 		switch pluginYamlFile.Type {
 		case "detectRuntime":
-			//languagePlugins.DetectRunTime.Load(pluginYamlFile)
+			languagePlugins.DetectRunTime = &DetectRunTimePlugin{}
+			languagePlugins.DetectRunTime.Load(pluginYamlFile)
 		case "commands":
 			languagePlugins.Commands = &CommandsPlugin{}
 			languagePlugins.Commands.Load(pluginYamlFile)
 		case "env":
-			//languagePlugins.Env.Load(pluginYamlFile)
+			languagePlugins.Env = &EnvPlugin{}
+			languagePlugins.Env.Load(pluginYamlFile)
 		case "preDetectCommand":
 			//languagePlugins.PreDetectCommands.Load(pluginYamlFile)
 		case "staticAssets":

@@ -6,7 +6,8 @@ const methods = require("./methods");
 
 const protoPath = [
   __dirname + "../../../../protos/plugin/env.proto",
-  __dirname + "../../../../protos/plugin/helpers.proto",
+  __dirname + "../../../../protos/helpers/common.proto",
+  __dirname + "../../../../protos/output/languageSpecific/env.proto",
 ];
 
 //load proto file
@@ -21,7 +22,7 @@ const protoFile = grpc.loadPackageDefinition(packageDefinition);
 const server = new grpc.Server();
 
 server.addService(healthCheck.healthe.service, healthCheck.healthImpl);
-server.addService(protoFile.proto.EnvService.service, methods);
+server.addService(protoFile.proto.Env.service, methods);
 
 // server creation
 (async () => {
