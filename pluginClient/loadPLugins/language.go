@@ -24,6 +24,16 @@ type LanguagePlugin struct {
 
 func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles []utils.FileDetails) error {
 
+	languagePlugins.DetectRunTime = &DetectRunTimePlugin{}
+	languagePlugins.Commands = &CommandsPlugin{}
+	languagePlugins.Dependencies = &GetDependenciesPlugin{}
+	languagePlugins.Framework = &FrameworkPlugin{}
+	languagePlugins.Env = &EnvPlugin{}
+	languagePlugins.PreDetectCommands = &PreDetectCommandsPlugin{}
+	languagePlugins.StaticAssets = &StaticAssetsPlugin{}
+	languagePlugins.TestCommand = &TestCommandPlugin{}
+	languagePlugins.BuildDirectory = &BuildDirectoryPlugin{}
+
 	for _, pluginFile := range pluginYamlFiles {
 		parsedRawFile, err := utils.ReadPluginYamlFile(ctx, pluginFile)
 		if err != nil {
@@ -35,40 +45,29 @@ func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles
 
 		switch pluginYamlFile.Type {
 		case "detectRuntime":
-			languagePlugins.DetectRunTime = &DetectRunTimePlugin{}
 			languagePlugins.DetectRunTime.Load(pluginYamlFile)
 		case "commands":
-			languagePlugins.Commands = &CommandsPlugin{}
 			languagePlugins.Commands.Load(pluginYamlFile)
 		case "env":
-			languagePlugins.Env = &EnvPlugin{}
 			languagePlugins.Env.Load(pluginYamlFile)
 		case "preDetectCommand":
-			languagePlugins.PreDetectCommands = &PreDetectCommandsPlugin{}
 			languagePlugins.PreDetectCommands.Load(pluginYamlFile)
 		case "staticAssets":
-			languagePlugins.StaticAssets = &StaticAssetsPlugin{}
 			languagePlugins.StaticAssets.Load(pluginYamlFile)
 		case "buildDirectory":
-			languagePlugins.BuildDirectory = &BuildDirectoryPlugin{}
 			languagePlugins.BuildDirectory.Load(pluginYamlFile)
 		case "testCasesCommands":
-			languagePlugins.TestCommand = &TestCommandPlugin{}
 			languagePlugins.TestCommand.Load(pluginYamlFile)
 		case "framework":
-			languagePlugins.Framework = &FrameworkPlugin{}
 			languagePlugins.Framework.Load(pluginYamlFile)
 		case "orm":
 			//languagePlugins.Orm.Load(pluginYamlFile)
 		case "library":
 			//languagePlugins.Library.Load(pluginYamlFile)
 		case "database":
-			//languagePlugins.Db.Load(pluginYamlFile)
-			//case "getDependencies":
-			//	languagePlugins.RuntimeVersions[pluginYamlFile.Version] = &pluginDetailsPB.DependencyVersionDetails{
-			//		Semver:     pluginYamlFile.Semver,
-			//		PluginPath: pluginYamlFile.Command,
-			//	}
+		//languagePlugins.Db.Load(pluginYamlFile)
+		case "getDependencies":
+			languagePlugins.Dependencies.Load(pluginYamlFile)
 		}
 	}
 	return nil

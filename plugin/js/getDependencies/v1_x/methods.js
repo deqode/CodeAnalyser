@@ -1,4 +1,4 @@
-const common = require("../common");
+const common = require("../../common");
 
 function getDependencies(input, callback) {
   let path = input.request.rootPath;

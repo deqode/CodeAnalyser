@@ -42,3 +42,12 @@ func ReadPluginYamlFile(ctx context.Context, filePath FileDetails) (*utilsPB.Plu
 	return &lang, nil
 }
 
+type Dependency struct {
+	Name    string
+	Version string
+}
+
+type Library struct {
+	Name   string
+	Semver []string
+}
