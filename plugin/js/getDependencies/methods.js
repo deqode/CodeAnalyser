@@ -1,7 +1,7 @@
 const common = require("../common");
 
 function getDependencies(input, callback) {
-  let path = input.request.root;
+  let path = input.request.rootPath;
   let parsedFile = common.requireJsonFile(
     path + "/package.json",
     callback,

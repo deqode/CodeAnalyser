@@ -36,9 +36,6 @@ server.addService(protoFile.proto.DetectRuntime.service, methods);
       }
       server.start();
       console.log(`1|1|tcp|127.0.0.1:${port}|grpc`);
-      setTimeout(() => {
-        server.forceShutdown();
-      }, 1000 * 60);
     }
   );
 })();

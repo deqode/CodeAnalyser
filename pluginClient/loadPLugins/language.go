@@ -44,15 +44,20 @@ func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles
 			languagePlugins.Env = &EnvPlugin{}
 			languagePlugins.Env.Load(pluginYamlFile)
 		case "preDetectCommand":
-			//languagePlugins.PreDetectCommands.Load(pluginYamlFile)
+			languagePlugins.PreDetectCommands = &PreDetectCommandsPlugin{}
+			languagePlugins.PreDetectCommands.Load(pluginYamlFile)
 		case "staticAssets":
-			//languagePlugins.StaticAssets.Load(pluginYamlFile)
+			languagePlugins.StaticAssets = &StaticAssetsPlugin{}
+			languagePlugins.StaticAssets.Load(pluginYamlFile)
 		case "buildDirectory":
-			//languagePlugins.BuildDirectory.Load(pluginYamlFile)
+			languagePlugins.BuildDirectory = &BuildDirectoryPlugin{}
+			languagePlugins.BuildDirectory.Load(pluginYamlFile)
 		case "testCasesCommands":
-			//languagePlugins.TestCommand.Load(pluginYamlFile)
+			languagePlugins.TestCommand = &TestCommandPlugin{}
+			languagePlugins.TestCommand.Load(pluginYamlFile)
 		case "framework":
-			//languagePlugins.Framework.Load(pluginYamlFile)
+			languagePlugins.Framework = &FrameworkPlugin{}
+			languagePlugins.Framework.Load(pluginYamlFile)
 		case "orm":
 			//languagePlugins.Orm.Load(pluginYamlFile)
 		case "library":

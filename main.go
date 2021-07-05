@@ -28,7 +28,7 @@ func main() {
 		log.Println("not able start global plugins")
 	}
 
-	log.Println(languagePlugins.Env.Run(nil, "", "/home/kishan/Desktop/code-analyser/testingRepos/env/repo1"))
+	log.Println(languagePlugins.TestCommand.Run("nil", utils.RootDirPath()+"/testingRepos/detectTestCase/repo1"))
 }
 
 //Scrape it scrape language, framework, orm etc .....

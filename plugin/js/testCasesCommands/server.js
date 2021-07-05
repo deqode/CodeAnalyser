@@ -5,9 +5,10 @@ const getPort = require("get-port");
 const methods = require("./methods");
 
 const protoPath = [
-  __dirname + "../../../../protos/plugin/test_case_commands.proto",
-  __dirname + "../../../../protos/plugin/helpers.proto",
-  __dirname + "../../../../protos/output/globalFiles/command.proto"
+  __dirname + "../../../../protos/output/languageSpecific/testCasesCommand.proto",
+  __dirname + "../../../../protos/helpers/common.proto",
+  __dirname + "../../../../protos/plugin/testCaseCommands.proto",
+  __dirname +"../../../../protos/helpers/command.proto"
 ];
 
 //load proto file

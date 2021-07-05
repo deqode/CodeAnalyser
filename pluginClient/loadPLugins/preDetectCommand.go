@@ -29,7 +29,7 @@ func (plugin *PreDetectCommandsPlugin) Run(runTimeVersion, projectRootPath strin
 		return err
 	}
 	if response.Error != nil {
-		return errors.New(response.Error.Message)
+		return errors.New(response.Error.Message + ", cause:- " + response.Error.Cause)
 	}
 	log.Println("pre detection command executed successfully")
 	return nil
