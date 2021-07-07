@@ -13,6 +13,6 @@ message OrmOutput{
 
 service Orm {
   rpc Detect(protos.helpers.Input) returns (OrmOutput);  // deep level detection
-  rpc IsORMUsed(protos.helpers.Input) returns (protos.helpers.BoolOutput);
-  rpc PercentOfORMUsed(protos.helpers.Input) returns (protos.helpers.FloatOutput);
+  rpc IsUsed(protos.helpers.Input) returns (protos.helpers.BoolOutput);
+  rpc PercentOfUsed(protos.helpers.Input) returns (protos.helpers.FloatOutput);
 }

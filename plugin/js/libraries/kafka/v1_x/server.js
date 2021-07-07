@@ -6,7 +6,8 @@ const methods = require("./methods");
 
 const protoPath = [
   __dirname + "../../../../../../protos/plugin/library.proto",
-  __dirname + "../../../../../../protos/plugin/helpers.proto",
+  __dirname + "../../../../../../protos/helpers/common.proto",
+  __dirname + "../../../../../../protos/output/languageSpecific/libraries.proto",
 ];
 
 //load proto file
@@ -21,7 +22,7 @@ const protoFile = grpc.loadPackageDefinition(packageDefinition);
 const server = new grpc.Server();
 
 server.addService(healthCheck.healthe.service, healthCheck.healthImpl);
-server.addService(protoFile.proto.LibraryService.service, methods);
+server.addService(protoFile.proto.Library.service, methods);
 
 // server creation
 (async () => {
@@ -36,9 +37,6 @@ server.addService(protoFile.proto.LibraryService.service, methods);
       }
       server.start();
       console.log(`1|1|tcp|127.0.0.1:${port}|grpc`);
-      setTimeout(() => {
-        server.forceShutdown();
-      }, 1000 * 60 * 2);
     }
   );
 })();

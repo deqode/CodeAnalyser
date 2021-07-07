@@ -23,8 +23,8 @@ message LanguageSpecificDetections {
   string runtimeVersion = 2;
   protos.output.languageSpecific.Envs env = 3;
   repeated protos.output.languageSpecific.FrameworkOutput framework = 4;
-  protos.output.languageSpecific.DBOutput db = 5;
-  protos.output.languageSpecific.OrmOutput orm = 6;
+  repeated protos.output.languageSpecific.DBOutput db = 5;
+  repeated protos.output.languageSpecific.OrmOutput orm = 6;
   repeated protos.output.languageSpecific.DependenciesOutput dependencies = 7;
   repeated protos.output.languageSpecific.LibraryOutput libraries = 8;
   protos.output.languageSpecific.StaticAssetsOutput staticAssets = 9;

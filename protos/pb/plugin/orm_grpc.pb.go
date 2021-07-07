@@ -20,8 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrmClient interface {
 	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*OrmOutput, error)
-	IsORMUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
-	PercentOfORMUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error)
+	IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
+	PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error)
 }
 
 type ormClient struct {
@@ -41,18 +41,18 @@ func (c *ormClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.
 	return out, nil
 }
 
-func (c *ormClient) IsORMUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
+func (c *ormClient) IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
 	out := new(helpers.BoolOutput)
-	err := c.cc.Invoke(ctx, "/proto.Orm/IsORMUsed", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.Orm/IsUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *ormClient) PercentOfORMUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error) {
+func (c *ormClient) PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error) {
 	out := new(helpers.FloatOutput)
-	err := c.cc.Invoke(ctx, "/proto.Orm/PercentOfORMUsed", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.Orm/PercentOfUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,8 +64,8 @@ func (c *ormClient) PercentOfORMUsed(ctx context.Context, in *helpers.Input, opt
 // for forward compatibility
 type OrmServer interface {
 	Detect(context.Context, *helpers.Input) (*OrmOutput, error)
-	IsORMUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
-	PercentOfORMUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error)
+	IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error)
 }
 
 // UnimplementedOrmServer should be embedded to have forward compatible implementations.
@@ -75,11 +75,11 @@ type UnimplementedOrmServer struct {
 func (UnimplementedOrmServer) Detect(context.Context, *helpers.Input) (*OrmOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedOrmServer) IsORMUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IsORMUsed not implemented")
+func (UnimplementedOrmServer) IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsUsed not implemented")
 }
-func (UnimplementedOrmServer) PercentOfORMUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PercentOfORMUsed not implemented")
+func (UnimplementedOrmServer) PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PercentOfUsed not implemented")
 }
 
 // UnsafeOrmServer may be embedded to opt out of forward compatibility for this service.
@@ -111,38 +111,38 @@ func _Orm_Detect_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Orm_IsORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Orm_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrmServer).IsORMUsed(ctx, in)
+		return srv.(OrmServer).IsUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.Orm/IsORMUsed",
+		FullMethod: "/proto.Orm/IsUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServer).IsORMUsed(ctx, req.(*helpers.Input))
+		return srv.(OrmServer).IsUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Orm_PercentOfORMUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Orm_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrmServer).PercentOfORMUsed(ctx, in)
+		return srv.(OrmServer).PercentOfUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.Orm/PercentOfORMUsed",
+		FullMethod: "/proto.Orm/PercentOfUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrmServer).PercentOfORMUsed(ctx, req.(*helpers.Input))
+		return srv.(OrmServer).PercentOfUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -159,12 +159,12 @@ var Orm_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Orm_Detect_Handler,
 		},
 		{
-			MethodName: "IsORMUsed",
-			Handler:    _Orm_IsORMUsed_Handler,
+			MethodName: "IsUsed",
+			Handler:    _Orm_IsUsed_Handler,
 		},
 		{
-			MethodName: "PercentOfORMUsed",
-			Handler:    _Orm_PercentOfORMUsed_Handler,
+			MethodName: "PercentOfUsed",
+			Handler:    _Orm_PercentOfUsed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

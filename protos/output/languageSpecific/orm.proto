@@ -8,20 +8,16 @@ option go_package = "code-analyser/protos/pb/output/languageSpecific";
 message OrmOutput{
   // check orm
   bool used = 1;
-  // list of all orms
-  repeated ORM orms = 2;
-  // Should output database configuration details
-  protos.helpers.Error error = 3;
-}
-
-message ORM{
   //  name of orm
-  string name = 1;
+  string name = 2;
   //  version of orm
-  string version = 2;
+  string version = 5;
   // supported db name
   string DbName = 3;
   // supported db version
   string DbVersion = 4;
+  float percentageUsed = 7;
+  // Should output database configuration details
+  protos.helpers.Error error = 6;
 }
 

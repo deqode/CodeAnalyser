@@ -28,10 +28,10 @@ func main() {
 		log.Println("not able start global plugins")
 	}
 
-	dependency, err := languagePlugins.Dependencies.Run(nil, "12.3", utils.RootDirPath()+"/testingRepos/framework/repo2")
-	extr := languagePlugins.Framework.Extract(nil, dependency.Value)
-	res, err := languagePlugins.Framework.Run(nil, extr, "", utils.RootDirPath()+"/testingRepos/framework/repo2")
-	log.Println(res[1].Used,res[0].Used)
+	dependency, err := languagePlugins.Dependencies.Run(nil, "12.3", utils.RootDirPath()+"/testingRepos/orm/repo2")
+	extr := languagePlugins.Orm.Extract(nil, dependency.Value)
+	res, err := languagePlugins.Orm.Run(nil, extr, "", utils.RootDirPath()+"/testingRepos/orm/repo2")
+	log.Println(res)
 }
 
 //Scrape it scrape language, framework, orm etc .....

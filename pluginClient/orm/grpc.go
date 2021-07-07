@@ -20,13 +20,13 @@ func (G *GRPCClient) Detect(input *pb.Input) (*plugin.OrmOutput, error) {
 
 //IsUsed will  check if ORM used or not
 func (G *GRPCClient) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
-	res, err := G.Client.IsORMUsed(context.Background(), input)
+	res, err := G.Client.IsUsed(context.Background(), input)
 	return res, err
 }
 
 //PercentOfUsed will check % of orm used
 func (G *GRPCClient) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
-	res, err := G.Client.PercentOfORMUsed(context.Background(), input)
+	res, err := G.Client.PercentOfUsed(context.Background(), input)
 	return res, err
 }
 
@@ -41,14 +41,14 @@ func (G *GRPCServer) Detect(ctx context.Context, input *pb.Input) (*plugin.OrmOu
 	return res, err
 }
 
-//IsORMUsed will  check if ORM used or not
-func (G *GRPCServer) IsORMUsed(ctx context.Context, input *pb.Input) (*pb.BoolOutput, error) {
+//IsUsed will  check if ORM used or not
+func (G *GRPCServer) IsUsed(ctx context.Context, input *pb.Input) (*pb.BoolOutput, error) {
 	res, err := G.Impl.IsUsed(input)
 	return res, err
 }
 
-//PercentOfORMUsed will check % of orm used
-func (G *GRPCServer) PercentOfORMUsed(ctx context.Context, input *pb.Input) (*pb.FloatOutput, error) {
+//PercentOfUsed will check % of orm used
+func (G *GRPCServer) PercentOfUsed(ctx context.Context, input *pb.Input) (*pb.FloatOutput, error) {
 	res, err := G.Impl.PercentOfUsed(input)
 	return res, err
 }

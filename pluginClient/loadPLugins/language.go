@@ -33,6 +33,9 @@ func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles
 	languagePlugins.StaticAssets = &StaticAssetsPlugin{}
 	languagePlugins.TestCommand = &TestCommandPlugin{}
 	languagePlugins.BuildDirectory = &BuildDirectoryPlugin{}
+	languagePlugins.Db = &DbPlugin{}
+	languagePlugins.Library = &LibraryPlugin{}
+	languagePlugins.Orm = &OrmPlugin{}
 
 	for _, pluginFile := range pluginYamlFiles {
 		parsedRawFile, err := utils.ReadPluginYamlFile(ctx, pluginFile)
@@ -61,11 +64,11 @@ func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles
 		case "framework":
 			languagePlugins.Framework.Load(pluginYamlFile)
 		case "orm":
-			//languagePlugins.Orm.Load(pluginYamlFile)
+			languagePlugins.Orm.Load(pluginYamlFile)
 		case "library":
-			//languagePlugins.Library.Load(pluginYamlFile)
+			languagePlugins.Library.Load(pluginYamlFile)
 		case "database":
-		//languagePlugins.Db.Load(pluginYamlFile)
+			languagePlugins.Db.Load(pluginYamlFile)
 		case "getDependencies":
 			languagePlugins.Dependencies.Load(pluginYamlFile)
 		}
