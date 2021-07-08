@@ -47,15 +47,15 @@ func ExecuteRuntimeDetectionPlugin(ctx context.Context, projectRootPath, pluginP
 }
 
 func ExecuteBuildDirectoryPlugin(ctx context.Context, input *helpersPb.Input, pluginPath string) map[string]string {
-	pluginCall, _ := pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(pluginPath))
+	//pluginCall, _ := pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(pluginPath))
+	//
+	//buildDirectory, err := pluginCall.Detect(input)
+	//if err != nil || buildDirectory.Error != nil {
+	//	utils.Logger(err, buildDirectory)
+	//	return nil
+	//}
 
-	buildDirectory, err := pluginCall.Detect(input)
-	if err != nil || buildDirectory.Error != nil {
-		utils.Logger(err, buildDirectory)
-		return nil
-	}
-
-	return buildDirectory.Value
+	return nil
 }
 
 func ExecuteTestCommandDetectionPlugin(ctx context.Context, input *helpersPb.Input, pluginPath string) *languageSpecific.TestCasesCommand {

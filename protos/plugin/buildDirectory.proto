@@ -3,7 +3,8 @@ package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
 import "protos/helpers/common.proto";
+import "protos/output/languageSpecific/buildDirectory.proto";
 
 service BuildDirectory {
-  rpc Detect(protos.helpers.Input) returns (protos.helpers.StringMapOutput);
+  rpc Detect(protos.helpers.Input) returns (protos.output.languageSpecific.BuildDirectoryOutput);
 }

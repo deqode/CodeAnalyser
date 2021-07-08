@@ -4,6 +4,7 @@ package plugin
 
 import (
 	helpers "code-analyser/protos/pb/helpers"
+	languageSpecific "code-analyser/protos/pb/output/languageSpecific"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -19,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BuildDirectoryClient interface {
-	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.StringMapOutput, error)
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*languageSpecific.BuildDirectoryOutput, error)
 }
 
 type buildDirectoryClient struct {
@@ -30,8 +31,8 @@ func NewBuildDirectoryClient(cc grpc.ClientConnInterface) BuildDirectoryClient {
 	return &buildDirectoryClient{cc}
 }
 
-func (c *buildDirectoryClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.StringMapOutput, error) {
-	out := new(helpers.StringMapOutput)
+func (c *buildDirectoryClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*languageSpecific.BuildDirectoryOutput, error) {
+	out := new(languageSpecific.BuildDirectoryOutput)
 	err := c.cc.Invoke(ctx, "/proto.BuildDirectory/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -43,14 +44,14 @@ func (c *buildDirectoryClient) Detect(ctx context.Context, in *helpers.Input, op
 // All implementations should embed UnimplementedBuildDirectoryServer
 // for forward compatibility
 type BuildDirectoryServer interface {
-	Detect(context.Context, *helpers.Input) (*helpers.StringMapOutput, error)
+	Detect(context.Context, *helpers.Input) (*languageSpecific.BuildDirectoryOutput, error)
 }
 
 // UnimplementedBuildDirectoryServer should be embedded to have forward compatible implementations.
 type UnimplementedBuildDirectoryServer struct {
 }
 
-func (UnimplementedBuildDirectoryServer) Detect(context.Context, *helpers.Input) (*helpers.StringMapOutput, error) {
+func (UnimplementedBuildDirectoryServer) Detect(context.Context, *helpers.Input) (*languageSpecific.BuildDirectoryOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 

@@ -17,6 +17,7 @@ import "protos/output/languageSpecific/stack.proto";
 import "protos/output/languageSpecific/staticAssets.proto";
 import "protos/output/languageSpecific/testCasesCommand.proto";
 import "protos/output/languageSpecific/commands.proto";
+import "protos/output/languageSpecific/buildDirectory.proto";
 
 message LanguageSpecificDetections {
   string name = 1;
@@ -30,7 +31,7 @@ message LanguageSpecificDetections {
   protos.output.languageSpecific.StaticAssetsOutput staticAssets = 9;
   repeated protos.output.languageSpecific.StackOutput stackOutput = 10;
   repeated protos.output.languageSpecific.AppserverOutput appserver = 11;
-  map<string, string> buildDirectory = 12;
+  protos.output.languageSpecific.BuildDirectoryOutput buildDirectory = 12;
   protos.output.languageSpecific.TestCasesCommand testCases = 13;
   protos.output.languageSpecific.Commands commands = 14;
   // todo: DetectTestCasesRunCommands

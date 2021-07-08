@@ -55,7 +55,7 @@ type StaticAssets interface {
 }
 
 type BuildDirectory interface {
-	Detect(input *helpers.Input) (*helpers.StringMapOutput, error)
+	Detect(input *helpers.Input) (*languageSpecificPB.BuildDirectoryOutput, error)
 }
 
 type TestCasesRunCommands interface {

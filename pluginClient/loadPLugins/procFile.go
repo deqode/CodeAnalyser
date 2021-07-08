@@ -8,6 +8,7 @@ import (
 	pbUtils "code-analyser/protos/pb/output/utils"
 	"code-analyser/utils"
 	"github.com/hashicorp/go-plugin"
+	"golang.org/x/net/context"
 )
 
 type ProcFilePlugin struct {
@@ -19,7 +20,7 @@ func (plugin *ProcFilePlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Methods, plugin.Client = pluginClient.CreateProcFileClient(utils.CallPluginCommand(yamlFile.Command))
 }
 
-func (plugin *ProcFilePlugin) Run(projectRootPath string) (*global.ProcFile, error) {
+func (plugin *ProcFilePlugin) Run(ctx context.Context, projectRootPath string) (*global.ProcFile, error) {
 	procFile, err := plugin.Methods.Detect(&helpers.StringInput{Value: projectRootPath})
 	if err != nil {
 		return nil, err

@@ -4,10 +4,10 @@ import (
 	"code-analyser/analyser"
 	"code-analyser/pluginClient/loadPLugins"
 	decisionmakerPB "code-analyser/protos/pb"
+	"code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 	"golang.org/x/net/context"
 	"log"
-	"math"
 )
 
 func main() {
@@ -15,27 +15,47 @@ func main() {
 	//log.Println("Initialized Scrapping ")
 	//log.Println("Scrapping on "+path)
 	var ctx context.Context
+	var path = "/home/deqode/Downloads/compare-vue-master"
+	log.Println(Scrape(ctx, path))
+}
 
-	langPluginYamls, err := utils.SearchFileInDirectory("pluginDetails.yaml", "./plugin/js")
+func LoadGlobalPlugin(ctx context.Context, globalPluginPath string) *loadPLugins.GlobalPlugin {
+	PluginYamlFiles, err := utils.SearchFileInDirectory("pluginDetails.yaml", globalPluginPath)
 	if err != nil {
 		log.Println("not able to get yaml file of plugin")
 	}
 
-	var languagePlugins loadPLugins.LanguagePlugin
-
-	err = languagePlugins.Load(ctx, langPluginYamls)
+	plugins := loadPLugins.GlobalPlugin{}
+	err = plugins.Load(ctx, PluginYamlFiles)
 	if err != nil {
 		log.Println("not able start global plugins")
 	}
+	return &plugins
+}
 
-	dependency, err := languagePlugins.Dependencies.Run(nil, "12.3", utils.RootDirPath()+"/testingRepos/orm/repo2")
-	extr := languagePlugins.Orm.Extract(nil, dependency.Value)
-	res, err := languagePlugins.Orm.Run(nil, extr, "", utils.RootDirPath()+"/testingRepos/orm/repo2")
-	log.Println(res)
+func LoadLanguagePlugin(ctx context.Context, languagePluginPath []*pluginDetails.Language) map[string]*loadPLugins.LanguagePlugin {
+	allLanguagePlugins := map[string]*loadPLugins.LanguagePlugin{}
+	for _, language := range languagePluginPath {
+		name := language.Name
+		path := language.Path
+
+		pluginYamlFiles, err := utils.SearchFileInDirectory("pluginDetails.yaml", path)
+		if err != nil {
+			log.Println("not able to get yaml file of " + name + " plugin")
+		}
+
+		plugins := &loadPLugins.LanguagePlugin{}
+		err = plugins.Load(ctx, pluginYamlFiles)
+		if err != nil {
+			log.Println("not able start plugins of " + name)
+		}
+		allLanguagePlugins[name] = plugins
+	}
+	return allLanguagePlugins
 }
 
 //Scrape it scrape language, framework, orm etc .....
-func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInput {
+func Scrape(ctx context.Context, path string) (*decisionmakerPB.DecisionMakerInput, error) {
 	languages, _, _ := analyser.GetLanguagesWithPercent(path)
 	supportedLanguages, _ := SupportedLanguagesParser()
 
@@ -44,47 +64,23 @@ func Scrape(ctx context.Context, path string) *decisionmakerPB.DecisionMakerInpu
 		GloabalDetections:          &decisionmakerPB.GlobalDetections{},
 	}
 
-	var mxLang = 0.0
-	//TODO:formula to get main language used priority wise
-	for _, lang := range languages {
-		mxLang = math.Max(mxLang, lang.Percent)
+	globalPLugins := LoadGlobalPlugin(ctx, "./plugin/globalDetectors")
+	languagePlugins := LoadLanguagePlugin(ctx, supportedLanguages.Languages)
+
+	globalDetections, err := globalPLugins.Run(ctx, path)
+	if err != nil {
+		return decisionMakerInput, err
 	}
+	decisionMakerInput.GloabalDetections = globalDetections
+
 	for _, language := range languages {
-		if language.Percent == mxLang {
-			var languagePath string
-			for _, supportedLanguage := range supportedLanguages.Languages {
-				if supportedLanguage.Name == language.Name {
-					languagePath = supportedLanguage.Path
-					break
-				}
+		if languagePlugin, ok := languagePlugins[language.Name]; ok {
+			detections, err := languagePlugin.Run(ctx, path)
+			if err != nil {
+				return decisionMakerInput, err
 			}
-
-			//if no supported language found=>skip
-			if languagePath == "" {
-				continue
-			}
-
-			//pluginDetails := GetLanguagePluginsPath(ctx, languagePath)
-			//runtimeVersion := runners.ExecuteRuntimeDetectionPlugin(ctx, path, pluginDetails.DetectRuntimePluginPath)
-			////TODO: change name after dicuss
-			//runners.ExecutePreDetectionPlugin(ctx, &pb.Input{
-			//	RuntimeVersion: runtimeVersion,
-			//	RootPath:       path,
-			//}, pluginDetails.PreDetectCommandPluginPath)
-			//
-			////if no app runtime found =>skip
-			//if runtimeVersion == "" {
-			//	continue
-			//}
-			//allDependency := runners.GetDependenciesFromProject(ctx, runtimeVersion, path, pluginDetails)
-			//languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
-			//	Name:           language.Name,
-			//	RuntimeVersion: runtimeVersion,
-			//}
-			//LoadLanguagePlugins(ctx, &languageSpecificDetections, *allDependency, pluginDetails, runtimeVersion, path)
-			//decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, &languageSpecificDetections)
+			decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, detections)
 		}
-
 	}
-	return decisionMakerInput
+	return decisionMakerInput, nil
 }

@@ -2,17 +2,19 @@ syntax = "proto3";
 package protos.output.languageSpecific;
 
 option go_package = "code-analyser/protos/pb/output/languageSpecific";
+import "protos/helpers/common.proto";
+
 message BuildDirectoryOutput{
   // check BuildDirectory
   bool used = 1;
   // list of all BuildDirectory
-  repeated BuildDirectory BuildDirectory = 2;
+  repeated BuildDirectory buildDirectory = 2;
+  protos.helpers.Error error = 3;
 }
 message BuildDirectory{
   //  name of Dir
   string name = 1;
   //  version of root
   string root = 2;
-
 }
 

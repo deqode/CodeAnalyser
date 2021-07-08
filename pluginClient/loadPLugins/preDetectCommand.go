@@ -8,6 +8,7 @@ import (
 	"code-analyser/utils"
 	"errors"
 	"github.com/hashicorp/go-plugin"
+	"golang.org/x/net/context"
 	"log"
 )
 
@@ -20,7 +21,7 @@ func (plugin *PreDetectCommandsPlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Methods, plugin.Client = pluginClient.CreatePreDetectCommandClient(utils.CallPluginCommand(yamlFile.Command))
 }
 
-func (plugin *PreDetectCommandsPlugin) Run(runTimeVersion, projectRootPath string) error {
+func (plugin *PreDetectCommandsPlugin) Run(ctx context.Context,runTimeVersion, projectRootPath string) error {
 	response, err := plugin.Methods.RunPreDetect(&helpers.Input{
 		RuntimeVersion: runTimeVersion,
 		RootPath:       projectRootPath,
