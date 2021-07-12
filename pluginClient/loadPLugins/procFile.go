@@ -14,16 +14,25 @@ import (
 type ProcFilePlugin struct {
 	Methods GlobalFiles.ProcFile
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *ProcFilePlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Setting.Logger.Debug("procfile plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateProcFileClient(utils.CallPluginCommand(yamlFile.Command))
+	plugin.Setting.Logger.Debug("procfile plugin client created successfully")
 }
 
 func (plugin *ProcFilePlugin) Run(ctx context.Context, projectRootPath string) (*global.ProcFile, error) {
+	plugin.Setting.Logger.Debug("procfile plugin execution started")
+
+	plugin.Setting.Logger.Debug("procfile detection started")
 	procFile, err := plugin.Methods.Detect(&helpers.StringInput{Value: projectRootPath})
 	if err != nil {
 		return nil, err
 	}
+	plugin.Setting.Logger.Debug("procfile detection completed")
+
+	plugin.Setting.Logger.Debug("procfile plugin execution completed")
 	return procFile, err
 }

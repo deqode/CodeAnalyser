@@ -1,4 +1,4 @@
-package analyser
+package detectlanguage
 
 import (
 	"github.com/go-cmd/cmd"
