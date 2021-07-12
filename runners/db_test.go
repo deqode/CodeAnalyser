@@ -13,7 +13,7 @@ func TestDbParsing(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := ParseDbFromDependencies(input.DependenciesList, input.LangYamlObject)
+			got := ExtractDbsFromProjectDependencies(input.DependenciesList, input.LangYamlObject)
 			if !reflect.DeepEqual(got, output) {
 				t.Error("expected this ", output, "\n got this ", got)
 			}
@@ -27,7 +27,7 @@ func TestDbRunner(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := DbRunner(input.DbList, input.RuntimeVersion, input.Root)
+			got := ExecuteDbPlugins(input.DbList, input.RuntimeVersion, input.Root)
 			testingUtil.CheckDbEquality(got, output, t)
 		})
 	}

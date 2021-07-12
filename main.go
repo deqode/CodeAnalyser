@@ -1,87 +1,133 @@
 package main
 
 import (
-	"code-analyser/analyser"
+	detectlanguage "code-analyser/detectLanguage"
+	"code-analyser/pluginClient/loadPLugins"
 	decisionmakerPB "code-analyser/protos/pb"
-	pb "code-analyser/protos/pb/plugin"
-	"code-analyser/runners"
+	"code-analyser/protos/pb/pluginDetails"
+	"code-analyser/utils"
+	"go.uber.org/zap"
 	"golang.org/x/net/context"
 	"log"
-	"math"
 )
 
+type Analyser struct {
+	Setting *utils.Setting
+}
+
 func main() {
-	//path := os.Args[1]
-	//log.Println("Initialized Scrapping ")
-	//log.Println("Scrapping on "+path)
-	decisionMakerInput := Scrape("/home/deqode/Desktop/project/go/code-analyser/testingRepos/detectDockerFile/repo1")
-	log.Println(decisionMakerInput.LanguageSpecificDetection)
-	//res, err := json.MarshalIndent(decisionMakerInput.LanguageSpecificDetection[0], "", "  ")
-	//if err != nil {
-	//	log.Println("error:", err)
-	//}
-	//fmt.Print(string(res))
-	log.Println(decisionMakerInput.GloabalDetections)
+	var ctx context.Context
+	var path = "./"
+	logger, _ := zap.NewProduction()
+	set := utils.Setting{
+		Logger: logger,
+	}
+	an := Analyser{Setting: &set}
+	an.Setting.Logger.Info("scrapping started")
+	log.Println(an.Scrape(ctx, path))
+	an.Setting.Logger.Info("scrapping completed")
 }
 
 //Scrape it scrape language, framework, orm etc .....
-func Scrape(path string) *decisionmakerPB.DecisionMakerInput {
-	languages, _, _ := analyser.GetLanguagesWithPercent(path)
+func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmakerPB.DecisionMakerInput, error) {
+	analyser.Setting.Logger.Debug("scrapping started")
+
+	languages, _, _ := detectlanguage.GetLanguagesWithPercent(path)
 	supportedLanguages, _ := SupportedLanguagesParser()
+
 	decisionMakerInput := &decisionmakerPB.DecisionMakerInput{
-		LanguageSpecificDetection: []*decisionmakerPB.LanguageSpecificDetections{},
-		GloabalDetections:         &decisionmakerPB.GlobalDetections{},
+		LanguageSpecificDetections: []*decisionmakerPB.LanguageSpecificDetections{},
+		GloabalDetections:          &decisionmakerPB.GlobalDetections{},
 	}
-	var ctx context.Context = nil
 
-	globalPlugins := LoadGlobalFilesPluginInfo("./plugin/globalDetectors")
-	globalDetections := decisionmakerPB.GlobalDetections{}
-	RunAllGlobalPlugins(&globalDetections, globalPlugins, ctx, path)
-	decisionMakerInput.GloabalDetections = &globalDetections
+	analyser.Setting.Logger.Info("global plugin loading started")
+	globalPlugins := analyser.LoadGlobalPlugin(ctx, "./plugin/globalDetectors")
+	analyser.Setting.Logger.Info("global plugin loaded successfully")
 
-	var mxLang = 0.0
-	//TODO:formula to get main language used priority wise
-	for _, lang := range languages {
-		mxLang = math.Max(mxLang, lang.Percent)
+	analyser.Setting.Logger.Info("language plugins loading started")
+	languagePlugins := analyser.LoadLanguagePlugin(ctx, supportedLanguages.Languages)
+	analyser.Setting.Logger.Info("language plugins loaded")
+
+	analyser.Setting.Logger.Info("global plugins execution started")
+	globalDetections, err := globalPlugins.Run(ctx, path)
+	if err != nil {
+		return decisionMakerInput, err
 	}
+	analyser.Setting.Logger.Info("global plugins execution completed")
+	decisionMakerInput.GloabalDetections = globalDetections
+
+	analyser.Setting.Logger.Info("language plugin execution started")
 	for _, language := range languages {
-		if language.Percent == mxLang {
-			var languagePath string
-			for _, supportedLanguage := range supportedLanguages.Languages {
-				if supportedLanguage.Name == language.Name {
-					languagePath = supportedLanguage.Path
-					break
-				}
+		if languagePlugin, ok := languagePlugins[language.Name]; ok {
+			analyser.Setting.Logger.Info(language.Name + " plugins execution started")
+			detections, err := languagePlugin.Run(ctx, path)
+			if err != nil {
+				return decisionMakerInput, err
 			}
-
-			//if no supported language found=>skip
-			if languagePath == "" {
-				continue
-			}
-
-			pluginDetails := LoadLanguageSpecificPluginInfo(languagePath)
-			runtimeVersion := runners.DetectRuntime(ctx, path, pluginDetails)
-			//TODO: change name after dicuss
-			runners.RunPreDetectCommand(ctx, &pb.ServiceInput{
-				RuntimeVersion: runtimeVersion,
-				Root:           path,
-			}, pluginDetails)
-
-			//if no app runtime found =>skip
-			if runtimeVersion == "" {
-				continue
-			}
-			allDependencies := runners.GetParsedDependencies(ctx, runtimeVersion, path, pluginDetails)
-			languageSpecificDetections := decisionmakerPB.LanguageSpecificDetections{
-				Name:           language.Name,
-				RuntimeVersion: runtimeVersion,
-			}
-			commands := decisionmakerPB.Commands{}
-			RunAllLanguageSpecificPlugins(ctx, &languageSpecificDetections, allDependencies, pluginDetails, runtimeVersion, path, globalPlugins, &commands)
-			decisionMakerInput.LanguageSpecificDetection = append(decisionMakerInput.LanguageSpecificDetection, &languageSpecificDetections)
-			decisionMakerInput.Commands = &commands
+			decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, detections)
+			analyser.Setting.Logger.Info(language.Name + " plugins execution completed")
 		}
-
 	}
-	return decisionMakerInput
+	analyser.Setting.Logger.Info("language plugin execution completed")
+
+	analyser.Setting.Logger.Debug("scrapped completed")
+	return decisionMakerInput, nil
+}
+
+func (analyser *Analyser) LoadGlobalPlugin(ctx context.Context, globalPluginPath string) *loadPLugins.GlobalPlugin {
+	analyser.Setting.Logger.Debug("global plugin loading started")
+
+	analyser.Setting.Logger.Info("global plugin's yaml file path reading completed")
+	PluginYamlFiles, err := utils.SearchFileInDirectory("pluginDetails.yaml", globalPluginPath)
+	if err != nil {
+		analyser.Setting.Logger.Error("not able to get path of plugin yaml file, " + err.Error())
+	}
+	analyser.Setting.Logger.Info("global plugin's yaml file path reading completed")
+
+	plugins := loadPLugins.GlobalPlugin{
+		Setting: analyser.Setting,
+	}
+
+	analyser.Setting.Logger.Info("global plugin client creation started")
+	err = plugins.Load(ctx, PluginYamlFiles)
+	if err != nil {
+		analyser.Setting.Logger.Error("not able to start global plugins, " + err.Error())
+	}
+	analyser.Setting.Logger.Info("global plugin client creation completed successfully")
+
+	analyser.Setting.Logger.Debug("global plugin loaded successfully")
+	return &plugins
+}
+
+func (analyser *Analyser) LoadLanguagePlugin(ctx context.Context, languagePluginPath []*pluginDetails.Language) map[string]*loadPLugins.LanguagePlugin {
+	analyser.Setting.Logger.Debug("language plugin loading started")
+
+	allLanguagePlugins := map[string]*loadPLugins.LanguagePlugin{}
+	for _, language := range languagePluginPath {
+		name := language.Name
+		path := language.Path
+		analyser.Setting.Logger.Debug(name + "'s plugin loading started")
+
+		analyser.Setting.Logger.Info(name + " plugin's yaml file path reading started")
+		pluginYamlFiles, err := utils.SearchFileInDirectory("pluginDetails.yaml", path)
+		if err != nil {
+			analyser.Setting.Logger.Error("not able to get yaml file of " + name + "'s plugin")
+		}
+		analyser.Setting.Logger.Info(name + " plugin's yaml file path reading completed")
+
+		plugins := &loadPLugins.LanguagePlugin{}
+
+		analyser.Setting.Logger.Info(name + "'s plugin client creation started")
+		err = plugins.Load(ctx, pluginYamlFiles)
+		if err != nil {
+			analyser.Setting.Logger.Error("not able start plugins of " + name + err.Error())
+		}
+		analyser.Setting.Logger.Info(name + "'s plugin client creation completed successfully")
+
+		analyser.Setting.Logger.Debug(name + "'s plugin loaded successfully")
+		allLanguagePlugins[name] = plugins
+	}
+
+	analyser.Setting.Logger.Debug("language plugin loaded successfully")
+	return allLanguagePlugins
 }

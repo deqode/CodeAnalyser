@@ -2,7 +2,7 @@ package runners
 
 import (
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 )
 
@@ -13,7 +13,7 @@ type LibrariesParsingCase struct {
 
 type LibrariesParsingInput struct {
 	DependenciesList map[string]string
-	LangYamlObject   *versionsPB.LanguageVersion
+	LangYamlObject   *pluginDetails.LanguagePlugins
 }
 
 var LibrariesParsingCases = []LibrariesParsingCase{
@@ -90,11 +90,11 @@ var LibraryRunnerCases = []LibraryRunnerCase{
 			LibraryList: map[string]DependencyDetail{
 				"react": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/react/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/libraries/react/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath()+"/testingRepos/libraries/repo1",
+			Root:           utils.RootDirPath()+"/testingRepos/libraries/repo1",
 		},
 		Output: []*languageSpecificPB.LibraryOutput{
 			{
@@ -109,15 +109,15 @@ var LibraryRunnerCases = []LibraryRunnerCase{
 			LibraryList: map[string]DependencyDetail{
 				"kafka-node": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/kafka/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/libraries/kafka/v1_x/server.js",
 				},
 				"mongoose": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/mongoose/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/libraries/mongoose/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath()+"/testingRepos/libraries/repo2",
+			Root:           utils.RootDirPath()+"/testingRepos/libraries/repo2",
 		},
 		Output: []*languageSpecificPB.LibraryOutput{
 			{
@@ -137,11 +137,11 @@ var LibraryRunnerCases = []LibraryRunnerCase{
 			LibraryList: map[string]DependencyDetail{
 				"kafka-node": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/kafka/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/libraries/kafka/v1_x/server.js",
 				},
 				"mongoose": {
 					Version: "v1.x",
-					Command: "node " + utils.ProjectPath() + "/plugin/js/libraries/mongoose/v1_x/server.js",
+					Command: "node " + utils.RootDirPath() + "/plugin/js/libraries/mongoose/v1_x/server.js",
 				},
 			},
 			RuntimeVersion: "",
@@ -153,7 +153,7 @@ var LibraryRunnerCases = []LibraryRunnerCase{
 		Input: LibraryRunnerInput{
 			LibraryList:    map[string]DependencyDetail{},
 			RuntimeVersion: "",
-			Root:           utils.ProjectPath()+"/testingRepos/emptyRepo",
+			Root:           utils.RootDirPath()+"/testingRepos/emptyRepo",
 		},
 		Output: []*languageSpecificPB.LibraryOutput{},
 	},

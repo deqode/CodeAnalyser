@@ -1,12 +1,13 @@
 package interfaces
 
 import (
+	"code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/plugin"
 )
 
-//DbVersion It contains methods for Db details
-type DbVersion interface {
-	Detect(*plugin.ServiceInput) (*plugin.ServiceOutputBoolInt, error) // deep level detection
-	IsDbUsed(input *plugin.ServiceInput) (*plugin.ServiceOutputBool, error)
-	PercentOfDbUsed(*plugin.ServiceInput) (*plugin.ServiceOutputFloat, error)
+//Db It contains methods for Db details
+type Db interface {
+	Detect(input *helpers.Input) (*plugin.BoolIntOutput, error) // deep level detection
+	IsUsed(input *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(input *helpers.Input) (*helpers.FloatOutput, error)
 }

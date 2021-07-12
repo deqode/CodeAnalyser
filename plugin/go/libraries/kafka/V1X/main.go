@@ -3,29 +3,31 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/library"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	"code-analyser/protos/pb/output/languageSpecific"
+	pluginPB "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 
 type KafkaV1x struct{}
 
-func (k *KafkaV1x) Detect(input *pb.ServiceInput) (*pb.ServiceOutputLibraryType, error) {
-	return &pb.ServiceOutputLibraryType{
+func (k *KafkaV1x) Detect(input *pb.Input) (*pluginPB.LibraryType, error) {
+	return &pluginPB.LibraryType{
 		Value: true,
 		Error: nil,
-		Type:  pb.ServiceOutputLibraryType_EXTERNAL,
+		Type:  languageSpecific.Type_EXTERNAL,
 	}, nil
 }
 
-func (k *KafkaV1x) IsUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
+func (k *KafkaV1x) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
+	return &pb.BoolOutput{
 		Value: true,
 		Error: nil,
 	}, nil
 }
 
-func (k *KafkaV1x) PercentOfUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
-	return &pb.ServiceOutputFloat{
+func (k *KafkaV1x) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
+	return &pb.FloatOutput{
 		Value: 70,
 		Error: nil,
 	}, nil
@@ -35,7 +37,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserLibrary: &library.GRPCPlugin{Impl: &KafkaV1x{}},
+			pluginClient.Library: &library.GRPCPlugin{Impl: &KafkaV1x{}},
 		},
 
 		// A non-nil value here enables gRPC serving for this plugin...

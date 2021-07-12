@@ -2,14 +2,12 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
+import "protos/helpers/common.proto";
 
-
-service FrameworkService {
-
-  rpc   Detect(ServiceInput) returns (ServiceOutputBool);
-  rpc   IsFrameworkUsed(ServiceInput) returns (ServiceOutputBool);
-  rpc   PercentOfFrameworkUsed(ServiceInput) returns (ServiceOutputFloat);
+service Framework {
+  rpc   Detect(protos.helpers.Input) returns (protos.helpers.BoolOutput);
+  rpc   IsUsed(protos.helpers.Input) returns (protos.helpers.BoolOutput);
+  rpc   PercentOfUsed(protos.helpers.Input) returns (protos.helpers.FloatOutput);
 }
 
 //    protoc -I .  --proto_path=./proto    --go_out=./pb   --go-grpc_out=./pb ./proto/*.proto

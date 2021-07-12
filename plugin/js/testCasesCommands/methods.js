@@ -1,7 +1,7 @@
 const common = require("../common");
 
 function detect(input, callback) {
-  let path = input.request.root;
+  let path = input.request.rootPath;
   let jsonFile = common.requireJsonFile(path + "/package.json", callback);
   if (jsonFile) {
     let command = [];

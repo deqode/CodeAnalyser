@@ -137,7 +137,7 @@ declare class LegacyReactComponent<Props, State>
 declare type React$AbstractComponentStatics = {
   displayName?: ?string,
   // This is only on function components, but trying to access name when
-  // displayName is undefined is a common pattern.
+  // displayName is undefined is a helpers pattern.
   name?: ?string,
 };
 

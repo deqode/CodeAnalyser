@@ -25,8 +25,8 @@ module.exports = {
 	// ip: process.env.NODE_IP || "0.0.0.0",
 	// port: process.env.NODE_PORT || 3000,
 
-	// dataFolder: path.join(global.rootPath, "data"),
-	// logFolder: path.join(global.rootPath, "logs"),
+	// dataFolder: path.join(globalFiles.rootPath, "data"),
+	// logFolder: path.join(globalFiles.rootPath, "logs"),
 
 	// Database (Mongo) settings
 	db: {
@@ -124,7 +124,7 @@ module.exports = {
 
 		file: {
 			enabled: false,
-			// path: path.join(global.rootPath, "logs"),
+			// path: path.join(globalFiles.rootPath, "logs"),
 			// level: "info",
 			// json: false,
 			// exceptionsSeparateFile: true

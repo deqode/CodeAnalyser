@@ -159,7 +159,7 @@ declare module "recompose" {
   /**
    * It's wrong declaration but having that renderNothing and renderComponent are somehow useless
    * outside branch enhancer, we just give it an id type
-   * so common way of using branch like
+   * so helpers way of using branch like
    * `branch(testFn, renderNothing | renderComponent(Comp))` will work as expected.
    * Tests are placed at test_branch.
    */

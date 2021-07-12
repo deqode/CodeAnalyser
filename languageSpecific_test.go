@@ -84,7 +84,7 @@ type LanguageSpecificTestCase struct {
 
 var LanguageSpecificTestCases = []LanguageSpecificTestCase{
 	{
-		Input: utils.ProjectPath() + "/testingRepos/languageSpecific/covid19india-react-master",
+		Input: utils.RootDirPath() + "/testingRepos/languageSpecific/covid19india-react-master",
 		Output: []*decisionmakerPB.LanguageSpecificDetections{
 			{
 				Name:           "JavaScript",
@@ -193,7 +193,7 @@ var LanguageSpecificTestCases = []LanguageSpecificTestCase{
 		},
 	},
 	{
-		Input: utils.ProjectPath() + "/testingRepos/languageSpecific/spectrum-alpha",
+		Input: utils.RootDirPath() + "/testingRepos/languageSpecific/spectrum-alpha",
 		Output: []*decisionmakerPB.LanguageSpecificDetections{
 			{
 				Name:           "JavaScript",
@@ -391,7 +391,7 @@ var LanguageSpecificTestCases = []LanguageSpecificTestCase{
 		},
 	},
 	{
-		Input: utils.ProjectPath() + "/testingRepos/languageSpecific/vue-express-mongo-boilerplate-master",
+		Input: utils.RootDirPath() + "/testingRepos/languageSpecific/vue-express-mongo-boilerplate-master",
 		Output: []*decisionmakerPB.LanguageSpecificDetections{
 			{
 				Name:           "JavaScript",

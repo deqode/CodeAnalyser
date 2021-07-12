@@ -2,8 +2,9 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
+import "protos/helpers/common.proto";
+import "protos/output/languageSpecific/buildDirectory.proto";
 
 service BuildDirectory {
-  rpc Detect(ServiceInput) returns (ServiceOutputStringMap);
+  rpc Detect(protos.helpers.Input) returns (protos.output.languageSpecific.BuildDirectoryOutput);
 }

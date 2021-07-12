@@ -1,0 +1,41 @@
+syntax = "proto3";
+package protos.pluginDetails;
+
+import "protos/output/utils/pluginYaml.proto";
+
+option go_package = "code-analyser/protos/pb/pluginDetails";
+
+// todo: update
+
+message LanguagePlugins{
+  string detectRuntimePluginPath = 7;
+  map<string, DependencyVersionDetails> runtimeVersions = 1;
+  map<string, DependencyDetails> frameworks = 2;
+  map<string, DependencyDetails>  databases = 3;
+  map<string, DependencyDetails>  orms = 4;
+  map<string, DependencyDetails>  libraries = 5;
+  map<string, DependencyDetails>  dependencies = 6;
+  string EnvPluginPath = 8;
+  string preDetectCommandPluginPath = 9;
+  string staticAssetsPluginPath = 10;
+  string buildDirectoryPluginPath = 11;
+  string TestCasesCommandPluginPath = 12;
+  string commandsPluginPath = 13;
+}
+
+message DependencyDetails{
+  map<string, DependencyVersionDetails> version = 1;
+}
+message DependencyVersionDetails{
+  repeated string semver = 2;
+  repeated protos.output.utils.Library libraries = 1;
+  string pluginPath = 3;
+}
+
+//express:{
+//   3.4:{
+//      libraries:{
+//semver:[],
+//    name:""
+//    }}
+//    }

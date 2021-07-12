@@ -14,10 +14,10 @@ type GRPCPlugin struct {
 }
 
 func (g *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterLibraryServiceServer(server, &GRPCServer{Impl: g.Impl})
+	pb.RegisterLibraryServer(server, &GRPCServer{Impl: g.Impl})
 	return nil
 }
 
 func (g *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewLibraryServiceClient(conn)}, nil
+	return &GRPCClient{Client: pb.NewLibraryClient(conn)}, nil
 }

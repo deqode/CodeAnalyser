@@ -1,7 +1,8 @@
 const fs = require('fs');
 const common= require("../../../common");
+
 function detect(input, callback) {
-  let path = input.request.root;
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,
@@ -11,8 +12,8 @@ function detect(input, callback) {
   // callback(reject, { value: null, error: reject })
 }
 
-function isFrameworkUsed(input, callback) {
-  let path = input.request.root;
+function isUsed(input, callback) {
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,
@@ -24,8 +25,8 @@ function isFrameworkUsed(input, callback) {
     callback(null, { value: false, error: null });
 }
 
-function percentOfFrameworkUsed(input, callback) {
-  let path = input.request.root;
+function percentOfUsed(input, callback) {
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,
@@ -37,6 +38,6 @@ function percentOfFrameworkUsed(input, callback) {
 
 module.exports = {
   detect: detect,
-  isFrameworkUsed: isFrameworkUsed,
-  percentOfFrameworkUsed: percentOfFrameworkUsed,
+  isUsed: isUsed,
+  percentOfUsed: percentOfUsed,
 };

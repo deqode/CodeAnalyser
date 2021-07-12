@@ -13,7 +13,7 @@ func TestOrmParsing(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := ParseOrmFromDependencies(input.DependenciesList, input.LangYamlObject)
+			got := ExtractOrmsFromProjectDependencies(input.DependenciesList, input.LangYamlObject)
 			if !reflect.DeepEqual(got, output) {
 				t.Error("expected this ", output, "\n got this ", got)
 			}
@@ -27,7 +27,7 @@ func TestOrmRunner(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := OrmRunner(input.OrmList, input.RuntimeVersion, input.Root)
+			got := ExecuteOrmPlugins(input.OrmList, input.RuntimeVersion, input.Root)
 			testingUtil.CheckOrmEquality(got, output, t)
 		})
 	}

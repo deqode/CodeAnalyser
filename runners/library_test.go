@@ -13,7 +13,7 @@ func TestLibraryParsing(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := ParseLibraryFromDependencies(input.DependenciesList, input.LangYamlObject)
+			got := ExtractLibraryFromProjectDependencies(input.DependenciesList, input.LangYamlObject)
 			if !reflect.DeepEqual(got, output) {
 				t.Error("expected this ", output, "\n got this ", got)
 			}
@@ -27,7 +27,7 @@ func TestLibraryRunnerRunner(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := LibraryRunner(input.LibraryList, input.RuntimeVersion, input.Root)
+			got := ExecuteLibraryPlugins(input.LibraryList, input.RuntimeVersion, input.Root)
 			testingUtil.CheckLibraryEquality(got, output, t)
 		})
 	}

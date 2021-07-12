@@ -6,7 +6,7 @@ const methods = require("./methods");
 
 const protoPath = [
   __dirname + "../../../../protos/plugin/detectRuntime.proto",
-  __dirname + "../../../../protos/plugin/common.proto",
+  __dirname + "../../../../protos/helpers/common.proto",
 ];
 
 //load proto file
@@ -21,7 +21,7 @@ const protoFile = grpc.loadPackageDefinition(packageDefinition);
 const server = new grpc.Server();
 
 server.addService(healthCheck.healthe.service, healthCheck.healthImpl);
-server.addService(protoFile.proto.DetectRuntimeService.service, methods);
+server.addService(protoFile.proto.DetectRuntime.service, methods);
 
 // server creation
 (async () => {
@@ -36,9 +36,6 @@ server.addService(protoFile.proto.DetectRuntimeService.service, methods);
       }
       server.start();
       console.log(`1|1|tcp|127.0.0.1:${port}|grpc`);
-      setTimeout(() => {
-        server.forceShutdown();
-      }, 1000 * 60);
     }
   );
 })();

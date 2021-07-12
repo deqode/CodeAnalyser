@@ -1,7 +1,8 @@
 
-var common= require("../../../common");
+var common = require("../../../common");
+
 function detect(input, callback) {
-  let path = input.request.root;
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,
@@ -13,8 +14,8 @@ function detect(input, callback) {
   });
 }
 
-function isOrmUsed(input, callback) {
-  let path = input.request.root;
+function isUsed(input, callback) {
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,
@@ -26,8 +27,8 @@ function isOrmUsed(input, callback) {
   });
 }
 
-function percentOfORMUsed(input, callback) {
-  let path = input.request.root;
+function percentOfUsed(input, callback) {
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,
@@ -39,6 +40,6 @@ function percentOfORMUsed(input, callback) {
 }
 module.exports = {
   detect: detect,
-  isOrmUsed: isOrmUsed,
-  percentOfORMUsed: percentOfORMUsed
+  isUsed: isUsed,
+  percentOfUsed: percentOfUsed
 };

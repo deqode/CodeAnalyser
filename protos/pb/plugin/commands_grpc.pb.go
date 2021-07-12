@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	languageSpecific "code-analyser/protos/pb/output/languageSpecific"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -14,228 +16,228 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// CommandsServiceClient is the client API for CommandsService service.
+// CommandsClient is the client API for Commands service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type CommandsServiceClient interface {
-	DetectBuildCommands(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceOutputDetectBuildCommands, error)
-	DetectStartUpCommands(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceOutputStartUpCommands, error)
-	DetectSeedCommands(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceOutputSeedCommands, error)
-	DetectMigrationCommands(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceMigrationCommands, error)
-	DetectAdHocScripts(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceAdHocScripts, error)
+type CommandsClient interface {
+	DetectBuildCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
+	DetectStartUpCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
+	DetectSeedCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
+	DetectMigrationCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
+	DetectAdHocScripts(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error)
 }
 
-type commandsServiceClient struct {
+type commandsClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewCommandsServiceClient(cc grpc.ClientConnInterface) CommandsServiceClient {
-	return &commandsServiceClient{cc}
+func NewCommandsClient(cc grpc.ClientConnInterface) CommandsClient {
+	return &commandsClient{cc}
 }
 
-func (c *commandsServiceClient) DetectBuildCommands(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceOutputDetectBuildCommands, error) {
-	out := new(ServiceOutputDetectBuildCommands)
-	err := c.cc.Invoke(ctx, "/proto.CommandsService/DetectBuildCommands", in, out, opts...)
+func (c *commandsClient) DetectBuildCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
+	err := c.cc.Invoke(ctx, "/proto.Commands/DetectBuildCommands", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *commandsServiceClient) DetectStartUpCommands(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceOutputStartUpCommands, error) {
-	out := new(ServiceOutputStartUpCommands)
-	err := c.cc.Invoke(ctx, "/proto.CommandsService/DetectStartUpCommands", in, out, opts...)
+func (c *commandsClient) DetectStartUpCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
+	err := c.cc.Invoke(ctx, "/proto.Commands/DetectStartUpCommands", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *commandsServiceClient) DetectSeedCommands(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceOutputSeedCommands, error) {
-	out := new(ServiceOutputSeedCommands)
-	err := c.cc.Invoke(ctx, "/proto.CommandsService/DetectSeedCommands", in, out, opts...)
+func (c *commandsClient) DetectSeedCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
+	err := c.cc.Invoke(ctx, "/proto.Commands/DetectSeedCommands", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *commandsServiceClient) DetectMigrationCommands(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceMigrationCommands, error) {
-	out := new(ServiceMigrationCommands)
-	err := c.cc.Invoke(ctx, "/proto.CommandsService/DetectMigrationCommands", in, out, opts...)
+func (c *commandsClient) DetectMigrationCommands(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
+	err := c.cc.Invoke(ctx, "/proto.Commands/DetectMigrationCommands", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *commandsServiceClient) DetectAdHocScripts(ctx context.Context, in *ServiceCommandsInput, opts ...grpc.CallOption) (*ServiceAdHocScripts, error) {
-	out := new(ServiceAdHocScripts)
-	err := c.cc.Invoke(ctx, "/proto.CommandsService/DetectAdHocScripts", in, out, opts...)
+func (c *commandsClient) DetectAdHocScripts(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*languageSpecific.CommandOutput, error) {
+	out := new(languageSpecific.CommandOutput)
+	err := c.cc.Invoke(ctx, "/proto.Commands/DetectAdHocScripts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// CommandsServiceServer is the server API for CommandsService service.
-// All implementations should embed UnimplementedCommandsServiceServer
+// CommandsServer is the server API for Commands service.
+// All implementations should embed UnimplementedCommandsServer
 // for forward compatibility
-type CommandsServiceServer interface {
-	DetectBuildCommands(context.Context, *ServiceCommandsInput) (*ServiceOutputDetectBuildCommands, error)
-	DetectStartUpCommands(context.Context, *ServiceCommandsInput) (*ServiceOutputStartUpCommands, error)
-	DetectSeedCommands(context.Context, *ServiceCommandsInput) (*ServiceOutputSeedCommands, error)
-	DetectMigrationCommands(context.Context, *ServiceCommandsInput) (*ServiceMigrationCommands, error)
-	DetectAdHocScripts(context.Context, *ServiceCommandsInput) (*ServiceAdHocScripts, error)
+type CommandsServer interface {
+	DetectBuildCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectStartUpCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectSeedCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectMigrationCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
+	DetectAdHocScripts(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error)
 }
 
-// UnimplementedCommandsServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedCommandsServiceServer struct {
+// UnimplementedCommandsServer should be embedded to have forward compatible implementations.
+type UnimplementedCommandsServer struct {
 }
 
-func (UnimplementedCommandsServiceServer) DetectBuildCommands(context.Context, *ServiceCommandsInput) (*ServiceOutputDetectBuildCommands, error) {
+func (UnimplementedCommandsServer) DetectBuildCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectBuildCommands not implemented")
 }
-func (UnimplementedCommandsServiceServer) DetectStartUpCommands(context.Context, *ServiceCommandsInput) (*ServiceOutputStartUpCommands, error) {
+func (UnimplementedCommandsServer) DetectStartUpCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectStartUpCommands not implemented")
 }
-func (UnimplementedCommandsServiceServer) DetectSeedCommands(context.Context, *ServiceCommandsInput) (*ServiceOutputSeedCommands, error) {
+func (UnimplementedCommandsServer) DetectSeedCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectSeedCommands not implemented")
 }
-func (UnimplementedCommandsServiceServer) DetectMigrationCommands(context.Context, *ServiceCommandsInput) (*ServiceMigrationCommands, error) {
+func (UnimplementedCommandsServer) DetectMigrationCommands(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectMigrationCommands not implemented")
 }
-func (UnimplementedCommandsServiceServer) DetectAdHocScripts(context.Context, *ServiceCommandsInput) (*ServiceAdHocScripts, error) {
+func (UnimplementedCommandsServer) DetectAdHocScripts(context.Context, *helpers.StringInput) (*languageSpecific.CommandOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DetectAdHocScripts not implemented")
 }
 
-// UnsafeCommandsServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CommandsServiceServer will
+// UnsafeCommandsServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CommandsServer will
 // result in compilation errors.
-type UnsafeCommandsServiceServer interface {
-	mustEmbedUnimplementedCommandsServiceServer()
+type UnsafeCommandsServer interface {
+	mustEmbedUnimplementedCommandsServer()
 }
 
-func RegisterCommandsServiceServer(s grpc.ServiceRegistrar, srv CommandsServiceServer) {
-	s.RegisterService(&CommandsService_ServiceDesc, srv)
+func RegisterCommandsServer(s grpc.ServiceRegistrar, srv CommandsServer) {
+	s.RegisterService(&Commands_ServiceDesc, srv)
 }
 
-func _CommandsService_DetectBuildCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceCommandsInput)
+func _Commands_DetectBuildCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommandsServiceServer).DetectBuildCommands(ctx, in)
+		return srv.(CommandsServer).DetectBuildCommands(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.CommandsService/DetectBuildCommands",
+		FullMethod: "/proto.Commands/DetectBuildCommands",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServiceServer).DetectBuildCommands(ctx, req.(*ServiceCommandsInput))
+		return srv.(CommandsServer).DetectBuildCommands(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommandsService_DetectStartUpCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceCommandsInput)
+func _Commands_DetectStartUpCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommandsServiceServer).DetectStartUpCommands(ctx, in)
+		return srv.(CommandsServer).DetectStartUpCommands(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.CommandsService/DetectStartUpCommands",
+		FullMethod: "/proto.Commands/DetectStartUpCommands",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServiceServer).DetectStartUpCommands(ctx, req.(*ServiceCommandsInput))
+		return srv.(CommandsServer).DetectStartUpCommands(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommandsService_DetectSeedCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceCommandsInput)
+func _Commands_DetectSeedCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommandsServiceServer).DetectSeedCommands(ctx, in)
+		return srv.(CommandsServer).DetectSeedCommands(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.CommandsService/DetectSeedCommands",
+		FullMethod: "/proto.Commands/DetectSeedCommands",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServiceServer).DetectSeedCommands(ctx, req.(*ServiceCommandsInput))
+		return srv.(CommandsServer).DetectSeedCommands(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommandsService_DetectMigrationCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceCommandsInput)
+func _Commands_DetectMigrationCommands_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommandsServiceServer).DetectMigrationCommands(ctx, in)
+		return srv.(CommandsServer).DetectMigrationCommands(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.CommandsService/DetectMigrationCommands",
+		FullMethod: "/proto.Commands/DetectMigrationCommands",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServiceServer).DetectMigrationCommands(ctx, req.(*ServiceCommandsInput))
+		return srv.(CommandsServer).DetectMigrationCommands(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommandsService_DetectAdHocScripts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceCommandsInput)
+func _Commands_DetectAdHocScripts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommandsServiceServer).DetectAdHocScripts(ctx, in)
+		return srv.(CommandsServer).DetectAdHocScripts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.CommandsService/DetectAdHocScripts",
+		FullMethod: "/proto.Commands/DetectAdHocScripts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommandsServiceServer).DetectAdHocScripts(ctx, req.(*ServiceCommandsInput))
+		return srv.(CommandsServer).DetectAdHocScripts(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// CommandsService_ServiceDesc is the grpc.ServiceDesc for CommandsService service.
+// Commands_ServiceDesc is the grpc.ServiceDesc for Commands service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var CommandsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.CommandsService",
-	HandlerType: (*CommandsServiceServer)(nil),
+var Commands_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.Commands",
+	HandlerType: (*CommandsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "DetectBuildCommands",
-			Handler:    _CommandsService_DetectBuildCommands_Handler,
+			Handler:    _Commands_DetectBuildCommands_Handler,
 		},
 		{
 			MethodName: "DetectStartUpCommands",
-			Handler:    _CommandsService_DetectStartUpCommands_Handler,
+			Handler:    _Commands_DetectStartUpCommands_Handler,
 		},
 		{
 			MethodName: "DetectSeedCommands",
-			Handler:    _CommandsService_DetectSeedCommands_Handler,
+			Handler:    _Commands_DetectSeedCommands_Handler,
 		},
 		{
 			MethodName: "DetectMigrationCommands",
-			Handler:    _CommandsService_DetectMigrationCommands_Handler,
+			Handler:    _Commands_DetectMigrationCommands_Handler,
 		},
 		{
 			MethodName: "DetectAdHocScripts",
-			Handler:    _CommandsService_DetectAdHocScripts_Handler,
+			Handler:    _Commands_DetectAdHocScripts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

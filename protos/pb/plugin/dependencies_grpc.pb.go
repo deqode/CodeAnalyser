@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -14,84 +15,84 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// DependenciesServiceClient is the client API for DependenciesService service.
+// DependenciesClient is the client API for Dependencies service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DependenciesServiceClient interface {
-	GetDependencies(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputStringMap, error)
+type DependenciesClient interface {
+	GetDependencies(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.StringMapOutput, error)
 }
 
-type dependenciesServiceClient struct {
+type dependenciesClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewDependenciesServiceClient(cc grpc.ClientConnInterface) DependenciesServiceClient {
-	return &dependenciesServiceClient{cc}
+func NewDependenciesClient(cc grpc.ClientConnInterface) DependenciesClient {
+	return &dependenciesClient{cc}
 }
 
-func (c *dependenciesServiceClient) GetDependencies(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputStringMap, error) {
-	out := new(ServiceOutputStringMap)
-	err := c.cc.Invoke(ctx, "/proto.DependenciesService/GetDependencies", in, out, opts...)
+func (c *dependenciesClient) GetDependencies(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.StringMapOutput, error) {
+	out := new(helpers.StringMapOutput)
+	err := c.cc.Invoke(ctx, "/proto.Dependencies/GetDependencies", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// DependenciesServiceServer is the server API for DependenciesService service.
-// All implementations should embed UnimplementedDependenciesServiceServer
+// DependenciesServer is the server API for Dependencies service.
+// All implementations should embed UnimplementedDependenciesServer
 // for forward compatibility
-type DependenciesServiceServer interface {
-	GetDependencies(context.Context, *ServiceInput) (*ServiceOutputStringMap, error)
+type DependenciesServer interface {
+	GetDependencies(context.Context, *helpers.Input) (*helpers.StringMapOutput, error)
 }
 
-// UnimplementedDependenciesServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedDependenciesServiceServer struct {
+// UnimplementedDependenciesServer should be embedded to have forward compatible implementations.
+type UnimplementedDependenciesServer struct {
 }
 
-func (UnimplementedDependenciesServiceServer) GetDependencies(context.Context, *ServiceInput) (*ServiceOutputStringMap, error) {
+func (UnimplementedDependenciesServer) GetDependencies(context.Context, *helpers.Input) (*helpers.StringMapOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDependencies not implemented")
 }
 
-// UnsafeDependenciesServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DependenciesServiceServer will
+// UnsafeDependenciesServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DependenciesServer will
 // result in compilation errors.
-type UnsafeDependenciesServiceServer interface {
-	mustEmbedUnimplementedDependenciesServiceServer()
+type UnsafeDependenciesServer interface {
+	mustEmbedUnimplementedDependenciesServer()
 }
 
-func RegisterDependenciesServiceServer(s grpc.ServiceRegistrar, srv DependenciesServiceServer) {
-	s.RegisterService(&DependenciesService_ServiceDesc, srv)
+func RegisterDependenciesServer(s grpc.ServiceRegistrar, srv DependenciesServer) {
+	s.RegisterService(&Dependencies_ServiceDesc, srv)
 }
 
-func _DependenciesService_GetDependencies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Dependencies_GetDependencies_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DependenciesServiceServer).GetDependencies(ctx, in)
+		return srv.(DependenciesServer).GetDependencies(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.DependenciesService/GetDependencies",
+		FullMethod: "/proto.Dependencies/GetDependencies",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DependenciesServiceServer).GetDependencies(ctx, req.(*ServiceInput))
+		return srv.(DependenciesServer).GetDependencies(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// DependenciesService_ServiceDesc is the grpc.ServiceDesc for DependenciesService service.
+// Dependencies_ServiceDesc is the grpc.ServiceDesc for Dependencies service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var DependenciesService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.DependenciesService",
-	HandlerType: (*DependenciesServiceServer)(nil),
+var Dependencies_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.Dependencies",
+	HandlerType: (*DependenciesServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetDependencies",
-			Handler:    _DependenciesService_GetDependencies_Handler,
+			Handler:    _Dependencies_GetDependencies_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -2,21 +2,22 @@ package library
 
 import (
 	"code-analyser/languageDetectors/interfaces"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	"code-analyser/protos/pb/plugin"
 	"code-analyser/utils"
 	"errors"
 	"golang.org/x/net/context"
 )
 
 type GRPCClient struct {
-	Client pb.LibraryServiceClient
+	Client plugin.LibraryClient
 }
 
-func (g *GRPCClient) Detect(serviceInput *pb.ServiceInput) (*pb.ServiceOutputLibraryType, error) {
-	if serviceInput != nil {
-		res, err := g.Client.Detect(context.Background(), &pb.ServiceInput{
-			RuntimeVersion: serviceInput.RuntimeVersion,
-			Root:           serviceInput.Root,
+func (g *GRPCClient) Detect(input *pb.Input) (*plugin.LibraryType, error) {
+	if input != nil {
+		res, err := g.Client.Detect(context.Background(), &pb.Input{
+			RuntimeVersion: input.RuntimeVersion,
+			RootPath:           input.RootPath,
 		})
 		return res, err
 	}
@@ -24,18 +25,18 @@ func (g *GRPCClient) Detect(serviceInput *pb.ServiceInput) (*pb.ServiceOutputLib
 	return nil, errors.New("service input nil found")
 }
 
-func (g *GRPCClient) IsUsed(serviceInput *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	res, err := g.Client.IsUsed(context.Background(), &pb.ServiceInput{
+func (g *GRPCClient) IsUsed(serviceInput *pb.Input) (*pb.BoolOutput, error) {
+	res, err := g.Client.IsUsed(context.Background(), &pb.Input{
 		RuntimeVersion: serviceInput.RuntimeVersion,
-		Root:           serviceInput.Root,
+		RootPath:           serviceInput.RootPath,
 	})
 	return res, err
 }
 
-func (g *GRPCClient) PercentOfUsed(serviceInput *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
-	res, err := g.Client.PercentOfUsed(context.Background(), &pb.ServiceInput{
+func (g *GRPCClient) PercentOfUsed(serviceInput *pb.Input) (*pb.FloatOutput, error) {
+	res, err := g.Client.PercentOfUsed(context.Background(), &pb.Input{
 		RuntimeVersion: serviceInput.RuntimeVersion,
-		Root:           serviceInput.Root,
+		RootPath:           serviceInput.RootPath,
 	})
 	return res, err
 }
@@ -44,26 +45,26 @@ type GRPCServer struct {
 	Impl interfaces.Library
 }
 
-func (g *GRPCServer) Detect(ctx context.Context, serviceInput *pb.ServiceInput) (*pb.ServiceOutputLibraryType, error) {
+func (g *GRPCServer) Detect(ctx context.Context, serviceInput *pb.Input) (*plugin.LibraryType, error) {
 	res, err := g.Impl.Detect(serviceInput)
-	return &pb.ServiceOutputLibraryType{
+	return &plugin.LibraryType{
 		Type:  res.Type,
 		Value: res.Value,
 		Error: res.Error,
 	}, err
 }
 
-func (g *GRPCServer) IsUsed(ctx context.Context, serviceInput *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
+func (g *GRPCServer) IsUsed(ctx context.Context, serviceInput *pb.Input) (*pb.BoolOutput, error) {
 	res, err := g.Impl.IsUsed(serviceInput)
-	return &pb.ServiceOutputBool{
+	return &pb.BoolOutput{
 		Value: res.Value,
 		Error: res.Error,
 	}, err
 }
 
-func (g *GRPCServer) PercentOfUsed(ctx context.Context, serviceInput *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
+func (g *GRPCServer) PercentOfUsed(ctx context.Context, serviceInput *pb.Input) (*pb.FloatOutput, error) {
 	res, err := g.Impl.PercentOfUsed(serviceInput)
-	return &pb.ServiceOutputFloat{
+	return &pb.FloatOutput{
 		Value: res.Value,
 		Error: res.Error,
 	}, err

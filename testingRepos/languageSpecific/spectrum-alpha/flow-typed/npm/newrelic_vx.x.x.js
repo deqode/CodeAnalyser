@@ -482,7 +482,7 @@ declare module 'newrelic/lib/utilization/azure-info' {
   declare module.exports: any;
 }
 
-declare module 'newrelic/lib/utilization/common' {
+declare module 'newrelic/lib/utilization/helpers' {
   declare module.exports: any;
 }
 
@@ -862,8 +862,8 @@ declare module 'newrelic/lib/utilization/aws-info.js' {
 declare module 'newrelic/lib/utilization/azure-info.js' {
   declare module.exports: $Exports<'newrelic/lib/utilization/azure-info'>;
 }
-declare module 'newrelic/lib/utilization/common.js' {
-  declare module.exports: $Exports<'newrelic/lib/utilization/common'>;
+declare module 'newrelic/lib/utilization/helpers.js' {
+  declare module.exports: $Exports<'newrelic/lib/utilization/helpers'>;
 }
 declare module 'newrelic/lib/utilization/docker-info.js' {
   declare module.exports: $Exports<'newrelic/lib/utilization/docker-info'>;

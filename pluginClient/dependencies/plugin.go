@@ -16,7 +16,7 @@ type GRPCPlugin struct {
 
 //GRPCServer plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterDependenciesServiceServer(server, &GRPCServer{
+	pb.RegisterDependenciesServer(server, &GRPCServer{
 		Impl: p.Impl,
 	})
 	return nil
@@ -24,5 +24,5 @@ func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) 
 
 //GRPCClient plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewDependenciesServiceClient(conn)}, nil
+	return &GRPCClient{Client: pb.NewDependenciesClient(conn)}, nil
 }

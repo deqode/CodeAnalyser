@@ -24,3 +24,4 @@ plugin/go/staticAssets/plugin
 plugin/go/testCasesCommands/plugin
 cover/
 cover/coverage.out
+detect-runtime

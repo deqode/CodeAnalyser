@@ -1,0 +1,3 @@
+[console_scripts]
+random-port = random_open_port.random_open_port:main
+

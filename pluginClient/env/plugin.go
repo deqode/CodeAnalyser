@@ -16,11 +16,11 @@ type GRPCPlugin struct {
 
 //GRPCServer plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterEnvServiceServer(server, &GRPCServer{Impl: p.Impl})
+	pb.RegisterEnvServer(server, &GRPCServer{Impl: p.Impl})
 	return nil
 }
 
 //GRPCClient plugin.GRPCPlugin Implementation
 func (p *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewEnvServiceClient(conn)}, nil
+	return &GRPCClient{Client: pb.NewEnvClient(conn)}, nil
 }

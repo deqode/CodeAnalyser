@@ -3,16 +3,16 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/testCasesCommands"
-	"code-analyser/protos/pb/output/global"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
+	"code-analyser/protos/pb/output/languageSpecific"
 	"github.com/hashicorp/go-plugin"
 )
 
 type TestCasesCommands struct{}
 
-func (t *TestCasesCommands) Detect(input *pb.ServiceInput) (*pb.ServiceOutputTestCommand, error) {
-	return &pb.ServiceOutputTestCommand{
-		Commands: []*global.Command{
+func (t *TestCasesCommands) Detect(input *pb.Input) (*languageSpecific.TestCasesCommand, error) {
+	return &languageSpecific.TestCasesCommand{
+		Commands: []*pb.Command{
 			{
 				Command: "go",
 				Args:    []string{"run", "test"},
@@ -26,7 +26,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserTestCaseCommand: &testCasesCommands.GRPCPlugin{Impl: &TestCasesCommands{}},
+			pluginClient.TestCaseCommand: &testCasesCommands.GRPCPlugin{Impl: &TestCasesCommands{}},
 		},
 		// A non-nil value here enables gRPC serving for this plugin...
 		GRPCServer: plugin.DefaultGRPCServer,

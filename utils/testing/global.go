@@ -1,18 +1,18 @@
 package testing
 
 import (
-	"code-analyser/protos/pb/output/global"
+	global "code-analyser/protos/pb/output/globalFiles"
 	"reflect"
 	"sort"
 	"testing"
 )
 
 type DockerCaseOutput struct {
-	DockerFile        *global.DockerFileOutput
-	DockerComposeFile *global.DockerComposeFileOutput
+	DockerFile        *global.DockerFile
+	DockerComposeFile *global.DockerCompose
 }
 
-func CheckProcfileEquality(got, output *global.ProcFileOutput, t *testing.T) {
+func CheckProcfileEquality(got, output *global.ProcFile, t *testing.T) {
 	if got == nil && output == nil {
 		return
 	}

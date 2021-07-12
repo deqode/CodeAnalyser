@@ -3,7 +3,7 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/framework"
-	pb "code-analyser/protos/pb/plugin"
+	pb "code-analyser/protos/pb/helpers"
 	"github.com/hashicorp/go-plugin"
 )
 
@@ -11,24 +11,24 @@ import (
 type BeegoV1x struct{}
 
 //Detect will detect framework Used
-func (b BeegoV1x) Detect(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
+func (b BeegoV1x) Detect(input *pb.Input) (*pb.BoolOutput, error) {
+	return &pb.BoolOutput{
 		Error: nil,
 		Value: true,
 	}, nil
 }
 
-//IsFrameworkUsed is framework Used
-func (b BeegoV1x) IsFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputBool, error) {
-	return &pb.ServiceOutputBool{
+//IsUsed is framework Used
+func (b BeegoV1x) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
+	return &pb.BoolOutput{
 		Error: nil,
 		Value: true,
 	}, nil
 }
 
-//PercentOfFrameworkUsed %  framework Used
-func (b BeegoV1x) PercentOfFrameworkUsed(input *pb.ServiceInput) (*pb.ServiceOutputFloat, error) {
-	return &pb.ServiceOutputFloat{
+//PercentOfUsed %  framework Used
+func (b BeegoV1x) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
+	return &pb.FloatOutput{
 		Error: nil,
 		Value: 88.8,
 	}, nil
@@ -38,7 +38,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserFramework: &framework.GRPCPlugin{Impl: &BeegoV1x{}},
+			pluginClient.Framework: &framework.GRPCPlugin{Impl: &BeegoV1x{}},
 		},
 
 		// A non-nil value here enables gRPC serving for this plugin...

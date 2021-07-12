@@ -13,7 +13,7 @@ func TestFrameworkParsing(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := ParseFrameworkFromDependencies(input.DependenciesList, input.LangYamlObject)
+			got := ExtractFrameworksFromProjectDependencies(input.DependenciesList, input.LangYamlObject)
 			if !reflect.DeepEqual(got, output) {
 				t.Error("expected this ", output, "\n got this ", got)
 			}
@@ -27,7 +27,7 @@ func TestFrameworkRunner(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := FrameworkRunner(input.FrameworkList, input.RuntimeVersion, input.Root)
+			got := ExecuteFrameworkPlugins(input.FrameworkList, input.RuntimeVersion, input.Root)
 			testingUtil.CheckFrameworkEquality(got, output, t)
 		})
 	}
