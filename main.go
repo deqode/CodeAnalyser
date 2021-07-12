@@ -115,7 +115,7 @@ func (analyser *Analyser) LoadLanguagePlugin(ctx context.Context, languagePlugin
 		}
 		analyser.Setting.Logger.Info(name + " plugin's yaml file path reading completed")
 
-		plugins := &loadPLugins.LanguagePlugin{}
+		plugins := &loadPLugins.LanguagePlugin{Setting: analyser.Setting}
 
 		analyser.Setting.Logger.Info(name + "'s plugin client creation started")
 		err = plugins.Load(ctx, pluginYamlFiles)
