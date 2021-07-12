@@ -14,6 +14,7 @@ import (
 type BuildDirectoryPlugin struct {
 	Methods interfaces.BuildDirectory
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *BuildDirectoryPlugin) Load(yamlFile *pbUtils.Details) {

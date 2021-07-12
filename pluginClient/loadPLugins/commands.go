@@ -14,6 +14,7 @@ import (
 type CommandsPlugin struct {
 	Methods interfaces.Commands
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *CommandsPlugin) Load(yamlFile *pbUtils.Details) {

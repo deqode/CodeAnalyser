@@ -14,6 +14,7 @@ import (
 
 type LibraryPlugin struct {
 	Libraries map[string]*LibraryVersion
+	Setting *utils.Setting
 }
 
 type LibraryVersion struct {
@@ -24,6 +25,7 @@ type LibraryPluginDetails struct {
 	Semver  []string
 	Methods interfaces.Library
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *LibraryPlugin) Load(yamlFile *pbUtils.Details) {

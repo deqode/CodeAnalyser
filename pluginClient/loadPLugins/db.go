@@ -14,6 +14,7 @@ import (
 
 type DbPlugin struct {
 	Dbs map[string]*DbVersion
+	Setting *utils.Setting
 }
 
 type DbVersion struct {
@@ -24,6 +25,7 @@ type DbPluginDetails struct {
 	Libraries []*pbUtils.Library
 	Methods   interfaces.Db
 	Client    *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugins *DbPlugin) Load(yamlFile *pbUtils.Details) {

@@ -13,6 +13,7 @@ import (
 
 type GetDependenciesPlugin struct {
 	Dependencies map[string]*DependenciesVersion
+	Setting *utils.Setting
 }
 
 type DependenciesVersion struct {

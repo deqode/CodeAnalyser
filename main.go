@@ -77,7 +77,7 @@ func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmak
 func (analyser *Analyser) LoadGlobalPlugin(ctx context.Context, globalPluginPath string) *loadPLugins.GlobalPlugin {
 	analyser.Setting.Logger.Debug("global plugin loading started")
 
-	analyser.Setting.Logger.Info("global plugin's yaml file path reading completed")
+	analyser.Setting.Logger.Info("global plugin's yaml file path reading started")
 	PluginYamlFiles, err := utils.SearchFileInDirectory("pluginDetails.yaml", globalPluginPath)
 	if err != nil {
 		analyser.Setting.Logger.Error("not able to get path of plugin yaml file, " + err.Error())

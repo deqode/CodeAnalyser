@@ -14,6 +14,7 @@ import (
 type StaticAssetsPlugin struct {
 	Methods interfaces.StaticAssets
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *StaticAssetsPlugin) Load(yamlFile *pbUtils.Details) {

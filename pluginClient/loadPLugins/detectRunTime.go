@@ -13,6 +13,7 @@ import (
 type DetectRunTimePlugin struct {
 	Methods interfaces.DetectRunTime
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *DetectRunTimePlugin) Load(yamlFile *pbUtils.Details) {

@@ -14,6 +14,7 @@ import (
 type TestCommandPlugin struct {
 	Methods interfaces.TestCasesRunCommands
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *TestCommandPlugin) Load(yamlFile *pbUtils.Details) {

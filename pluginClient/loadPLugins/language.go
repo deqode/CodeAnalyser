@@ -21,23 +21,26 @@ type LanguagePlugin struct {
 	StaticAssets      *StaticAssetsPlugin
 	Dependencies      *GetDependenciesPlugin
 	TestCommand       *TestCommandPlugin
+	Setting           *utils.Setting
 }
 
 func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles []utils.FileDetails) error {
+    languagePlugins.Setting.Logger.Debug("language plugin loading started")
 
-	languagePlugins.DetectRunTime = &DetectRunTimePlugin{}
-	languagePlugins.Commands = &CommandsPlugin{}
-	languagePlugins.Dependencies = &GetDependenciesPlugin{}
-	languagePlugins.Framework = &FrameworkPlugin{}
-	languagePlugins.Env = &EnvPlugin{}
-	languagePlugins.PreDetectCommands = &PreDetectCommandsPlugin{}
-	languagePlugins.StaticAssets = &StaticAssetsPlugin{}
-	languagePlugins.TestCommand = &TestCommandPlugin{}
-	languagePlugins.BuildDirectory = &BuildDirectoryPlugin{}
-	languagePlugins.Db = &DbPlugin{}
-	languagePlugins.Library = &LibraryPlugin{}
-	languagePlugins.Orm = &OrmPlugin{}
+	languagePlugins.DetectRunTime = &DetectRunTimePlugin{Setting: languagePlugins.Setting}
+	languagePlugins.Commands = &CommandsPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.Dependencies = &GetDependenciesPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.Framework = &FrameworkPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.Env = &EnvPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.PreDetectCommands = &PreDetectCommandsPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.StaticAssets = &StaticAssetsPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.TestCommand = &TestCommandPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.BuildDirectory = &BuildDirectoryPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.Db = &DbPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.Library = &LibraryPlugin{Setting: languagePlugins.Setting}
+	languagePlugins.Orm = &OrmPlugin{Setting: languagePlugins.Setting}
 
+    languagePlugins.Setting.Logger.Info("language plugin yaml file reading and client initialization started")
 	for _, pluginFile := range pluginYamlFiles {
 		parsedRawFile, err := utils.ReadPluginYamlFile(ctx, pluginFile)
 		if err != nil {
@@ -119,7 +122,7 @@ func (languagePlugins *LanguagePlugin) Run(ctx context.Context, projectRootPath 
 		detectedDependencies.TestCases = testCommand
 	}
 
-	if languagePlugins.Orm.Orms != nil&& projectDependencies != nil {
+	if languagePlugins.Orm.Orms != nil && projectDependencies != nil {
 		orms := languagePlugins.Orm.Extract(ctx, projectDependencies)
 		ormOutput, err := languagePlugins.Orm.Run(ctx, orms, runtimeVersion, projectRootPath)
 		if err != nil {

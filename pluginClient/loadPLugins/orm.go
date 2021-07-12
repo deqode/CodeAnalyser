@@ -14,6 +14,7 @@ import (
 
 type OrmPlugin struct {
 	Orms map[string]*OrmVersion
+	Setting *utils.Setting
 }
 
 type OrmVersion struct {
@@ -24,6 +25,7 @@ type OrmPluginDetails struct {
 	Semver  []string
 	Methods interfaces.Orm
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *OrmPlugin) Load(yamlFile *pbUtils.Details) {
