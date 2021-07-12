@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -14,84 +15,84 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// DetectRuntimeServiceClient is the client API for DetectRuntimeService service.
+// DetectRuntimeClient is the client API for DetectRuntime service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DetectRuntimeServiceClient interface {
-	DetectRuntime(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputString, error)
+type DetectRuntimeClient interface {
+	Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*helpers.StringOutput, error)
 }
 
-type detectRuntimeServiceClient struct {
+type detectRuntimeClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewDetectRuntimeServiceClient(cc grpc.ClientConnInterface) DetectRuntimeServiceClient {
-	return &detectRuntimeServiceClient{cc}
+func NewDetectRuntimeClient(cc grpc.ClientConnInterface) DetectRuntimeClient {
+	return &detectRuntimeClient{cc}
 }
 
-func (c *detectRuntimeServiceClient) DetectRuntime(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputString, error) {
-	out := new(ServiceOutputString)
-	err := c.cc.Invoke(ctx, "/proto.DetectRuntimeService/DetectRuntime", in, out, opts...)
+func (c *detectRuntimeClient) Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*helpers.StringOutput, error) {
+	out := new(helpers.StringOutput)
+	err := c.cc.Invoke(ctx, "/proto.DetectRuntime/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// DetectRuntimeServiceServer is the server API for DetectRuntimeService service.
-// All implementations should embed UnimplementedDetectRuntimeServiceServer
+// DetectRuntimeServer is the server API for DetectRuntime service.
+// All implementations should embed UnimplementedDetectRuntimeServer
 // for forward compatibility
-type DetectRuntimeServiceServer interface {
-	DetectRuntime(context.Context, *ServiceInputString) (*ServiceOutputString, error)
+type DetectRuntimeServer interface {
+	Detect(context.Context, *helpers.StringInput) (*helpers.StringOutput, error)
 }
 
-// UnimplementedDetectRuntimeServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedDetectRuntimeServiceServer struct {
+// UnimplementedDetectRuntimeServer should be embedded to have forward compatible implementations.
+type UnimplementedDetectRuntimeServer struct {
 }
 
-func (UnimplementedDetectRuntimeServiceServer) DetectRuntime(context.Context, *ServiceInputString) (*ServiceOutputString, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DetectRuntime not implemented")
+func (UnimplementedDetectRuntimeServer) Detect(context.Context, *helpers.StringInput) (*helpers.StringOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
-// UnsafeDetectRuntimeServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DetectRuntimeServiceServer will
+// UnsafeDetectRuntimeServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DetectRuntimeServer will
 // result in compilation errors.
-type UnsafeDetectRuntimeServiceServer interface {
-	mustEmbedUnimplementedDetectRuntimeServiceServer()
+type UnsafeDetectRuntimeServer interface {
+	mustEmbedUnimplementedDetectRuntimeServer()
 }
 
-func RegisterDetectRuntimeServiceServer(s grpc.ServiceRegistrar, srv DetectRuntimeServiceServer) {
-	s.RegisterService(&DetectRuntimeService_ServiceDesc, srv)
+func RegisterDetectRuntimeServer(s grpc.ServiceRegistrar, srv DetectRuntimeServer) {
+	s.RegisterService(&DetectRuntime_ServiceDesc, srv)
 }
 
-func _DetectRuntimeService_DetectRuntime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInputString)
+func _DetectRuntime_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DetectRuntimeServiceServer).DetectRuntime(ctx, in)
+		return srv.(DetectRuntimeServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.DetectRuntimeService/DetectRuntime",
+		FullMethod: "/proto.DetectRuntime/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DetectRuntimeServiceServer).DetectRuntime(ctx, req.(*ServiceInputString))
+		return srv.(DetectRuntimeServer).Detect(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// DetectRuntimeService_ServiceDesc is the grpc.ServiceDesc for DetectRuntimeService service.
+// DetectRuntime_ServiceDesc is the grpc.ServiceDesc for DetectRuntime service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var DetectRuntimeService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.DetectRuntimeService",
-	HandlerType: (*DetectRuntimeServiceServer)(nil),
+var DetectRuntime_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.DetectRuntime",
+	HandlerType: (*DetectRuntimeServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "DetectRuntime",
-			Handler:    _DetectRuntimeService_DetectRuntime_Handler,
+			MethodName: "Detect",
+			Handler:    _DetectRuntime_Detect_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

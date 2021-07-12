@@ -3,17 +3,18 @@ package main
 import (
 	"code-analyser/pluginClient"
 	"code-analyser/pluginClient/staticAssets"
+	pb "code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/output/languageSpecific"
-	pb "code-analyser/protos/pb/plugin"
 	"github.com/hashicorp/go-plugin"
 )
 
 type GetStaticAssets struct{}
 
-func (g *GetStaticAssets) Detect(input *pb.ServiceInput) (*pb.ServiceOutputStaticAssets, error) {
-	return &pb.ServiceOutputStaticAssets{
+func (g *GetStaticAssets) Detect(input *pb.Input) (*languageSpecific.StaticAssetsOutput, error) {
+	return &languageSpecific.StaticAssetsOutput{
 		Error: nil,
-		StaticAsset: []*languageSpecific.StaticAsset{
+		Used:  true,
+		StaticAssets: []*languageSpecific.StaticAsset{
 			{
 				Name:   "static",
 				Path:   "hghkjg",
@@ -28,7 +29,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.PluginDispenserStaticAssets: &staticAssets.GRPCPlugin{Impl: &GetStaticAssets{}},
+			pluginClient.StaticAssets: &staticAssets.GRPCPlugin{Impl: &GetStaticAssets{}},
 		},
 		GRPCServer: plugin.DefaultGRPCServer,
 	})

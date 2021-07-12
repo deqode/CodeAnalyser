@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -14,156 +15,156 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// DbServiceClient is the client API for DbService service.
+// DbClient is the client API for Db service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DbServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBoolInt, error)
-	IsDbUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	PercentOfDbUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error)
+type DbClient interface {
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*BoolIntOutput, error)
+	IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
+	PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error)
 }
 
-type dbServiceClient struct {
+type dbClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewDbServiceClient(cc grpc.ClientConnInterface) DbServiceClient {
-	return &dbServiceClient{cc}
+func NewDbClient(cc grpc.ClientConnInterface) DbClient {
+	return &dbClient{cc}
 }
 
-func (c *dbServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBoolInt, error) {
-	out := new(ServiceOutputBoolInt)
-	err := c.cc.Invoke(ctx, "/proto.DbService/Detect", in, out, opts...)
+func (c *dbClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*BoolIntOutput, error) {
+	out := new(BoolIntOutput)
+	err := c.cc.Invoke(ctx, "/proto.Db/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dbServiceClient) IsDbUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
-	err := c.cc.Invoke(ctx, "/proto.DbService/IsDbUsed", in, out, opts...)
+func (c *dbClient) IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
+	out := new(helpers.BoolOutput)
+	err := c.cc.Invoke(ctx, "/proto.Db/IsUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dbServiceClient) PercentOfDbUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error) {
-	out := new(ServiceOutputFloat)
-	err := c.cc.Invoke(ctx, "/proto.DbService/PercentOfDbUsed", in, out, opts...)
+func (c *dbClient) PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error) {
+	out := new(helpers.FloatOutput)
+	err := c.cc.Invoke(ctx, "/proto.Db/PercentOfUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// DbServiceServer is the server API for DbService service.
-// All implementations should embed UnimplementedDbServiceServer
+// DbServer is the server API for Db service.
+// All implementations should embed UnimplementedDbServer
 // for forward compatibility
-type DbServiceServer interface {
-	Detect(context.Context, *ServiceInput) (*ServiceOutputBoolInt, error)
-	IsDbUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	PercentOfDbUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
+type DbServer interface {
+	Detect(context.Context, *helpers.Input) (*BoolIntOutput, error)
+	IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error)
 }
 
-// UnimplementedDbServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedDbServiceServer struct {
+// UnimplementedDbServer should be embedded to have forward compatible implementations.
+type UnimplementedDbServer struct {
 }
 
-func (UnimplementedDbServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputBoolInt, error) {
+func (UnimplementedDbServer) Detect(context.Context, *helpers.Input) (*BoolIntOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedDbServiceServer) IsDbUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method IsDbUsed not implemented")
+func (UnimplementedDbServer) IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsUsed not implemented")
 }
-func (UnimplementedDbServiceServer) PercentOfDbUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PercentOfDbUsed not implemented")
+func (UnimplementedDbServer) PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PercentOfUsed not implemented")
 }
 
-// UnsafeDbServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DbServiceServer will
+// UnsafeDbServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DbServer will
 // result in compilation errors.
-type UnsafeDbServiceServer interface {
-	mustEmbedUnimplementedDbServiceServer()
+type UnsafeDbServer interface {
+	mustEmbedUnimplementedDbServer()
 }
 
-func RegisterDbServiceServer(s grpc.ServiceRegistrar, srv DbServiceServer) {
-	s.RegisterService(&DbService_ServiceDesc, srv)
+func RegisterDbServer(s grpc.ServiceRegistrar, srv DbServer) {
+	s.RegisterService(&Db_ServiceDesc, srv)
 }
 
-func _DbService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Db_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DbServiceServer).Detect(ctx, in)
+		return srv.(DbServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.DbService/Detect",
+		FullMethod: "/proto.Db/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).Detect(ctx, req.(*ServiceInput))
+		return srv.(DbServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DbService_IsDbUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Db_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DbServiceServer).IsDbUsed(ctx, in)
+		return srv.(DbServer).IsUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.DbService/IsDbUsed",
+		FullMethod: "/proto.Db/IsUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).IsDbUsed(ctx, req.(*ServiceInput))
+		return srv.(DbServer).IsUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DbService_PercentOfDbUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Db_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DbServiceServer).PercentOfDbUsed(ctx, in)
+		return srv.(DbServer).PercentOfUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.DbService/PercentOfDbUsed",
+		FullMethod: "/proto.Db/PercentOfUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).PercentOfDbUsed(ctx, req.(*ServiceInput))
+		return srv.(DbServer).PercentOfUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// DbService_ServiceDesc is the grpc.ServiceDesc for DbService service.
+// Db_ServiceDesc is the grpc.ServiceDesc for Db service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var DbService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.DbService",
-	HandlerType: (*DbServiceServer)(nil),
+var Db_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.Db",
+	HandlerType: (*DbServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Detect",
-			Handler:    _DbService_Detect_Handler,
+			Handler:    _Db_Detect_Handler,
 		},
 		{
-			MethodName: "IsDbUsed",
-			Handler:    _DbService_IsDbUsed_Handler,
+			MethodName: "IsUsed",
+			Handler:    _Db_IsUsed_Handler,
 		},
 		{
-			MethodName: "PercentOfDbUsed",
-			Handler:    _DbService_PercentOfDbUsed_Handler,
+			MethodName: "PercentOfUsed",
+			Handler:    _Db_PercentOfUsed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const common = require("../common");
 
 function detect(input, callback) {
-  let dirPath = input.request.root;
+  let dirPath = input.request.rootPath;
   common.requirePathCheck(
     dirPath,
     callback,

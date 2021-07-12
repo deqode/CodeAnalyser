@@ -12,7 +12,7 @@ func TestEnv(t *testing.T) {
 		output := element.Output
 		t.Run("case "+strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
-			got := EnvDetectAndRunner(input.pluginDetails, input.RuntimeVersion, input.Root)
+			got := ExecuteEnvsDetectionPlugin(input.pluginDetails, input.RuntimeVersion, input.Root)
 			if !reflect.DeepEqual(got, output) {
 				t.Error("expected this ", output, "\n got this ", got)
 			}

@@ -1,8 +1,9 @@
 package runners
 
 import (
-	"code-analyser/protos/pb/output/global"
-	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/helpers"
+	global "code-analyser/protos/pb/output/globalFiles"
+	"code-analyser/protos/pb/pluginDetails"
 	commonUtils "code-analyser/utils"
 	"code-analyser/utils/testing"
 	"golang.org/x/net/context"
@@ -16,55 +17,55 @@ type DockerCase struct {
 type GlobalRunnerInput struct {
 	Ctx          context.Context
 	Path         string
-	GlobalPlugin *versionsPB.GlobalPlugin
+	GlobalPlugin *pluginDetails.GlobalPlugins
 }
 
 type ProcFileCase struct {
 	Input  GlobalRunnerInput
-	Output *global.ProcFileOutput
+	Output *global.ProcFile
 }
 
 type MakeFileCase struct {
 	Input  GlobalRunnerInput
-	Output *global.MakefileOutput
+	Output *global.MakeFile
 }
 
 var DockerCases = []DockerCase{
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: testing.DockerCaseOutput{
-			DockerFile: &global.DockerFileOutput{
+			DockerFile: &global.DockerFile{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1/Dockerfile",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo1/Dockerfile",
 			},
-			DockerComposeFile: &global.DockerComposeFileOutput{
+			DockerComposeFile: &global.DockerCompose{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo1/docker-compose.yml",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo1/docker-compose.yml",
 			},
 		},
 	},
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo2",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo2",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: testing.DockerCaseOutput{
 			DockerFile: nil,
-			DockerComposeFile: &global.DockerComposeFileOutput{
+			DockerComposeFile: &global.DockerCompose{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/detectDockerFile/repo2/docker-compose.yaml",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/detectDockerFile/repo2/docker-compose.yaml",
 			},
 		},
 	},
 	{
 		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: testing.DockerCaseOutput{},
@@ -73,26 +74,26 @@ var DockerCases = []DockerCase{
 
 var ProcFileCases = []ProcFileCase{
 	{
-		Input:  GlobalRunnerInput{
+		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: nil,
 	},
 	{
-		Input:  GlobalRunnerInput{
+		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/detectProcfile/repo1",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/detectProcfile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
-		Output: &global.ProcFileOutput{
+		Output: &global.ProcFile{
 			Used:     true,
-			FilePath: commonUtils.ProjectPath() + "/testingRepos/detectProcfile/repo1/Procfile",
-			Commands: map[string]*global.Command{
+			FilePath: commonUtils.RootDirPath() + "/testingRepos/detectProcfile/repo1/Procfile",
+			Commands: map[string]*helpers.Command{
 				"web": {
 					Command: "bundle",
-					Args:    []string{"exec","rackup"},
+					Args:    []string{"exec", "rackup"},
 				},
 				"worker": {
 					Command: "rake",
@@ -105,22 +106,22 @@ var ProcFileCases = []ProcFileCase{
 
 var MakeFileCases = []MakeFileCase{
 	{
-		Input:  GlobalRunnerInput{
+		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 			GlobalPlugin: &GlobalPluginPath,
 		},
 		Output: nil,
 	},
 	{
-		Input:  GlobalRunnerInput{
+		Input: GlobalRunnerInput{
 			Ctx:          nil,
-			Path:         commonUtils.ProjectPath() + "/testingRepos/detectMakefile/repo1",
+			Path:         commonUtils.RootDirPath() + "/testingRepos/detectMakefile/repo1",
 			GlobalPlugin: &GlobalPluginPath,
 		},
-		Output: &global.MakefileOutput{
-			Used: true,
-			FilePath: commonUtils.ProjectPath() + "/testingRepos/detectMakefile/repo1/Makefile",
+		Output: &global.MakeFile{
+			Used:     true,
+			FilePath: commonUtils.RootDirPath() + "/testingRepos/detectMakefile/repo1/Makefile",
 		},
 	},
 }

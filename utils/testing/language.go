@@ -1,37 +1,37 @@
 package testing
 
 import (
-	"code-analyser/protos/pb"
-	"code-analyser/protos/pb/output/global"
+	"code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/output/languageSpecific"
 	"reflect"
 	"testing"
 )
 
-func AllCommandTesting(t *testing.T, got, output *pb.Commands) {
+func AllCommandTesting(t *testing.T, got, output *languageSpecific.Commands) {
 	t.Run("Build command", func(t *testing.T) {
 		t.Parallel()
-		CheckCommandEquality(got.BuildCommands.Used, output.BuildCommands.Used, got.BuildCommands.BuildCommands, output.BuildCommands.BuildCommands, t)
+		CheckCommandEquality(got.BuildCommands.Used, output.BuildCommands.Used, got.BuildCommands.Commands, output.BuildCommands.Commands, t)
 	})
 	t.Run("seed command", func(t *testing.T) {
 		t.Parallel()
-		CheckCommandEquality(got.SeedCommands.Used, output.SeedCommands.Used, got.SeedCommands.SeedCommands, output.SeedCommands.SeedCommands, t)
+		CheckCommandEquality(got.SeedCommands.Used, output.SeedCommands.Used, got.SeedCommands.Commands, output.SeedCommands.Commands, t)
 	})
 	t.Run("startup command", func(t *testing.T) {
 		t.Parallel()
-		CheckCommandEquality(got.StartUpCommands.Used, output.StartUpCommands.Used, got.StartUpCommands.StartUpCommands, output.StartUpCommands.StartUpCommands, t)
+		CheckCommandEquality(got.StartUpCommands.Used, output.StartUpCommands.Used, got.StartUpCommands.Commands, output.StartUpCommands.Commands, t)
 	})
 	t.Run("migration command", func(t *testing.T) {
 		t.Parallel()
-		CheckCommandEquality(got.MigrationCommands.Used, output.MigrationCommands.Used, got.MigrationCommands.MigrationCommands, output.MigrationCommands.MigrationCommands, t)
+		CheckCommandEquality(got.MigrationCommands.Used, output.MigrationCommands.Used, got.MigrationCommands.Commands, output.MigrationCommands.Commands, t)
+
 	})
 	t.Run("Adhoc script", func(t *testing.T) {
 		t.Parallel()
-		CheckCommandEquality(got.AdHocScriptsOutput.Used, output.AdHocScriptsOutput.Used, got.AdHocScriptsOutput.AdHocScripts, output.AdHocScriptsOutput.AdHocScripts, t)
+		CheckCommandEquality(got.AdHocScripts.Used, output.AdHocScripts.Used, got.AdHocScripts.Commands, output.AdHocScripts.Commands, t)
 	})
 }
 
-func CheckCommandEquality(gotUsed, outputUsed bool, gotCommands, outputCommands []*global.Command, t *testing.T) {
+func CheckCommandEquality(gotUsed, outputUsed bool, gotCommands, outputCommands []*helpers.Command, t *testing.T) {
 	if gotUsed != outputUsed || len(gotCommands) != len(outputCommands) {
 		t.Error("expected this ", outputUsed, outputCommands, "\n got this ", gotUsed, gotCommands)
 	}
@@ -50,11 +50,11 @@ func CheckCommandEquality(gotUsed, outputUsed bool, gotCommands, outputCommands 
 	}
 }
 
-func CheckTestCaseCommandEquality(got, output *languageSpecific.TestCasesCommandOutput, t *testing.T) {
+func CheckTestCaseCommandEquality(got, output *languageSpecific.TestCasesCommand, t *testing.T) {
 	if got.Used != output.Used || len(got.Commands) != len(output.Commands) {
 		t.Error("expected this ", output, "\n got this ", got)
 	}
-	var outputCommands []*global.Command
+	var outputCommands []*helpers.Command
 	copy(outputCommands, output.Commands)
 	for j := 0; j < len(got.Commands); j++ {
 		for k := 0; k < len(outputCommands); k++ {

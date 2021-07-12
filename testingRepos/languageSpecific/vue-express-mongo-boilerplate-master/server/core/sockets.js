@@ -65,7 +65,7 @@ let self = {
 		app.io = self;
 		self.IO = IO;
 
-		// Add common handler to the root namespace
+		// Add helpers handler to the root namespace
 		self.initNameSpace("/", IO, self.mongoStore);
 		IO.on("connection", function (socket) {
 			socket.on("welcome", function(msg) {

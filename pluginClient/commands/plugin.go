@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"code-analyser/GlobalFiles"
+	"code-analyser/languageDetectors/interfaces"
 	pb "code-analyser/protos/pb/plugin"
 	"context"
 	"github.com/hashicorp/go-plugin"
@@ -10,14 +10,14 @@ import (
 
 type GRPCPlugin struct {
 	plugin.Plugin
-	Impl GlobalFiles.Commands
+	Impl interfaces.Commands
 }
 
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterCommandsServiceServer(server, &GRPCServer{Impl: p.Impl})
+	pb.RegisterCommandsServer(server, &GRPCServer{Impl: p.Impl})
 	return nil
 }
 
 func (p *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewCommandsServiceClient(conn)}, nil
+	return &GRPCClient{Client: pb.NewCommandsClient(conn)}, nil
 }

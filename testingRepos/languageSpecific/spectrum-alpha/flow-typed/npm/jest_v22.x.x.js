@@ -285,7 +285,7 @@ type JestObjectType = {
    *  Disables automatic mocking in the module loader.
    *
    *  After this method is called, all `require()`s will return the real
-   *  versions of each module (rather than a mocked version).
+   *  pluginDetails of each module (rather than a mocked version).
    */
   disableAutomock(): JestObjectType,
   /**
@@ -411,13 +411,13 @@ type JestObjectType = {
    */
   unmock(moduleName: string): JestObjectType,
   /**
-   * Instructs Jest to use fake versions of the standard timer functions
+   * Instructs Jest to use fake pluginDetails of the standard timer functions
    * (setTimeout, setInterval, clearTimeout, clearInterval, nextTick,
    * setImmediate and clearImmediate).
    */
   useFakeTimers(): JestObjectType,
   /**
-   * Instructs Jest to use the real versions of the standard timer functions.
+   * Instructs Jest to use the real pluginDetails of the standard timer functions.
    */
   useRealTimers(): JestObjectType,
   /**
@@ -569,8 +569,8 @@ declare function spyOn(value: mixed, method: string): Object;
 declare var jest: JestObjectType;
 
 /**
- * The global Jasmine object, this is generally not exposed as the public API,
- * using features inside here could break in later versions of Jest.
+ * The globalFiles Jasmine object, this is generally not exposed as the public API,
+ * using features inside here could break in later pluginDetails of Jest.
  */
 declare var jasmine: {
   DEFAULT_TIMEOUT_INTERVAL: number,

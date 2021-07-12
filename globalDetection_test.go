@@ -17,11 +17,11 @@ type GlobalDetectionCase struct {
 
 var GlobalDetectionCases = []GlobalDetectionCase{
 	{
-		Input: commonUtils.ProjectPath() + "/testingRepos/globalDetection/repo1",
+		Input: commonUtils.RootDirPath() + "/testingRepos/globalDetection/repo1",
 		Output: &decisionmakerPB.GlobalDetections{
 			ProcFile: &global.ProcFileOutput{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/globalDetection/repo1/Procfile",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/globalDetection/repo1/Procfile",
 				Commands: map[string]*global.Command{
 					"web": {
 						Command: "bundle",
@@ -35,20 +35,20 @@ var GlobalDetectionCases = []GlobalDetectionCase{
 			},
 			Makefile: &global.MakefileOutput{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/globalDetection/repo1/Makefile",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/globalDetection/repo1/Makefile",
 			},
 			DockerFile: &global.DockerFileOutput{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/globalDetection/repo1/Dockerfile",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/globalDetection/repo1/Dockerfile",
 			},
 			DockerComposeFile: &global.DockerComposeFileOutput{
 				Used:     true,
-				FilePath: commonUtils.ProjectPath() + "/testingRepos/globalDetection/repo1/docker-compose.yml",
+				FilePath: commonUtils.RootDirPath() + "/testingRepos/globalDetection/repo1/docker-compose.yml",
 			},
 		},
 	},
 	{
-		Input:  commonUtils.ProjectPath() + "/testingRepos/emptyRepo",
+		Input:  commonUtils.RootDirPath() + "/testingRepos/emptyRepo",
 		Output: &decisionmakerPB.GlobalDetections{},
 	},
 }

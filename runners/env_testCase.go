@@ -2,17 +2,17 @@ package runners
 
 import (
 	"code-analyser/protos/pb/output/languageSpecific"
-	versionsPB "code-analyser/protos/pb/versions"
+	"code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
 )
 
 type EnvCase struct {
 	Input  EnvInput
-	Output *languageSpecific.EnvOutput
+	Output *languageSpecific.Envs
 }
 
 type EnvInput struct {
-	pluginDetails  *versionsPB.LanguageVersion
+	pluginDetails  *pluginDetails.LanguagePlugins
 	RuntimeVersion string
 	Root           string
 }
@@ -21,11 +21,11 @@ var EnvCases = []EnvCase{
 	{
 		Input: EnvInput{
 			pluginDetails: &SupportedDependencies,
-			Root:           utils.ProjectPath() + "/testingRepos/env/repo1",
+			Root:           utils.RootDirPath() + "/testingRepos/env/repo1",
 			RuntimeVersion: "sfs",
 		},
-		Output: &languageSpecific.EnvOutput{
-			EnvUsed: true,
+		Output: &languageSpecific.Envs{
+			Used: true,
 			EnvKeyValues: map[string]string{
 				"jk":       "7",
 				"fto":      "hjk",
@@ -38,11 +38,11 @@ var EnvCases = []EnvCase{
 	{
 		Input: EnvInput{
 			pluginDetails: &SupportedDependencies,
-			Root:           utils.ProjectPath() + "/testingRepos/emptyRepo",
+			Root:           utils.RootDirPath() + "/testingRepos/emptyRepo",
 			RuntimeVersion: "sfs",
 		},
-		Output: &languageSpecific.EnvOutput{
-			EnvUsed: false,
+		Output: &languageSpecific.Envs{
+			Used: false,
 		},
 	},
 	{
@@ -56,11 +56,11 @@ var EnvCases = []EnvCase{
 	{
 		Input: EnvInput{
 			pluginDetails: &SupportedDependencies,
-			Root:           utils.ProjectPath() + "/testingRepos/env/repo2",
+			Root:           utils.RootDirPath() + "/testingRepos/env/repo2",
 			RuntimeVersion: "sfs",
 		},
-		Output: &languageSpecific.EnvOutput{
-			EnvUsed: true,
+		Output: &languageSpecific.Envs{
+			Used: true,
 			EnvKeyValues: map[string]string{
 				"joss":      "1",
 				"justhkjhk": "sdf",

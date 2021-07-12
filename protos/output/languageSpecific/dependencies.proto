@@ -1,0 +1,23 @@
+syntax = "proto3";
+package protos.output.languageSpecific;
+
+import "protos/helpers/common.proto";
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+// Rename
+message DependenciesOutput{
+  protos.helpers.Error error = 1;
+  // check dependencies
+  bool used = 2;
+  // list of all dependencies
+  repeated Dependency dependencies = 3;
+}
+message Dependency{
+  //  name of dependency
+  string name = 1;
+  //  version of dependency
+  string version = 2;
+
+}
+

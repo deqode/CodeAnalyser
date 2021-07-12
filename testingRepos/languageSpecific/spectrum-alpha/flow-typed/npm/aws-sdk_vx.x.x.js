@@ -614,7 +614,7 @@ declare module 'aws-sdk/dist/xml2js' {
   declare module.exports: any;
 }
 
-declare module 'aws-sdk/global' {
+declare module 'aws-sdk/globalFiles' {
   declare module.exports: any;
 }
 
@@ -1483,8 +1483,8 @@ declare module 'aws-sdk/dist/aws-sdk.min.js' {
 declare module 'aws-sdk/dist/xml2js.js' {
   declare module.exports: $Exports<'aws-sdk/dist/xml2js'>;
 }
-declare module 'aws-sdk/global.js' {
-  declare module.exports: $Exports<'aws-sdk/global'>;
+declare module 'aws-sdk/globalFiles.js' {
+  declare module.exports: $Exports<'aws-sdk/globalFiles'>;
 }
 declare module 'aws-sdk/index' {
   declare module.exports: $Exports<'aws-sdk'>;

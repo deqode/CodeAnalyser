@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	globalFiles "code-analyser/protos/pb/output/globalFiles"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -14,84 +16,84 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// MakeFileServiceClient is the client API for MakeFileService service.
+// MakeFileClient is the client API for MakeFile service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type MakeFileServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputMakeFile, error)
+type MakeFileClient interface {
+	Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.MakeFile, error)
 }
 
-type makeFileServiceClient struct {
+type makeFileClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewMakeFileServiceClient(cc grpc.ClientConnInterface) MakeFileServiceClient {
-	return &makeFileServiceClient{cc}
+func NewMakeFileClient(cc grpc.ClientConnInterface) MakeFileClient {
+	return &makeFileClient{cc}
 }
 
-func (c *makeFileServiceClient) Detect(ctx context.Context, in *ServiceInputString, opts ...grpc.CallOption) (*ServiceOutputMakeFile, error) {
-	out := new(ServiceOutputMakeFile)
-	err := c.cc.Invoke(ctx, "/proto.MakeFileService/Detect", in, out, opts...)
+func (c *makeFileClient) Detect(ctx context.Context, in *helpers.StringInput, opts ...grpc.CallOption) (*globalFiles.MakeFile, error) {
+	out := new(globalFiles.MakeFile)
+	err := c.cc.Invoke(ctx, "/proto.MakeFile/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// MakeFileServiceServer is the server API for MakeFileService service.
-// All implementations should embed UnimplementedMakeFileServiceServer
+// MakeFileServer is the server API for MakeFile service.
+// All implementations should embed UnimplementedMakeFileServer
 // for forward compatibility
-type MakeFileServiceServer interface {
-	Detect(context.Context, *ServiceInputString) (*ServiceOutputMakeFile, error)
+type MakeFileServer interface {
+	Detect(context.Context, *helpers.StringInput) (*globalFiles.MakeFile, error)
 }
 
-// UnimplementedMakeFileServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedMakeFileServiceServer struct {
+// UnimplementedMakeFileServer should be embedded to have forward compatible implementations.
+type UnimplementedMakeFileServer struct {
 }
 
-func (UnimplementedMakeFileServiceServer) Detect(context.Context, *ServiceInputString) (*ServiceOutputMakeFile, error) {
+func (UnimplementedMakeFileServer) Detect(context.Context, *helpers.StringInput) (*globalFiles.MakeFile, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
-// UnsafeMakeFileServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to MakeFileServiceServer will
+// UnsafeMakeFileServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to MakeFileServer will
 // result in compilation errors.
-type UnsafeMakeFileServiceServer interface {
-	mustEmbedUnimplementedMakeFileServiceServer()
+type UnsafeMakeFileServer interface {
+	mustEmbedUnimplementedMakeFileServer()
 }
 
-func RegisterMakeFileServiceServer(s grpc.ServiceRegistrar, srv MakeFileServiceServer) {
-	s.RegisterService(&MakeFileService_ServiceDesc, srv)
+func RegisterMakeFileServer(s grpc.ServiceRegistrar, srv MakeFileServer) {
+	s.RegisterService(&MakeFile_ServiceDesc, srv)
 }
 
-func _MakeFileService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInputString)
+func _MakeFile_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.StringInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MakeFileServiceServer).Detect(ctx, in)
+		return srv.(MakeFileServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.MakeFileService/Detect",
+		FullMethod: "/proto.MakeFile/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MakeFileServiceServer).Detect(ctx, req.(*ServiceInputString))
+		return srv.(MakeFileServer).Detect(ctx, req.(*helpers.StringInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// MakeFileService_ServiceDesc is the grpc.ServiceDesc for MakeFileService service.
+// MakeFile_ServiceDesc is the grpc.ServiceDesc for MakeFile service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var MakeFileService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.MakeFileService",
-	HandlerType: (*MakeFileServiceServer)(nil),
+var MakeFile_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.MakeFile",
+	HandlerType: (*MakeFileServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Detect",
-			Handler:    _MakeFileService_Detect_Handler,
+			Handler:    _MakeFile_Detect_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

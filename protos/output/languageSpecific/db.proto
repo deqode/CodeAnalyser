@@ -1,0 +1,17 @@
+syntax = "proto3";
+package protos.output.languageSpecific;
+
+import "protos/helpers/common.proto";
+
+option go_package = "code-analyser/protos/pb/output/languageSpecific";
+
+message DBOutput{
+  protos.helpers.Error error = 1;
+  // check Db
+  bool used = 2;
+  // list of all dbs
+  string name = 3;
+  string version = 4;
+  int64 port = 5;
+}
+

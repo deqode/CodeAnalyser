@@ -1,6 +1,6 @@
 const common = require("../common");
 
-function detectRuntime(input, callback) {
+function detect(input, callback) {
   let path = input.request.value;
   let parsedFile = common.requireJsonFile(
     path + "/package.json",
@@ -15,5 +15,5 @@ function detectRuntime(input, callback) {
 }
 
 module.exports = {
-  detectRuntime: detectRuntime,
+  detect: detect,
 };

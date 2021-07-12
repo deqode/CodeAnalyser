@@ -3,7 +3,7 @@ const fs = require("fs");
 const common = require("../common");
 
 function runPreDetect(input, callback) {
-  let path = input.request.root;
+  let path = input.request.rootPath;
   var packageJsonFile = common.requireJsonFile(
     path + "/package.json",
     callback,

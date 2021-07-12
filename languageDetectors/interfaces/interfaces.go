@@ -1,9 +1,8 @@
 package interfaces
 
 import (
-	language_detectors "code-analyser/GlobalFiles"
+	"code-analyser/protos/pb/helpers"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	"code-analyser/protos/pb/plugin"
 	"context"
 )
 
@@ -16,7 +15,7 @@ type LanguageSpecificDetector interface {
 	// TODO: interface ?
 	RunParsers(context.Context, string, string) (interface{}, error)
 	// ParseENVs  will return ENVs
-	ParseENVs(context.Context, string) ([]*languageSpecificPB.EnvOutput, error)
+//	ParseENVs(context.Context, string) ([]*languageSpecificPB.EnvOutput, error)
 	////DetectFrameworks  will return framework detected in Dir
 	DetectFrameworks(ctx context.Context, runtimeVersion string, root string) ([]*languageSpecificPB.FrameworkOutput, error)
 	//DetectDBs will return Dbs detected in string
@@ -33,33 +32,32 @@ type LanguageSpecificDetector interface {
 	DetectAppserver(context.Context, string, string) ([]*languageSpecificPB.AppserverOutput, error)
 	DetectBuildDirectory(context.Context, string, string) (*languageSpecificPB.BuildDirectoryOutput, error)
 	DetectTestCasesRunCommands(context.Context, string, string) ([]*languageSpecificPB.BuildDirectoryOutput, error) // Todo: proto
-	language_detectors.Commands
 }
 
 //TODO need to segregate and decouple our code
 
-//DetectRunTime This is for Detect version and its language
+//DetectRunTime This is for DetectDockerFile version and its language
 type DetectRunTime interface {
-	DetectRuntime(inputString *plugin.ServiceInputString) (*plugin.ServiceOutputString, error)
+	Detect(inputString *helpers.StringInput) (*helpers.StringOutput, error)
 }
 
 //Dependencies It is for all dependencies for example beego,gin,postgres
 type Dependencies interface {
-	GetDependencies(inputString *plugin.ServiceInput) (*plugin.ServiceOutputStringMap, error)
+	GetDependencies(inputString *helpers.Input) (*helpers.StringMapOutput, error)
 }
 
 type PreDetectCommands interface {
-	RunPreDetect(input *plugin.ServiceInput) (*plugin.ServiceEmptyOutput, error)
+	RunPreDetect(input *helpers.Input) (*helpers.EmptyOutput, error)
 }
 
 type StaticAssets interface {
-	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputStaticAssets, error)
+	Detect(input *helpers.Input) (*languageSpecificPB.StaticAssetsOutput, error)
 }
 
 type BuildDirectory interface {
-	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputStringMap, error)
+	Detect(input *helpers.Input) (*languageSpecificPB.BuildDirectoryOutput, error)
 }
 
 type TestCasesRunCommands interface {
-	Detect(input *plugin.ServiceInput) (*plugin.ServiceOutputTestCommand, error)
+	Detect(input *helpers.Input) (*languageSpecificPB.TestCasesCommand, error)
 }

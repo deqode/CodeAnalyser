@@ -10,14 +10,14 @@ import (
 
 type GRPCPlugin struct {
 	plugin.Plugin
-	Impl GlobalFiles.Makefiles
+	Impl GlobalFiles.Makefile
 }
 
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, server *grpc.Server) error {
-	pb.RegisterMakeFileServiceServer(server, &GRPCServer{Impl: p.Impl})
+	pb.RegisterMakeFileServer(server, &GRPCServer{Impl: p.Impl})
 	return nil
 }
 
 func (p *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, conn *grpc.ClientConn) (interface{}, error) {
-	return &GRPCClient{Client: pb.NewMakeFileServiceClient(conn)}, nil
+	return &GRPCClient{Client: pb.NewMakeFileClient(conn)}, nil
 }

@@ -3,6 +3,8 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
+	languageSpecific "code-analyser/protos/pb/output/languageSpecific"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -14,84 +16,84 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// EnvServiceClient is the client API for EnvService service.
+// EnvClient is the client API for Env service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type EnvServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputEnv, error)
+type EnvClient interface {
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*languageSpecific.Envs, error)
 }
 
-type envServiceClient struct {
+type envClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewEnvServiceClient(cc grpc.ClientConnInterface) EnvServiceClient {
-	return &envServiceClient{cc}
+func NewEnvClient(cc grpc.ClientConnInterface) EnvClient {
+	return &envClient{cc}
 }
 
-func (c *envServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputEnv, error) {
-	out := new(ServiceOutputEnv)
-	err := c.cc.Invoke(ctx, "/proto.EnvService/Detect", in, out, opts...)
+func (c *envClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*languageSpecific.Envs, error) {
+	out := new(languageSpecific.Envs)
+	err := c.cc.Invoke(ctx, "/proto.Env/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// EnvServiceServer is the server API for EnvService service.
-// All implementations should embed UnimplementedEnvServiceServer
+// EnvServer is the server API for Env service.
+// All implementations should embed UnimplementedEnvServer
 // for forward compatibility
-type EnvServiceServer interface {
-	Detect(context.Context, *ServiceInput) (*ServiceOutputEnv, error)
+type EnvServer interface {
+	Detect(context.Context, *helpers.Input) (*languageSpecific.Envs, error)
 }
 
-// UnimplementedEnvServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedEnvServiceServer struct {
+// UnimplementedEnvServer should be embedded to have forward compatible implementations.
+type UnimplementedEnvServer struct {
 }
 
-func (UnimplementedEnvServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputEnv, error) {
+func (UnimplementedEnvServer) Detect(context.Context, *helpers.Input) (*languageSpecific.Envs, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
 
-// UnsafeEnvServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to EnvServiceServer will
+// UnsafeEnvServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to EnvServer will
 // result in compilation errors.
-type UnsafeEnvServiceServer interface {
-	mustEmbedUnimplementedEnvServiceServer()
+type UnsafeEnvServer interface {
+	mustEmbedUnimplementedEnvServer()
 }
 
-func RegisterEnvServiceServer(s grpc.ServiceRegistrar, srv EnvServiceServer) {
-	s.RegisterService(&EnvService_ServiceDesc, srv)
+func RegisterEnvServer(s grpc.ServiceRegistrar, srv EnvServer) {
+	s.RegisterService(&Env_ServiceDesc, srv)
 }
 
-func _EnvService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Env_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(EnvServiceServer).Detect(ctx, in)
+		return srv.(EnvServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.EnvService/Detect",
+		FullMethod: "/proto.Env/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EnvServiceServer).Detect(ctx, req.(*ServiceInput))
+		return srv.(EnvServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// EnvService_ServiceDesc is the grpc.ServiceDesc for EnvService service.
+// Env_ServiceDesc is the grpc.ServiceDesc for Env service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var EnvService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.EnvService",
-	HandlerType: (*EnvServiceServer)(nil),
+var Env_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.Env",
+	HandlerType: (*EnvServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Detect",
-			Handler:    _EnvService_Detect_Handler,
+			Handler:    _Env_Detect_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

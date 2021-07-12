@@ -2,9 +2,10 @@ syntax = "proto3";
 package proto;
 option go_package = "code-analyser/protos/pb/plugin";
 
-import "protos/plugin/common.proto";
+import "protos/helpers/common.proto";
 
-service DependenciesService {
-    rpc GetDependencies(ServiceInput) returns (ServiceOutputStringMap);
+// project dependencies for example in js whole package.json dependencies
+service Dependencies {
+    rpc GetDependencies(protos.helpers.Input) returns (protos.helpers.StringMapOutput);
 }
 

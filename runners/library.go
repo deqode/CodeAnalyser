@@ -3,21 +3,22 @@ package runners
 import (
 	"code-analyser/helpers"
 	"code-analyser/pluginClient"
+	pb "code-analyser/protos/pb/helpers"
 	languageSpecificPB "code-analyser/protos/pb/output/languageSpecific"
-	pb "code-analyser/protos/pb/plugin"
-	versionsPB "code-analyser/protos/pb/versions"
+	pluginPb "code-analyser/protos/pb/pluginDetails"
 	"code-analyser/utils"
+	"golang.org/x/net/context"
 )
 
-func ParseLibraryFromDependencies(dependenciesList map[string]string, langYamlObject *versionsPB.LanguageVersion) map[string]DependencyDetail {
+func ExtractLibraryFromProjectDependencies(ctx context.Context, projectDependencies map[string]string, libraryPlugins map[string]*pluginPb.DependencyDetails) map[string]DependencyDetail {
 	library := map[string]DependencyDetail{}
-	for key, supportedLibrary := range langYamlObject.Libraries {
-		if versionUsed, ok := dependenciesList[key]; ok {
-			for versionName, v := range supportedLibrary.Version {
-				if helpers.SemverValidateFromArray(v.Semver, versionUsed) {
-					library[key] = DependencyDetail{
-						Version: versionName,
-						Command: v.Plugincommand,
+	for name, details := range libraryPlugins {
+		if usedLibraryVersion, ok := projectDependencies[name]; ok {
+			for version, versionDetails := range details.Version {
+				if helpers.SemverValidateFromArray(versionDetails.Semver, usedLibraryVersion) {
+					library[name] = DependencyDetail{
+						Version: version,
+						Command: versionDetails.PluginPath,
 					}
 				}
 			}
@@ -26,56 +27,56 @@ func ParseLibraryFromDependencies(dependenciesList map[string]string, langYamlOb
 	return library
 }
 
-func LibraryRunner(libraryList map[string]DependencyDetail, runtimeVersion, root string) []*languageSpecificPB.LibraryOutput {
-	var libraryOutputs []*languageSpecificPB.LibraryOutput
-	for libraryUsed, libraryDetails := range libraryList {
-		isUsed := LibraryDetectorRunner(libraryUsed, libraryDetails, runtimeVersion, root)
+func ExecuteLibraryPlugins(ctx context.Context, libraryPlugins map[string]DependencyDetail, runtimeVersion, projectRootPath string) []*languageSpecificPB.LibraryOutput {
+	var libraryOutput []*languageSpecificPB.LibraryOutput
+
+	for name, details := range libraryPlugins {
+		isUsed := ExecuteLibraryPlugin(ctx, name, details, runtimeVersion, projectRootPath)
 		if isUsed != nil {
-			libraryOutputs = append(libraryOutputs, isUsed)
+			libraryOutput = append(libraryOutput, isUsed)
 		}
 	}
-	return libraryOutputs
+	return libraryOutput
 }
 
-//LibraryDetectorRunner will find and run version detector & returns protos.FrameworkOutput to
-func LibraryDetectorRunner(name string, libraryDetails DependencyDetail, runtimeVersion, root string) *languageSpecificPB.LibraryOutput {
-	libraryResponse, client := pluginClient.LibraryPluginCall(utils.CallPluginCommand(libraryDetails.Command))
-	for client.Exited() {
-		client.Kill()
-	}
-	isUsed, err := libraryResponse.IsUsed(&pb.ServiceInput{
+//ExecuteLibraryPlugin will find and run version detector & returns protos.FrameworkOutput to
+func ExecuteLibraryPlugin(ctx context.Context, name string, libraryDetails DependencyDetail, runtimeVersion, projectRootPath string) *languageSpecificPB.LibraryOutput {
+	pluginCall, _ := pluginClient.CreateLibraryClient(utils.CallPluginCommand(libraryDetails.Command))
+
+	pluginInput := &pb.Input{
 		RuntimeVersion: runtimeVersion,
-		Root:           root,
-	})
+		RootPath:       projectRootPath,
+	}
+
+	isUsed, err := pluginCall.IsUsed(pluginInput)
 	if err != nil || isUsed.Error != nil {
-		utils.Logger(err, isUsed.Error)
+		utils.Logger(err, isUsed)
 		return nil
 	}
-	if isUsed.Value {
-		detection, err := libraryResponse.Detect(&pb.ServiceInput{
-			RuntimeVersion: runtimeVersion,
-			Root:           root,
-		})
-		if err != nil || detection.Error != nil {
-			utils.Logger(err, detection.Error)
+
+	if isUsed.Value == false {
+		return nil
+	}
+
+	response, err := pluginCall.Detect(pluginInput)
+	if err != nil || response.Error != nil {
+		utils.Logger(err, response)
+		return nil
+	}
+
+	if response.Value {
+		percentUsed, err := pluginCall.PercentOfUsed(pluginInput)
+		if err != nil || percentUsed.Error != nil {
+			utils.Logger(err, percentUsed)
 			return nil
 		}
-		if detection.Value {
-			percentUsed, err := libraryResponse.PercentOfUsed(&pb.ServiceInput{
-				RuntimeVersion: runtimeVersion,
-				Root:           root,
-			})
-			if err != nil || percentUsed.Error != nil {
-				utils.Logger(err, percentUsed.Error)
-				return nil
-			}
-			return &languageSpecificPB.LibraryOutput{
-				Type:           languageSpecificPB.LibraryOutput_Type(detection.Type),
-				Used:           isUsed.Value,
-				Name:           name,
-				Version:        libraryDetails.Version,
-				PercentageUsed: percentUsed.Value,
-			}
+
+		return &languageSpecificPB.LibraryOutput{
+			Type:           response.Type,
+			Used:           isUsed.Value,
+			Name:           name,
+			Version:        libraryDetails.Version,
+			PercentageUsed: percentUsed.Value,
 		}
 	}
 	return nil

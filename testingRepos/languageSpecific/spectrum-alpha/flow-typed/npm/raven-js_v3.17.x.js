@@ -115,13 +115,13 @@ declare module "raven-js" {
 
     /*
      * Allow Raven to be configured as soon as it is loaded
-     * It uses a global RavenConfig = {dsn: '...', config: {}}
+     * It uses a globalFiles RavenConfig = {dsn: '...', config: {}}
      */
     afterLoad(): void,
 
     /*
-     * Allow multiple versions of Raven to be installed.
-     * Strip Raven from the global context and returns the instance.
+     * Allow multiple pluginDetails of Raven to be installed.
+     * Strip Raven from the globalFiles context and returns the instance.
      */
     noConflict(): this,
 
@@ -129,7 +129,7 @@ declare module "raven-js" {
     config(dsn: string, options?: RavenOptions): this,
 
     /*
-     * Installs a global window.onerror error handler
+     * Installs a globalFiles window.onerror error handler
      * to capture and report uncaught exceptions.
      * At this point, install() is required to be called due
      * to the way TraceKit is set up.
@@ -152,7 +152,7 @@ declare module "raven-js" {
     wrap<T: Function>(func: T): T,
     wrap<T: Function>(options: RavenOptions, func: T): T,
 
-    /** Uninstalls the global error handler. */
+    /** Uninstalls the globalFiles error handler. */
     uninstall(): this,
 
     /** Manually capture an exception and send it over to Sentry */

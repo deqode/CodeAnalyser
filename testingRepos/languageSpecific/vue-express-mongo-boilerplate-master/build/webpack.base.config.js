@@ -95,7 +95,7 @@ module.exports = {
 		mainFiles: ["index"],
 		alias: {
 			"images": path.resolve(__dirname, "..", "client", "images"),
-			"vue$": "vue/dist/vue.common.js"
+			"vue$": "vue/dist/vue.helpers.js"
 		}
 	},
 

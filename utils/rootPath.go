@@ -6,7 +6,7 @@ import (
 	"runtime"
 )
 
-func ProjectPath() string {
+func RootDirPath() string {
 	_, b, _, _ := runtime.Caller(0)
 	d := path.Join(path.Dir(b))
 	return filepath.Dir(d)

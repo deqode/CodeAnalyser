@@ -1,12 +1,13 @@
 package interfaces
 
 import (
+	"code-analyser/protos/pb/helpers"
 	"code-analyser/protos/pb/plugin"
 )
 
-//ORMVersion It contains methods to get details of ORM
-type ORMVersion interface {
-	Detect(*plugin.ServiceInput) (*plugin.ServiceOutputDetectOrm, error) // deep level detection
-	IsORMUsed(*plugin.ServiceInput) (*plugin.ServiceOutputBool, error)
-	PercentOfORMUsed(*plugin.ServiceInput) (*plugin.ServiceOutputFloat, error)
+//Orm It contains methods to get details of ORM
+type Orm interface {
+	Detect(input *helpers.Input) (*plugin.OrmOutput, error) // deep level detection
+	IsUsed(input *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(input *helpers.Input) (*helpers.FloatOutput, error)
 }

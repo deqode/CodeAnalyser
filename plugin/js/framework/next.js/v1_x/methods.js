@@ -1,6 +1,6 @@
 var common= require("../../../common");
 function detect(input, callback) {
-  let path = input.request.root;
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,
@@ -11,7 +11,7 @@ function detect(input, callback) {
 }
 
 function isFrameworkUsed(input, callback) {
-  let path = input.request.root;
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,
@@ -22,7 +22,7 @@ function isFrameworkUsed(input, callback) {
 }
 
 function percentOfFrameworkUsed(input, callback) {
-  let path = input.request.root;
+  let path = input.request.rootPath;
   common.requirePathCheck(
     path,
     callback,

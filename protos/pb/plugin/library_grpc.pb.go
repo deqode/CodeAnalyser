@@ -3,6 +3,7 @@
 package plugin
 
 import (
+	helpers "code-analyser/protos/pb/helpers"
 	context "context"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -14,156 +15,156 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// LibraryServiceClient is the client API for LibraryService service.
+// LibraryClient is the client API for Library service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type LibraryServiceClient interface {
-	Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputLibraryType, error)
-	IsUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error)
-	PercentOfUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error)
+type LibraryClient interface {
+	Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*LibraryType, error)
+	IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error)
+	PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error)
 }
 
-type libraryServiceClient struct {
+type libraryClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewLibraryServiceClient(cc grpc.ClientConnInterface) LibraryServiceClient {
-	return &libraryServiceClient{cc}
+func NewLibraryClient(cc grpc.ClientConnInterface) LibraryClient {
+	return &libraryClient{cc}
 }
 
-func (c *libraryServiceClient) Detect(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputLibraryType, error) {
-	out := new(ServiceOutputLibraryType)
-	err := c.cc.Invoke(ctx, "/proto.LibraryService/Detect", in, out, opts...)
+func (c *libraryClient) Detect(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*LibraryType, error) {
+	out := new(LibraryType)
+	err := c.cc.Invoke(ctx, "/proto.Library/Detect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *libraryServiceClient) IsUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputBool, error) {
-	out := new(ServiceOutputBool)
-	err := c.cc.Invoke(ctx, "/proto.LibraryService/IsUsed", in, out, opts...)
+func (c *libraryClient) IsUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.BoolOutput, error) {
+	out := new(helpers.BoolOutput)
+	err := c.cc.Invoke(ctx, "/proto.Library/IsUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *libraryServiceClient) PercentOfUsed(ctx context.Context, in *ServiceInput, opts ...grpc.CallOption) (*ServiceOutputFloat, error) {
-	out := new(ServiceOutputFloat)
-	err := c.cc.Invoke(ctx, "/proto.LibraryService/PercentOfUsed", in, out, opts...)
+func (c *libraryClient) PercentOfUsed(ctx context.Context, in *helpers.Input, opts ...grpc.CallOption) (*helpers.FloatOutput, error) {
+	out := new(helpers.FloatOutput)
+	err := c.cc.Invoke(ctx, "/proto.Library/PercentOfUsed", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// LibraryServiceServer is the server API for LibraryService service.
-// All implementations should embed UnimplementedLibraryServiceServer
+// LibraryServer is the server API for Library service.
+// All implementations should embed UnimplementedLibraryServer
 // for forward compatibility
-type LibraryServiceServer interface {
-	Detect(context.Context, *ServiceInput) (*ServiceOutputLibraryType, error)
-	IsUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error)
-	PercentOfUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error)
+type LibraryServer interface {
+	Detect(context.Context, *helpers.Input) (*LibraryType, error)
+	IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error)
+	PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error)
 }
 
-// UnimplementedLibraryServiceServer should be embedded to have forward compatible implementations.
-type UnimplementedLibraryServiceServer struct {
+// UnimplementedLibraryServer should be embedded to have forward compatible implementations.
+type UnimplementedLibraryServer struct {
 }
 
-func (UnimplementedLibraryServiceServer) Detect(context.Context, *ServiceInput) (*ServiceOutputLibraryType, error) {
+func (UnimplementedLibraryServer) Detect(context.Context, *helpers.Input) (*LibraryType, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Detect not implemented")
 }
-func (UnimplementedLibraryServiceServer) IsUsed(context.Context, *ServiceInput) (*ServiceOutputBool, error) {
+func (UnimplementedLibraryServer) IsUsed(context.Context, *helpers.Input) (*helpers.BoolOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsUsed not implemented")
 }
-func (UnimplementedLibraryServiceServer) PercentOfUsed(context.Context, *ServiceInput) (*ServiceOutputFloat, error) {
+func (UnimplementedLibraryServer) PercentOfUsed(context.Context, *helpers.Input) (*helpers.FloatOutput, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PercentOfUsed not implemented")
 }
 
-// UnsafeLibraryServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to LibraryServiceServer will
+// UnsafeLibraryServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to LibraryServer will
 // result in compilation errors.
-type UnsafeLibraryServiceServer interface {
-	mustEmbedUnimplementedLibraryServiceServer()
+type UnsafeLibraryServer interface {
+	mustEmbedUnimplementedLibraryServer()
 }
 
-func RegisterLibraryServiceServer(s grpc.ServiceRegistrar, srv LibraryServiceServer) {
-	s.RegisterService(&LibraryService_ServiceDesc, srv)
+func RegisterLibraryServer(s grpc.ServiceRegistrar, srv LibraryServer) {
+	s.RegisterService(&Library_ServiceDesc, srv)
 }
 
-func _LibraryService_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Library_Detect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LibraryServiceServer).Detect(ctx, in)
+		return srv.(LibraryServer).Detect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.LibraryService/Detect",
+		FullMethod: "/proto.Library/Detect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LibraryServiceServer).Detect(ctx, req.(*ServiceInput))
+		return srv.(LibraryServer).Detect(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LibraryService_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Library_IsUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LibraryServiceServer).IsUsed(ctx, in)
+		return srv.(LibraryServer).IsUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.LibraryService/IsUsed",
+		FullMethod: "/proto.Library/IsUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LibraryServiceServer).IsUsed(ctx, req.(*ServiceInput))
+		return srv.(LibraryServer).IsUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _LibraryService_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ServiceInput)
+func _Library_PercentOfUsed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(helpers.Input)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LibraryServiceServer).PercentOfUsed(ctx, in)
+		return srv.(LibraryServer).PercentOfUsed(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.LibraryService/PercentOfUsed",
+		FullMethod: "/proto.Library/PercentOfUsed",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LibraryServiceServer).PercentOfUsed(ctx, req.(*ServiceInput))
+		return srv.(LibraryServer).PercentOfUsed(ctx, req.(*helpers.Input))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// LibraryService_ServiceDesc is the grpc.ServiceDesc for LibraryService service.
+// Library_ServiceDesc is the grpc.ServiceDesc for Library service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var LibraryService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "proto.LibraryService",
-	HandlerType: (*LibraryServiceServer)(nil),
+var Library_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.Library",
+	HandlerType: (*LibraryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Detect",
-			Handler:    _LibraryService_Detect_Handler,
+			Handler:    _Library_Detect_Handler,
 		},
 		{
 			MethodName: "IsUsed",
-			Handler:    _LibraryService_IsUsed_Handler,
+			Handler:    _Library_IsUsed_Handler,
 		},
 		{
 			MethodName: "PercentOfUsed",
-			Handler:    _LibraryService_PercentOfUsed_Handler,
+			Handler:    _Library_PercentOfUsed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
