@@ -17,7 +17,7 @@ type Analyser struct {
 
 func main() {
 	var ctx context.Context
-	var path = "./"
+	var path = "/home/kishan/Downloads/hitman-ui-20210301T155231Z-001/hitman-ui"
 	logger, _ := zap.NewProduction()
 	set := utils.Setting{
 		Logger: logger,
