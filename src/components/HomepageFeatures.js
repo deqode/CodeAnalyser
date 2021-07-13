@@ -14,7 +14,7 @@ const FeatureList = [
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Plugin Architecture',
     Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
