@@ -66,6 +66,11 @@ module.exports = {
           href: 'https://deqode.com/'
         }]
       }],
+      logo: {
+        alt: 'Deqode logo',
+        src: 'img/deq.svg',
+        href: 'https://deqode.com/'
+      },
       copyright: "Copyright \xA9 ".concat(new Date().getFullYear(), " Deqode, Inc.")
     },
     prism: {
@@ -77,7 +82,7 @@ module.exports = {
     docs: {
       sidebarPath: require.resolve('./sidebars.js'),
       // Please change this to your repo.
-      editUrl: 'https://github.com/deqode/code-analyser/edit/master/website/'
+      editUrl: 'https://github.com/deqode/CodeAnalyser/tree/documentation'
     },
     theme: {
       customCss: require.resolve('./src/css/custom.css')

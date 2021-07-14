@@ -5,31 +5,30 @@ import styles from './HomepageFeatures.module.css';
 const FeatureList = [
   {
     title: 'Easy to Use',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('../../static/img/easy.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Code Analyser was designed from the ground up to be easily installed and
+        used to get your code base analysed quickly.
       </>
     ),
   },
   {
     title: 'Plugin Architecture',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('../../static/img/plug-in.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Code Analyser lets you focus on your detection, and we&apos;ll do the chores. Go
+        ahead and make your own  <code>plug-in</code> .
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    title: 'Multilingual',
+    Svg: require('../../static/img/multilingual.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Code Analyser can be extended in any language by just ading new plugin.
       </>
     ),
   },
