@@ -14,6 +14,7 @@ import (
 type EnvPlugin struct {
 	Methods interfaces.Env
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *EnvPlugin) Load(yamlFile *pbUtils.Details) {

@@ -14,10 +14,13 @@ import (
 type BuildDirectoryPlugin struct {
 	Methods interfaces.BuildDirectory
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *BuildDirectoryPlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Setting.Logger.Debug("buildDirectory plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateBuildDirectoryClient(utils.CallPluginCommand(yamlFile.Command))
+	plugin.Setting.Logger.Debug("buildDirectory plugin client created successfully")
 }
 
 func (plugin BuildDirectoryPlugin) Run(ctx context.Context,runTimeVersion, projectRootPath string) (*languageSpecific.BuildDirectoryOutput, error) {

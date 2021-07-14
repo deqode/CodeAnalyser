@@ -14,6 +14,7 @@ import (
 
 type DbPlugin struct {
 	Dbs map[string]*DbVersion
+	Setting *utils.Setting
 }
 
 type DbVersion struct {
@@ -24,9 +25,11 @@ type DbPluginDetails struct {
 	Libraries []*pbUtils.Library
 	Methods   interfaces.Db
 	Client    *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugins *DbPlugin) Load(yamlFile *pbUtils.Details) {
+	plugins.Setting.Logger.Debug("database plugin client creation started")
 	methods, client := pluginClient.CreateDbClient(utils.CallPluginCommand(yamlFile.Command))
 	if plugins.Dbs == nil {
 		plugins.Dbs = map[string]*DbVersion{}
@@ -48,6 +51,7 @@ func (plugins *DbPlugin) Load(yamlFile *pbUtils.Details) {
 			},
 		}
 	}
+	plugins.Setting.Logger.Debug("database plugin client created successfully")
 }
 
 func (plugins *DbPlugin) Extract(ctx context.Context, projectDependencies map[string]string) []*utils.Dependency {

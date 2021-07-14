@@ -16,15 +16,9 @@ type GlobalPlugin struct {
 func (globalPlugin *GlobalPlugin) Load(ctx context.Context, pluginYamlFiles []utils.FileDetails) error {
 	globalPlugin.Setting.Logger.Debug("global plugin loading started")
 
-	globalPlugin.DockerFile = &DockerFilePlugin{
-		Setting: globalPlugin.Setting,
-	}
-	globalPlugin.ProcFile = &ProcFilePlugin{
-		Setting: globalPlugin.Setting,
-	}
-	globalPlugin.MakeFile = &MakeFilePlugin{
-		Setting: globalPlugin.Setting,
-	}
+	globalPlugin.DockerFile = &DockerFilePlugin{Setting: globalPlugin.Setting}
+	globalPlugin.ProcFile = &ProcFilePlugin{Setting: globalPlugin.Setting}
+	globalPlugin.MakeFile = &MakeFilePlugin{Setting: globalPlugin.Setting}
 
 	globalPlugin.Setting.Logger.Info("global plugin yaml file reading and client initialization started")
 	for _, pluginFile := range pluginYamlFiles {
@@ -38,11 +32,17 @@ func (globalPlugin *GlobalPlugin) Load(ctx context.Context, pluginYamlFiles []ut
 
 		switch pluginYamlFile.Type {
 		case "dockerFile":
+			globalPlugin.Setting.Logger.Info("docker plugin client creation started")
 			globalPlugin.DockerFile.Load(pluginYamlFile)
+			globalPlugin.Setting.Logger.Info("docker plugin client created successfully")
 		case "procFile":
+			globalPlugin.Setting.Logger.Info("procfile plugin client creation started")
 			globalPlugin.ProcFile.Load(pluginYamlFile)
+			globalPlugin.Setting.Logger.Info("procfile plugin client created successfully")
 		case "makeFile":
+			globalPlugin.Setting.Logger.Info("makefile plugin client creation started")
 			globalPlugin.MakeFile.Load(pluginYamlFile)
+			globalPlugin.Setting.Logger.Info("makefile plugin client created successfully")
 		}
 	}
 	globalPlugin.Setting.Logger.Info("global plugin yaml file reading and client initialization completed")

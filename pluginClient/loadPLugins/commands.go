@@ -14,10 +14,13 @@ import (
 type CommandsPlugin struct {
 	Methods interfaces.Commands
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *CommandsPlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Setting.Logger.Debug("commands plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateCommandsClient(utils.CallPluginCommand(yamlFile.Command))
+	plugin.Setting.Logger.Debug("commands plugin client created successfully")
 }
 
 func (plugin *CommandsPlugin) Run(ctx context.Context, projectRootPath string) (*languageSpecific.Commands, error) {

@@ -15,6 +15,7 @@ import (
 type PreDetectCommandsPlugin struct {
 	Methods interfaces.PreDetectCommands
 	Client  *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugin *PreDetectCommandsPlugin) Load(yamlFile *pbUtils.Details) {

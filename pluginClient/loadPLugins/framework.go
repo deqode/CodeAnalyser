@@ -14,6 +14,7 @@ import (
 
 type FrameworkPlugin struct {
 	Frameworks map[string]*FrameworkVersion
+	Setting *utils.Setting
 }
 
 type FrameworkVersion struct {
@@ -24,6 +25,7 @@ type FrameworkPluginDetails struct {
 	Libraries []*pbUtils.Library
 	Methods   interfaces.Framework
 	Client    *plugin.Client
+	Setting *utils.Setting
 }
 
 func (plugins *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
