@@ -16,7 +16,7 @@ module.exports = {
     navbar: {
       title: 'Code Analyser',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Code Analyser',
         src: 'img/logo.png',
       },
       items: [

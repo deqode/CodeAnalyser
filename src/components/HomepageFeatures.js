@@ -4,16 +4,6 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('../../static/img/easy.svg').default,
-    description: (
-      <>
-        Code Analyser was designed from the ground up to be easily installed and
-        used to get your code base analysed quickly.
-      </>
-    ),
-  },
-  {
     title: 'Plugin Architecture',
     Svg: require('../../static/img/plug-in.svg').default,
     description: (
@@ -30,6 +20,13 @@ const FeatureList = [
       <>
         Code Analyser can be extended in any language by just ading new plugin.
       </>
+    ),
+  },
+  {
+    title: 'Powered by Deqode',
+    Svg: require('../../static/img/deq.svg').default,
+    description: (
+      <>Constanly updated and maintained by developers at Deqode.  </>
     ),
   },
 ];
