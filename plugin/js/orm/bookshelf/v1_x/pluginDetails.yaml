@@ -1,0 +1,14 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "orm"
+  name: "bookshelf"
+  version: "v1.x"
+  description: "Bookshelf is a JavaScript ORM for Node.js, built on the Knex SQL query builder."
+  icon: ""
+  semver:
+    - ">=1.x,<6.x"
+  command: "node alfredPlugin/server.js"

@@ -1,0 +1,19 @@
+syntax = "proto3";
+package proto;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/helpers/common.proto";
+import "protos/output/languageSpecific/libraries.proto";
+
+service Library {
+  rpc   Detect(protos.helpers.Input) returns (LibraryType);
+  rpc   IsUsed(protos.helpers.Input) returns (protos.helpers.BoolOutput);
+  rpc   PercentOfUsed(protos.helpers.Input) returns (protos.helpers.FloatOutput);
+}
+
+message  LibraryType{
+  bool value = 1;
+  protos.output.languageSpecific.Type type = 3;
+  protos.helpers.Error error = 2;
+}
+

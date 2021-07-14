@@ -1,0 +1,18 @@
+syntax = "proto3";
+package proto;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/helpers/common.proto";
+
+message OrmOutput{
+  bool used = 1;
+  string DbName = 2;
+  string DbVersion = 3;
+  protos.helpers.Error error = 4;
+}
+
+service Orm {
+  rpc Detect(protos.helpers.Input) returns (OrmOutput);  // deep level detection
+  rpc IsUsed(protos.helpers.Input) returns (protos.helpers.BoolOutput);
+  rpc PercentOfUsed(protos.helpers.Input) returns (protos.helpers.FloatOutput);
+}

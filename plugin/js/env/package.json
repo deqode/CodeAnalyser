@@ -1,0 +1,18 @@
+{
+  "name": "env",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "kishan",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.2.12",
+    "@grpc/proto-loader": "^0.6.0",
+    "dotenv": "^8.2.0",
+    "get-port": "^5.1.1",
+    "grpc-health-check": "^1.8.0"
+  }
+}

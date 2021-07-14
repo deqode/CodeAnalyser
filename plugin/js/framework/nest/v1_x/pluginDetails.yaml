@@ -1,0 +1,17 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "framework"
+  name: "nestJs"
+  libraries:
+    - name: "@nestjs/core"
+      semver:
+        - ">=1.x,<8.x"
+  version: "v1.x"
+  description : "A progressive Node.js framework for building efficient, reliable and scalable server-side applications."
+  icon : ""
+  command: "node alfredPlugin/server.js"
+

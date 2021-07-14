@@ -1,0 +1,19 @@
+{
+  "name": "testcasescommands",
+  "version": "1.0.0",
+  "description": "it will detect all test cases commands",
+  "main": "server.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.2.12",
+    "@grpc/proto-loader": "^0.6.1",
+    "depcheck": "^1.4.0",
+    "get-port": "^5.1.1",
+    "grpc-health-check": "^1.8.0",
+    "latest-version": "^5.1.0"
+  },
+  "author": "kishan",
+  "license": "ISC"
+}

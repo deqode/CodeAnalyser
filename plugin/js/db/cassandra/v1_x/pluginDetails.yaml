@@ -1,0 +1,18 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "database"
+  libraries:
+    - name: "cassandra-driver"
+      semver:
+        - ">=1.x,<5.x"
+  name: "cassandra"
+  description: "Apache Cassandra is a free and open-source, distributed, wide-column store, NoSQL database management system"
+  icon: ""
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "node alfredPlugin/server.js"

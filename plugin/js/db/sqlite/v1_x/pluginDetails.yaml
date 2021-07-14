@@ -1,0 +1,27 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "database"
+  libraries:
+    - name: "sqlite"
+      semver:
+        - ">=1.x,<5.x"
+    - name: "sqlite3"
+      semver:
+        - ">=1.x,<6.x"
+    - name: "better-sqlite3"
+      semver:
+        - ">=1.x,<8.x"
+    - name: "sql.js"
+      semver:
+        - ">=1.x,<2.x"
+  name: "sqlite"
+  version: "v1.x"
+  description : "SQLite is a relational database management system contained in a C library. In contrast to many other database management systems, SQLite is not a client–server database engine"
+  icon : ""
+  semver:
+    - ">=1.x,<2.x"
+  command: "node alfredPlugin/server.js"

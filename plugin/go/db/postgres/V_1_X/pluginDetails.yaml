@@ -1,0 +1,19 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "database"
+  name: "postgres"
+  libraries:
+    - name: "pg"
+      semver:
+        - ">=1.x,<2.x"
+    - name: "pgsql"
+      semver:
+        - ">=1.x,<2.x"
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "alfredPlugin/plugin"

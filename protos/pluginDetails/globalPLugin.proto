@@ -1,0 +1,10 @@
+syntax = "proto3";
+package protos.pluginDetails;
+
+option go_package = "code-analyser/protos/pb/pluginDetails";
+
+message GlobalPlugins{
+  string dockerFilePluginPath = 1;
+  string procFilePluginPath = 2;
+  string makeFilePluginPath = 3;
+}

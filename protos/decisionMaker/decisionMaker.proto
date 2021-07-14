@@ -1,0 +1,50 @@
+syntax = "proto3";
+option go_package = "code-analyser/protos/pb";
+
+import "protos/output/globalFiles/dockercompose.proto";
+import "protos/output/globalFiles/dockerfile.proto";
+import "protos/output/globalFiles/makefile.proto";
+import "protos/output/globalFiles/procfile.proto";
+
+import  "protos/output/languageSpecific/appserver.proto";
+import "protos/output/languageSpecific/db.proto";
+import "protos/output/languageSpecific/dependencies.proto";
+import "protos/output/languageSpecific/env.proto";
+import "protos/output/languageSpecific/framework.proto";
+import "protos/output/languageSpecific/libraries.proto";
+import "protos/output/languageSpecific/orm.proto";
+import "protos/output/languageSpecific/stack.proto";
+import "protos/output/languageSpecific/staticAssets.proto";
+import "protos/output/languageSpecific/testCasesCommand.proto";
+import "protos/output/languageSpecific/commands.proto";
+import "protos/output/languageSpecific/buildDirectory.proto";
+
+message LanguageSpecificDetections {
+  string name = 1;
+  string runtimeVersion = 2;
+  protos.output.languageSpecific.Envs env = 3;
+  repeated protos.output.languageSpecific.FrameworkOutput framework = 4;
+  repeated protos.output.languageSpecific.DBOutput db = 5;
+  repeated protos.output.languageSpecific.OrmOutput orm = 6;
+  repeated protos.output.languageSpecific.DependenciesOutput dependencies = 7;
+  repeated protos.output.languageSpecific.LibraryOutput libraries = 8;
+  protos.output.languageSpecific.StaticAssetsOutput staticAssets = 9;
+  repeated protos.output.languageSpecific.StackOutput stackOutput = 10;
+  repeated protos.output.languageSpecific.AppserverOutput appserver = 11;
+  protos.output.languageSpecific.BuildDirectoryOutput buildDirectory = 12;
+  protos.output.languageSpecific.TestCasesCommand testCases = 13;
+  protos.output.languageSpecific.Commands commands = 14;
+  // todo: DetectTestCasesRunCommands
+}
+
+message GlobalDetections {
+  protos.output.globalFiles.ProcFile procFile = 1;
+  protos.output.globalFiles.MakeFile makefile = 2;
+  protos.output.globalFiles.DockerFile dockerFile = 3;
+  protos.output.globalFiles.DockerCompose dockerComposeFile = 4;
+}
+
+message DecisionMakerInput {
+  repeated LanguageSpecificDetections languageSpecificDetections = 1;
+  GlobalDetections gloabalDetections = 2;
+}

@@ -1,0 +1,21 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "database"
+  libraries:
+    - name: "mysql"
+      semver:
+        - ">=1.x,<3.x"
+    - name: "mysql2"
+      semver:
+        - ">=1.x,<3.x"
+  name: "mysql"
+  descriptiom : "MySQL is the most popular Open Source Relational SQL Database Management System."
+  icon : ""
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "node alfredPlugin/server.js"

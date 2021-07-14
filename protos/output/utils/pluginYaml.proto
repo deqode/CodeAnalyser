@@ -1,0 +1,30 @@
+syntax = "proto3";
+package protos.output.utils;
+
+option go_package = "code-analyser/protos/pb/output/utils";
+
+message Details{
+  string type = 1;
+  string name = 2;
+  string version = 3;
+  repeated string semver = 4;
+  string command = 5;
+  repeated  Library libraries=6;
+}
+
+message Library {
+  string name =1;
+  repeated  string semver=2;
+}
+
+message Plugin{
+  string version = 1;
+  Author author = 2;
+  string date = 3;
+  Details pluginDetails = 4;
+}
+
+message Author{
+  string name = 1;
+  string email = 2;
+}

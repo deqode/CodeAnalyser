@@ -1,0 +1,30 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "database"
+  name: "redis"
+  libraries:
+    - name: "redis"
+      semver:
+        - ">=1.x,<4.x"
+    - name: "handy-redis"
+      semver:
+        - ">=1.x,<3.x"
+    - name: "ioredis"
+      semver:
+        - ">=1.x,<5.x"
+    - name: "redis-fast-driver"
+      semver:
+        - ">=1.x,<3.x"
+    - name : "tedis"
+      semver:
+        - ">=0.x,<1.x"
+  version: "v1.x"
+  description: "Redis is an in-memory data structure store, used as a distributed, in-memory key–value database, cache and message broker, with optional durability"
+  icon : ""
+  semver:
+    - ">=1.x,<4.x"
+  command: "node alfredPlugin/server.js"

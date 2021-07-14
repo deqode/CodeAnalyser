@@ -1,0 +1,27 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "database"
+  libraries:
+    - name: "pg"
+      semver:
+        - ">=1.x,<9.x"
+    - name: "postgres"
+      semver:
+        - ">=1.x,<2.x"
+    - name: "postgresql-client"
+      semver:
+        - ">=1.x,<2.x"
+    - name: "pg-connection-string"
+      semver:
+        - ">=1.x,<3.x"
+  name: "postgres"
+  description : "PostgreSQL, also known as Postgres, is a free and open-source relational database management system"
+  icon : ""
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "node alfredPlugin/server.js"

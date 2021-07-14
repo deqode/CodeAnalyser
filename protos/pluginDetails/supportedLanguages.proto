@@ -1,0 +1,12 @@
+syntax = "proto3";
+package protos.versions;
+
+option go_package = "code-analyser/protos/pb/pluginDetails";
+message supportedLanguages{
+repeated Language languages=1;
+}
+
+message Language{
+    string name=1;
+    string path=2;
+}

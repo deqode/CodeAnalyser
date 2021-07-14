@@ -1,0 +1,14 @@
+syntax = "proto3";
+package proto ;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/helpers/common.proto";
+import "protos/output/languageSpecific/commands.proto";
+
+service Commands {
+  rpc DetectBuildCommands (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+  rpc DetectStartUpCommands (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+  rpc DetectSeedCommands (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+  rpc DetectMigrationCommands (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+  rpc DetectAdHocScripts (protos.helpers.StringInput) returns (protos.output.languageSpecific.CommandOutput);
+}

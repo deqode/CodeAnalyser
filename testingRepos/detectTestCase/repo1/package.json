@@ -1,0 +1,58 @@
+{
+    "name": "covid19india",
+    "version": "1.0.0",
+    "private": true,
+    "homepage": "https://www.covid19india.org/",
+    "dependencies": {
+        "react": "^17.0.1",
+        "eslint-config-react-app": "6.0.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "postbuild": "yarn run compress_maps && cp build/index.html build/404.html && yarn run build:sw",
+        "compress_maps": "rollup -c",
+        "test": "react-scripts test --testPathIgnorePatterns=src/tests/ --passWithNoTests",
+        "test:map": "react-scripts test src/tests/mapAndApiStateNames.test.js",
+        "eslint": "eslint .",
+        "eslint:fix": "eslint --fix --max-warnings=0 .",
+        "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|md|html)\"",
+        "scss-lint": "sass-lint 'src/**/*.scss' -v -f table --max-warnings 0",
+        "scss-lint:fix": "sass-lint-auto-fix 'src/**/*.scss' -d -h -c '.sass-lint-auto-fix.yml'",
+        "analyze": "source-map-explorer 'build/static/js/*.js'",
+        "build:sw": "node ./src/swBuild.js",
+        "start:sw": "http-server ./build -c 0",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "lint-staged": {
+        "*.+(js|jsx)": [
+            "yarn run eslint:fix",
+            "prettier --write \"**/*.+(js|jsx)\""
+        ],
+        "*.+(json|yml|yaml|md)": [
+            "prettier --write \"**/*.+(json|yml|yaml|md)\""
+        ],
+        "*.+(css|scss)": [
+            "yarn run scss-lint:fix",
+            "yarn run scss-lint"
+        ]
+    },
+    "devDependencies": {
+        "lint-staged": "^10.5.3"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}

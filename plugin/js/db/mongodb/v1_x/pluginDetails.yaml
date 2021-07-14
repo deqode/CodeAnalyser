@@ -1,0 +1,21 @@
+version: "0.1"
+author:
+  name: "kishan chaurasiya"
+  email: "rfr"
+date: "rvtrv"
+plugindetails:
+  type: "database"
+  libraries:
+    - name: "mongodb"
+      semver:
+        - ">=1.x,<4.x"
+    - name: "mongoose"
+      semver:
+        - ">=1.x,<6.x"
+  name: "mongoDB"
+  description : "MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program"
+  icon : ""
+  version: "v1.x"
+  semver:
+    - ">=1.x,<2.x"
+  command: "node alfredPlugin/server.js"

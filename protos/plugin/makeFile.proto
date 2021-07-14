@@ -1,0 +1,11 @@
+syntax = "proto3";
+package proto;
+option go_package = "code-analyser/protos/pb/plugin";
+
+import "protos/helpers/common.proto";
+import "protos/output/globalFiles/makefile.proto";
+
+service MakeFile {
+  rpc Detect(protos.helpers.StringInput) returns (protos.output.globalFiles.MakeFile);
+}
+
