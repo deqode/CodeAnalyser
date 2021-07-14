@@ -17,7 +17,7 @@ type Analyser struct {
 
 func main() {
 	var ctx context.Context
-	var path = "/home/kishan/Downloads/hitman-ui-20210301T155231Z-001/hitman-ui"
+	var path = utils.RootDirPath()+"/testingRepos/languageSpecific/covid19india-react-master"
 	logger, _ := zap.NewProduction()
 	set := utils.Setting{
 		Logger: logger,
