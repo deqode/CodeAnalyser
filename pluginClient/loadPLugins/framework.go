@@ -29,6 +29,8 @@ type FrameworkPluginDetails struct {
 }
 
 func (plugins *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
+	plugins.Setting.Logger.Debug(yamlFile.Name + " plugin client creation started")
+
 	methods, client := pluginClient.CreateFrameworkClient(utils.CallPluginCommand(yamlFile.Command))
 	if plugins.Frameworks == nil {
 		plugins.Frameworks = map[string]*FrameworkVersion{}
@@ -50,10 +52,14 @@ func (plugins *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
 			},
 		}
 	}
+
+	plugins.Setting.Logger.Debug(yamlFile.Name + " plugin client created successfully")
 }
 
 
 func (plugins *FrameworkPlugin) Extract(ctx context.Context, projectDependencies map[string]string) []*utils.Dependency {
+	plugins.Setting.Logger.Debug("filtration process of framework's plugin supported by us started")
+
 	var frameworks []*utils.Dependency
 	for name, details := range plugins.Frameworks {
 		for frameworkVersion, versionDetails := range details.Version {
@@ -69,6 +75,8 @@ func (plugins *FrameworkPlugin) Extract(ctx context.Context, projectDependencies
 			}
 		}
 	}
+
+	plugins.Setting.Logger.Debug("filtration process of framework's plugin completed")
 	return frameworks
 }
 

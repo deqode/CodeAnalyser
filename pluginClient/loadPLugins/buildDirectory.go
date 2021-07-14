@@ -24,6 +24,9 @@ func (plugin *BuildDirectoryPlugin) Load(yamlFile *pbUtils.Details) {
 }
 
 func (plugin BuildDirectoryPlugin) Run(ctx context.Context,runTimeVersion, projectRootPath string) (*languageSpecific.BuildDirectoryOutput, error) {
+	plugin.Setting.Logger.Debug("buildDirectory plugin execution started")
+
+	plugin.Setting.Logger.Debug("buildDirectory detection started")
 	buildDirectory, err := plugin.Methods.Detect(&helpers.Input{
 		RuntimeVersion: runTimeVersion,
 		RootPath:       projectRootPath,
@@ -31,5 +34,8 @@ func (plugin BuildDirectoryPlugin) Run(ctx context.Context,runTimeVersion, proje
 	if err != nil {
 		return nil, err
 	}
+	plugin.Setting.Logger.Debug("buildDirectory detection completed")
+
+	plugin.Setting.Logger.Debug("buildDirectory plugin execution completed")
 	return buildDirectory, nil
 }
