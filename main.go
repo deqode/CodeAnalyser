@@ -32,8 +32,13 @@ func main() {
 func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmakerPB.DecisionMakerInput, error) {
 	analyser.Setting.Logger.Debug("scrapping started")
 
+	analyser.Setting.Logger.Info("fetching languages and percent of usage of that language")
 	languages, _, _ := detectlanguage.GetLanguagesWithPercent(path)
+	analyser.Setting.Logger.Info("fetched languages and percentage successfully")
+
+	analyser.Setting.Logger.Info("fetching language list supported by us")
 	supportedLanguages, _ := SupportedLanguagesParser()
+	analyser.Setting.Logger.Info("language list fetched successfully")
 
 	decisionMakerInput := &decisionmakerPB.DecisionMakerInput{
 		LanguageSpecificDetections: []*decisionmakerPB.LanguageSpecificDetections{},
@@ -59,6 +64,7 @@ func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmak
 	analyser.Setting.Logger.Info("language plugin execution started")
 	for _, language := range languages {
 		if languagePlugin, ok := languagePlugins[language.Name]; ok {
+
 			analyser.Setting.Logger.Info(language.Name + " plugins execution started")
 			detections, err := languagePlugin.Run(ctx, path)
 			if err != nil {
@@ -66,6 +72,7 @@ func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmak
 			}
 			decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, detections)
 			analyser.Setting.Logger.Info(language.Name + " plugins execution completed")
+
 		}
 	}
 	analyser.Setting.Logger.Info("language plugin execution completed")
