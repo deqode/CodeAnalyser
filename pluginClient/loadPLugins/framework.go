@@ -40,6 +40,7 @@ func (plugins *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
 			Methods: methods,
 			Client:  client,
 			Libraries: yamlFile.Libraries,
+			Setting: plugins.Setting,
 		}
 	} else {
 		plugins.Frameworks[yamlFile.Name] = &FrameworkVersion{
@@ -48,6 +49,7 @@ func (plugins *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
 					Methods: methods,
 					Client:  client,
 					Libraries: yamlFile.Libraries,
+					Setting: plugins.Setting,
 				},
 			},
 		}
@@ -81,20 +83,30 @@ func (plugins *FrameworkPlugin) Extract(ctx context.Context, projectDependencies
 }
 
 func (plugins *FrameworkPlugin) Run(ctx context.Context, frameworks []*utils.Dependency, runTimeVersion, projectRootPath string) ([]*languageSpecific.FrameworkOutput, error) {
+	plugins.Setting.Logger.Debug("framework's plugin methods execution started")
+
 	var output []*languageSpecific.FrameworkOutput
 	for _, framework := range frameworks {
 		name := framework.Name
 		version := framework.Version
+
+		plugins.Setting.Logger.Info(name + " plugin execution started")
 		response, err := plugins.Frameworks[name].Version[version].Run(ctx, name, version, runTimeVersion, projectRootPath)
 		if err != nil {
 			return nil, err
 		}
+		plugins.Setting.Logger.Info(name + " plugin execution completed")
+
 		output = append(output, response)
 	}
+
+	plugins.Setting.Logger.Debug("framework's plugin methods execution completed")
 	return output, nil
 }
 
 func (plugins *FrameworkPluginDetails) Run(ctx context.Context, name, version, runTimeVersion, projectRootPath string) (*languageSpecific.FrameworkOutput, error) {
+	plugins.Setting.Logger.Debug(name + " plugin execution started")
+
 	pluginInput := &pbHelpers.Input{
 		RuntimeVersion: runTimeVersion,
 		RootPath:       projectRootPath,
@@ -104,6 +116,7 @@ func (plugins *FrameworkPluginDetails) Run(ctx context.Context, name, version, r
 		Version: version,
 	}
 
+	plugins.Setting.Logger.Debug(name + "'s detection started")
 	detect, err := plugins.Methods.Detect(pluginInput)
 	if err != nil {
 		return nil, err
@@ -112,7 +125,9 @@ func (plugins *FrameworkPluginDetails) Run(ctx context.Context, name, version, r
 		output.Error = detect.Error
 		return output, err
 	}
+	plugins.Setting.Logger.Debug(name + "'s detection completed")
 
+	plugins.Setting.Logger.Debug(name + "'s usage checking started")
 	isUsed, err := plugins.Methods.IsUsed(pluginInput)
 	if err != nil {
 		return nil, err
@@ -122,7 +137,9 @@ func (plugins *FrameworkPluginDetails) Run(ctx context.Context, name, version, r
 		return output, err
 	}
 	output.Used = isUsed.Value
+	plugins.Setting.Logger.Debug(name + "'s usage checking completed")
 
+	plugins.Setting.Logger.Debug(name + "'s percentage usage checking started")
 	percentageUsed, err := plugins.Methods.PercentOfUsed(pluginInput)
 	if err != nil {
 		return nil, err
@@ -132,6 +149,8 @@ func (plugins *FrameworkPluginDetails) Run(ctx context.Context, name, version, r
 		return output, err
 	}
 	output.PercentageUsed = percentageUsed.Value
+	plugins.Setting.Logger.Debug(name + "'s percentage usage checking completed")
 
+	plugins.Setting.Logger.Debug(name + " plugin execution completed")
 	return output, nil
 }

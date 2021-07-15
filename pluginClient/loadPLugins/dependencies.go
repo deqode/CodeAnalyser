@@ -23,6 +23,8 @@ type DependenciesVersion struct {
 }
 
 func (plugin *GetDependenciesPlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Setting.Logger.Debug("getDependencies plugin client creation started")
+
 	methods, client := pluginClient.CreateDependenciesClient(utils.CallPluginCommand(yamlFile.Command))
 	if plugin.Dependencies == nil {
 		plugin.Dependencies = map[string]*DependenciesVersion{}
@@ -32,11 +34,17 @@ func (plugin *GetDependenciesPlugin) Load(yamlFile *pbUtils.Details) {
 		Methods: methods,
 		Client:  client,
 	}
+
+	plugin.Setting.Logger.Debug("getDependencies plugin client created successfully")
 }
 
 func (plugin *GetDependenciesPlugin) Run(ctx context.Context, runtTimeVersion, rootPath string) (*pbHelpers.StringMapOutput, error) {
+	plugin.Setting.Logger.Debug("detectDependencies plugin methods execution started")
+
 	for _, details := range plugin.Dependencies {
 		if helpers.SemverValidateFromArray(details.Semver, runtTimeVersion) {
+
+			plugin.Setting.Logger.Debug("dependency fetching started")
 			detect, err := details.Methods.GetDependencies(&pbHelpers.Input{
 				RuntimeVersion: runtTimeVersion,
 				RootPath:       rootPath,
@@ -44,9 +52,13 @@ func (plugin *GetDependenciesPlugin) Run(ctx context.Context, runtTimeVersion, r
 			if err != nil {
 				return nil, err
 			}
+			plugin.Setting.Logger.Debug("dependency fetched successfully")
+
 			return detect, nil
 		}
 	}
+
+	plugin.Setting.Logger.Debug("detectDependencies plugin methods executed successfully")
 	return &pbHelpers.StringMapOutput{
 		Value: nil,
 		Error: &pbHelpers.Error{

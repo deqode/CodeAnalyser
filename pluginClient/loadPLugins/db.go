@@ -40,6 +40,7 @@ func (plugins *DbPlugin) Load(yamlFile *pbUtils.Details) {
 			Methods:   methods,
 			Client:    client,
 			Libraries: yamlFile.Libraries,
+			Setting: plugins.Setting,
 		}
 	} else {
 		plugins.Dbs[yamlFile.Name] = &DbVersion{
@@ -48,6 +49,7 @@ func (plugins *DbPlugin) Load(yamlFile *pbUtils.Details) {
 					Methods:   methods,
 					Client:    client,
 					Libraries: yamlFile.Libraries,
+					Setting: plugins.Setting,
 				},
 			},
 		}

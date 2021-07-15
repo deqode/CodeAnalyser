@@ -28,33 +28,41 @@ type LibraryPluginDetails struct {
 	Setting *utils.Setting
 }
 
-func (plugin *LibraryPlugin) Load(yamlFile *pbUtils.Details) {
+func (plugins *LibraryPlugin) Load(yamlFile *pbUtils.Details) {
+	plugins.Setting.Logger.Debug(yamlFile.Name + " plugins client creation started")
+
 	methods, client := pluginClient.CreateLibraryClient(utils.CallPluginCommand(yamlFile.Command))
-	if plugin.Libraries == nil {
-		plugin.Libraries = map[string]*LibraryVersion{}
+	if plugins.Libraries == nil {
+		plugins.Libraries = map[string]*LibraryVersion{}
 	}
-	if value, ok := plugin.Libraries[yamlFile.Name]; ok {
+	if value, ok := plugins.Libraries[yamlFile.Name]; ok {
 		value.Version[yamlFile.Version] = &LibraryPluginDetails{
 			Methods: methods,
 			Client:  client,
 			Semver:  yamlFile.Semver,
+			Setting: plugins.Setting,
 		}
 	} else {
-		plugin.Libraries[yamlFile.Name] = &LibraryVersion{
+		plugins.Libraries[yamlFile.Name] = &LibraryVersion{
 			Version: map[string]*LibraryPluginDetails{
 				yamlFile.Version: {
 					Methods: methods,
 					Client:  client,
 					Semver:  yamlFile.Semver,
+					Setting: plugins.Setting,
 				},
 			},
 		}
 	}
+
+	plugins.Setting.Logger.Debug(yamlFile.Name + " plugin client created successfully")
 }
 
-func (plugin *LibraryPlugin) Extract(ctx context.Context, projectDependencies map[string]string) []*utils.Dependency {
+func (plugins *LibraryPlugin) Extract(ctx context.Context, projectDependencies map[string]string) []*utils.Dependency {
+	plugins.Setting.Logger.Debug("filtration process of library's plugin supported by us started")
+
 	var libraries []*utils.Dependency
-	for name, details := range plugin.Libraries {
+	for name, details := range plugins.Libraries {
 		if usedLibraryVersion, ok := projectDependencies[name]; ok {
 			for version, versionDetails := range details.Version {
 				if helpers.SemverValidateFromArray(versionDetails.Semver, usedLibraryVersion) {
@@ -66,24 +74,36 @@ func (plugin *LibraryPlugin) Extract(ctx context.Context, projectDependencies ma
 			}
 		}
 	}
+
+	plugins.Setting.Logger.Debug("filtration process of library's plugin completed")
 	return libraries
 }
 
-func (plugin *LibraryPlugin) Run(ctx context.Context, libraries []*utils.Dependency, runTimeVersion, projectRootPath string) ([]*languagePB.LibraryOutput, error) {
+func (plugins *LibraryPlugin) Run(ctx context.Context, libraries []*utils.Dependency, runTimeVersion, projectRootPath string) ([]*languagePB.LibraryOutput, error) {
+	plugins.Setting.Logger.Debug("library's plugin methods execution started")
+
 	var output []*languagePB.LibraryOutput
 	for _, framework := range libraries {
 		name := framework.Name
 		version := framework.Version
-		response, err := plugin.Libraries[name].Version[version].Run(ctx, name, version, runTimeVersion, projectRootPath)
+
+		plugins.Setting.Logger.Info(name + " plugin execution started")
+		response, err := plugins.Libraries[name].Version[version].Run(ctx, name, version, runTimeVersion, projectRootPath)
 		if err != nil {
 			return nil, err
 		}
+		plugins.Setting.Logger.Info(name + " plugin execution completed")
+
 		output = append(output, response)
 	}
+
+	plugins.Setting.Logger.Debug("library's plugin methods execution completed")
 	return output, nil
 }
 
-func (plugin *LibraryPluginDetails) Run(ctx context.Context, name, version, runTimeVersion, projectRootPath string) (*languagePB.LibraryOutput, error) {
+func (plugins *LibraryPluginDetails) Run(ctx context.Context, name, version, runTimeVersion, projectRootPath string) (*languagePB.LibraryOutput, error) {
+	plugins.Setting.Logger.Debug(name + " plugin execution started")
+
 	pluginInput := &pbHelpers.Input{
 		RuntimeVersion: runTimeVersion,
 		RootPath:       projectRootPath,
@@ -93,7 +113,8 @@ func (plugin *LibraryPluginDetails) Run(ctx context.Context, name, version, runT
 		Version: version,
 	}
 
-	detect, err := plugin.Methods.Detect(pluginInput)
+	plugins.Setting.Logger.Debug(name + "'s detection started")
+	detect, err := plugins.Methods.Detect(pluginInput)
 	if err != nil {
 		return nil, err
 	}
@@ -102,8 +123,10 @@ func (plugin *LibraryPluginDetails) Run(ctx context.Context, name, version, runT
 		return output, err
 	}
 	output.Type = detect.Type
+	plugins.Setting.Logger.Debug(name + "'s detection completed")
 
-	isUsed, err := plugin.Methods.IsUsed(pluginInput)
+	plugins.Setting.Logger.Debug(name + "'s usage checking started")
+	isUsed, err := plugins.Methods.IsUsed(pluginInput)
 	if err != nil {
 		return nil, err
 	}
@@ -112,8 +135,10 @@ func (plugin *LibraryPluginDetails) Run(ctx context.Context, name, version, runT
 		return output, err
 	}
 	output.Used = isUsed.Value
+	plugins.Setting.Logger.Debug(name + "'s usage checking completed")
 
-	percentageUsed, err := plugin.Methods.PercentOfUsed(pluginInput)
+	plugins.Setting.Logger.Debug(name + "'s percentage usage checking started")
+	percentageUsed, err := plugins.Methods.PercentOfUsed(pluginInput)
 	if err != nil {
 		return nil, err
 	}
@@ -122,6 +147,8 @@ func (plugin *LibraryPluginDetails) Run(ctx context.Context, name, version, runT
 		return output, err
 	}
 	output.PercentageUsed = percentageUsed.Value
+	plugins.Setting.Logger.Debug(name + "'s percentage usage checking completed")
 
+	plugins.Setting.Logger.Debug(name + " plugin execution completed")
 	return output, nil
 }

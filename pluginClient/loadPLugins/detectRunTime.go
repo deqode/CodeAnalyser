@@ -17,13 +17,21 @@ type DetectRunTimePlugin struct {
 }
 
 func (plugin *DetectRunTimePlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Setting.Logger.Debug("detectRuntime plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateDetectRuntimeClient(utils.CallPluginCommand(yamlFile.Command))
+	plugin.Setting.Logger.Debug("detectRuntime plugin client created successfully")
 }
 
 func (plugin *DetectRunTimePlugin) Run(ctx context.Context, projectRootPath string) (*helpers.StringOutput, error) {
+	plugin.Setting.Logger.Debug("detectRuntime plugin methods execution started")
+
+	plugin.Setting.Logger.Debug("runtime detection started")
 	languageVersion, err := plugin.Methods.Detect(&helpers.StringInput{Value: projectRootPath})
 	if err != nil {
 		return nil, err
 	}
+	plugin.Setting.Logger.Debug("runtime detected")
+
+	plugin.Setting.Logger.Debug("detectRuntime plugin methods execution completed")
 	return languageVersion, nil
 }

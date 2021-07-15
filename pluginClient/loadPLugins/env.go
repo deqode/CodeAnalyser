@@ -18,13 +18,21 @@ type EnvPlugin struct {
 }
 
 func (plugin *EnvPlugin) Load(yamlFile *pbUtils.Details) {
+	plugin.Setting.Logger.Debug("env plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateEnvClient(utils.CallPluginCommand(yamlFile.Command))
+	plugin.Setting.Logger.Debug("env plugin client created successfully")
 }
 
 func (plugin *EnvPlugin) Run(ctx context.Context, runTimeVersion, projectRootPath string) (*languageSpecific.Envs, error) {
+	plugin.Setting.Logger.Debug("env plugin methods execution started")
+
+	plugin.Setting.Logger.Debug("environment variables detection started")
 	envVariables, err := plugin.Methods.Detect(&helpers.Input{RootPath: projectRootPath, RuntimeVersion: runTimeVersion})
 	if err != nil {
 		return nil, err
 	}
+	plugin.Setting.Logger.Debug("environment variables detected")
+
+	plugin.Setting.Logger.Debug("env plugin methods execution completed")
 	return envVariables, nil
 }
