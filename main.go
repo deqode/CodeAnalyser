@@ -11,13 +11,14 @@ import (
 	"log"
 )
 
+//Analyser instantiation to call scrape function
 type Analyser struct {
 	Setting *utils.Setting
 }
 
 func main() {
 	var ctx context.Context
-	var path = utils.RootDirPath()+"/testingRepos/languageSpecific/covid19india-react-master"
+	var path = utils.RootDirPath() + "/testingRepos/languageSpecific/covid19india-react-master"
 	logger, _ := zap.NewProduction()
 	set := utils.Setting{
 		Logger: logger,
@@ -81,6 +82,7 @@ func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmak
 	return decisionMakerInput, nil
 }
 
+//LoadGlobalPlugin it detects all language independent plugins, do categorization, create client and load in memory
 func (analyser *Analyser) LoadGlobalPlugin(ctx context.Context, globalPluginPath string) *loadPLugins.GlobalPlugin {
 	analyser.Setting.Logger.Debug("global plugin loading started")
 
@@ -106,6 +108,7 @@ func (analyser *Analyser) LoadGlobalPlugin(ctx context.Context, globalPluginPath
 	return &plugins
 }
 
+//LoadLanguagePlugin it detects all language specific plugins, do categorization, create client and load in memory
 func (analyser *Analyser) LoadLanguagePlugin(ctx context.Context, languagePluginPath []*pluginDetails.Language) map[string]*loadPLugins.LanguagePlugin {
 	analyser.Setting.Logger.Debug("language plugin loading started")
 

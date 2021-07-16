@@ -12,22 +12,28 @@ import (
 	"golang.org/x/net/context"
 )
 
+//FrameworkPlugin contains 1. map of Frameworks where key is framework name and value is FrameworkVersion
+// 2. contains Setting
 type FrameworkPlugin struct {
 	Frameworks map[string]*FrameworkVersion
-	Setting *utils.Setting
+	Setting    *utils.Setting
 }
 
+//FrameworkVersion It contains FrameworkPlugin.Frameworks's version map(FrameworkVersion) where key is version of library and value is FrameworkPluginDetails
 type FrameworkVersion struct {
 	Version map[string]*FrameworkPluginDetails
 }
 
+//FrameworkPluginDetails contains Methods, Client object and Libraries of this plugin,
+//Setting for logger related info
 type FrameworkPluginDetails struct {
 	Libraries []*pbUtils.Library
 	Methods   interfaces.Framework
 	Client    *plugin.Client
-	Setting *utils.Setting
+	Setting   *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugins *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
 	plugins.Setting.Logger.Debug(yamlFile.Name + " plugin client creation started")
 
@@ -37,19 +43,19 @@ func (plugins *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
 	}
 	if value, ok := plugins.Frameworks[yamlFile.Name]; ok {
 		value.Version[yamlFile.Version] = &FrameworkPluginDetails{
-			Methods: methods,
-			Client:  client,
+			Methods:   methods,
+			Client:    client,
 			Libraries: yamlFile.Libraries,
-			Setting: plugins.Setting,
+			Setting:   plugins.Setting,
 		}
 	} else {
 		plugins.Frameworks[yamlFile.Name] = &FrameworkVersion{
 			Version: map[string]*FrameworkPluginDetails{
 				yamlFile.Version: {
-					Methods: methods,
-					Client:  client,
+					Methods:   methods,
+					Client:    client,
 					Libraries: yamlFile.Libraries,
-					Setting: plugins.Setting,
+					Setting:   plugins.Setting,
 				},
 			},
 		}
@@ -58,7 +64,7 @@ func (plugins *FrameworkPlugin) Load(yamlFile *pbUtils.Details) {
 	plugins.Setting.Logger.Debug(yamlFile.Name + " plugin client created successfully")
 }
 
-
+//Extract It takes dependency map as an input and filter out dependency supported by us(calculate intersection between dependency list and plugin list)
 func (plugins *FrameworkPlugin) Extract(ctx context.Context, projectDependencies map[string]string) []*utils.Dependency {
 	plugins.Setting.Logger.Debug("filtration process of framework's plugin supported by us started")
 
@@ -82,6 +88,7 @@ func (plugins *FrameworkPlugin) Extract(ctx context.Context, projectDependencies
 	return frameworks
 }
 
+//Run it takes dependency list, fetch out plugin client from receiver and run one by one
 func (plugins *FrameworkPlugin) Run(ctx context.Context, frameworks []*utils.Dependency, runTimeVersion, projectRootPath string) ([]*languageSpecific.FrameworkOutput, error) {
 	plugins.Setting.Logger.Debug("framework's plugin methods execution started")
 
@@ -104,6 +111,7 @@ func (plugins *FrameworkPlugin) Run(ctx context.Context, frameworks []*utils.Dep
 	return output, nil
 }
 
+//Run it runs plugin(execute methods of plugin)
 func (plugins *FrameworkPluginDetails) Run(ctx context.Context, name, version, runTimeVersion, projectRootPath string) (*languageSpecific.FrameworkOutput, error) {
 	plugins.Setting.Logger.Debug(name + " plugin execution started")
 

@@ -17,13 +17,15 @@ type PreDetectCommandsPlugin struct {
 	Setting *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugin *PreDetectCommandsPlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Setting.Logger.Debug("preDetectCommands plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreatePreDetectCommandClient(utils.CallPluginCommand(yamlFile.Command))
 	plugin.Setting.Logger.Debug("preDetectCommands plugin client created successfully")
 }
 
-func (plugin *PreDetectCommandsPlugin) Run(ctx context.Context,runTimeVersion, projectRootPath string) error {
+//Run it runs plugin(execute methods of plugin)
+func (plugin *PreDetectCommandsPlugin) Run(ctx context.Context, runTimeVersion, projectRootPath string) error {
 	plugin.Setting.Logger.Debug("preDetectCommands plugin execution started")
 
 	plugin.Setting.Logger.Debug("preDetect method execution started")

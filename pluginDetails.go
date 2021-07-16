@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 )
 
+//SupportedLanguages path of yaml file which contain list of supported languages
 const SupportedLanguages = "./static/supportedLanguages.yaml"
 
 //SupportedLanguagesParser it reads yaml file and fetch out supported languages by our system (like go or js )

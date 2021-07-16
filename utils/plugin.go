@@ -11,6 +11,7 @@ import (
 	"strings"
 )
 
+//CallPluginCommand it takes command and make it executable for bash
 func CallPluginCommand(command string) *exec.Cmd {
 	return exec.Command("sh", "-c", command)
 }
@@ -42,11 +43,13 @@ func ReadPluginYamlFile(ctx context.Context, filePath FileDetails) (*utilsPB.Plu
 	return &lang, nil
 }
 
+//Dependency any external dependency with exact version for e.g. docker 3.2
 type Dependency struct {
 	Name    string
 	Version string
 }
 
+//Library any external library and its semver(from version x to version y) enry ^1.4.2
 type Library struct {
 	Name   string
 	Semver []string

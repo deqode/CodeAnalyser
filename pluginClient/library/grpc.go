@@ -17,7 +17,7 @@ func (g *GRPCClient) Detect(input *pb.Input) (*plugin.LibraryType, error) {
 	if input != nil {
 		res, err := g.Client.Detect(context.Background(), &pb.Input{
 			RuntimeVersion: input.RuntimeVersion,
-			RootPath:           input.RootPath,
+			RootPath:       input.RootPath,
 		})
 		return res, err
 	}
@@ -28,7 +28,7 @@ func (g *GRPCClient) Detect(input *pb.Input) (*plugin.LibraryType, error) {
 func (g *GRPCClient) IsUsed(serviceInput *pb.Input) (*pb.BoolOutput, error) {
 	res, err := g.Client.IsUsed(context.Background(), &pb.Input{
 		RuntimeVersion: serviceInput.RuntimeVersion,
-		RootPath:           serviceInput.RootPath,
+		RootPath:       serviceInput.RootPath,
 	})
 	return res, err
 }
@@ -36,7 +36,7 @@ func (g *GRPCClient) IsUsed(serviceInput *pb.Input) (*pb.BoolOutput, error) {
 func (g *GRPCClient) PercentOfUsed(serviceInput *pb.Input) (*pb.FloatOutput, error) {
 	res, err := g.Client.PercentOfUsed(context.Background(), &pb.Input{
 		RuntimeVersion: serviceInput.RuntimeVersion,
-		RootPath:           serviceInput.RootPath,
+		RootPath:       serviceInput.RootPath,
 	})
 	return res, err
 }

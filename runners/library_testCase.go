@@ -94,7 +94,7 @@ var LibraryRunnerCases = []LibraryRunnerCase{
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.RootDirPath()+"/testingRepos/libraries/repo1",
+			Root:           utils.RootDirPath() + "/testingRepos/libraries/repo1",
 		},
 		Output: []*languageSpecificPB.LibraryOutput{
 			{
@@ -117,7 +117,7 @@ var LibraryRunnerCases = []LibraryRunnerCase{
 				},
 			},
 			RuntimeVersion: "",
-			Root:           utils.RootDirPath()+"/testingRepos/libraries/repo2",
+			Root:           utils.RootDirPath() + "/testingRepos/libraries/repo2",
 		},
 		Output: []*languageSpecificPB.LibraryOutput{
 			{
@@ -153,7 +153,7 @@ var LibraryRunnerCases = []LibraryRunnerCase{
 		Input: LibraryRunnerInput{
 			LibraryList:    map[string]DependencyDetail{},
 			RuntimeVersion: "",
-			Root:           utils.RootDirPath()+"/testingRepos/emptyRepo",
+			Root:           utils.RootDirPath() + "/testingRepos/emptyRepo",
 		},
 		Output: []*languageSpecificPB.LibraryOutput{},
 	},

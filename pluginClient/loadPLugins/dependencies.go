@@ -13,7 +13,7 @@ import (
 
 type GetDependenciesPlugin struct {
 	Dependencies map[string]*DependenciesVersion
-	Setting *utils.Setting
+	Setting      *utils.Setting
 }
 
 type DependenciesVersion struct {
@@ -22,6 +22,7 @@ type DependenciesVersion struct {
 	Client  *plugin.Client
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugin *GetDependenciesPlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Setting.Logger.Debug("getDependencies plugin client creation started")
 
@@ -38,6 +39,7 @@ func (plugin *GetDependenciesPlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Setting.Logger.Debug("getDependencies plugin client created successfully")
 }
 
+//Run it runs plugin(execute methods of plugin)
 func (plugin *GetDependenciesPlugin) Run(ctx context.Context, runtTimeVersion, rootPath string) (*pbHelpers.StringMapOutput, error) {
 	plugin.Setting.Logger.Debug("detectDependencies plugin methods execution started")
 

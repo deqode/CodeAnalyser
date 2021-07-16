@@ -1,7 +1,7 @@
 package loadPLugins
 
 import (
-	 "code-analyser/helpers"
+	"code-analyser/helpers"
 	"code-analyser/languageDetectors/interfaces"
 	"code-analyser/pluginClient"
 	pbHelpers "code-analyser/protos/pb/helpers"
@@ -14,7 +14,7 @@ import (
 
 type LibraryPlugin struct {
 	Libraries map[string]*LibraryVersion
-	Setting *utils.Setting
+	Setting   *utils.Setting
 }
 
 type LibraryVersion struct {
@@ -28,6 +28,7 @@ type LibraryPluginDetails struct {
 	Setting *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugins *LibraryPlugin) Load(yamlFile *pbUtils.Details) {
 	plugins.Setting.Logger.Debug(yamlFile.Name + " plugins client creation started")
 
@@ -58,6 +59,7 @@ func (plugins *LibraryPlugin) Load(yamlFile *pbUtils.Details) {
 	plugins.Setting.Logger.Debug(yamlFile.Name + " plugin client created successfully")
 }
 
+//Extract It takes dependency map as an input and filter out dependency supported by us(calculate intersection between dependency list and plugin list)
 func (plugins *LibraryPlugin) Extract(ctx context.Context, projectDependencies map[string]string) []*utils.Dependency {
 	plugins.Setting.Logger.Debug("filtration process of library's plugin supported by us started")
 
@@ -79,6 +81,7 @@ func (plugins *LibraryPlugin) Extract(ctx context.Context, projectDependencies m
 	return libraries
 }
 
+//Run it takes dependency list, fetch out plugin client from receiver and run one by one
 func (plugins *LibraryPlugin) Run(ctx context.Context, libraries []*utils.Dependency, runTimeVersion, projectRootPath string) ([]*languagePB.LibraryOutput, error) {
 	plugins.Setting.Logger.Debug("library's plugin methods execution started")
 
@@ -101,6 +104,7 @@ func (plugins *LibraryPlugin) Run(ctx context.Context, libraries []*utils.Depend
 	return output, nil
 }
 
+//Run it runs plugin(execute methods of plugin)
 func (plugins *LibraryPluginDetails) Run(ctx context.Context, name, version, runTimeVersion, projectRootPath string) (*languagePB.LibraryOutput, error) {
 	plugins.Setting.Logger.Debug(name + " plugin execution started")
 

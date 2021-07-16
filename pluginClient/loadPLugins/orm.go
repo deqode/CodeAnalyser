@@ -13,7 +13,7 @@ import (
 )
 
 type OrmPlugin struct {
-	Orms map[string]*OrmVersion
+	Orms    map[string]*OrmVersion
 	Setting *utils.Setting
 }
 
@@ -28,6 +28,7 @@ type OrmPluginDetails struct {
 	Setting *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugins *OrmPlugin) Load(yamlFile *pbUtils.Details) {
 	plugins.Setting.Logger.Debug(yamlFile.Name + " plugins client creation started")
 
@@ -58,6 +59,7 @@ func (plugins *OrmPlugin) Load(yamlFile *pbUtils.Details) {
 	plugins.Setting.Logger.Debug(yamlFile.Name + " plugins client created successfully")
 }
 
+//Extract It takes dependency map as an input and filter out dependency supported by us(calculate intersection between dependency list and plugin list)
 func (plugins *OrmPlugin) Extract(ctx context.Context, projectDependencies map[string]string) []*utils.Dependency {
 	plugins.Setting.Logger.Debug("filtration process of orm's plugins supported by us started")
 
@@ -79,6 +81,7 @@ func (plugins *OrmPlugin) Extract(ctx context.Context, projectDependencies map[s
 	return orms
 }
 
+//Run it takes dependency list, fetch out plugin client from receiver and run one by one
 func (plugins *OrmPlugin) Run(ctx context.Context, orms []*utils.Dependency, runTimeVersion, projectRootPath string) ([]*languagePB.OrmOutput, error) {
 	plugins.Setting.Logger.Debug("orm's plugins methods execution started")
 
@@ -101,6 +104,7 @@ func (plugins *OrmPlugin) Run(ctx context.Context, orms []*utils.Dependency, run
 	return output, nil
 }
 
+//Run it runs plugin(execute methods of plugin)
 func (plugins *OrmPluginDetails) Run(ctx context.Context, name, version, runTimeVersion, projectRootPath string) (*languagePB.OrmOutput, error) {
 	plugins.Setting.Logger.Debug(name + " plugins execution started")
 

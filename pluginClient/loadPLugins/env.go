@@ -17,12 +17,14 @@ type EnvPlugin struct {
 	Setting *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugin *EnvPlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Setting.Logger.Debug("env plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateEnvClient(utils.CallPluginCommand(yamlFile.Command))
 	plugin.Setting.Logger.Debug("env plugin client created successfully")
 }
 
+//Run it runs plugin(execute methods of plugin)
 func (plugin *EnvPlugin) Run(ctx context.Context, runTimeVersion, projectRootPath string) (*languageSpecific.Envs, error) {
 	plugin.Setting.Logger.Debug("env plugin methods execution started")
 

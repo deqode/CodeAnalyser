@@ -17,13 +17,15 @@ type MakeFilePlugin struct {
 	Setting *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugin *MakeFilePlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Setting.Logger.Debug("makefile plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateMakeFileClient(utils.CallPluginCommand(yamlFile.Command))
 	plugin.Setting.Logger.Debug("makefile plugin client created successfully")
 }
 
-func (plugin *MakeFilePlugin) Run(ctx context.Context,projectRootPath string) (*gloabl.MakeFile, error) {
+//Run it runs plugin(execute methods of plugin)
+func (plugin *MakeFilePlugin) Run(ctx context.Context, projectRootPath string) (*gloabl.MakeFile, error) {
 	plugin.Setting.Logger.Debug("makefile plugin execution started")
 
 	plugin.Setting.Logger.Debug("makefile detection started")

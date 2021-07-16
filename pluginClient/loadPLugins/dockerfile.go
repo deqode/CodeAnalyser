@@ -17,12 +17,14 @@ type DockerFilePlugin struct {
 	Setting *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugin *DockerFilePlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Setting.Logger.Debug("docker plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateDockerFileClient(utils.CallPluginCommand(yamlFile.Command))
 	plugin.Setting.Logger.Debug("docker plugin client created successfully")
 }
 
+//Run it runs plugin(execute methods of plugin)
 func (plugin *DockerFilePlugin) Run(ctx context.Context, projectRootPath string) (*global.DockerFile, *global.DockerCompose, error) {
 	plugin.Setting.Logger.Debug("docker plugin execution started")
 

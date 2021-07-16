@@ -9,7 +9,7 @@ import (
 var SupportedDependencies = pluginDetails.LanguagePlugins{
 	DetectRuntimePluginPath: "node " + commonUtils.RootDirPath() + "/plugin/js/detectRunTime/server.js",
 	RuntimeVersions: map[string]*pluginDetails.DependencyVersionDetails{"v1.x": {
-		Semver:        []string{">=1.x,<16.x"},
+		Semver:     []string{">=1.x,<16.x"},
 		PluginPath: "node " + commonUtils.RootDirPath() + "/plugin/js/getDependencies/server.js",
 	}},
 	Frameworks: map[string]*pluginDetails.DependencyDetails{
@@ -263,7 +263,7 @@ var SupportedDependencies = pluginDetails.LanguagePlugins{
 		"typeorm": {
 			Version: map[string]*pluginDetails.DependencyVersionDetails{
 				"v1.x": {
-					Semver:        []string{">=0.x,<1.x"},
+					Semver:     []string{">=0.x,<1.x"},
 					PluginPath: "node plugin/js/orm/typeorm/v1_x/server.js",
 				},
 			},
@@ -271,7 +271,7 @@ var SupportedDependencies = pluginDetails.LanguagePlugins{
 		"bookshelf": {
 			Version: map[string]*pluginDetails.DependencyVersionDetails{
 				"v1.x": {
-					Semver:        []string{">=1.x,<6.x"},
+					Semver:     []string{">=1.x,<6.x"},
 					PluginPath: "node plugin/js/orm/bookshelf/v1_x/server.js",
 				},
 			},
@@ -279,7 +279,7 @@ var SupportedDependencies = pluginDetails.LanguagePlugins{
 		"sequelize": {
 			Version: map[string]*pluginDetails.DependencyVersionDetails{
 				"v1.x": {
-					Semver:        []string{">=1.x,<7.x"},
+					Semver:     []string{">=1.x,<7.x"},
 					PluginPath: "node plugin/js/orm/sequelize/v1_x/server.js",
 				},
 			},
@@ -289,7 +289,7 @@ var SupportedDependencies = pluginDetails.LanguagePlugins{
 		"react": {
 			Version: map[string]*pluginDetails.DependencyVersionDetails{
 				"v1.x": {
-					Semver:        []string{">=1.x,<18.x"},
+					Semver:     []string{">=1.x,<18.x"},
 					PluginPath: "node plugin/js/libraries/react/v1_x/server.js",
 				},
 			},
@@ -297,7 +297,7 @@ var SupportedDependencies = pluginDetails.LanguagePlugins{
 		"kafka-node": {
 			Version: map[string]*pluginDetails.DependencyVersionDetails{
 				"v1.x": {
-					Semver:        []string{">=1.x,<6.x"},
+					Semver:     []string{">=1.x,<6.x"},
 					PluginPath: "node plugin/js/libraries/kafka/v1_x/server.js",
 				},
 			},
@@ -305,7 +305,7 @@ var SupportedDependencies = pluginDetails.LanguagePlugins{
 		"knex": {
 			Version: map[string]*pluginDetails.DependencyVersionDetails{
 				"v1.x": {
-					Semver:        []string{">=0.x,<1.x"},
+					Semver:     []string{">=0.x,<1.x"},
 					PluginPath: "node plugin/js/libraries/knex/v1_x/server.js",
 				},
 			},
@@ -313,19 +313,19 @@ var SupportedDependencies = pluginDetails.LanguagePlugins{
 		"mongoose": {
 			Version: map[string]*pluginDetails.DependencyVersionDetails{
 				"v1.x": {
-					Semver:        []string{">=1.x,<6.x"},
+					Semver:     []string{">=1.x,<6.x"},
 					PluginPath: "node plugin/js/libraries/mongoose/v1_x/server.js",
 				},
 			},
 		},
 	},
-	Dependencies:           nil,
-	EnvPluginPath:       "node " + commonUtils.RootDirPath() + "/plugin/js/env/server.js",
-	PreDetectCommandPluginPath:       "",
-	StaticAssetsPluginPath:    "",
-	BuildDirectoryPluginPath:  "",
+	Dependencies:               nil,
+	EnvPluginPath:              "node " + commonUtils.RootDirPath() + "/plugin/js/env/server.js",
+	PreDetectCommandPluginPath: "",
+	StaticAssetsPluginPath:     "",
+	BuildDirectoryPluginPath:   "",
 	TestCasesCommandPluginPath: "node " + commonUtils.RootDirPath() + "/plugin/js/testCasesCommands/server.js",
-	CommandsPluginPath:               "node " + commonUtils.RootDirPath() + "/plugin/js/commands/server.js",
+	CommandsPluginPath:         "node " + commonUtils.RootDirPath() + "/plugin/js/commands/server.js",
 }
 
 var GlobalPluginPath = pluginDetails.GlobalPlugins{

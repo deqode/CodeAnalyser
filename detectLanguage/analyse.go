@@ -11,6 +11,7 @@ type File struct {
 	Name    string
 	Percent float64
 }
+
 //must be correct path of enry binary
 var enryLoc = "./static/"
 

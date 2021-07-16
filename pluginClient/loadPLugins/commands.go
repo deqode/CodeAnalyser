@@ -11,18 +11,22 @@ import (
 	"golang.org/x/net/context"
 )
 
+//CommandsPlugin contains Methods and Client object of this plugin,
+//Setting for logger related info
 type CommandsPlugin struct {
 	Methods interfaces.Commands
 	Client  *plugin.Client
 	Setting *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugin *CommandsPlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Setting.Logger.Debug("commands plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateCommandsClient(utils.CallPluginCommand(yamlFile.Command))
 	plugin.Setting.Logger.Debug("commands plugin client created successfully")
 }
 
+//Run it runs plugin(execute methods of plugin)
 func (plugin *CommandsPlugin) Run(ctx context.Context, projectRootPath string) (*languageSpecific.Commands, error) {
 	plugin.Setting.Logger.Debug("commands plugin execution started")
 
