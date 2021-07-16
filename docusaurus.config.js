@@ -4,7 +4,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Code Analyser',
-  tagline: 'Complete Analysis of your code base ',
+  tagline: 'A tool for complete analysis of your code & its dependencies ',
   url: 'https://deqode.github.io',
   baseUrl: '/CodeAnalyser/',
   onBrokenLinks: 'throw',
