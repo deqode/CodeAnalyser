@@ -7,6 +7,7 @@ import (
 	"log"
 )
 
+//LanguagePlugin contains 1. all language plugin and Setting
 type LanguagePlugin struct {
 	Framework         *FrameworkPlugin
 	Db                *DbPlugin

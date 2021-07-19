@@ -56,7 +56,7 @@ func (m *GRPCServer) Detect(ctx context.Context, input *helpers.Input) (*pb.Bool
 	}, err
 }
 
-//IsUsed will check is db used
+//IsUsed will check is Db used
 func (m *GRPCServer) IsUsed(ctx context.Context, input *helpers.Input) (*helpers.BoolOutput, error) {
 	res, err := m.Impl.IsUsed(input)
 	return &helpers.BoolOutput{
@@ -65,7 +65,7 @@ func (m *GRPCServer) IsUsed(ctx context.Context, input *helpers.Input) (*helpers
 	}, err
 }
 
-//PercentOfUsed will check percent of given db used
+//PercentOfUsed will check percent of given Db used
 func (m *GRPCServer) PercentOfUsed(ctx context.Context, input *helpers.Input) (*helpers.FloatOutput, error) {
 	res, err := m.Impl.PercentOfUsed(input)
 	return &helpers.FloatOutput{

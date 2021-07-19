@@ -8,12 +8,12 @@ import (
 	"golang.org/x/net/context"
 )
 
-//GRPCClient struct for grpc client call
+//GRPCClient is an implementation of Db that talks over gRPC to GRPCServer
 type GRPCClient struct {
 	Client plugin.EnvClient
 }
 
-//Detect method implemented from Env interface (interface implemented by us)
+//Detect method call on client side over gRPC
 func (m *GRPCClient) Detect(input *pb.Input) (*languageSpecific.Envs, error) {
 	res, err := m.Client.Detect(context.Background(), &pb.Input{
 		RuntimeVersion: input.RuntimeVersion,
@@ -22,12 +22,12 @@ func (m *GRPCClient) Detect(input *pb.Input) (*languageSpecific.Envs, error) {
 	return res, err
 }
 
-//GRPCServer struct for plugin call
+//GRPCServer is the gRPC server to communicate with GRPCClient
 type GRPCServer struct {
 	Impl interfaces.Env
 }
 
-//Detect implemented function from interface EnvServiceServer(auto generated from proto)
+//Detect will detect and parse environment variables
 func (m *GRPCServer) Detect(ctx context.Context, input *pb.Input) (*languageSpecific.Envs, error) {
 	res, err := m.Impl.Detect(input)
 	return &languageSpecific.Envs{

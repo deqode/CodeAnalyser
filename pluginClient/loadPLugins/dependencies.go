@@ -11,11 +11,14 @@ import (
 	"golang.org/x/net/context"
 )
 
+//GetDependenciesPlugin contains 1. map of Dependencies where key is dependency name and value is DependenciesVersion
+// 2. Setting
 type GetDependenciesPlugin struct {
 	Dependencies map[string]*DependenciesVersion
 	Setting      *utils.Setting
 }
 
+//DependenciesVersion contains Methods, Client object of this plugin,
 type DependenciesVersion struct {
 	Semver  []string
 	Methods interfaces.Dependencies

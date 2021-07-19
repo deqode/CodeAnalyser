@@ -9,13 +9,11 @@ import (
 	"os"
 )
 
-//MakeFile is a plugin
+//MakeFile is a go plugin
 type MakeFile struct {
 }
 
-//TODO impolement logic for detection and path of makefile
-
-// Detect it returns all detectors
+//Detect is a MakeFile plugin method, it will detect Makefile and their commands
 func (m MakeFile) Detect(path *pb.StringInput) (*globalPB.MakeFile, error) {
 
 	makeFileOutput := &globalPB.MakeFile{

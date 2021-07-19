@@ -11,6 +11,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+//ProcFilePlugin contains Methods, Client object of this plugin and Setting for logger related info
 type ProcFilePlugin struct {
 	Methods GlobalFiles.ProcFile
 	Client  *plugin.Client

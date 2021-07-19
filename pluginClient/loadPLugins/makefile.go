@@ -11,6 +11,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+//MakeFilePlugin contains Methods, Client object of this plugin and Setting for logger related info
 type MakeFilePlugin struct {
 	Methods GlobalFiles.Makefile
 	Client  *plugin.Client

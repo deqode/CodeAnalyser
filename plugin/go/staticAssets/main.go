@@ -8,9 +8,11 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type GetStaticAssets struct{}
+//StaticAssets is a go plugin
+type StaticAssets struct{}
 
-func (g *GetStaticAssets) Detect(input *pb.Input) (*languageSpecific.StaticAssetsOutput, error) {
+//Detect is a StaticAssets plugin method, it will detect StaticAsset
+func (g *StaticAssets) Detect(input *pb.Input) (*languageSpecific.StaticAssetsOutput, error) {
 	return &languageSpecific.StaticAssetsOutput{
 		Error: nil,
 		Used:  true,
@@ -29,7 +31,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.StaticAssets: &staticAssets.GRPCPlugin{Impl: &GetStaticAssets{}},
+			pluginClient.StaticAssets: &staticAssets.GRPCPlugin{Impl: &StaticAssets{}},
 		},
 		GRPCServer: plugin.DefaultGRPCServer,
 	})

@@ -8,9 +8,11 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type BuildDirectoryPlugin struct{}
+//BuildDirectory is a go plugin
+type BuildDirectory struct{}
 
-func (b *BuildDirectoryPlugin) Detect(input *pb.Input) (*languageSpecific.BuildDirectoryOutput, error) {
+//Detect is a BuildDirectory plugin method, it will detect BuildDirectory commands
+func (b *BuildDirectory) Detect(input *pb.Input) (*languageSpecific.BuildDirectoryOutput, error) {
 	return &languageSpecific.BuildDirectoryOutput{
 		Used: true,
 		BuildDirectory: []*languageSpecific.BuildDirectory{{
@@ -25,7 +27,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.BuildDirectory: &buildDirectory.GRPCPlugin{Impl: &BuildDirectoryPlugin{}},
+			pluginClient.BuildDirectory: &buildDirectory.GRPCPlugin{Impl: &BuildDirectory{}},
 		},
 		// A non-nil value here enables gRPC serving for this plugin...
 		GRPCServer: plugin.DefaultGRPCServer,

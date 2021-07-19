@@ -8,22 +8,20 @@ import (
 	"google.golang.org/grpc"
 )
 
-// GRPCPlugin is the implementation of plugin.GRPCPlugin so we can serve/consume this.
+//GRPCPlugin is an implementation of plugin.GRPCPlugin, so we can serve/consume this struct
 type GRPCPlugin struct {
-	// GRPCPlugin must still implement the Plugin interface
 	plugin.Plugin
-	// Concrete implementation, written in Go. This is only used for plugins
-	// that are written in Go.
+
 	Impl interfaces.Framework
 }
 
-//GRPCServer plugin.GRPCPlugin Implementation
+//GRPCServer is the gRPC server and implementation of GRPCServer to communicate with gRPC client
 func (p *GRPCPlugin) GRPCServer(broker *plugin.GRPCBroker, s *grpc.Server) error {
 	pb.RegisterFrameworkServer(s, &GRPCServer{Impl: p.Impl})
 	return nil
 }
 
-//GRPCClient plugin.GRPCPlugin Implementation
+//GRPCClient is the gRPC server and implementation of GRPCClient to communicate with gRPC client
 func (p *GRPCPlugin) GRPCClient(ctx context.Context, broker *plugin.GRPCBroker, c *grpc.ClientConn) (interface{}, error) {
 	return &GRPCClient{Client: pb.NewFrameworkClient(c)}, nil
 }

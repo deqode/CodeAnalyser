@@ -8,13 +8,14 @@ import (
 	"golang.org/x/net/context"
 )
 
-// GRPCClient is an implementation of Framework that talks over RPC.
+//GRPCClient is an implementation of Db that talks over gRPC to GRPCServer
 type GRPCClient struct {
 	Client plugin.FrameworkClient
 }
 
 //TODO add nil check in service input variables
-//Detect will detect the usage of framework
+
+//Detect method call on client side over gRPC
 func (m *GRPCClient) Detect(input *pb.Input) (*pb.BoolOutput, error) {
 	if input != nil {
 		ret, err := m.Client.Detect(context.Background(), &pb.Input{
@@ -26,7 +27,7 @@ func (m *GRPCClient) Detect(input *pb.Input) (*pb.BoolOutput, error) {
 	return nil, errors.New("service input nil found")
 }
 
-//IsUsed returns true if that framework used
+//IsUsed method call on client side over gRPC
 func (m *GRPCClient) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	ret, err := m.Client.IsUsed(context.Background(), &pb.Input{
 		RuntimeVersion: input.RuntimeVersion,
@@ -35,7 +36,7 @@ func (m *GRPCClient) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	return ret, err
 }
 
-//PercentOfUsed returns percentage of framework used
+//PercentOfUsed method call on client side over gRPC
 func (m *GRPCClient) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
 	ret, err := m.Client.PercentOfUsed(context.Background(), &pb.Input{
 		RuntimeVersion: input.RuntimeVersion,
@@ -44,13 +45,13 @@ func (m *GRPCClient) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
 	return ret, err
 }
 
-//GRPCServer  is the gRPC server that GRPCClient talks to.
+//GRPCServer is the gRPC server to communicate with GRPCClient
 type GRPCServer struct {
 	// This is the real implementation
 	Impl interfaces.Framework
 }
 
-//Detect will detect the usage of framework
+//Detect will detect if given framework found
 func (m *GRPCServer) Detect(ctx context.Context, req *pb.Input) (*pb.BoolOutput, error) {
 	v, err := m.Impl.Detect(req)
 	return &pb.BoolOutput{
@@ -59,7 +60,7 @@ func (m *GRPCServer) Detect(ctx context.Context, req *pb.Input) (*pb.BoolOutput,
 	}, err
 }
 
-//IsFrameworkUsed returns true if that framework used
+//IsUsed will check is given framework used
 func (m *GRPCServer) IsUsed(ctx context.Context, req *pb.Input) (*pb.BoolOutput, error) {
 	v, err := m.Impl.IsUsed(req)
 	return &pb.BoolOutput{
@@ -68,7 +69,7 @@ func (m *GRPCServer) IsUsed(ctx context.Context, req *pb.Input) (*pb.BoolOutput,
 	}, err
 }
 
-//PercentOfFrameworkUsed returns percentage of framework used
+//PercentOfUsed will check percent of given framework used
 func (m *GRPCServer) PercentOfUsed(ctx context.Context, req *pb.Input) (*pb.FloatOutput, error) {
 	v, err := m.Impl.PercentOfUsed(req)
 	return &pb.FloatOutput{

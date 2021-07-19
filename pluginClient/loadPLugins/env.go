@@ -11,6 +11,8 @@ import (
 	"golang.org/x/net/context"
 )
 
+//EnvPlugin contains Methods, Client object of this plugin,
+//Setting for logger related info
 type EnvPlugin struct {
 	Methods interfaces.Env
 	Client  *plugin.Client

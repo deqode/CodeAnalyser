@@ -11,6 +11,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+//TestCommandPlugin contains Methods, Client object of this plugin and Setting for logger related info
 type TestCommandPlugin struct {
 	Methods interfaces.TestCasesRunCommands
 	Client  *plugin.Client

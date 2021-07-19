@@ -11,6 +11,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+//StaticAssetsPlugin contains Methods, Client object of this plugin and Setting for logger related info
 type StaticAssetsPlugin struct {
 	Methods interfaces.StaticAssets
 	Client  *plugin.Client

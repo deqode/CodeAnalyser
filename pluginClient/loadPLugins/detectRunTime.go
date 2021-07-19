@@ -10,6 +10,8 @@ import (
 	"golang.org/x/net/context"
 )
 
+//DetectRunTimePlugin contains Methods, Client object of this plugin,
+//Setting for logger related info
 type DetectRunTimePlugin struct {
 	Methods interfaces.DetectRunTime
 	Client  *plugin.Client

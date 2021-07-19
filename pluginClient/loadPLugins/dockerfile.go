@@ -11,6 +11,8 @@ import (
 	"golang.org/x/net/context"
 )
 
+//DockerFilePlugin contains Methods and Client object of this plugin,
+//Setting for logger related info
 type DockerFilePlugin struct {
 	Methods GlobalFiles.DockerFile
 	Client  *plugin.Client
@@ -46,6 +48,7 @@ func (plugin *DockerFilePlugin) Run(ctx context.Context, projectRootPath string)
 	return dockerFile, dockerCompose, err
 }
 
+//Kill will kill client
 func (plugin *DockerFilePlugin) Kill() bool {
 	plugin.Client.Kill()
 	return plugin.Client.Exited()

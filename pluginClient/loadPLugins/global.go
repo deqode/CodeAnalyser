@@ -6,6 +6,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+//GlobalPlugin contains 1. all global plugin (ProcFile, MakeFile, DockerFile) and Setting
 type GlobalPlugin struct {
 	ProcFile   *ProcFilePlugin
 	MakeFile   *MakeFilePlugin
