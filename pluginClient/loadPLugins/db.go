@@ -12,15 +12,20 @@ import (
 	"golang.org/x/net/context"
 )
 
+//DbPlugin contains 1. map of Dbs where key is db name and value is DbVersion
+// 2. contains Setting
 type DbPlugin struct {
 	Dbs     map[string]*DbVersion
 	Setting *utils.Setting
 }
 
+//DbVersion It contains DbPlugin.Dbs version map(DbVersion) where key is version of library and value is DbPluginDetails
 type DbVersion struct {
 	Version map[string]*DbPluginDetails
 }
 
+//DbPluginDetails contains Methods, Client object and Libraries of this plugin,
+//Setting for logger related info
 type DbPluginDetails struct {
 	Libraries []*pbUtils.Library
 	Methods   interfaces.Db

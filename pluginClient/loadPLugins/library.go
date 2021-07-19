@@ -12,15 +12,20 @@ import (
 	"golang.org/x/net/context"
 )
 
+//LibraryPlugin contains 1. map of Libraries where key is library name and value is LibraryVersion
+// 2. contains Setting
 type LibraryPlugin struct {
 	Libraries map[string]*LibraryVersion
 	Setting   *utils.Setting
 }
 
+//LibraryVersion It contains LibraryPlugin.Libraries version map(LibraryVersion) where key is version of library and value is LibraryPluginDetails
 type LibraryVersion struct {
 	Version map[string]*LibraryPluginDetails
 }
 
+//LibraryPluginDetails contains Methods and Client object of this plugin,
+//Setting for logger related info
 type LibraryPluginDetails struct {
 	Semver  []string
 	Methods interfaces.Library

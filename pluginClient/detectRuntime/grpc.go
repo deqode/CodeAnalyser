@@ -12,7 +12,7 @@ type GRPCClient struct {
 	Client plugin.DetectRuntimeClient
 }
 
-//DetectRuntime will return runtime of language
+//Detect will return runtime of language
 func (m *GRPCClient) Detect(inputString *pb.StringInput) (*pb.StringOutput, error) {
 	res, err := m.Client.Detect(context.Background(), inputString)
 	if res != nil {

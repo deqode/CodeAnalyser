@@ -5,7 +5,7 @@ import (
 	"code-analyser/protos/pb/plugin"
 )
 
-//Db It contains methods for Db details
+//Db plugin methods
 type Db interface {
 	Detect(input *helpers.Input) (*plugin.BoolIntOutput, error) // deep level detection
 	IsUsed(input *helpers.Input) (*helpers.BoolOutput, error)

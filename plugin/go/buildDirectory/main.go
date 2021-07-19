@@ -8,9 +8,9 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
-type BuildDirectpryPlugin struct{}
+type BuildDirectoryPlugin struct{}
 
-func (b *BuildDirectpryPlugin) Detect(input *pb.Input) (*languageSpecific.BuildDirectoryOutput, error) {
+func (b *BuildDirectoryPlugin) Detect(input *pb.Input) (*languageSpecific.BuildDirectoryOutput, error) {
 	return &languageSpecific.BuildDirectoryOutput{
 		Used: true,
 		BuildDirectory: []*languageSpecific.BuildDirectory{{
@@ -25,7 +25,7 @@ func main() {
 	plugin.Serve(&plugin.ServeConfig{
 		HandshakeConfig: pluginClient.HandshakeConfig,
 		Plugins: map[string]plugin.Plugin{
-			pluginClient.BuildDirectory: &buildDirectory.GRPCPlugin{Impl: &BuildDirectpryPlugin{}},
+			pluginClient.BuildDirectory: &buildDirectory.GRPCPlugin{Impl: &BuildDirectoryPlugin{}},
 		},
 		// A non-nil value here enables gRPC serving for this plugin...
 		GRPCServer: plugin.DefaultGRPCServer,

@@ -12,15 +12,20 @@ import (
 	"golang.org/x/net/context"
 )
 
+//OrmPlugin contains 1. map of Orms where key is orm name and value is OrmVersion
+// 2. contains Setting
 type OrmPlugin struct {
 	Orms    map[string]*OrmVersion
 	Setting *utils.Setting
 }
 
+//OrmVersion It contains OrmPlugin.Orms version map(OrmVersion) where key is version of orm and value is OrmPluginDetails
 type OrmVersion struct {
 	Version map[string]*OrmPluginDetails
 }
 
+//OrmPluginDetails contains Methods and Client object of this plugin,
+//Setting for logger related info
 type OrmPluginDetails struct {
 	Semver  []string
 	Methods interfaces.Orm
