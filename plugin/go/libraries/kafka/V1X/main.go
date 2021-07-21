@@ -9,8 +9,10 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
+//KafkaV1x is a go plugin
 type KafkaV1x struct{}
 
+//Detect is KafkaV1x plugin method, it will detect kafka presence
 func (k *KafkaV1x) Detect(input *pb.Input) (*pluginPB.LibraryType, error) {
 	return &pluginPB.LibraryType{
 		Value: true,
@@ -19,6 +21,7 @@ func (k *KafkaV1x) Detect(input *pb.Input) (*pluginPB.LibraryType, error) {
 	}, nil
 }
 
+//IsUsed is a KafkaV1x plugin method, it will check is kafka used or not
 func (k *KafkaV1x) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	return &pb.BoolOutput{
 		Value: true,
@@ -26,6 +29,7 @@ func (k *KafkaV1x) IsUsed(input *pb.Input) (*pb.BoolOutput, error) {
 	}, nil
 }
 
+//PercentOfUsed is a KafkaV1x plugin method, it will check percent of used
 func (k *KafkaV1x) PercentOfUsed(input *pb.Input) (*pb.FloatOutput, error) {
 	return &pb.FloatOutput{
 		Value: 70,

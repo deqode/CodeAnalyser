@@ -12,6 +12,7 @@ import (
 type Commands struct {
 }
 
+//DetectBuildCommands is a Commands' plugin method, it will detect build commands
 func (d Commands) DetectBuildCommands(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
 	return &LanguagePB.CommandOutput{
 		Error: nil,
@@ -25,6 +26,7 @@ func (d Commands) DetectBuildCommands(path *pb.StringInput) (*LanguagePB.Command
 	}, nil
 }
 
+//DetectStartUpCommands is a Commands' plugin method, it will detect startup commands
 func (d Commands) DetectStartUpCommands(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
 	return &LanguagePB.CommandOutput{
 		Error: nil,
@@ -38,6 +40,7 @@ func (d Commands) DetectStartUpCommands(path *pb.StringInput) (*LanguagePB.Comma
 	}, nil
 }
 
+//DetectSeedCommands is a Commands' plugin method, it will detect seed commands
 func (d Commands) DetectSeedCommands(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
 	return &LanguagePB.CommandOutput{
 		Error: nil,
@@ -51,6 +54,7 @@ func (d Commands) DetectSeedCommands(path *pb.StringInput) (*LanguagePB.CommandO
 	}, nil
 }
 
+//DetectMigrationCommands is a Commands' plugin method, it will detect migration commands
 func (d Commands) DetectMigrationCommands(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
 	return &LanguagePB.CommandOutput{
 		Error: nil,
@@ -64,6 +68,7 @@ func (d Commands) DetectMigrationCommands(path *pb.StringInput) (*LanguagePB.Com
 	}, nil
 }
 
+//DetectAdHocScripts is a Commands' plugin method, it will detect adHoc-scripts
 func (d Commands) DetectAdHocScripts(path *pb.StringInput) (*LanguagePB.CommandOutput, error) {
 	return &LanguagePB.CommandOutput{
 		Error: nil,

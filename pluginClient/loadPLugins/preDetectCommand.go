@@ -11,6 +11,8 @@ import (
 	"golang.org/x/net/context"
 )
 
+//PreDetectCommandsPlugin contains Methods and Client object of this plugin,
+//Setting for logger related info
 type PreDetectCommandsPlugin struct {
 	Methods interfaces.PreDetectCommands
 	Client  *plugin.Client

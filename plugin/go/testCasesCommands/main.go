@@ -8,8 +8,10 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
+//TestCasesCommands is a go plugin
 type TestCasesCommands struct{}
 
+//Detect is a TestCasesCommands plugin method , it will detect test-case commands
 func (t *TestCasesCommands) Detect(input *pb.Input) (*languageSpecific.TestCasesCommand, error) {
 	return &languageSpecific.TestCasesCommand{
 		Commands: []*pb.Command{
