@@ -10,7 +10,7 @@ func Logger(l ...interface{}) {
 	log.Println(l...)
 }
 
+//Setting setting for logger
 type Setting struct {
 	Logger *zap.Logger
 }
-

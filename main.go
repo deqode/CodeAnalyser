@@ -11,13 +11,14 @@ import (
 	"log"
 )
 
+//Analyser instantiation to call scrape function
 type Analyser struct {
 	Setting *utils.Setting
 }
 
 func main() {
 	var ctx context.Context
-	var path = utils.RootDirPath()+"/testingRepos/languageSpecific/covid19india-react-master"
+	var path = utils.RootDirPath() + "/testingRepos/languageSpecific/covid19india-react-master"
 	logger, _ := zap.NewProduction()
 	set := utils.Setting{
 		Logger: logger,
@@ -32,8 +33,13 @@ func main() {
 func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmakerPB.DecisionMakerInput, error) {
 	analyser.Setting.Logger.Debug("scrapping started")
 
+	analyser.Setting.Logger.Info("fetching languages and percent of usage of that language")
 	languages, _, _ := detectlanguage.GetLanguagesWithPercent(path)
+	analyser.Setting.Logger.Info("fetched languages and percentage successfully")
+
+	analyser.Setting.Logger.Info("fetching language list supported by us")
 	supportedLanguages, _ := SupportedLanguagesParser()
+	analyser.Setting.Logger.Info("language list fetched successfully")
 
 	decisionMakerInput := &decisionmakerPB.DecisionMakerInput{
 		LanguageSpecificDetections: []*decisionmakerPB.LanguageSpecificDetections{},
@@ -59,6 +65,7 @@ func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmak
 	analyser.Setting.Logger.Info("language plugin execution started")
 	for _, language := range languages {
 		if languagePlugin, ok := languagePlugins[language.Name]; ok {
+
 			analyser.Setting.Logger.Info(language.Name + " plugins execution started")
 			detections, err := languagePlugin.Run(ctx, path)
 			if err != nil {
@@ -66,6 +73,7 @@ func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmak
 			}
 			decisionMakerInput.LanguageSpecificDetections = append(decisionMakerInput.LanguageSpecificDetections, detections)
 			analyser.Setting.Logger.Info(language.Name + " plugins execution completed")
+
 		}
 	}
 	analyser.Setting.Logger.Info("language plugin execution completed")
@@ -74,6 +82,7 @@ func (analyser *Analyser) Scrape(ctx context.Context, path string) (*decisionmak
 	return decisionMakerInput, nil
 }
 
+//LoadGlobalPlugin it detects all language independent plugins, do categorization, create client and load in memory
 func (analyser *Analyser) LoadGlobalPlugin(ctx context.Context, globalPluginPath string) *loadPLugins.GlobalPlugin {
 	analyser.Setting.Logger.Debug("global plugin loading started")
 
@@ -99,6 +108,7 @@ func (analyser *Analyser) LoadGlobalPlugin(ctx context.Context, globalPluginPath
 	return &plugins
 }
 
+//LoadLanguagePlugin it detects all language specific plugins, do categorization, create client and load in memory
 func (analyser *Analyser) LoadLanguagePlugin(ctx context.Context, languagePluginPath []*pluginDetails.Language) map[string]*loadPLugins.LanguagePlugin {
 	analyser.Setting.Logger.Debug("language plugin loading started")
 

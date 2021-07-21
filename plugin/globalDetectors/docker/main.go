@@ -9,12 +9,12 @@ import (
 	"os"
 )
 
-//DockerFile is a plugin
-type DockerFile struct {
-}
+//DockerFile is a go plugin
+type DockerFile struct{}
 
 //TODO add file path instead of file name  for docker and docker compose
 
+//DetectDockerFile is a DockerFile plugin method, it will detect dockerfile and their commands
 func (d DockerFile) DetectDockerFile(path *pb.StringInput) (*global.DockerFile, error) {
 	dockerFileOutput := &global.DockerFile{
 		Error: nil,
@@ -26,6 +26,7 @@ func (d DockerFile) DetectDockerFile(path *pb.StringInput) (*global.DockerFile, 
 	return dockerFileOutput, nil
 }
 
+//DetectDockerComposeFile is a DockerFile plugin method, it will detect dockerfile and their commands
 func (d DockerFile) DetectDockerComposeFile(path *pb.StringInput) (*global.DockerCompose, error) {
 	dockerCompose := &global.DockerCompose{
 		Error: nil,

@@ -7,6 +7,7 @@ import (
 	"log"
 )
 
+//LanguagePlugin contains 1. all language plugin and Setting
 type LanguagePlugin struct {
 	Framework         *FrameworkPlugin
 	Db                *DbPlugin
@@ -24,8 +25,9 @@ type LanguagePlugin struct {
 	Setting           *utils.Setting
 }
 
+//Load It calls load function on all language plugins
 func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles []utils.FileDetails) error {
-    languagePlugins.Setting.Logger.Debug("language plugin loading started")
+	languagePlugins.Setting.Logger.Debug("language plugin loading started")
 
 	languagePlugins.DetectRunTime = &DetectRunTimePlugin{Setting: languagePlugins.Setting}
 	languagePlugins.Commands = &CommandsPlugin{Setting: languagePlugins.Setting}
@@ -40,7 +42,7 @@ func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles
 	languagePlugins.Library = &LibraryPlugin{Setting: languagePlugins.Setting}
 	languagePlugins.Orm = &OrmPlugin{Setting: languagePlugins.Setting}
 
-    languagePlugins.Setting.Logger.Info("language plugin yaml file reading and client initialization started")
+	languagePlugins.Setting.Logger.Info("language plugin yaml file reading and client initialization started")
 	for _, pluginFile := range pluginYamlFiles {
 		parsedRawFile, err := utils.ReadPluginYamlFile(ctx, pluginFile)
 		if err != nil {
@@ -107,6 +109,7 @@ func (languagePlugins *LanguagePlugin) Load(ctx context.Context, pluginYamlFiles
 	return nil
 }
 
+//Run It calls run function on all language plugins
 func (languagePlugins *LanguagePlugin) Run(ctx context.Context, projectRootPath string) (*pb.LanguageSpecificDetections, error) {
 	languagePlugins.Setting.Logger.Debug("language plugins execution started")
 	detectedDependencies := &pb.LanguageSpecificDetections{}

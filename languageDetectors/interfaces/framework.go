@@ -4,7 +4,7 @@ import (
 	"code-analyser/protos/pb/helpers"
 )
 
-//Framework It defines methods of framework
+//Framework plugin methods
 type Framework interface {
 	Detect(input *helpers.Input) (*helpers.BoolOutput, error) //todo: can return FrameworkOutput ?
 	IsUsed(input *helpers.Input) (*helpers.BoolOutput, error)

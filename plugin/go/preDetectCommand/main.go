@@ -7,8 +7,10 @@ import (
 	"github.com/hashicorp/go-plugin"
 )
 
+//PreDetectCommand is a go plugin
 type PreDetectCommand struct{}
 
+//RunPreDetect is a PreDetectCommand plugin method, it will do pruning before detections
 func (p *PreDetectCommand) RunPreDetect(input *pb.Input) (*pb.EmptyOutput, error) {
 	return &pb.EmptyOutput{Error: nil}, nil
 }

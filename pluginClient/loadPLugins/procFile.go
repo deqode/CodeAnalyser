@@ -11,18 +11,21 @@ import (
 	"golang.org/x/net/context"
 )
 
+//ProcFilePlugin contains Methods, Client object of this plugin and Setting for logger related info
 type ProcFilePlugin struct {
 	Methods GlobalFiles.ProcFile
 	Client  *plugin.Client
 	Setting *utils.Setting
 }
 
+//Load It takes plugin command and creates client(hashicorp plugin structure client)
 func (plugin *ProcFilePlugin) Load(yamlFile *pbUtils.Details) {
 	plugin.Setting.Logger.Debug("procfile plugin client creation started")
 	plugin.Methods, plugin.Client = pluginClient.CreateProcFileClient(utils.CallPluginCommand(yamlFile.Command))
 	plugin.Setting.Logger.Debug("procfile plugin client created successfully")
 }
 
+//Run it runs plugin(execute methods of plugin)
 func (plugin *ProcFilePlugin) Run(ctx context.Context, projectRootPath string) (*global.ProcFile, error) {
 	plugin.Setting.Logger.Debug("procfile plugin execution started")
 

@@ -6,6 +6,7 @@ import (
 	"golang.org/x/net/context"
 )
 
+//GlobalPlugin contains 1. all global plugin (ProcFile, MakeFile, DockerFile) and Setting
 type GlobalPlugin struct {
 	ProcFile   *ProcFilePlugin
 	MakeFile   *MakeFilePlugin
@@ -13,6 +14,7 @@ type GlobalPlugin struct {
 	Setting    *utils.Setting
 }
 
+//Load It calls load function on all global plugins
 func (globalPlugin *GlobalPlugin) Load(ctx context.Context, pluginYamlFiles []utils.FileDetails) error {
 	globalPlugin.Setting.Logger.Debug("global plugin loading started")
 
@@ -51,6 +53,7 @@ func (globalPlugin *GlobalPlugin) Load(ctx context.Context, pluginYamlFiles []ut
 	return nil
 }
 
+//Run It calls run function on all global plugins
 func (globalPlugin *GlobalPlugin) Run(ctx context.Context, projectRootPath string) (*pb.GlobalDetections, error) {
 	globalPlugin.Setting.Logger.Debug("global plugins execution started")
 	detectedDependencies := &pb.GlobalDetections{}

@@ -7,12 +7,12 @@ import (
 	"golang.org/x/net/context"
 )
 
-// GRPCClient is an implementation of Framework that talks over RPC.
+//GRPCClient is an implementation of Db that talks over gRPC to GRPCServer
 type GRPCClient struct {
 	Client plugin.DetectRuntimeClient
 }
 
-//DetectRuntime will return runtime of language
+//Detect method call on client side over gRPC
 func (m *GRPCClient) Detect(inputString *pb.StringInput) (*pb.StringOutput, error) {
 	res, err := m.Client.Detect(context.Background(), inputString)
 	if res != nil {
@@ -21,7 +21,7 @@ func (m *GRPCClient) Detect(inputString *pb.StringInput) (*pb.StringOutput, erro
 	return res, err
 }
 
-//GRPCServer  is the gRPC server that GRPCClient talks to.
+//GRPCServer is the gRPC server to communicate with GRPCClient
 type GRPCServer struct {
 	Impl interfaces.DetectRunTime
 }

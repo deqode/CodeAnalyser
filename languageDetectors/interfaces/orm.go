@@ -5,7 +5,7 @@ import (
 	"code-analyser/protos/pb/plugin"
 )
 
-//Orm It contains methods to get details of ORM
+//Orm plugin methods
 type Orm interface {
 	Detect(input *helpers.Input) (*plugin.OrmOutput, error) // deep level detection
 	IsUsed(input *helpers.Input) (*helpers.BoolOutput, error)

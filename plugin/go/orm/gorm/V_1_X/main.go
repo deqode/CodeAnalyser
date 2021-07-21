@@ -14,10 +14,10 @@ type GormV1X struct{}
 //Detect will return usage of ORM
 func (g GormV1X) Detect(input *pb.Input) (*pluginPB.OrmOutput, error) {
 	return &pluginPB.OrmOutput{
-		Used:               true,
+		Used:      true,
 		DbName:    "postgres",
 		DbVersion: "6.8",
-		Error:              nil,
+		Error:     nil,
 	}, nil
 }
 

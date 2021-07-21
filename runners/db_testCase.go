@@ -14,6 +14,7 @@ type DbParsingInput struct {
 	DependenciesList map[string]string
 	LangYamlObject   *pluginDetails.LanguagePlugins
 }
+
 //
 //var DbCases = []DbParsingCase{
 //	{
@@ -147,6 +148,7 @@ type DbRunnerInput struct {
 	RuntimeVersion string
 	Root           string
 }
+
 /*
 var DbRunnerCases = []DbRunnerCase{
 	{

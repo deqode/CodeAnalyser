@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-//ProcFile is a plugin
+//ProcFile is a go plugin
 type ProcFile struct {
 }
 

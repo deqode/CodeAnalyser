@@ -6,6 +6,7 @@ import (
 	"runtime"
 )
 
+//RootDirPath It gives root path of project
 func RootDirPath() string {
 	_, b, _, _ := runtime.Caller(0)
 	d := path.Join(path.Dir(b))

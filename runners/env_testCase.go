@@ -20,7 +20,7 @@ type EnvInput struct {
 var EnvCases = []EnvCase{
 	{
 		Input: EnvInput{
-			pluginDetails: &SupportedDependencies,
+			pluginDetails:  &SupportedDependencies,
 			Root:           utils.RootDirPath() + "/testingRepos/env/repo1",
 			RuntimeVersion: "sfs",
 		},
@@ -37,7 +37,7 @@ var EnvCases = []EnvCase{
 	},
 	{
 		Input: EnvInput{
-			pluginDetails: &SupportedDependencies,
+			pluginDetails:  &SupportedDependencies,
 			Root:           utils.RootDirPath() + "/testingRepos/emptyRepo",
 			RuntimeVersion: "sfs",
 		},
@@ -47,7 +47,7 @@ var EnvCases = []EnvCase{
 	},
 	{
 		Input: EnvInput{
-			pluginDetails: &SupportedDependencies,
+			pluginDetails:  &SupportedDependencies,
 			Root:           "/stfgsftestingRepos/emptyRepo",
 			RuntimeVersion: "sfs",
 		},
@@ -55,7 +55,7 @@ var EnvCases = []EnvCase{
 	},
 	{
 		Input: EnvInput{
-			pluginDetails: &SupportedDependencies,
+			pluginDetails:  &SupportedDependencies,
 			Root:           utils.RootDirPath() + "/testingRepos/env/repo2",
 			RuntimeVersion: "sfs",
 		},
